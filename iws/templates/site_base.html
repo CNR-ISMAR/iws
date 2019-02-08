@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block extra_head %}
+      <link href="{{ STATIC_URL }}/geonode/css/site_base.css" rel="stylesheet"/>
+{% endblock %}
+{% block extra_tab %}
+{% comment %}
+Add Tab for Third Party Apps
+{% endcomment %}
+<li id="sea storm atlas menu">
+ <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans "I-STORMS" %}<i class="fa fa-angle-down fa-lg"></i></a>
+  <ul class="dropdown-menu">
+    <li><a href="{% url "atlas_map" %}">{% trans "Storm Atlas Map" %}</a></li>
+    <li> <a href="{% url "segment-list" %}">{% trans "Segments" %}</a></li>
+    <li><a href="{% url "tmes_index" %}">{% trans "TMES" %}</a></li>
+    <li><a href="/grafana/">{% trans "Dashboards" %}</a></li>
+
+ </ul>
+</li>
+{% endblock %}

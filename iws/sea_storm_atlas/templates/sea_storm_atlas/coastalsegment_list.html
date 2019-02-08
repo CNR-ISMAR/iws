@@ -1,0 +1,45 @@
+{% extends "geonode_base.html" %}
+
+{% load i18n %}
+{% load base_tags %}
+{% load client_lib_tags %}
+
+{% block title %} {% trans "Sea Storm Atlas - Coastal segments" %}  {% endblock %}
+
+
+{% block body_outer %}
+  <div class="page-header">
+  <h2 class="page-title">Coastal Segments</h2>
+  </div>
+  <div class="row">
+      <div class="col-md-8">
+     {% block body %}
+    <ul>
+    {% for CoastalSegment in object_list %}
+        <li><a href='{% url "segment-detail" pk=CoastalSegment.id %}'>{{ CoastalSegment.code }} - {{ CoastalSegment.subregion }}</a></li>
+    {% empty %}
+        <li>Empty list</li>
+    {% endfor %}
+    </ul>
+  
+    {% endblock body %}
+    </div>
+    <div class="col-md-4">
+  {% block sidebar %}
+
+   <ul class="list-group">
+      
+        <li class="list-group-item">
+        
+           <a href="/sea_storm_atlas/atlas" class="btn btn-primary btn-block">Go to Atlas map</a>
+        
+        </li>
+    </ul>
+  {% endblock sidebar %}
+  </div>
+{% endblock body_outer %}
+
+</div>
+
+
+

@@ -1,0 +1,5 @@
+# GeoNode
+-e git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode
+#aggiunti amedeo
+django-ckeditor==5.6.1
+django-bootstrap-breadcrumbs==0.9.1
