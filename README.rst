@@ -13,6 +13,6 @@ The IWS prototype is dstributed as [geonode  project](https://github.com/GeoNode
 
 http://docs.geonode.org/en/master/tutorials/admin/customize_lookfeel/customize/setup_admin.html
 
-&copy; 2019 CNR -ISMAR Tools4msp
+2019 CNR -ISMAR Tools4msp
 
 
