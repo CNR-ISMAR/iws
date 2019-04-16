@@ -65,5 +65,6 @@ development.db
 development.db-journal
 local_settings.py
 dss_pharos
+iws/flooding/data/*
 
 .idea/
