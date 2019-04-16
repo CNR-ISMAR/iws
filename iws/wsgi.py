@@ -36,7 +36,7 @@ framework.
 import os
 import sys
 
-execfile("/opt/VirtEnv/istorm_geonode/bin/activate_this.py", {'__file__': "/opt/VirtEnv/istorm_geonode/bin/activate_this.py"})
+execfile("/opt/VirtEnv/iws/bin/activate_this.py", {'__file__': "/opt/VirtEnv/iws/bin/activate_this.py"})
 
 
 # add the hellodjango project path into the sys.path
