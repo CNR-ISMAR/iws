@@ -1,59 +1,6 @@
 version: '2'
 services:
 
-<<<<<<< HEAD
-  postgres:
-    image: postgres
-
-  elasticsearch:
-   image: elasticsearch
-
-  rabbitmq:
-     image: rabbitmq
-
-  django:
-    build: .
-    links:
-      - postgres
-      - elasticsearch
-      - rabbitmq
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
-      - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
-      - DJANGO_SETTINGS_MODULE=iws.settings
-      - GEOSERVER_BASE_URL="http://geoserver:8080/geoserver/"
-      - ALLOWED_HOSTS=['django',]
-
-  celery:
-    build: .
-    links:
-      - rabbitmq
-      - postgres
-      - elasticsearch
-    command: celery worker --app=iws.celeryapp:app -B -l INFO
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
-      - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
-      - GEOSERVER_BASE_URL="http://geoserver:8080/geoserver/"
-      - DJANGO_SETTINGS_MODULE=iws.settings
-      - ALLOWED_HOSTS=['django',]
-      - C_FORCE_ROOT=1
-
-  geoserver:
-    image: waybarrios/geoserver
-    links:
-      - postgres
-    ports:
-      - "8080"
-
-  nginx:
-    image: terranodo/nginx:geoserver
-    links:
-      - django
-      - geoserver
-    ports:
-      - "80:80"
-=======
   db:
     image: geonode/postgis:9.6
     restart: unless-stopped
@@ -279,4 +226,3 @@ volumes:
   statics:
 #    name: ${COMPOSE_PROJECT_NAME}-statics
 
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
