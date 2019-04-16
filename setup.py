@@ -74,5 +74,12 @@ setup(
        'python-dateutil==2.6.1',
        'pycsw==2.0.3',
        'geonode==2.8',
+        'django-ckeditor==5.3.1',
+        'django-bootstrap-breadcrumbs==0.9.1',
+        'django-rest-swagger==2.2.0',
+        'pygdal==2.4.0.4',
+        'pandas==0.24.2',
+        'django-pandas==0.6.0',
+        'django-revproxy==0.9.15'
     ],
 )

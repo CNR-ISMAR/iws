@@ -63,7 +63,7 @@ INSTALLED_APPS += (PROJECT_NAME,
                    PROJECT_NAME + '.sea_storm_atlas',
                    PROJECT_NAME + '.measurements',
                    PROJECT_NAME + '.tmes',
-                   'rest_framework',
+                   # 'rest_framework',
                    'rest_framework_swagger',
 )
 
