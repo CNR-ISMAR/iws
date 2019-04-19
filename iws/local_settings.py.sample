@@ -19,12 +19,15 @@
 #########################################################################
 
 import os
-from .settings import *
+from geonode.settings import *
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-MEDIA_ROOT = '%s/uploaded/' % PROJECT_ROOT
-STATIC_ROOT = '%s/static_root' % PROJECT_ROOT
+MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(PROJECT_ROOT, "uploaded"))
+
+STATIC_ROOT = os.getenv('STATIC_ROOT',
+                        os.path.join(PROJECT_ROOT, "static_root")
+                        )
 
 # SECRET_KEY = '************************'
 # Make this unique, and don't share it with anybody.
@@ -56,18 +59,18 @@ if EMAIL_ENABLE:
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'geonode',
-         'USER': 'geonode',
-         'PASSWORD': 'geonode',
-         'HOST' : 'localhost',
-         'PORT' : '5432',
-         'CONN_TOUT': 900,
-     },
-    # vector datastore for uploads
-    'datastore' : {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'ENGINE': '', # Empty ENGINE name disables
+        'NAME': 'geonode',
+        'USER': 'geonode',
+        'PASSWORD': 'geonode',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'CONN_TOUT': 900,
+    },
+    # vector datastore for uploads
+    'datastore': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        # 'ENGINE': '', # Empty ENGINE name disables
         'NAME': 'geonode_data',
         'USER' : 'geonode',
         'PASSWORD' : 'geonode',
@@ -90,7 +93,8 @@ GEOSERVER_PUBLIC_PORT = os.getenv(
 )
 
 GEOSERVER_PUBLIC_LOCATION = os.getenv(
-    'GEOSERVER_PUBLIC_LOCATION', 'http://{}:{}/geoserver/'.format(GEOSERVER_PUBLIC_HOST, GEOSERVER_PUBLIC_PORT)
+    'GEOSERVER_PUBLIC_LOCATION', '{}/geoserver/'.format(SITEURL)
+    
 )
 
 OGC_SERVER_DEFAULT_USER = os.getenv(
@@ -119,9 +123,8 @@ OGC_SERVER = {
         'WMST_ENABLED': False,
         'BACKEND_WRITE_ENABLED': True,
         'WPS_ENABLED': False,
-        'LOG_FILE': '/home/geosolutions/work/logs/geoserver.log',
-        # Set to dictionary identifier of database containing spatial data in
-        # DATABASES dictionary to enable
+        'LOG_FILE': '%s/geoserver/data/logs/geoserver.log' % os.path.abspath(os.path.join(PROJECT_ROOT, os.pardir)),
+        # Set to dictionary identifier of database containing spatial data in DATABASES dictionary to enable
         'DATASTORE': 'datastore',
         'PG_GEOGIG': False,
         'TIMEOUT': 30  # number of seconds to allow for HTTP requests
@@ -248,7 +251,7 @@ PYCSW = {
 
 # default map projection
 # Note: If set to EPSG:4326, then only EPSG:4326 basemaps will work.
-DEFAULT_MAP_CRS = "EPSG:900913"
+DEFAULT_MAP_CRS = "EPSG:3857"
 
 # Where should newly created maps be focused?
 DEFAULT_MAP_CENTER = (0, 0)
@@ -320,9 +323,9 @@ ALT_OSM_BASEMAPS = os.environ.get('ALT_OSM_BASEMAPS', False)
 CARTODB_BASEMAPS = os.environ.get('CARTODB_BASEMAPS', False)
 STAMEN_BASEMAPS = os.environ.get('STAMEN_BASEMAPS', False)
 THUNDERFOREST_BASEMAPS = os.environ.get('THUNDERFOREST_BASEMAPS', False)
-MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', '<MAPBOX_ACCESS_TOKEN>')
+MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', None)
 BING_API_KEY = os.environ.get('BING_API_KEY', None)
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', '<GOOGLE_API_KEY>')
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', None)
 
 MAP_BASELAYERS = [{
     "source": {"ptype": "gxp_olsource"},
@@ -477,6 +480,17 @@ if EMAIL_ENABLE:
     EMAIL_HOST_PASSWORD = ''
     EMAIL_USE_TLS = False
     DEFAULT_FROM_EMAIL = 'Example.com <no-reply@localhost>'
+# REGISTRATION
+
+THEME_ACCOUNT_CONTACT_EMAIL = 'amedeo.fadini@ve.ismar.cnr.it'
+
+ACCOUNT_OPEN_SIGNUP = False
+ACCOUNT_EMAIL_CONFIRMATION_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
+ACCOUNT_APPROVAL_REQUIRED = True
+
+
 
 # Documents Thumbnails
 UNOCONV_ENABLE = True
