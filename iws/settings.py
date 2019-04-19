@@ -81,9 +81,6 @@ STATICFILES_DIRS.append(
     os.path.join(LOCAL_ROOT, "static"),
 )
 
-#dss_pharos temporary settings
-INSTALLED_APPS += ('dss_pharos', 'ckeditor','ckeditor_uploader', 'django_bootstrap_breadcrumbs',)
-CKEDITOR_UPLOAD_PATH = 'cked_upload'
 
 # Location of locale files
 LOCALE_PATHS = (
