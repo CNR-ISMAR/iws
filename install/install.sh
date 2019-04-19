@@ -14,6 +14,12 @@ cd "$INITIAL_PATH"
 cd "$INITIAL_PATH"iws/install
 patch "$VENV_PATH"local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py libgeos_patch.py
 
+cd ..
+
+GDAL_VERSION=`gdal-config --version`
+PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9])"
+pip install pygdal==$PYGDAL_VERSION
+
 pip uninstall psycopg2
 pip install --no-binary psycopg2 psycopg2==2.7.3.1
 
