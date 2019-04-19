@@ -8,7 +8,7 @@ INITIAL_PATH='/opt/'
 
 
 cd "$INITIAL_PATH"
-#pip install -e iws/
+pip install -e iws/
 cd "$INITIAL_PATH"iws/install
 patch "$VIRTUAL_ENV"/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py libgeos_patch.py
 
@@ -25,5 +25,5 @@ pip uninstall djangorestframework
 pip install djangorestframework==3.5.4
 
 #make available python wheels installed for all users of group
-sudo chown -R $USER:www-data "$VENV_PATH"
+sudo chown -R $USER:www-data "$VIRTUAL_ENV"
 find "$VIRTUAL_ENV"/lib/python2.7/site-packages/ -type d -exec chmod a+rwx {} \;
