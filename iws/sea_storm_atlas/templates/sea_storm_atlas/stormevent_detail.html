@@ -1,0 +1,92 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load base_tags %}
+{% load client_lib_tags %}
+
+{% block title %} {% trans "Sea Storm Atlas - Coastal segments" %}  {% endblock %}
+
+{% block body_outer %}
+  <div class="page-header">
+  {% if object.is_aggregated %}
+  <h2>Events of the year: {{ object.date_start|date:"Y" }}</h2>
+   {% else %}
+  <h2>Event date: {{ object.date_start|date:"M d, Y" }}</h2> 
+  {% endif %}
+  <h3>{{ object.coastalsegment }}</h3>
+  </div>
+
+  <div class="row">
+      <div class="col-md-8">
+  {% block body %}
+
+    <ul>
+	 {% if object.is_aggregated %}
+
+        <li><strong>Total events: </strong>{{ object.evts_total}}</li>
+        <li><strong>Events that caused flooding: </strong>{{object.evts_flooding}}</li>
+        <li><strong>Events that caused coast erosion: </strong>{{object.evts_coast_erosion }}</li>
+        <li><strong>Events that caused defence damage: </strong>{{object.evts_defence_damage}}</li>
+        <li><strong>Events that caused infrastructure damage: </strong>{{object.evts_infrastructure_damage}}</li>
+        <li><strong>Events that caused businesses damage: </strong>{{object.evts_businesses_damage }}</li>
+
+
+	 {% else %}
+        <li><strong>Start date: </strong>{{object.date_start}}</li>
+	<li><strong>End date: </strong>{{object.date_end}}</li>
+        <li><strong>Origin: </strong>{{ object.origin}}</li>
+        <li><strong>Flooding level: </strong>{{ object.flooding_level}}</li>
+        <li><strong>Flooding: </strong>
+        <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.evts_flooding}}.png" width=25 height=25 alt="{{object.evts_flooding}}">
+        </li>
+        <li><strong>Coast erosion: </strong> 
+        <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.evts_coast_erosion}}.png" width=25 height=25 alt="{{object.evts_coast_erosion}}">
+        </li>
+        <li><strong>Defence damage: </strong>
+        <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.evts_defence_damage}}.png" width=25 height=25 alt="{{object.evts_defence_damage}}">
+        </li>
+        <li><strong>Infrastructure damage: </strong>
+        <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.evts_infrastructure_damage}}.png" width=25 height=25 alt="{{object.evts_infrastructure_damage}}">
+        </li>
+        <li><strong>Businesses damage: </strong>
+        <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.evts_businesses_damage}}.png" width=25 height=25 alt="{{object.evts_businesses_damage}}">
+        </li>
+
+
+
+
+        <li><strong>Position (lon, lat): </strong>{{object.lon}}, {{object.lat}}</li>
+        
+        
+              
+	{% endif %}
+	<li><strong>Comments: </strong> {{object.comments }}</li>
+	<li><strong>Documents:</strong>
+		<ul><!--{ documents = object.evts_documents.all()  }-->
+			{% for doc in documents %}
+			<li>{{doc.name}}</li>
+			{% empty %}
+			<li>No documents in list</li>
+			{% endfor %}
+		</ul>
+	</li>
+
+
+    </ul>
+
+
+  {% endblock body %}
+      </div>
+    <div class="col-md-4">
+  {% block sidebar %}
+     <ul class="list-group">
+        <li class="list-group-item">
+           <a href='{% url "event-list" segid=object.coastalsegment_id %}' class="btn btn-primary btn-block">Back to events list</a>
+        </li>
+    </ul>
+  {% endblock sidebar %}
+  </div>
+{% endblock body_outer %}
+
+
+

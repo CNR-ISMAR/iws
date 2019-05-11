@@ -1,0 +1,26 @@
+[{
+	"fields": {
+		"date_joined": "2011-06-09 15:15:27",
+		"email": "ad@m.in",
+		"first_name": "",
+		"groups": [],
+		"is_active": true,
+		"is_staff": true,
+		"is_superuser": true,
+		"last_login": "2011-06-09 15:45:34",
+		"last_name": "",
+<<<<<<< HEAD
+		"password": "sha1$a1ddf$1e14be2baa49df74672c93fa283ba549f56254b7",
+=======
+		"password": "pbkdf2_sha256$30000$rjuGt0Obn8on$cxF75frIOSaitNklLZ0IJ/VonUW0fwEFVF96o0M+lGc=",
+>>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
+		"user_permissions": [],
+		"username": "admin"
+	},
+	"model": "people.Profile",
+	"pk": 1000
+<<<<<<< HEAD
+}]
+=======
+}]
+>>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad

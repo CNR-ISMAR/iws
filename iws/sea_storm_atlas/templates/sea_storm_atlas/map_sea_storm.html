@@ -1,0 +1,44 @@
+{% extends "geonode_base.html" %}
+
+{% load i18n %}
+{% load base_tags %}
+{% load client_lib_tags %}
+
+{% block title %} {% trans "Sea Storm Atlas" %}  {% endblock %}
+
+{% block head %}
+
+    <style>
+        #paneltbar {
+            margin-top: 90px !important;
+        }
+    </style>
+
+
+    {% get_map_view %}
+
+
+	{{ block.super }}
+    <script type="text/javascript">
+    /* modifica amedeo 27/07/16
+     * vengono definiti i layergroup per la mappa storm events
+      */
+     gxp.plugins.LayerTree.prototype.groups = {
+
+                    "events": "Storm Atlas Events",
+                    "eventsbyyear":{
+                        title: "Events by year",
+                        exclusive: true
+                                    },
+                      "regions": "Regions",
+                      "coastalinfo": "Coastal info",
+                      "default": "Others", // title can be overridden with overlayNodeText
+                    "background": {
+                        title: "Backgeound", // can be overridden with baseNodeText
+                        exclusive: true
+                    }
+                };
+     </script>    
+    
+{% endblock %}
+{% block footer %}{% endblock %}

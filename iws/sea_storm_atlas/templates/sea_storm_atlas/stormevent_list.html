@@ -1,0 +1,59 @@
+{% extends "geonode_base.html" %}
+
+{% load i18n %}
+{% load base_tags %}
+{% load client_lib_tags %}
+
+{% block title %} {% trans "Sea Storm Atlas - Coastal segments" %}  {% endblock %}
+
+
+{% block body_outer %}
+  <div class="page-header">
+
+  <h2 class="page-title">Storm Events</h2>
+
+  </div>
+  <div class="row">
+      <div class="col-md-8">
+     {% block body %}
+    <ul>
+    {% for StormEvent in object_list %}
+	{% if StormEvent.is_aggregated %}
+        <li><a href='{% url "event-detail" pk=StormEvent.id %}'>
+{{ StormEvent.date_start | date:"Y"  }} events - {{ StormEvent.coastalsegment.subregion }}</a></li>
+	{% else %}
+        <li><a href='{% url "event-detail" pk=StormEvent.id %}'>
+{{ StormEvent.date_start | date:"M d, Y"  }} - {{ StormEvent.coastalsegment.subregion }}</a></li>
+	{% endif %}
+    {% empty %}
+        <li>Empty list</li>
+    {% endfor %}
+    </ul>
+  
+    {% endblock body %}
+    </div>
+    <div class="col-md-4">
+  {% block sidebar %}
+
+   <ul class="list-group">
+      
+        <li class="list-group-item">
+        
+           <a href="/sea_storm_atlas/atlas" class="btn btn-primary btn-block">Go to Atlas map</a>
+        
+        </li>
+        <li class="list-group-item">
+
+           <a href="/sea_storm_atlas/segment/{{view.kwargs.segid}}" class="btn btn-primary btn-block">Back to Coastal segment</a>
+
+        </li>
+
+    </ul>
+  {% endblock sidebar %}
+  </div>
+{% endblock body_outer %}
+
+</div>
+
+
+

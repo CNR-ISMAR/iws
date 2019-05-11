@@ -1,0 +1,49 @@
+{% extends "site_base.html" %}
+{% load pagination_tags %}
+{% load staticfiles %}
+{% load i18n %}
+{% load leaflet_tags %}
+{% load i18n %}
+
+
+{% block title %} {% trans "TMES" %} - {{ block.super }} {% endblock %}
+
+{% block extra_head %}
+{{ block.super }}
+{% leaflet_js %}
+{% leaflet_css %}
+
+<link rel="stylesheet" href="{{ STATIC_URL }}/leaflet/time/leaflet.timedimension.control.min.css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}tmes/css/style.css" />
+
+{% endblock %}
+
+{% block extra_script %}
+{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}tmes/js/NonTiledLayer.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.util.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.layer.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.layer.wms.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.player.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.control.js"></script>
+
+<script type="text/javascript" src="{{ STATIC_URL }}tmes/js/baselayers.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}tmes/js/map.js"></script>
+{% endblock %}
+
+{% block body_class %}TMES{% endblock %}
+
+{% block body_outer %}
+<div class="row" id="contain-map">
+  <div class="col-md-12">
+
+    <div id="map" class="map"></div>
+
+    <iframe src="https://iws.ismar.cnr.it/grafana/d-solo/7x5PZB_mk/embedded-panels?panelId=2&orgId=1&from=1540753882781&to=1540948756177&tab=general&theme=light"
+            height="450"
+            frameborder="0" style="width: 100%"></iframe>
+  </div>
+</div>
+{% endblock %}
