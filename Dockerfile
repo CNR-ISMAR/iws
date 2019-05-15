@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-FROM terranodo/django:geonode
-MAINTAINER Ariel Núñez<ariel@terranodo.io>
-=======
 FROM python:2.7.14-stretch
 MAINTAINER GeoNode development team
 
@@ -55,4 +51,3 @@ RUN pip install --upgrade --no-cache-dir --src /usr/src -r requirements.txt
 RUN pip install --upgrade -e .
 
 ENTRYPOINT ["/usr/src/{{project_name}}/entrypoint.sh"]
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad

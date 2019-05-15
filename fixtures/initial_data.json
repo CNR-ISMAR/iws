@@ -1,5 +1,4 @@
 [
-<<<<<<< HEAD
 {
         "pk": 13,
         "model": "base.topiccategory",
@@ -42,28 +41,6 @@
             "is_choice": true,
             "fa_class": "fa-shopping-cart",
             "identifier": "economy"
-=======
-    {
-        "pk": 1,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "information pertaining to earth sciences. Examples: geophysical features and processes, geology, minerals, sciences dealing with the composition, structure and origin of the earth s rocks, risks of earthquakes, volcanic activity, landslides, gravity information, soils, permafrost, hydrogeology, erosion",
-            "gn_description": "Geoscientific Information",
-            "is_choice": true,
-            "fa_class": "fa-bullseye",
-            "identifier": "geoscientificInformation"
-        }
-    },
-    {
-        "pk": 2,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "rearing of animals and/or cultivation of plants. Examples: agriculture, irrigation, aquaculture, plantations, herding, pests and diseases affecting crops and livestock",
-            "gn_description": "Farming",
-            "is_choice": true,
-            "fa_class": "fa-lemon-o",
-            "identifier": "farming"
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
         }
     },
     {
@@ -78,7 +55,6 @@
         }
     },
     {
-<<<<<<< HEAD
         "pk": 9,
         "model": "base.topiccategory",
         "fields": {
@@ -131,38 +107,6 @@
             "is_choice": true,
             "fa_class": "fa-globe",
             "identifier": "imageryBaseMapsEarthCover"
-=======
-        "pk": 4,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "energy, water and waste systems and communications infrastructure and services. Examples: hydroelectricity, geothermal, solar and nuclear sources of energy, water purification and distribution, sewage collection and disposal, electricity and gas distribution, data communication, telecommunication, radio, communication networks",
-            "gn_description": "Utilities Communication",
-            "is_choice": true,
-            "fa_class": "fa-phone",
-            "identifier": "utilitiesCommunication"
-        }
-    },
-    {
-        "pk": 5,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "features and characteristics of salt water bodies (excluding inland waters). Examples: tides, tidal waves, coastal information, reefs",
-            "gn_description": "Oceans",
-            "is_choice": true,
-            "fa_class": "fa-anchor",
-            "identifier": "oceans"
-        }
-    },
-    {
-        "pk": 6,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "legal land descriptions. Examples: political and administrative boundaries",
-            "gn_description": "Boundaries",
-            "is_choice": true,
-            "fa_class": "fa-ellipsis-h",
-            "identifier": "boundaries"
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
         }
     },
     {
@@ -188,7 +132,6 @@
         }
     },
     {
-<<<<<<< HEAD
         "pk": 5,
         "model": "base.topiccategory",
         "fields": {
@@ -197,16 +140,6 @@
             "is_choice": true,
             "fa_class": "fa-anchor",
             "identifier": "oceans"
-=======
-        "pk": 9,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "environmental resources, protection and conservation. Examples: environmental pollution, waste storage and treatment, environmental impact assessment, monitoring environmental risk, nature reserves, landscape",
-            "gn_description": "Environment",
-            "is_choice": true,
-            "fa_class": "fa-tree",
-            "identifier": "environment"
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
         }
     },
     {
@@ -221,20 +154,6 @@
         }
     },
     {
-<<<<<<< HEAD
-=======
-        "pk": 11,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "economic activities, conditions and employment. Examples: production, labour, revenue, commerce, industry, tourism and ecotourism, forestry, fisheries, commercial or subsistence hunting, exploration and exploitation of resources such as minerals, oil and gas",
-            "gn_description": "Economy",
-            "is_choice": true,
-            "fa_class": "fa-shopping-cart",
-            "identifier": "economy"
-        }
-    },
-    {
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
         "pk": 12,
         "model": "base.topiccategory",
         "fields": {
@@ -246,53 +165,6 @@
         }
     },
     {
-<<<<<<< HEAD
-=======
-        "pk": 13,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "flora and/or fauna in natural environment. Examples: wildlife, vegetation, biological sciences, ecology, wilderness, sealife, wetlands, habitat",
-            "gn_description": "Biota",
-            "is_choice": true,
-            "fa_class": "fa-leaf",
-            "identifier": "biota"
-        }
-    },
-    {
-        "pk": 14,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "health, health services, human ecology, and safety. Examples: disease and illness, factors affecting health, hygiene, substance abuse, mental and physical health, health services",
-            "gn_description": "Health",
-            "is_choice": true,
-            "fa_class": "fa-stethoscope",
-            "identifier": "health"
-        }
-    },
-    {
-        "pk": 15,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "base maps. Examples: land cover, topographic maps, imagery, unclassified images, annotations",
-            "gn_description": "Imagery Base Maps Earth Cover",
-            "is_choice": true,
-            "fa_class": "fa-globe",
-            "identifier": "imageryBaseMapsEarthCover"
-        }
-    },
-    {
-        "pk": 16,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "means and aids for conveying persons and/or goods. Examples: roads, airports/airstrips, shipping routes, tunnels, nautical charts, vehicle or vessel location, aeronautical charts, railways",
-            "gn_description": "Transportation",
-            "is_choice": true,
-            "fa_class": "fa-truck",
-            "identifier": "transportation"
-        }
-    },
-    {
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
         "pk": 17,
         "model": "base.topiccategory",
         "fields": {
@@ -315,7 +187,6 @@
         }
     },
     {
-<<<<<<< HEAD
         "pk": 16,
         "model": "base.topiccategory",
         "fields": {
@@ -355,47 +226,6 @@
             "gn_description": "three-dimensional view formed by the intersecting homologous rays of an overlapping pair of images",
             "identifier": "stereoModel",
             "description": "three-dimensional view formed by the intersecting homologous rays of an overlapping pair of images"
-=======
-        "pk": 19,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "processes and phenomena of the atmosphere. Examples: cloud cover, weather, climate, atmospheric conditions, climate change, precipitation",
-            "gn_description": "Climatology Meteorology Atmosphere",
-            "is_choice": true,
-            "fa_class": "fa-cloud",
-            "identifier": "climatologyMeteorologyAtmosphere"
-        }
-    },
-    {
-        "pk": 20,
-        "model": "base.topiccategory",
-        "fields": {
-            "description": "settlements, anthropology, archaeology, education, traditional beliefs, manners and customs, demographic data, recreational areas and activities, social impact assessments, crime and justice, census information. Economic activities, conditions and employment",
-            "gn_description": "Population",
-            "is_choice": true,
-            "fa_class": "fa-male",
-            "identifier": "population"
-        }
-    },
-    {
-        "pk": 1,
-        "model": "base.spatialrepresentationtype",
-        "fields": {
-            "is_choice": true,
-            "gn_description": "vector data is used to represent geographic data",
-            "identifier": "vector",
-            "description": "vector data is used to represent geographic data"
-        }
-    },
-    {
-        "pk": 2,
-        "model": "base.spatialrepresentationtype",
-        "fields": {
-            "is_choice": true,
-            "gn_description": "grid data is used to represent geographic data",
-            "identifier": "grid",
-            "description": "grid data is used to represent geographic data"
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
         }
     },
     {
@@ -419,7 +249,6 @@
         }
     },
     {
-<<<<<<< HEAD
         "pk": 1,
         "model": "base.spatialrepresentationtype",
         "fields": {
@@ -427,15 +256,6 @@
             "gn_description": "vector data is used to represent geographic data",
             "identifier": "vector",
             "description": "vector data is used to represent geographic data"
-=======
-        "pk": 5,
-        "model": "base.spatialrepresentationtype",
-        "fields": {
-            "is_choice": true,
-            "gn_description": "three-dimensional view formed by the intersecting homologous rays of an overlapping pair of images",
-            "identifier": "stereoModel",
-            "description": "three-dimensional view formed by the intersecting homologous rays of an overlapping pair of images"
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
         }
     },
     {
