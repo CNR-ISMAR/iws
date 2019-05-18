@@ -1,9 +1,9 @@
 FROM python:2.7.14-stretch
 MAINTAINER GeoNode development team
 
-RUN mkdir -p /usr/src/{{project_name}}
+RUN mkdir -p /usr/src/iws
 
-WORKDIR /usr/src/{{project_name}}
+WORKDIR /usr/src/iws
 
 # This section is borrowed from the official Django image but adds GDAL and others
 RUN apt-get update && apt-get install -y \
@@ -34,20 +34,29 @@ RUN pip install --upgrade pip
 # compatible with the provided libgdal-dev
 # superseded by pygdal
 #RUN pip install GDAL==2.1.3 --global-option=build_ext --global-option="-I/usr/include/gdal"
-RUN GDAL_VERSION=`gdal-config --version` \
+RUN GDAL_VERSION=`gdal-config --version` && echo $GDAL_VERSION \
     && PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9])" \
     && pip install pygdal==$PYGDAL_VERSION
 
 # fix for known bug in system-wide packages
 RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/python2.7/
 
-COPY . /usr/src/{{project_name}}
+COPY . /usr/src/iws
 
-RUN chmod +x /usr/src/{{project_name}}/tasks.py \
-    && chmod +x /usr/src/{{project_name}}/entrypoint.sh
+RUN chmod +x /usr/src/iws/tasks.py \
+    && chmod +x /usr/src/iws/entrypoint.sh
 
 # app-specific requirements
 RUN pip install --upgrade --no-cache-dir --src /usr/src -r requirements.txt
 RUN pip install --upgrade -e .
 
-ENTRYPOINT ["/usr/src/{{project_name}}/entrypoint.sh"]
+RUN pip uninstall -y psycopg2
+RUN pip install --no-binary psycopg2 psycopg2==2.7.3.1
+
+RUN pip uninstall -y djangorestframework
+RUN pip install djangorestframework==3.5.4
+
+ADD install/libgeos_patch.py /libgeos_patch.py
+RUN patch /usr/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py /libgeos_patch.py
+
+ENTRYPOINT ["/usr/src/iws/entrypoint.sh"]

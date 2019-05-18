@@ -2,7 +2,7 @@ version: '2.2'
 services:
 
   db:
-    #    image: geonode/postgis:9.6
+#    image: geonode/postgis:9.6
     build: ./postgis
     restart: unless-stopped
     container_name: db4${COMPOSE_PROJECT_NAME}
@@ -59,14 +59,14 @@ services:
       - db
       - elasticsearch
       - rabbitmq
-    # command: celery worker --app=iws.celeryapp:app -B -l INFO
+    command: celery worker --app=${COMPOSE_PROJECT_NAME}.celeryapp:app -B -l INFO
     volumes:
       - statics:/mnt/volumes/statics
       - geoserver-data-dir:/geoserver_data/data
     env_file:
     - ./.env
     environment:
-      DJANGO_SETTINGS_MODULE: iws.settings
+      DJANGO_SETTINGS_MODULE: ${COMPOSE_PROJECT_NAME}.settings
       GEONODE_INSTANCE_NAME: geonode
       GEONODE_LB_HOST_IP:
       GEONODE_LB_PORT:
@@ -81,9 +81,7 @@ services:
       SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
       ASYNC_SIGNALS: 'True'
       BROKER_URL: amqp://guest:guest@rabbitmq:5672
-      CELERY_CMD: celery worker --app=iws.celeryapp:app --broker=amqp://guest:guest@rabbitmq:5672/ -B -l INFO
-      # CELERY_CMD: celery worker --app=iws.celeryapp:app --broker=memory:// -B -l INFO
-      DOCKER_ENV: production
+      DOCKER_ENV: development
       IS_CELERY: 'True'
       C_FORCE_ROOT: 1
       SITEURL: http://localhost/
@@ -150,14 +148,14 @@ services:
       - elasticsearch
       - rabbitmq
       - data-dir-conf
-    # command: paver start_django -b 0.0.0.0:8000
+    command: paver start_django -b 0.0.0.0:8000
     volumes:
       - statics:/mnt/volumes/statics
       - geoserver-data-dir:/geoserver_data/data
     env_file:
     - ./.env
     environment:
-      DJANGO_SETTINGS_MODULE: iws.settings
+      DJANGO_SETTINGS_MODULE: ${COMPOSE_PROJECT_NAME}.settings
       GEONODE_INSTANCE_NAME: geonode
       GEONODE_LB_HOST_IP:
       GEONODE_LB_PORT:
@@ -172,8 +170,7 @@ services:
       SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
       ASYNC_SIGNALS: 'True'
       BROKER_URL: amqp://guest:guest@rabbitmq:5672
-      DOCKER_ENV: production
-      UWSGI_CMD: uwsgi --ini /usr/src/iws/uwsgi.ini
+      DOCKER_ENV: development
       IS_CELERY: 'False'
       C_FORCE_ROOT: 1
       SITEURL: http://localhost/
@@ -200,7 +197,7 @@ services:
       DOCKER_API_VERSION: "1.24"
 
   geonode:
-    image: geonode/nginx:geoserver
+    image: geonode/nginx:development
     restart: unless-stopped
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     stdin_open: true
