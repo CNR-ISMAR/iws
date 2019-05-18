@@ -8,4 +8,5 @@ django-rest-swagger==2.2.0
 pandas==0.24.2
 django-pandas==0.6.0
 django-revproxy==0.9.15
-awesome-slugify==1.6.5
+#awesome-slugify==1.6.5
+git+https://github.com/voronind/awesome-slugify.git

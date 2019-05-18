@@ -34,7 +34,7 @@ STATIC_ROOT = os.getenv('STATIC_ROOT',
 #SITEURL = "https://150.178.42.78"
 SITEURL = os.getenv('SITE_URL', "https://iws.ismar.cnr.it")
 
-ALLOWED_HOSTS = ['localhost', 'iws.ismar.cnr.it',]
+ALLOWED_HOSTS = ['localhost', 'iws.ismar.cnr.it', 'django:8000', 'django', '*']
 
 PROXY_ALLOWED_HOSTS = ('ows.emodnet-bathymetry.eu', 'emodnet-physics.eu', 'data.adriplan.eu', 'atlas.shape-ipaproject.eu')
 DEFAULT_LAYER_FORMAT = "image/png"

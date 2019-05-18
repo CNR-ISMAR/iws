@@ -12,7 +12,7 @@ services:
       GEONODE_LB_HOST_IP: localhost
       GEONODE_LB_PORT: 80
       SITEURL: http://localhost/
-      ALLOWED_HOSTS: "['localhost']"
+      ALLOWED_HOSTS: "['localhost','*', 'django', 'django:8000']"
       GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
 
   celery:
@@ -27,7 +27,7 @@ services:
       GEONODE_LB_HOST_IP: localhost
       GEONODE_LB_PORT: 80
       SITEURL: http://localhost/
-      ALLOWED_HOSTS: "['localhost']"
+      ALLOWED_HOSTS: "['localhost','*', 'django', 'django:8000']"
       GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
 
   geoserver:

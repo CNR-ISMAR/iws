@@ -36,19 +36,26 @@ framework.
 import os
 import sys
 
-execfile("/opt/VirtEnv/iws/bin/activate_this.py", {'__file__': "/opt/VirtEnv/iws/bin/activate_this.py"})
+
+# execfile("/opt/VirtEnv/iws/bin/activate_this.py", {'__file__': "/opt/VirtEnv/iws/bin/activate_this.py"})
 
 
-# add the hellodjango project path into the sys.path
-sys.path.append('/opt/iws')
-sys.path.append('/opt/geonode')
+# import time
+# time.sleep(300)
 
+# # add the hellodjango project path into the sys.path
+# sys.path.append('/opt/iws')
+# sys.path.append('/opt/geonode')
+#
+#
+# # add the virtualenv site-packages path to the sys.path
+# sys.path.append('/opt/VirtEnv/istorm_geonode/lib/site-packages')
+#
+# # poiting to the project settings
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "iws.settings")
 
-# add the virtualenv site-packages path to the sys.path
-sys.path.append('/opt/VirtEnv/istorm_geonode/lib/site-packages')
-
-# poiting to the project settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "iws.settings")
+
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
