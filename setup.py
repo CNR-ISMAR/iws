@@ -65,6 +65,7 @@ setup(
        'django-autocomplete-light==2.3.3',
        'pyshp==1.2.12',
        'celery==4.1.0',
+       'kombu==4.1.0',
        'Shapely>=1.5.13,<1.6.dev0',
        'OWSLib==0.15.0',
        'proj==0.1.0',

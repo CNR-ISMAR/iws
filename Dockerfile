@@ -1,4 +1,4 @@
-FROM python:2.7.16z\-stretch
+FROM python:2.7.16-stretch
 MAINTAINER GeoNode development team
 
 RUN mkdir -p /usr/src/iws
