@@ -227,6 +227,30 @@ services:
     volumes:
       - geoserver-data-dir:/geoserver_data/data
 
+  istorm:
+    container_name: istorm
+    build:
+      context: ./istorm
+      dockerfile: Dockerfile
+    command: "npm run start"
+    volumes:
+    - ./istorm/app:/usr/src/app/app
+    - ./istorm/build:/usr/src/app/build
+    - ./istorm/internals:/usr/src/app/internals
+    - ./istorm/package.json:/usr/src/app/package.json
+    - ./istorm/babel.config.js:/usr/src/app/babel.config.js
+    - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
+    - ./istorm/.gitfake /usr/src/app/.git
+    ports:
+    - "3000:3000"
+    expose:
+    - "3000"
+#    links:
+#    - server
+#    depends_on:
+#    - server
+
+
 
 volumes:
   geoserver-data-dir:

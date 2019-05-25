@@ -68,3 +68,5 @@ dss_pharos
 iws/flooding/data/*
 
 .idea/
+istorm/node_modules/*
+#istorm/build/*
