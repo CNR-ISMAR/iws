@@ -70,3 +70,5 @@ iws/flooding/data/*
 .idea/
 istorm/node_modules/*
 #istorm/build/*
+
+celerybeat-schedule
