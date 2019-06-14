@@ -67,6 +67,8 @@ def syncioc():
         r = requests.get(IOC.format(code))
         soup = BeautifulSoup(r.text)
         table = soup.find("table")
+        if table is None:
+            continue
         rows = table.find_all('tr')
         data = []
         for row in rows[1:]: # skip first row

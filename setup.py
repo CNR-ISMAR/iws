@@ -73,7 +73,7 @@ setup(
        'oauthlib==2.0.1',
        'python-dateutil==2.6.1',
        'pycsw==2.0.3',
-       'geonode==2.8',
+       'geonode==2.8.2',
         'django-ckeditor==5.3.1',
         'django-bootstrap-breadcrumbs==0.9.1',
         'django-rest-swagger==2.2.0',

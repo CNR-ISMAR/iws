@@ -2,7 +2,7 @@
   hosts: production
   remote_user: ubuntu
   vars:
-<<<<<<< HEAD
+
     app_name: iws
     github_user: geonode
     server_name: 0.0.0.0
@@ -12,17 +12,7 @@
     virtualenv_dir: "/home/ubuntu/.venvs"
     site_url: "http://localhost:8000/" # The public url of the GeoNode instance
     geoserver_url: "http://build.geonode.org/geoserver/latest/geoserver-2.12.x.war" # geoserver_url should match what is found in dev_config.yml
-=======
-    app_name: {{ project_name }}
-    github_user: geonode
-    server_name: 0.0.0.0
-    deploy_user: ubuntu
-    code_repository: https://github.com/-----/{{ project_name }}.git" # e.g., "https://github.com/GeoNode/{{ project_name }}.git"
-    branch_name: master
-    virtualenv_dir: "/home/ubuntu/.venvs"
-    site_url: "http://localhost:8000/" # The public url of the GeoNode instance
-    geoserver_url: "http://build.geonode.org/geoserver/latest/geoserver-2.13.x.war" # geoserver_url should match what is found in dev_config.yml
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
+
     pg_max_connections: 100
     pg_shared_buffers: 128MB
     tomcat_xms: "1024M"
@@ -38,11 +28,9 @@
     - name: 'Reconfigue Locales'
       become: yes
       become_user: root
-<<<<<<< HEAD
+
       shell: ""
-=======
-      shell: "{{ item }}"
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
+
       with_items:
         - "export LANGUAGE=en_US.UTF-8"
         - "export LANG=en_US.UTF-8"
@@ -52,11 +40,9 @@
     - name: "Install cul, vim, and unzip"
       become: yes
       become_user: root
-<<<<<<< HEAD
+
       apt: name="" state=latest
-=======
-      apt: name="{{ item }}" state=latest
->>>>>>> 7b5b7777f29edd637f30c2c1b7ea44a812e45bad
+
       with_items:
         - curl
         - vim

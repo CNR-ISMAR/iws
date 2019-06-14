@@ -9,6 +9,7 @@ class CoastalSegmentAdmin(admin.ModelAdmin):
 class StormEventAdmin(admin.ModelAdmin):
     
     list_display = ('date_start','area_code', 'area_partition')
+    list_filter = ['area_code', 'date_start']
     
     pass
 
