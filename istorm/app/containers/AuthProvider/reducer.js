@@ -8,7 +8,9 @@ import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, 
 
 export const initialState = {
   loading: false,
-  user: null,
+  user: {
+    email: "test@email.com"
+  },
   error: null,
   oauth: {
     token: null,

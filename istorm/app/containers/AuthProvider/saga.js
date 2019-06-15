@@ -24,6 +24,8 @@ export function* loginAuthSaga(action) {
 }
 
 export function* logoutAuthSaga(action) {
+  console.info("logout saga");
+  console.info(action);
   // See example in containers/HomePage/saga.js
 }
 

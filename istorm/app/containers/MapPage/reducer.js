@@ -6,15 +6,19 @@
 import produce from 'immer';
 import { DEFAULT_ACTION } from './constants';
 
+var currentTime = new Date();
+currentTime.setUTCHours(0, 0, 0, 0);
+
 export const initialState = {
   options: {
     center: [41.879156, 12.457727],
     zoom: 6,
     timeDimension: true,
-    /* timeDimensionOptions: {
-        timeInterval: "2019-03-30/2019-04-30",
-        period: "PT1H"
-    }, */
+    timeDimensionOptions: {
+        /* timeInterval: "2019-03-30/2019-04-30",
+        period: "PT1H",*/
+        currentTime: currentTime.getTime()
+    }, 
     timeDimensionControl: true,
     minZoom: 2,
      maxBounds: [
@@ -36,6 +40,10 @@ export const initialState = {
       }
     }], */
     [{
+      //OTTIMA PAGINA DI ESEMPI SUL THREDDS
+      //https://wambachers-osm.website/webcommon/js/leaflet/plugins/Leaflet.TimeDimension/examples/example7.html
+      name: "test",
+      id: "idDITEST",
       url: "http://thredds.socib.es/thredds/wms/operational_models/oceanographical/hydrodynamics/model_run_aggregation/wmop/wmop_best.ncd",
       isTimeseries: true,
       options: {

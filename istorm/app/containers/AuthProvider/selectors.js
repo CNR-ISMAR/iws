@@ -24,7 +24,7 @@ const makeSelectAuth = () =>
 const isLogged = () =>
   createSelector(
     selectAuthDomain,
-    auth => (auth.oauth && auth.oauth.expire_at) ? true : false,
+    substate => (substate.oauth && substate.oauth.expire_at) ? true : false,
   );
 
 export default makeSelectAuth;

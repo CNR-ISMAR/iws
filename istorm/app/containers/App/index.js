@@ -10,8 +10,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Header from 'components/Header';
-import Sidebar from 'components/Sidebar';
+import Header from 'containers/Header';
+import Sidebar from 'containers/Sidebar';
 
 import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
@@ -21,16 +21,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import { ThemeProvider } from '@material-ui/styles';
 import theme from 'theme'
@@ -50,13 +41,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function App(props) {
   const classes = useStyles();
+  console.info("app");
+    console.info(props);
   return (
         <div>
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
         <CssBaseline />
         <Header isLogged={props.isLogged} />
-        <Sidebar auth={props.auth} isLogged={props.isLogged}/>
+        <Sidebar auth={props.auth} isLogged={props.isLogged} />
         <main className={classes.content}>
           <Switch>
             {/*props.isLogged && (
