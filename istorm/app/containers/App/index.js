@@ -11,6 +11,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
+import LoginPage from 'containers/LoginPage/Loadable';
 import MapPage from 'containers/MapPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
@@ -27,12 +28,14 @@ export default function App(props, context) {
         <div>
       <ThemeProvider theme={theme}>
           <Switch>
-            <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+            {props.isLogged && (
+              <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+            )}
+            {!props.isLogged && (
+              <Route exact path="/" component={<LoginPage auth={props.auth} />} />
+            )}
             <Route exact path="/map" component={() => <MapPage auth={props.auth} />} />
             <Route component={NotFoundPage} />
-            {/*props.isLogged && (
-              <Route exact path="/map" component={<MapPage auth={props.auth} />} />
-            )*/}
           </Switch>
         <GlobalStyle />
       </ThemeProvider>
