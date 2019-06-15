@@ -28,10 +28,10 @@ export default function App() {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/map" component={MapPage} />
-            <Route exact path="/auth" component={Auth} />
             <Route component={NotFoundPage} />
           </Switch>
-          <GlobalStyle />
+        <GlobalStyle />
+        <Auth />
       </ThemeProvider>
         </div>
   );
