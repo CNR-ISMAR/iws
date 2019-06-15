@@ -15,13 +15,12 @@ let tileOptions = {
   ]
 };
 
-let Tiles = ({ type, options, map }) =>
-  <Layer layer={ L.tileLayer.apply(L, tileOptions[type]) } options={options} map={map} />
+let TileLayers = ({ layers }) => layers.map(type => <Layer layer={ L.tileLayer.apply(L, tileOptions[type]) } />);
 
-Tiles.displayName = 'Tiles';
+TileLayers.displayName = 'Tiles';
 
-Tiles.propTypes = {
-  type: PropTypes.oneOf(Object.keys(tileOptions))
+TileLayers.propTypes = {
+  layers: PropTypes.array
 };
 
-export default Tiles;
+export default TileLayers;

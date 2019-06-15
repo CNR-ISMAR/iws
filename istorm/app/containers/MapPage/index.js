@@ -19,8 +19,8 @@ import saga from './saga';
 import messages from './messages';
 import Map from '../../components/Map';
 import Layer from '../../components/Map/Layer';
-import BaseLayer from '../../components/Map/BaseLayer';
-import Tiles from '../../components/Map/Tiles';
+import TileLayers from '../../components/Map/TileLayer';
+import WmsLayers from '../../components/Map/WmsLayers';
 // import "leaflet/dist/leaflet.css";
 
 export function MapPage(props) {
@@ -29,7 +29,8 @@ export function MapPage(props) {
 
   return (
     <Map options={props.mapPage.options}>
-      <BaseLayer types={props.mapPage.baseLayer} />
+      <TileLayers layers={props.mapPage.baseLayers} />
+      {props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"wms-layer-" + layersIndex} layers={layers} />)}
     </Map>
   );
 }

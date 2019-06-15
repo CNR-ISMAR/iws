@@ -16,7 +16,18 @@ export const initialState = {
       [85, 180],
     ],
   },
-  baseLayer: ["wiki", "osm"]
+  baseLayers: ["wiki"],
+  wmsLayers: [
+    [{
+      url: "http://dev.plasive.org:8085/geoserver/wms",
+      options: {
+        layers: 'remotesensing:ndvi',
+        transparent: true,
+        format: 'image/png',
+        tiled: true
+      }
+    }]
+]
 };
 
 /* eslint-disable default-case, no-param-reassign */
