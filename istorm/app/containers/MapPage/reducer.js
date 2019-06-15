@@ -9,7 +9,7 @@ import { DEFAULT_ACTION } from './constants';
 export const initialState = {
   options: {
     center: [41.879156, 12.457727],
-    zoom: 8,
+    zoom: 6,
     timeDimension: true,
     /* timeDimensionOptions: {
         timeInterval: "2019-03-30/2019-04-30",
@@ -24,7 +24,7 @@ export const initialState = {
   },
   baseLayers: ["wiki"],
   wmsLayers: [
-    [{
+    /* [{
       url: "http://dev.plasive.org:8085/geoserver/wms",
       isTimeseries: true,
       options: {
@@ -33,6 +33,19 @@ export const initialState = {
         format: 'image/png',
         version: "1.3.0",
         tiled: true
+      }
+    }], */
+    [{
+      url: "http://thredds.socib.es/thredds/wms/operational_models/oceanographical/hydrodynamics/model_run_aggregation/wmop/wmop_best.ncd",
+      isTimeseries: true,
+      options: {
+        layers: 'salt',
+        format: 'image/png',
+        transparent: true,
+        abovemaxcolor: "extend",
+        belowmincolor: "extend",
+        numcolorbands: 40,
+        styles: 'boxfill/mpl_rdbu_r'
       }
     }]
 ]
