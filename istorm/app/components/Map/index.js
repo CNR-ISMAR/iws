@@ -31,23 +31,9 @@ class Map extends React.Component {
     super(props);
 
     this.state = {
-      mapOptions: {
-        center: [39.833333, -98.583333], // center of US
-        zoom: 5,
-        minZoom: 2,
-        maxBounds: [
-          [-85, -180],
-          [85, 180],
-        ],
-      },
-      layers: [{
-
-      }]
+      map: null
     };
-  }
-
-  static childContextTypes = {
-    map: PropTypes.object,
+    
   }
 
   getChildContext() {
@@ -55,7 +41,7 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    const options = this.state.mapOptions;
+    const options = this.props.options;
     const map = L.map(this.refs.map, options);
 
     //map.on('moveend', this.handleChange);
@@ -70,10 +56,12 @@ class Map extends React.Component {
   render () {
     return (
       <div ref="map" style={{ height: 'calc(100vh - 64px)', width: '100%', minHeight: '100%' }}>
-        { this.state.map ? React.cloneElement(React.Children.only(this.props.children), { options: this.state.mapOptions, map: this.state.map}) : undefined }
+        { this.state.map ? this.props.children : undefined }
       </div>
     )
   }
 }
-
+Map.childContextTypes = {
+  map: PropTypes.object
+};
 export default withStyles(styles, {withTheme: true})(Map);

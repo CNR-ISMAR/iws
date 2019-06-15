@@ -9,14 +9,16 @@ class Layer extends React.Component {
     }
   
     componentDidMount() {
-        this.props.layer.addTo(this.props.map);
+        this.props.layer.addTo(this.context.map);
     }
 
     componentWillUnmount() {
-        this.props.layer.removeFrom(this.props.map);
+        this.props.layer.removeFrom(this.context.map);
     }
 
     render() { return null; }
 };
-
+Layer.contextTypes = {
+    map: PropTypes.object
+};
 export default Layer;

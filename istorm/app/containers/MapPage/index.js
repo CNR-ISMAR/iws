@@ -19,6 +19,7 @@ import saga from './saga';
 import messages from './messages';
 import Map from '../../components/Map';
 import Layer from '../../components/Map/Layer';
+import BaseLayer from '../../components/Map/BaseLayer';
 import Tiles from '../../components/Map/Tiles';
 // import "leaflet/dist/leaflet.css";
 
@@ -27,8 +28,8 @@ export function MapPage(props) {
   useInjectSaga({ key: 'mapPage', saga });
 
   return (
-    <Map>
-      <Tiles type="wiki" />
+    <Map options={props.mapPage.options}>
+      <BaseLayer types={props.mapPage.baseLayer} />
     </Map>
   );
 }
