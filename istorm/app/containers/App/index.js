@@ -20,7 +20,9 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from 'theme'
 
 
-export default function App(props) {
+export default function App(props, context) {
+  console.info("context");
+  console.info(context)
   return (
         <div>
       <ThemeProvider theme={theme}>

@@ -11,7 +11,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-function LoginForm() {
+function LoginForm(form) {
   return (
     <div>
       <FormattedMessage {...messages.header} />
