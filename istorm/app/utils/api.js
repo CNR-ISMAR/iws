@@ -1,5 +1,4 @@
 import request from "./request";
-import { eventNames } from "cluster";
 
 const BASE_URL = process.env.API_URL;
 const defaultOption = {
