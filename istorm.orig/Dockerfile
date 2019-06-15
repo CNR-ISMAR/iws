@@ -14,4 +14,4 @@ RUN npm install
 # Build client
 RUN npm run build
 
-CMD npm run start
+CMD npm run start -p 3001
