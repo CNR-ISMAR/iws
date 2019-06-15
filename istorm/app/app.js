@@ -21,7 +21,7 @@ import App from 'containers/App';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
-import Auth from 'containers/Auth/Loadable';
+import Auth from 'containers/Auth';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */

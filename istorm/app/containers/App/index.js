@@ -20,14 +20,17 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from 'theme'
 
 
-export default function App() {
+export default function App(props) {
   return (
         <div>
       <ThemeProvider theme={theme}>
           <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/map" component={MapPage} />
+            <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+            <Route exact path="/map" component={() => <MapPage auth={props.auth} />} />
             <Route component={NotFoundPage} />
+            {/*props.isLogged && (
+              <Route exact path="/map" component={<MapPage auth={props.auth} />} />
+            )*/}
           </Switch>
         <GlobalStyle />
       </ThemeProvider>

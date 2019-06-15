@@ -13,7 +13,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectAuth from './selectors';
+import makeSelectAuth, {isLogged} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -25,7 +25,7 @@ export function Auth(props) {
   return (
     <>
       <FormattedMessage {...messages.header} />
-      {React.Children.only(props.children)}
+      {React.cloneElement(React.Children.only(props.children), props)}
     </>
   );
 }
@@ -36,6 +36,7 @@ Auth.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   auth: makeSelectAuth(),
+  isLogged: isLogged(),
 });
 
 function mapDispatchToProps(dispatch) {
