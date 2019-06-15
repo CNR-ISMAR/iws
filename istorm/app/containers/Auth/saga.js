@@ -1,9 +1,9 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH } from 'containers/Auth/constants';
-import {  } from 'containers/Auth/actions';
+//import {  } from 'containers/Auth/actions';
 
 import { login } from 'utils/api';
-import {  } from 'containers/Auth/selectors';
+ //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
 export function* loginAuthSaga(action) {
