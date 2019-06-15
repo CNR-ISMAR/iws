@@ -17,15 +17,19 @@ import makeSelectMapPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import MapApp from '../../components/MapApp';
+import Map from '../../components/Map';
+import Layer from '../../components/Map/Layer';
+import Tiles from '../../components/Map/Tiles';
 // import "leaflet/dist/leaflet.css";
 
-export function MapPage() {
+export function MapPage(props) {
   useInjectReducer({ key: 'mapPage', reducer });
   useInjectSaga({ key: 'mapPage', saga });
 
   return (
-      <MapApp/>
+    <Map>
+      <Tiles type="wiki" />
+    </Map>
   );
 }
 

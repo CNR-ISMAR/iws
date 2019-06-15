@@ -24,7 +24,6 @@ export function Auth(props) {
 
   return (
     <>
-      <FormattedMessage {...messages.header} />
       {React.cloneElement(React.Children.only(props.children), props)}
     </>
   );

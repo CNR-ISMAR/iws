@@ -36,6 +36,7 @@ class Header extends React.Component {
           <Typography variant="h6" noWrap>
             <Link to="/">iStrom</Link>
           </Typography>
+          <Link to="/map">MAp</Link>
           {!this.props.IsLogged && (<Link to="/login">Login</Link>)}
         </Toolbar>
       </AppBar>

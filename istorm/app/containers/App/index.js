@@ -41,7 +41,9 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+//    padding: theme.spacing(3),
+    padding: 0,
+    marginTop: 64
   },
   toolbar: theme.mixins.toolbar,
 }));
@@ -56,7 +58,6 @@ export default function App(props) {
         <Header isLogged={props.isLogged} />
         <Sidebar auth={props.auth} isLogged={props.isLogged}/>
         <main className={classes.content}>
-          <div className={classes.toolbar} />
           <Switch>
             {/*props.isLogged && (
               <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
