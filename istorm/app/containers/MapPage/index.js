@@ -30,7 +30,7 @@ export function MapPage(props) {
   return (
     <Map options={props.mapPage.options}>
       <TileLayers layers={props.mapPage.baseLayers} />
-      {props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"wms-layer-" + layersIndex} layers={layers} />)}
+      {props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)}
     </Map>
   );
 }

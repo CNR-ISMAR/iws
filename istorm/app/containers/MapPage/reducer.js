@@ -9,7 +9,13 @@ import { DEFAULT_ACTION } from './constants';
 export const initialState = {
   options: {
     center: [41.879156, 12.457727],
-    zoom: 5,
+    zoom: 8,
+    timeDimension: true,
+    /* timeDimensionOptions: {
+        timeInterval: "2019-03-30/2019-04-30",
+        period: "PT1H"
+    }, */
+    timeDimensionControl: true,
     minZoom: 2,
      maxBounds: [
       [-85, -180],
@@ -20,10 +26,12 @@ export const initialState = {
   wmsLayers: [
     [{
       url: "http://dev.plasive.org:8085/geoserver/wms",
+      isTimeseries: true,
       options: {
         layers: 'remotesensing:ndvi',
         transparent: true,
         format: 'image/png',
+        version: "1.3.0",
         tiled: true
       }
     }]
