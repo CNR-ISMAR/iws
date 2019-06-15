@@ -12,7 +12,6 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import MapPage from 'containers/MapPage/Loadable';
-import Auth from 'containers/Auth/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
@@ -31,8 +30,8 @@ export default function App() {
             <Route component={NotFoundPage} />
           </Switch>
         <GlobalStyle />
-        <Auth />
       </ThemeProvider>
         </div>
   );
 }
+

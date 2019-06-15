@@ -7,7 +7,6 @@ import produce from 'immer';
 import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
 
 export const initialState = {
-  isLogged: false,
   loading: false,
   user: null,
   error: null,
