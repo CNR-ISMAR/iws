@@ -43,8 +43,9 @@ export function requestRefreshSuccess() {
   };
 }
 
-export function requestError() {
+export function requestError(errorMessage) {
   return {
     type: REQUEST_ERROR,
+    error: errorMessage
   };
 }

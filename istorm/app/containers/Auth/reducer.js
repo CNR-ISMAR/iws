@@ -26,21 +26,25 @@ const authReducer = (state = initialState, action) =>
         break;
       case REQUEST_LOGIN_SUCCESS:
           draft.loading = false;
+          draft.error = initialState.error;
         break;
       case REQUEST_LOGOUT:
           draft.loading = true;
         break;
       case REQUEST_LOGOUT_SUCCESS:
           draft.loading = false;
+          draft.error = initialState.error;
         break;
       case REQUEST_REFRESH:
           draft.loading = true;
         break;
       case REQUEST_REFRESH_SUCCESS:
           draft.loading = false;
+          draft.error = initialState.error;
         break;
       case REQUEST_ERROR:
           draft.loading = false;
+          draft.error = action.error;
         break;
     }
   });

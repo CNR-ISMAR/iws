@@ -8,8 +8,16 @@ const defaultOption = {
         'Cache-Control': 'no-cache'
       }),
 };
+
 const getOption = (option) => {
     return Object.assign(defaultOption, option);
 }
+
+export const oauthOption = {
+    grant_type: process.env.GRANT_TYPE,
+    client_id: process.env.CLINET_ID,
+    client_secret: process.env.CLIENT_SECRET,
+}
+
 
 export const login = (options) => request(`${BASE_URL}/oauth/token`, getOption(options));

@@ -113,7 +113,10 @@ module.exports = options => ({
     // drop any unreachable code.
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      API_URL: "http://istituzionale.dev.mycitydemo.it"
+      API_URL: "http://istituzionale.dev.mycitydemo.it",
+      GRANT_TYPE: "password",
+      CLINET_ID: "1",
+      CLIENT_SECRET: "bK3vrACDLE4WM7smEPvPT5X5XUdn8DfMHDnjGHrB",
     }),
   ]),
   resolve: {

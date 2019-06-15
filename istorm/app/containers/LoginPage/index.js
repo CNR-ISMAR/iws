@@ -17,14 +17,17 @@ import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import { requestLogin } from '../Auth/actions';
 
-export function LoginPage() {
+import LoginForm from "../../components/LoginForm"
+
+export function LoginPage(props) {
   useInjectReducer({ key: 'loginPage', reducer });
   useInjectSaga({ key: 'loginPage', saga });
 
   return (
     <div>
-      <FormattedMessage {...messages.header} />
+      <LoginForm {...props} messages={messages} login={(request) => props.dispatch(requestLogin(request))} />
     </div>
   );
 }
@@ -34,7 +37,7 @@ LoginPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  loginPage: makeSelectLoginPage(),
+  loginPage: makeSelectLoginPage()
 });
 
 function mapDispatchToProps(dispatch) {
