@@ -12,6 +12,7 @@ module.exports = {
     'styled-components',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-export-default-from',
   ],
   env: {
     production: {

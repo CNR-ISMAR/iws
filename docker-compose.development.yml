@@ -212,6 +212,7 @@ services:
     ports:
       - 80:80
     volumes:
+      - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
       - statics:/mnt/volumes/statics
 
 
@@ -230,17 +231,17 @@ services:
   istorm:
     container_name: istorm
     build:
-      context: ./istorm
+      context: ${PWD}/istorm
       dockerfile: Dockerfile
     command: "npm run start"
     volumes:
-    - ./istorm/app:/usr/src/app/app
-    - ./istorm/build:/usr/src/app/build
-    - ./istorm/internals:/usr/src/app/internals
-    - ./istorm/package.json:/usr/src/app/package.json
-    - ./istorm/babel.config.js:/usr/src/app/babel.config.js
-    - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
-    - ./istorm/.gitfake /usr/src/app/.git
+    - ${PWD}/istorm/app:/usr/src/app/app
+    - ${PWD}/istorm/build:/usr/src/app/build
+    - ${PWD}/istorm/internals:/usr/src/app/internals
+    - ${PWD}/istorm/package.json:/usr/src/app/package.json
+    - ${PWD}/istorm/babel.config.js:/usr/src/app/babel.config.js
+    - ${PWD}/istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
+    - ${PWD}/istorm/.gitfake /usr/src/app/.git
     ports:
     - "3000:3000"
     expose:
@@ -249,6 +250,25 @@ services:
 #    - server
 #    depends_on:
 #    - server
+
+#  istormorig:
+#    container_name: istormorig
+#    build:
+#      context: ./istorm.orig
+#      dockerfile: Dockerfile
+#    command: "npm run start -p 3001"
+#    volumes:
+#    - ${PWD}/istorm.orig/app:/usr/src/app/app
+#    - ${PWD}/istorm.orig/build:/usr/src/app/build
+#    - ${PWD}/istorm.orig/internals:/usr/src/app/internals
+#    - ${PWD}/istorm.orig/package.json:/usr/src/app/package.json
+#    - ${PWD}/istorm.orig/babel.config.js:/usr/src/app/babel.config.js
+#    - ${PWD}/istorm.orig/.eslintrc.js:/usr/src/app/.eslintrc.js
+#    - ${PWD}/istorm.orig/.gitfake /usr/src/app/.git
+#    ports:
+#    - "3001:3001"
+#    expose:
+#    - "3001"
 
 
 

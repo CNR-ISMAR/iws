@@ -26,6 +26,8 @@ from iws.measurements.grafana_proxy import GraphanaProxyView
 
 urlpatterns += (
 ## include your urls here
+    # Oauth2 views
+    url(r'^', include('openistorm.urls')),
     # DSS pharos views
     url(r'^dss_pharos/', include('dss_pharos.urls')),
     # invitations
