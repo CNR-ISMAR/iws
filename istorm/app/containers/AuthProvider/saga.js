@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH } from 'containers/Auth/constants';
-import { requestError } from 'containers/Auth/actions';
+import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH } from 'containers/AuthProvider/constants';
+import { requestError } from 'containers/AuthProvider/actions';
 
 import { login, oauthOption } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';

@@ -21,7 +21,7 @@ import App from 'containers/App';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
-import Auth from 'containers/Auth';
+import AuthProvider from 'containers/AuthProvider';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
@@ -47,9 +47,9 @@ const render = messages => {
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
         {/*<ThemeProvider theme={theme}>*/}
-        <Auth>
-          <App />
-        </Auth>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         {/*</ThemeProvider>*/}
         </ConnectedRouter>
       </LanguageProvider>
