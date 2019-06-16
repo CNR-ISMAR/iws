@@ -14,14 +14,27 @@ import { compose } from 'redux';
 import messages from './messages';
 import { requestLogin } from '../AuthProvider/actions';
 
-import LoginForm from "../../components/LoginForm"
+import { withStyles } from '@material-ui/core/styles';
+import LoginForm from "../../components/LoginForm";
+
+const styles = (theme) => {
+  return {
+    content: {
+      position: "relative",
+      flexGrow: 1,
+      width: "100%",
+      padding: 0,
+      marginTop: 64
+    },
+  }
+};
 
 export function LoginPage(props) {
 
   return (
-    <div>
+    <main className={props.classes.content}>
       <LoginForm {...props} login={(request) => props.dispatch(requestLogin(request))} />
-    </div>
+    </main>
   );
 }
 
@@ -44,4 +57,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(LoginPage);
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(LoginPage));

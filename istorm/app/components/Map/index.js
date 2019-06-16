@@ -48,6 +48,7 @@ class Map extends React.Component {
 
     this.flyTo = this.flyTo.bind(this);
     this.setView = this.setView.bind(this);
+    this.porcatPErPulire = this.porcatPErPulire.bind(this);
   }
 
   getChildContext() {
@@ -59,17 +60,34 @@ class Map extends React.Component {
     const { options } = this.props;
     const setView = this.setView;
     const map = L.map(this.refs.map, options);
-    //map.on('moveend', this.handleChange);
-
     this.setState({ map }, () => {
       setView(options);
     });
   }
 
   componentWillUnmount() { 
-    const { map } = this.state;
+    let { map } = this.state;
+    map.eachLayer(function (layer) {
+        map.removeLayer(layer);
+    });
     map.off(); 
-    map.remove(); 
+    map.remove();
+  }
+
+  timeout = null;
+
+  porcatPErPulire() {
+    let { timeout } = this;
+    const { map } = this.state;
+    if(timeout) {
+      clearTimeout(timeout);
+      timeout = null;  
+    }
+    timeout = setTimeout(() => {
+      if(map) {
+        map.invalidateSize();
+      }
+    }, 180);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,25 +95,17 @@ class Map extends React.Component {
     const { map } = this.state;
     const options = nextProps.options;
     //map.invalidateSize();
-    let timeout = null;
-    this.flyTo(options);
-      if(timeout) {
-        clearTimeout(timeout);
-        timeout = null;  
-      }
-      timeout = setTimeout(() => {
-        if(map) {
-          map.invalidateSize();
-        }
-      }, 180);
+    //this.flyTo(options);
+    this.porcatPErPulire();
+    
   }
 
   componentDidUpdate(nextProps) {
     console.info("update component");
     const { map } = this.state;
     const options = nextProps.options;
-    //this.setView(options);
-    //map.invalidateSize();
+    this.flyTo(options);
+    this.porcatPErPulire();
   }
 
   flyTo(options) {

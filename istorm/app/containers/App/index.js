@@ -30,13 +30,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
-  content: {
-    flexGrow: 1,
-    width: "100%",
-//    padding: theme.spacing(3),
-    padding: 0,
-    marginTop: 64
-  },
   toolbar: theme.mixins.toolbar,
 }));
 
@@ -51,19 +44,17 @@ export default function App(props) {
           <CssBaseline />
           <Header isLogged={props.isLogged} />
           <Sidebar auth={props.auth} isLogged={props.isLogged} />
-          <main className={classes.content}>
-            <Switch>
-              {/*props.isLogged && (
-                <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-              )*/}
-              {!props.isLogged && (
-                <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
-              )}
+          <Switch>
+            {/*props.isLogged && (
               <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-              <Route path="/map" component={({match}) => <MapPage auth={props.auth} match={match} />} />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </main>
+            )*/}
+            {!props.isLogged && (
+              <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
+            )}
+            <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+            <Route path="/map" component={({match}) => <MapPage auth={props.auth} match={match} />} />
+            <Route component={NotFoundPage} />
+          </Switch>
         </div>
         <GlobalStyle />
       </ThemeProvider>

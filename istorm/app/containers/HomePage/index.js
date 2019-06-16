@@ -9,10 +9,26 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-export default function HomePage({auth}) {
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = (theme) => {
+  return {
+    content: {
+      position: "relative",
+      flexGrow: 1,
+      width: "100%",
+      padding: 0,
+      marginTop: 64
+    },
+  }
+};
+
+function HomePage({auth}) {
   return (
-    <h1>
+    <main className={props.classes.content}>
       <FormattedMessage {...messages.header} />
-    </h1>
+    </main>
   );
 }
+
+export default withStyles(styles, {withTheme: true})(HomePage);

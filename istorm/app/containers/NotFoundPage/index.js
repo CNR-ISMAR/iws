@@ -10,10 +10,26 @@ import { FormattedMessage } from 'react-intl';
 
 import messages from './messages';
 
-export default function NotFound() {
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = (theme) => {
+  return {
+    content: {
+      position: "relative",
+      flexGrow: 1,
+      width: "100%",
+      padding: 0,
+      marginTop: 64
+    },
+  }
+};
+
+function NotFound() {
   return (
-    <h1>
+    <main className={props.classes.content}>
       <FormattedMessage {...messages.header} />
-    </h1>
+    </main>
   );
 }
+
+export default withStyles(styles, {withTheme: true})(NotFound);

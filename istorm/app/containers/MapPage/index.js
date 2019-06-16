@@ -24,23 +24,36 @@ import SubNav from '../../components/SubNav';
 import Layer from '../../components/Map/Layer';
 import TileLayers from '../../components/Map/TileLayer';
 import WmsLayers from '../../components/Map/WmsLayers';
-// import "leaflet/dist/leaflet.css";
 
-export function MapPage(props) {
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = (theme) => {
+  return {
+    content: {
+      position: "relative",
+      flexGrow: 1,
+      width: "100%",
+      padding: 0,
+      marginTop: 64
+    },
+  }
+};
+
+function MapPage(props) {
   useInjectReducer({ key: 'mapPage', reducer });
   useInjectSaga({ key: 'mapPage', saga });
   console.info("mapPage");
   console.info(props);
 
   return (
-    <div style={{position: "relative"}}>
+    <main className={props.classes.content}>
       {/* <Route path={`${props.match.url}/:subNavNames`} component={({ match }) => <SubNav match={match} />} /> */}
       <Map options={props.mapPage.options}>
         <TileLayers layers={props.mapPage.baseLayers} />
         {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
         {props.wmsVisible && <WmsLayers key={"wms-layers"} layers={props.wmsVisible} />}
       </Map>
-    </div>
+    </main>
   );
 }
 
@@ -66,4 +79,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withRouter(MapPage));
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(withRouter(MapPage)));
