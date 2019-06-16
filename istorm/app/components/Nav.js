@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Mail from '@material-ui/icons/Mail';
 
 export default function Nav(props) {
   console.info("nav")
@@ -20,6 +22,7 @@ export default function Nav(props) {
   return (
     <List>
         <ListItem button key={"dfgdsfdsf"}>
+          <ListItemIcon><Mail /></ListItemIcon>
           <Link to={"map/lol"} ><ListItemText primary={"Lista uno"} /></Link>
         </ListItem>
     </List>

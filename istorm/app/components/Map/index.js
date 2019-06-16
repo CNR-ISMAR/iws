@@ -26,6 +26,7 @@ import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { bindActionCreators } from '../../../../../../../Users/marco/AppData/Local/Microsoft/TypeScript/3.5/node_modules/redux';
 
 const styles = (theme) => {
   return {
@@ -45,6 +46,8 @@ class Map extends React.Component {
       map: null
     };
 
+    this.flyTo = this.flyTo.bind(this);
+    this.setView = this.setView.bind(this);
   }
 
   getChildContext() {
@@ -52,21 +55,75 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    const options = this.props.options;
+    console.info("did mount");
+    const { options } = this.props;
+    const setView = this.setView;
     const map = L.map(this.refs.map, options);
-
     //map.on('moveend', this.handleChange);
 
-    this.setState({ map });
+    this.setState({ map }, () => {
+      setView(options);
+    });
   }
 
   componentWillUnmount() { 
-    this.state.map.remove(); 
+    const { map } = this.state;
+    map.off(); 
+    map.remove(); 
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.info("receive props");
+    const { map } = this.state;
+    const options = nextProps.options;
+    //map.invalidateSize();
+    let timeout = null;
+    this.flyTo(options);
+      if(timeout) {
+        clearTimeout(timeout);
+        timeout = null;  
+      }
+      timeout = setTimeout(() => {
+        if(map) {
+          map.invalidateSize();
+        }
+      }, 180);
+  }
+
+  componentDidUpdate(nextProps) {
+    console.info("update component");
+    const { map } = this.state;
+    const options = nextProps.options;
+    //this.setView(options);
+    //map.invalidateSize();
+  }
+
+  flyTo(options) {
+    //this.state.map.invalidateSize();
+    this.state.map.flyTo([options.center[0], options.center[1]], options.zoom, {
+      animate: true,
+      duration: 1.5
+    });
+  }
+
+  setView(options) {
+    //this.state.map.invalidateSize();
+    this.state.map.setView([options.center[0], options.center[1]], options.zoom, {
+      reset: false,
+      animate: true,
+      pan: {
+        animate: true,
+        duration: 1.5
+      },
+      zoom: {
+        animate: true
+      }
+    });
   }
 
   render () {
     return (
-      <div ref="map" style={{ height: 'calc(100vh - 64px)', width: '100%', minHeight: '100%' }}>
+      <div ref="map" style={{ height: 'calc(100vh - 64px)', width: '100%', minHeight: '100%', minWidth: '100%' }}>
         { this.state.map ? this.props.children : undefined }
       </div>
     )

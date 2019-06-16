@@ -15,6 +15,7 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectMapPage, { makeSelectVisibleWmsLayer } from './selectors';
+import { makeSelectDrawerOpen } from '../Sidebar/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -28,10 +29,12 @@ import WmsLayers from '../../components/Map/WmsLayers';
 export function MapPage(props) {
   useInjectReducer({ key: 'mapPage', reducer });
   useInjectSaga({ key: 'mapPage', saga });
+  console.info("mapPage");
+  console.info(props);
 
   return (
     <div style={{position: "relative"}}>
-      <Route path={`${props.match.url}/:subNavNames`} component={({ match }) => <SubNav match={match} />} />
+      {/* <Route path={`${props.match.url}/:subNavNames`} component={({ match }) => <SubNav match={match} />} /> */}
       <Map options={props.mapPage.options}>
         <TileLayers layers={props.mapPage.baseLayers} />
         {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
@@ -48,7 +51,8 @@ MapPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
-  wmsVisible: makeSelectVisibleWmsLayer()
+  wmsVisible: makeSelectVisibleWmsLayer(),
+  drawerOpen: makeSelectDrawerOpen()
 });
 
 function mapDispatchToProps(dispatch) {
