@@ -4,10 +4,11 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { TOGGLE_LAYER_VISIBILITY } from './constants';
 
-export function defaultAction() {
+export function toggleLayerVisibility(layer) {
   return {
-    type: DEFAULT_ACTION,
+    type: TOGGLE_LAYER_VISIBILITY,
+    layer: layer
   };
 }

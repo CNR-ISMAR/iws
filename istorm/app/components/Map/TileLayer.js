@@ -17,7 +17,7 @@ let tileOptions = {
 
 let TileLayers = ({ layers }) => layers.map((type, typeIndex) => <Layer key={"tail-layers-" + typeIndex} layer={ L.tileLayer.apply(L, tileOptions[type]) } />);
 
-TileLayers.displayName = 'tileOptions';
+//TileLayers.displayName = 'tileOptions';
 
 TileLayers.propTypes = {
   layers: PropTypes.array

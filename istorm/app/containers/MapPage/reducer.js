@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
+import { TOGGLE_LAYER_VISIBILITY } from './constants';
 
 var currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -44,6 +44,7 @@ export const initialState = {
       //https://wambachers-osm.website/webcommon/js/leaflet/plugins/Leaflet.TimeDimension/examples/example7.html
       name: "test",
       id: "idDITEST",
+      isVisible: true,
       url: "http://thredds.socib.es/thredds/wms/operational_models/oceanographical/hydrodynamics/model_run_aggregation/wmop/wmop_best.ncd",
       isTimeseries: true,
       options: {
@@ -61,9 +62,18 @@ export const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const mapPageReducer = (state = initialState, action) =>
-  produce(state, (/* draft */) => {
+  produce(state, draft => {
     switch (action.type) {
-      case DEFAULT_ACTION:
+      case TOGGLE_LAYER_VISIBILITY:
+          let idx = null;
+          let idx2 = null;
+          state.wmsLayers.forEach((wmsLayer, wmsLayerIndex) => {
+            wmsLayer.filter(layer => layer.id === action.layer.id).forEach((layers, layersIndex) => {
+              idx = wmsLayerIndex;
+              idx2 = layersIndex;
+            })
+          }); 
+          draft.wmsLayers[idx][idx2].isVisible = !action.layer.isVisible;
         break;
     }
   });

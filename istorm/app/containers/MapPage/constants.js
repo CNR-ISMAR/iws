@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/MapPage/DEFAULT_ACTION';
+export const TOGGLE_LAYER_VISIBILITY = 'app/MapPage/TOGGLE_LAYER_VISIBILITY';

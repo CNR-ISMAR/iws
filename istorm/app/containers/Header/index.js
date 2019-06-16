@@ -74,4 +74,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default withStyles(styles, {withTheme: true})(compose(withConnect)(Header));
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(Header));

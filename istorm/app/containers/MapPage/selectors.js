@@ -20,6 +20,12 @@ const makeSelectMapPage = () =>
     selectMapPageDomain,
     substate => substate,
   );
+const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+const makeSelectVisibleWmsLayer = () =>
+  createSelector(
+    selectMapPageDomain,
+    substate => flatten(substate.wmsLayers.map(wmsLayer => wmsLayer.filter(layer => layer.isVisible))),
+  );
 
 export default makeSelectMapPage;
-export { selectMapPageDomain };
+export { selectMapPageDomain, makeSelectVisibleWmsLayer };

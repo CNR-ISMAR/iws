@@ -13,7 +13,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectMapPage from './selectors';
+import makeSelectMapPage, { makeSelectVisibleWmsLayer } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -30,7 +30,8 @@ export function MapPage(props) {
   return (
     <Map options={props.mapPage.options}>
       <TileLayers layers={props.mapPage.baseLayers} />
-      {props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)}
+      {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
+      {props.wmsVisible && <WmsLayers key={"wms-layers"} layers={props.wmsVisible} />}
     </Map>
   );
 }
@@ -42,6 +43,7 @@ MapPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
+  wmsVisible: makeSelectVisibleWmsLayer()
 });
 
 function mapDispatchToProps(dispatch) {

@@ -20,8 +20,11 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import makeSelectMapPage from '../MapPage/selectors';
+import { toggleLayerVisibility } from '../MapPage/actions';
 
 import AvatarMenu from 'components/AvatarMenu';
 
@@ -72,6 +75,14 @@ class Sidebar extends React.Component {
             layers.length && layers.map(layer => 
               <ListItem button key={"dfsdfasfgdsfdsf"}>
                 <ListItemText primary={layer.name} />
+                <ListItemSecondaryAction>
+                  <Checkbox
+                    checked={layer.isVisible}
+                    onChange={(e) => this.props.dispatch(toggleLayerVisibility(layer))}
+                    value="checkedB"
+                    color="primary"
+                  />
+                </ListItemSecondaryAction>
               </ListItem>
             )
           )}
@@ -100,4 +111,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default withStyles(styles, {withTheme: true})(compose(withConnect)(Sidebar));
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(Sidebar));
