@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link, withRouter } from "react-router-dom";
 
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -27,6 +28,7 @@ import makeSelectMapPage from '../MapPage/selectors';
 import { toggleLayerVisibility } from '../MapPage/actions';
 
 import AvatarMenu from 'components/AvatarMenu';
+import Nav from 'components/Nav';
 
 const drawerWidth = 240;
 
@@ -64,11 +66,7 @@ class Sidebar extends React.Component {
         {this.props.isLogged && <div className={this.props.classes.toolbar}>
           <AvatarMenu auth={this.props.auth} />
         </div>}
-        <List>
-            <ListItem button key={"dfgdsfdsf"}>
-              <ListItemText primary={"Lista uno"} />
-            </ListItem>
-        </List>
+        <Nav />
         <Divider />
         <List>
           {this.props.mapPage.wmsLayers.length && this.props.mapPage.wmsLayers.map(layers => 
@@ -79,7 +77,6 @@ class Sidebar extends React.Component {
                   <Checkbox
                     checked={layer.isVisible}
                     onChange={(e) => this.props.dispatch(toggleLayerVisibility(layer))}
-                    value="checkedB"
                     color="primary"
                   />
                 </ListItemSecondaryAction>
@@ -111,4 +108,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withStyles(styles, {withTheme: true})(Sidebar));
+export default compose(withConnect)(withRouter(withStyles(styles, {withTheme: true})(Sidebar)));

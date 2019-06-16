@@ -42,31 +42,31 @@ const useStyles = makeStyles(theme => ({
 export default function App(props) {
   const classes = useStyles();
   console.info("app");
-    console.info(props);
+  console.info(props);
   return (
-        <div>
+    <div>
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
-        <CssBaseline />
-        <Header isLogged={props.isLogged} />
-        <Sidebar auth={props.auth} isLogged={props.isLogged} />
-        <main className={classes.content}>
-          <Switch>
-            {/*props.isLogged && (
+          <CssBaseline />
+          <Header isLogged={props.isLogged} />
+          <Sidebar auth={props.auth} isLogged={props.isLogged} />
+          <main className={classes.content}>
+            <Switch>
+              {/*props.isLogged && (
+                <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+              )*/}
+              {!props.isLogged && (
+                <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
+              )}
               <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-            )*/}
-            {!props.isLogged && (
-              <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
-            )}
-            <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-            <Route exact path="/map" component={() => <MapPage auth={props.auth} />} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </main>
-      </div>
+              <Route path="/map" component={({match}) => <MapPage auth={props.auth} match={match} />} />
+              <Route component={NotFoundPage} />
+            </Switch>
+          </main>
+        </div>
         <GlobalStyle />
       </ThemeProvider>
-        </div>
+    </div>
   );
 }
 

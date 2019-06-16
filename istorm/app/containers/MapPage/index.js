@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { Route, withRouter } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -18,6 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import Map from '../../components/Map';
+import SubNav from '../../components/SubNav';
 import Layer from '../../components/Map/Layer';
 import TileLayers from '../../components/Map/TileLayer';
 import WmsLayers from '../../components/Map/WmsLayers';
@@ -28,11 +30,14 @@ export function MapPage(props) {
   useInjectSaga({ key: 'mapPage', saga });
 
   return (
-    <Map options={props.mapPage.options}>
-      <TileLayers layers={props.mapPage.baseLayers} />
-      {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
-      {props.wmsVisible && <WmsLayers key={"wms-layers"} layers={props.wmsVisible} />}
-    </Map>
+    <div style={{position: "relative"}}>
+      <Route path={`${props.match.url}/:subNavNames`} component={({ match }) => <SubNav match={match} />} />
+      <Map options={props.mapPage.options}>
+        <TileLayers layers={props.mapPage.baseLayers} />
+        {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
+        {props.wmsVisible && <WmsLayers key={"wms-layers"} layers={props.wmsVisible} />}
+      </Map>
+    </div>
   );
 }
 
@@ -57,4 +62,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(MapPage);
+export default compose(withConnect)(withRouter(MapPage));
