@@ -49,6 +49,7 @@ class Map extends React.Component {
     this.flyTo = this.flyTo.bind(this);
     this.setView = this.setView.bind(this);
     this.porcatPErPulire = this.porcatPErPulire.bind(this);
+    this.fitBounds = this.fitBounds.bind(this);
   }
 
   getChildContext() {
@@ -58,10 +59,11 @@ class Map extends React.Component {
   componentDidMount() {
     console.info("did mount");
     const { options } = this.props;
-    const setView = this.setView;
+    const fitBounds = this.fitBounds;
     const map = L.map(this.refs.map, options);
     this.setState({ map }, () => {
-      setView(options);
+      //setView(options);
+      fitBounds()
     });
   }
 
@@ -90,40 +92,43 @@ class Map extends React.Component {
     }, 180);
   }
 
-  componentWillReceiveProps(nextProps) {
+/*   componentWillReceiveProps(nextProps) {
     console.info("receive props");
     const { map } = this.state;
     const options = nextProps.options;
     //map.invalidateSize();
     //this.flyTo(options);
-    this.porcatPErPulire();
-    
-  }
+    //this.porcatPErPulire();
+  } */
 
   componentDidUpdate(nextProps) {
     console.info("update component");
     const { map } = this.state;
     const options = nextProps.options;
-    this.flyTo(options);
-    this.porcatPErPulire();
+    //this.flyTo(options);
+    //this.porcatPErPulire();
   }
 
   flyTo(options) {
     //this.state.map.invalidateSize();
     this.state.map.flyTo([options.center[0], options.center[1]], options.zoom, {
       animate: true,
-      duration: 1.5
+      duration: .8
     });
   }
 
+  fitBounds(bounds) {
+    const bound = bounds ? bounds : this.state.map.getBounds();
+    this.state.map.fitBounds(bound, {paddingTopLeft: [0, 240]});
+  }
+
   setView(options) {
-    //this.state.map.invalidateSize();
     this.state.map.setView([options.center[0], options.center[1]], options.zoom, {
       reset: false,
       animate: true,
       pan: {
         animate: true,
-        duration: 1.5
+        duration: .8
       },
       zoom: {
         animate: true

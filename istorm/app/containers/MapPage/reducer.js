@@ -13,10 +13,13 @@ export const initialState = {
   options: {
     center: [41.879156, 12.457727],
     zoom: 6,
+    boundsOptions: {
+      paddingBottomRight: [250, 0],
+    },
     timeDimension: true,
     timeDimensionOptions: {
-        /* timeInterval: "2019-03-30/2019-04-30",
-        period: "PT1H",*/
+        timeInterval: "2019-04-29/2019-04-30",
+        /* period: "PT1H", */
         currentTime: currentTime.getTime()
     }, 
     timeDimensionControl: true,

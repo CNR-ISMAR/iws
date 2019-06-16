@@ -34,7 +34,8 @@ const styles = (theme) => {
       flexGrow: 1,
       width: "100%",
       padding: 0,
-      marginTop: 64
+      marginTop: 64,
+      marginLeft: -240
     },
   }
 };

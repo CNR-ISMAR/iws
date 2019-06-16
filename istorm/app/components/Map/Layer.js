@@ -13,7 +13,7 @@ class Layer extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.layer.removeFrom(this.context.map);
+        this.props.layer.remove();
     }
 
     render() { return null; }
