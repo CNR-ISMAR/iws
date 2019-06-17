@@ -23,7 +23,7 @@ const styles = (theme) => {
   }
 };
 
-function HomePage({auth}) {
+function HomePage(props) {
   return (
     <main className={props.classes.content}>
       <FormattedMessage {...messages.header} />

@@ -9,7 +9,7 @@ const getWmsLayer = (layer) => {
 
 let WmsLayers = ({ layers }) => layers.map(layer => <Layer key={"wms-layers-" + layer.id} layer={ getWmsLayer(layer) } />)
 
-//WmsLayers.displayName = 'WmsLayers';
+WmsLayers.displayName = 'WmsLayers';
 
 WmsLayers.propTypes = {
   layers: PropTypes.array

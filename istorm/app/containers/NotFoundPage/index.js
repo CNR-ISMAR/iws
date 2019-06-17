@@ -24,7 +24,7 @@ const styles = (theme) => {
   }
 };
 
-function NotFound() {
+function NotFound(props) {
   return (
     <main className={props.classes.content}>
       <FormattedMessage {...messages.header} />

@@ -52,7 +52,7 @@ function MapPage(props) {
       <Map options={props.mapPage.options}>
         <TileLayers layers={props.mapPage.baseLayers} />
         {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
-        {props.wmsVisible && <WmsLayers key={"wms-layers"} layers={props.wmsVisible} />}
+        {props.wmsVisible.length && <WmsLayers key={"wms-layer-group-"} layers={props.wmsVisible} />}
       </Map>
     </main>
   );
@@ -65,8 +65,7 @@ MapPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
-  wmsVisible: makeSelectVisibleWmsLayer(),
-  drawerOpen: makeSelectDrawerOpen()
+  wmsVisible: makeSelectVisibleWmsLayer()
 });
 
 function mapDispatchToProps(dispatch) {

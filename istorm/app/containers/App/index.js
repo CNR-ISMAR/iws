@@ -52,7 +52,7 @@ export default function App(props) {
               <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
             )}
             <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-            <Route path="/map" component={({match}) => <MapPage auth={props.auth} match={match} />} />
+            <Route exact path="/map" component={({match}) => <MapPage auth={props.auth} match={match} />} />
             <Route component={NotFoundPage} />
           </Switch>
         </div>
