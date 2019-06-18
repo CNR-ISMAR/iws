@@ -20,7 +20,7 @@ export const initialState = {
     timeDimensionOptions: {
         // timeInterval: "2019-04-29/2019-04-30",
         timeInterval: "2019-06-18/2019-06-19",
-        /* period: "PT1H", */
+        period: "PT1H",
         currentTime: currentTime.getTime()
     }, 
     timeDimensionControl: true,
@@ -63,8 +63,8 @@ export const initialState = {
     //   }
     // }],
     [{
-      name: "Sea level mean",
-      id: "sea-level-mean",
+      name: "Wave mean period",
+      id: "wave-mean-period",
       isVisible: true,
       // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
       url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_20190618.nc",
