@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('./logger');
+const proxy = require('express-http-proxy');
 
 const argv = require('./argv');
 const port = require('./port');
@@ -13,6 +14,22 @@ const ngrok =
     : false;
 const { resolve } = require('path');
 const app = express();
+const proxyHost = 'https://iws.ismar.cnr.it';
+// const proxyUrl = 'https://iws.ismar.cnr.it/thredds';
+
+app.use('/thredds', proxy(proxyHost, {
+  proxyReqOptDecorator(opts) {
+    if ('origin' in opts.headers)
+      delete opts.headers['origin'];
+    if ('x-powered-by' in opts.headers)
+      delete opts.headers['x-powered-by'];
+    // console.log(opts)
+    return opts;
+  },
+  proxyReqPathResolver: function (req) {
+    return req.url.replace('/wms/', '/thredds/wms/');
+  }
+}));
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
