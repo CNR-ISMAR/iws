@@ -11,8 +11,8 @@ currentTime.setUTCHours(0, 0, 0, 0);
 
 export const initialState = {
   options: {
-    center: [41.879156, 12.457727],
-    zoom: 20,
+    center: [40.064479, 12.917290],
+    zoom: 7,
     boundsOptions: {
       paddingBottomRight: [250, 0],
     },
@@ -82,7 +82,7 @@ export const initialState = {
         // styles: 'boxfill/Fredblue',
         styles: 'boxfill/rainbow',
         // colorscalerange: '0.5,5',
-        colorscalerange: '0.0557,1.021',
+        colorscalerange: '2.44,7.303',
         // version: '1.3.0',
         version: '1.1.1',
       }
