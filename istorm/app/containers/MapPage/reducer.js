@@ -12,13 +12,14 @@ currentTime.setUTCHours(0, 0, 0, 0);
 export const initialState = {
   options: {
     center: [41.879156, 12.457727],
-    zoom: 6,
+    zoom: 20,
     boundsOptions: {
       paddingBottomRight: [250, 0],
     },
     timeDimension: true,
     timeDimensionOptions: {
-        timeInterval: "2019-04-29/2019-04-30",
+        // timeInterval: "2019-04-29/2019-04-30",
+        timeInterval: "2019-06-18/2019-06-19",
         /* period: "PT1H", */
         currentTime: currentTime.getTime()
     }, 
@@ -41,23 +42,49 @@ export const initialState = {
         version: "1.3.0",
         tiled: true
       }
-    }], */
+    }],
+    */
+    // [{
+    //   //OTTIMA PAGINA DI ESEMPI SUL THREDDS
+    //   //https://wambachers-osm.website/webcommon/js/leaflet/plugins/Leaflet.TimeDimension/examples/example7.html
+    //   name: "test",
+    //   id: "idDITEST",
+    //   isVisible: true,
+    //   url: "http://thredds.socib.es/thredds/wms/operational_models/oceanographical/hydrodynamics/model_run_aggregation/wmop/wmop_best.ncd",
+    //   isTimeseries: true,
+    //   options: {
+    //     layers: 'salt',
+    //     format: 'image/png',
+    //     transparent: true,
+    //     abovemaxcolor: "extend",
+    //     belowmincolor: "extend",
+    //     numcolorbands: 40,
+    //     styles: 'boxfill/mpl_rdbu_r'
+    //   }
+    // }],
     [{
-      //OTTIMA PAGINA DI ESEMPI SUL THREDDS
-      //https://wambachers-osm.website/webcommon/js/leaflet/plugins/Leaflet.TimeDimension/examples/example7.html
-      name: "test",
-      id: "idDITEST",
+      name: "Sea level mean",
+      id: "sea-level-mean",
       isVisible: true,
-      url: "http://thredds.socib.es/thredds/wms/operational_models/oceanographical/hydrodynamics/model_run_aggregation/wmop/wmop_best.ncd",
+      // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
+      url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_20190618.nc",
       isTimeseries: true,
       options: {
-        layers: 'salt',
+        // layers: 'sea_level-std',
+        layers: 'wmp-mean',
+        elevation: 0,
+        logscale: false,
         format: 'image/png',
         transparent: true,
         abovemaxcolor: "extend",
         belowmincolor: "extend",
-        numcolorbands: 40,
-        styles: 'boxfill/mpl_rdbu_r'
+        numcolorbands: 20,
+        // styles: 'boxfill/Fredblue',
+        styles: 'boxfill/rainbow',
+        // colorscalerange: '0.5,5',
+        colorscalerange: '0.0557,1.021',
+        // version: '1.3.0',
+        version: '1.1.1',
       }
     }]
 ]
