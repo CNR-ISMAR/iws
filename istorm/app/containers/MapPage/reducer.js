@@ -9,17 +9,21 @@ import { TOGGLE_LAYER_VISIBILITY } from './constants';
 var currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
 
+let tomorrow = new Date()
+tomorrow.setDate(currentTime.getDate() + 1)
+let timeInterval = currentTime.toISOString().split('T')[0]+"/"+tomorrow.toISOString().split('T')[0];
+
 export const initialState = {
   options: {
     center: [40.064479, 12.917290],
-    zoom: 7,
+    zoom: 11,
     boundsOptions: {
       paddingBottomRight: [250, 0],
     },
     timeDimension: true,
     timeDimensionOptions: {
         // timeInterval: "2019-04-29/2019-04-30",
-        timeInterval: "2019-06-18/2019-06-19",
+        timeInterval: timeInterval,
         period: "PT1H",
         currentTime: currentTime.getTime()
     }, 
@@ -67,7 +71,7 @@ export const initialState = {
       id: "wave-mean-period",
       isVisible: true,
       // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
-      url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_20190618.nc",
+      url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_20190619.nc",
       isTimeseries: true,
       options: {
         // layers: 'sea_level-std',
