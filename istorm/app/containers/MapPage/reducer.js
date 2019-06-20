@@ -11,18 +11,18 @@ currentTime.setUTCHours(0, 0, 0, 0);
 
 let tomorrow = new Date()
 tomorrow.setDate(currentTime.getDate() + 1)
-let timeInterval = currentTime.toISOString().split('T')[0]+"/"+tomorrow.toISOString().split('T')[0];
+let timeInterval = currentTime.toISOString().slice(0,10)+"/"+tomorrow.toISOString().slice(0,10);
+let ncdate = currentTime.toISOString().slice(0,10).replace(/-/g,"");
 
 export const initialState = {
   options: {
-    center: [40.064479, 12.917290],
-    zoom: 11,
+    center: [40.088190, 16.291049],
+    zoom: 7,
     boundsOptions: {
       paddingBottomRight: [250, 0],
     },
     timeDimension: true,
     timeDimensionOptions: {
-        // timeInterval: "2019-04-29/2019-04-30",
         timeInterval: timeInterval,
         period: "PT1H",
         currentTime: currentTime.getTime()
@@ -68,10 +68,10 @@ export const initialState = {
     // }],
     [{
       name: "Wave mean period",
-      id: "wave-mean-period",
+      id: "wmp-mean",
       isVisible: true,
       // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
-      url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_20190619.nc",
+      url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_"+ncdate+".nc",
       isTimeseries: true,
       options: {
         // layers: 'sea_level-std',
@@ -83,14 +83,37 @@ export const initialState = {
         abovemaxcolor: "extend",
         belowmincolor: "extend",
         numcolorbands: 20,
-        // styles: 'boxfill/Fredblue',
         styles: 'boxfill/rainbow',
-        // colorscalerange: '0.5,5',
         colorscalerange: '2.44,7.303',
-        // version: '1.3.0',
-        version: '1.1.1',
+        version: '1.3.0',
+        // version: '1.1.1',
       }
     }]
+    /*,
+    [{
+      name: "Sea level mean",
+      id: "sea-level-mean",
+      isVisible: true,
+      // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
+      // url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_20190619.nc",
+      url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_"+ncdate+".nc",
+      isTimeseries: true,
+      options: {
+        // layers: 'sea_level-std',
+        layers: 'wmp-mean',
+        elevation: 0,
+        logscale: false,
+        format: 'image/png',
+        transparent: true,
+        abovemaxcolor: "extend",
+        belowmincolor: "extend",
+        numcolorbands: 20,
+        styles: 'boxfill/rainbow',
+        colorscalerange: '2.44,7.303',
+        version: '1.3.0',
+        // version: '1.1.1',
+      }
+    }]*/
 ]
 };
 
