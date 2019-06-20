@@ -237,8 +237,7 @@ STAMEN_BASEMAPS = os.environ.get('STAMEN_BASEMAPS', False)
 THUNDERFOREST_BASEMAPS = os.environ.get('THUNDERFOREST_BASEMAPS', False)
 MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', '')
 BING_API_KEY = os.environ.get('BING_API_KEY', None)
-GOOGLE_API_KEY = "AIzaSyBqnOPpXk5uRuUNyxwOwB08B9DhTzmg6Gc"
-
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', None)
 
 MAP_BASELAYERS = [{
 
