@@ -7,6 +7,19 @@ const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
+const dotenv = require('dotenv').config({path: __dirname + '/../.env'}).parsed;
+const environment = {
+  ...process.env,
+  ...dotenv
+};
+function pick(obj, keys) {
+  return keys.map(k => k in obj ? {[k]: obj[k]} : {})
+    .reduce((res, o) => Object.assign(res, o), {});
+}
+console.log(environment.GRANT_APP_ACCESS_TO)
+console.log(JSON.parse(environment.GRANT_APP_ACCESS_TO))
+const app_env = pick(environment, JSON.parse(environment.GRANT_APP_ACCESS_TO));
+
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
 
