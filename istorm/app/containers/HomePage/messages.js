@@ -10,6 +10,6 @@ export const scope = 'app.containers.HomePage';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'This is the HomePage container w/my little edit!',
+    defaultMessage: 'This is the HomePage container w/my little edit 1!',
   },
 });
