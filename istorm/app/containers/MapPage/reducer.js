@@ -15,8 +15,8 @@ const timeInterval = currentTime.toISOString().slice(0,10)+"/"+tomorrow.toISOStr
 const ncdate = currentTime.toISOString().slice(0,10).replace(/-/g,"");
 const proxyUrl = process.env.PROXY_URL;
 
-// const waveUrl = proxyUrl+"/thredds/wms/tmes/TMES_waves_"+ncdate+".nc";
-const waveUrl = 'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190620.nc';
+const waveUrl = proxyUrl+"/thredds/wms/tmes/TMES_waves_"+ncdate+".nc";
+// const waveUrl = 'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190620.nc';
 const seaLevelUrl = proxyUrl+"/thredds/wms/tmes/TMES_sea_level_"+ncdate+".nc";
 
 export const initialState = {
