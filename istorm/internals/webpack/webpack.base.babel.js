@@ -13,8 +13,7 @@ function pick(obj, keys) {
   return keys.map(k => k in obj ? {[k]: obj[k]} : {})
     .reduce((res, o) => Object.assign(res, o), {});
 }
-console.log(environment.GRANT_APP_ACCESS_TO)
-console.log(JSON.parse(environment.GRANT_APP_ACCESS_TO))
+
 const app_env = pick(environment, JSON.parse(environment.GRANT_APP_ACCESS_TO));
 
 // console.log(app_env)
