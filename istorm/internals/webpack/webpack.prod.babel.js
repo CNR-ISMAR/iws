@@ -7,7 +7,7 @@ const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
-const dotenv = require('dotenv').config({path: __dirname + '/../.env'}).parsed;
+const dotenv = require('dotenv').config({path: __dirname + '/../../.env'}).parsed;
 console.log(__dirname)
 console.log(__dirname)
 console.log(__dirname)
