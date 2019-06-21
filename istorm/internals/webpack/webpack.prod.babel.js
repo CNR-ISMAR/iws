@@ -8,6 +8,11 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 const dotenv = require('dotenv').config({path: __dirname + '/../.env'}).parsed;
+console.log(__dirname)
+console.log(__dirname)
+console.log(__dirname)
+console.log(__dirname)
+console.log(dotenv)
 console.log(dotenv)
 const environment = {
   ...process.env,
