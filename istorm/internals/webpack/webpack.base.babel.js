@@ -4,6 +4,18 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const dotenv = require('dotenv').config({path: __dirname + '/../.env'}).parsed;
+const environment = {
+  ...process.env,
+  ...dotenv
+};
+function pick(obj, keys) {
+  return keys.map(k => k in obj ? {[k]: obj[k]} : {})
+    .reduce((res, o) => Object.assign(res, o), {});
+}
+const app_env = pick(environment, JSON.parse(environment.GRANT_APP_ACCESS_TO));
+
+// console.log(app_env)
 
 module.exports = options => ({
   mode: options.mode,
@@ -113,11 +125,8 @@ module.exports = options => ({
     // drop any unreachable code.
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      API_URL: "http://istituzionale.dev.mycitydemo.it",
-      GRANT_TYPE: "password",
-      CLINET_ID: "1",
-      CLIENT_SECRET: "bK3vrACDLE4WM7smEPvPT5X5XUdn8DfMHDnjGHrB",
-    }),
+      ...app_env
+    })
   ]),
   resolve: {
     modules: ['node_modules', 'app'],

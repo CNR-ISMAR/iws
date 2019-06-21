@@ -6,13 +6,18 @@
 import produce from 'immer';
 import { TOGGLE_LAYER_VISIBILITY } from './constants';
 
-var currentTime = new Date();
+let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
 
-let tomorrow = new Date()
-tomorrow.setDate(currentTime.getDate() + 1)
-let timeInterval = currentTime.toISOString().slice(0,10)+"/"+tomorrow.toISOString().slice(0,10);
-let ncdate = currentTime.toISOString().slice(0,10).replace(/-/g,"");
+const tomorrow = new Date();
+tomorrow.setDate(currentTime.getDate() + 1);
+const timeInterval = currentTime.toISOString().slice(0,10)+"/"+tomorrow.toISOString().slice(0,10);
+const ncdate = currentTime.toISOString().slice(0,10).replace(/-/g,"");
+const proxyUrl = process.env.PROXY_URL;
+
+// const waveUrl = proxyUrl+"/thredds/wms/tmes/TMES_waves_"+ncdate+".nc";
+const waveUrl = 'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190620.nc';
+const seaLevelUrl = proxyUrl+"/thredds/wms/tmes/TMES_sea_level_"+ncdate+".nc";
 
 export const initialState = {
   options: {
@@ -71,7 +76,7 @@ export const initialState = {
       id: "wmp-mean",
       isVisible: true,
       // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
-      url: "http://localhost:3000/thredds/wms/tmes/TMES_waves_"+ncdate+".nc",
+      url: waveUrl,
       isTimeseries: true,
       options: {
         // layers: 'sea_level-std',
