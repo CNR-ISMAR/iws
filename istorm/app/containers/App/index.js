@@ -13,7 +13,6 @@ import { Switch, Route } from 'react-router-dom';
 import Header from 'containers/Header';
 import Sidebar from 'containers/Sidebar';
 
-import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import MapPage from 'containers/MapPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -31,6 +30,21 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    width: "100%",
+    padding: 0,
+    marginTop: 64,
+    marginLeft: -240
+  },
+  content: {
+    zIndex: 1000,
+    flexGrow: 1,
+    width: "100%",
+    padding: 0,
+    marginTop: 64,
+    marginLeft: -240
+  }
 }));
 
 export default function App(props) {
@@ -42,17 +56,16 @@ export default function App(props) {
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
           <CssBaseline />
+          <Switch>
           <Header isLogged={props.isLogged} />
           <Sidebar auth={props.auth} isLogged={props.isLogged} />
-          <Switch>
             {/*props.isLogged && (
               <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
             )*/}
             {!props.isLogged && (
               <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
             )}
-            <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-            <Route exact path="/map" component={({match}) => <MapPage auth={props.auth} match={match} />} />
+            <Route exact path="/:path?" component={() => <MapPage auth={props.auth} />} />
             <Route component={NotFoundPage} />
           </Switch>
         </div>

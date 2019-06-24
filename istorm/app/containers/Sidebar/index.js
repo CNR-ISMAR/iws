@@ -17,32 +17,31 @@ import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import makeSelectMapPage from '../MapPage/selectors';
-import { toggleLayerVisibility } from '../MapPage/actions';
 import { useInjectReducer } from 'utils/injectReducer';
 import { toggleDrawerMini, toggleDrawer } from './actions';
 import makeSelectSidebar from './selectors';
 import reducer from './reducer';
 
 import AvatarMenu from 'components/AvatarMenu';
-import Nav from 'components/Nav';
+import FirstNav from 'components/FirstNav';
+import SecondNav from 'components/SecondNav';
+import ThirdNav from 'components/ThirdNav';
 
 const drawerWidth = 240;
 
 const styles = (theme) => {
   return {
     drawer: {
+      position: "relative",
       width: drawerWidth,
       flexShrink: 0,
+    },
+    subMenuWrapper: {
+      position: "relative",
     },
     drawerPaper: {
       width: drawerWidth,
@@ -109,24 +108,11 @@ function Sidebar(props) {
         <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))}>mini mode</Button>
         <Button onClick={(e) => props.dispatch(toggleDrawer(e))}>close menu</Button>
       </div>
-      <Nav />
+      <FirstNav dispatch={props.dispatch} />
       <Divider />
-      <List>
-        {props.mapPage.wmsLayers.length && props.mapPage.wmsLayers.map(layers => 
-          layers.length && layers.map(layer => 
-            <ListItem button key={"dfsdfasfgdsfdsf"}>
-              <ListItemText primary={layer.name} />
-              <ListItemSecondaryAction>
-                <Checkbox
-                  checked={layer.isVisible}
-                  onChange={(e) => props.dispatch(toggleLayerVisibility(layer))}
-                  color="primary"
-                />
-              </ListItemSecondaryAction>
-            </ListItem>
-          )
-        )}
-      </List>
+      <SecondNav dispatch={props.dispatch} wmsLayers={props.mapPage.wmsLayers} />
+      <Divider />
+      <ThirdNav dispatch={props.dispatch} wmsLayers={props.mapPage.wmsLayers} />
     </Drawer>
   )
 }
