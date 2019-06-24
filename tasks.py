@@ -44,7 +44,7 @@ http://{public_fqdn}/ >> {override_fn}".format(**envs), pty=True)
 
     try:
         current_allowed = ast.literal_eval(os.getenv('ALLOWED_HOSTS') or \
-                                           "['{public_fqdn}', '{public_host}', 'localhost', 'django', '{{project_name}}',]".format(**envs))
+                                           "['{public_fqdn}', '{public_host}', 'localhost', 'django', 'iws',]".format(**envs))
     except ValueError:
         current_allowed = []
     current_allowed.extend(['{}'.format(pub_ip), '{}:{}'.format(pub_ip, pub_port)])
@@ -184,7 +184,7 @@ def _update_geodb_connstring():
 
 
 def _localsettings():
-    settings = os.getenv('DJANGO_SETTINGS_MODULE', '{{project_name}}.settings')
+    settings = os.getenv('DJANGO_SETTINGS_MODULE', 'iws.settings')
     return settings
 
 
@@ -200,7 +200,7 @@ def _geonode_public_port():
     if not gn_pub_port:
         gn_pub_port = _container_exposed_port(
             'nginx',
-            os.getenv('GEONODE_INSTANCE_NAME', '{{project_name}}')
+            os.getenv('GEONODE_INSTANCE_NAME', 'iws')
         )
     return gn_pub_port
 
