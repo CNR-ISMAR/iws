@@ -7,7 +7,7 @@ const getWmsLayer = (layer) => {
   return layer.isTimeseries ? L.timeDimension.layer.wms(L.tileLayer.wms(layer.url, layer.options)) : L.tileLayer.wms(layer.url, layer.options);
 }
 
-let WmsLayers = ({ layers }) => layers.map(layer => <Layer key={"wms-layers-" + layer.id} layer={ getWmsLayer(layer) } />)
+let WmsLayers = ({ layers }) => layers.length ? layers.map(layer => <Layer key={"wms-layers-" + layer.id} layer={ getWmsLayer(layer) } />) : []
 
 WmsLayers.displayName = 'WmsLayers';
 

@@ -56,16 +56,19 @@ export default function App(props) {
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
           <CssBaseline />
-          <Switch>
           <Header isLogged={props.isLogged} />
-          <Sidebar auth={props.auth} isLogged={props.isLogged} />
+          <Switch>
             {/*props.isLogged && (
               <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
             )*/}
             {!props.isLogged && (
               <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
             )}
-            <Route exact path="/:path?" component={() => <MapPage auth={props.auth} />} />
+            <Route exact path="/:path?" component={() => [<Sidebar auth={props.auth}  isLogged={props.isLogged} />, <MapPage auth={props.auth} />]} />
+            <Route exact path={"/notification"} component={({match}) => <NotificationPage auth={props.auth} />} />
+            <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
+            <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
+            <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
             <Route component={NotFoundPage} />
           </Switch>
         </div>

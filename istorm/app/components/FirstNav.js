@@ -17,7 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Mail from '@material-ui/icons/Mail';
 
 export default function FirstNav(props) {
-  console.info("nav")
+  console.info("primary nav")
   console.info(props);
   return (
     <List>
