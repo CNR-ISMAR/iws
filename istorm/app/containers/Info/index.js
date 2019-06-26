@@ -19,10 +19,10 @@ const styles = (theme, style) => {
       position: "absolute", 
       top: 0, 
       left: 0, 
-      zIndex: 10000, 
+      zIndex: 10, 
       width: 250,
       backgroundColor: "rgba(255,255,255,.8)",
-      height: "calc(100vh - 64px)"
+      
     },
   }
 };

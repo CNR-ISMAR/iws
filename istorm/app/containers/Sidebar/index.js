@@ -47,7 +47,7 @@ const styles = (theme) => {
     drawerPaper: {
       width: drawerWidth,
       marginTop: 64,
-      backgroundColor: "#0B303A"
+      backgroundColor: theme.palette.primary.dark
     },
     toolbar: theme.mixins.toolbar,
     drawerOpen: {
