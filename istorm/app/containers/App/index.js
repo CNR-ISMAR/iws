@@ -8,7 +8,17 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
+import makeSelectMapPage, { makeSelectVisibleWmsLayer } from './selectors';
+import reducer from './reducer';
+import saga from './saga';
 
 import Header from 'containers/Header';
 import Sidebar from 'containers/Sidebar';
@@ -16,6 +26,10 @@ import Sidebar from 'containers/Sidebar';
 import LoginPage from 'containers/LoginPage/Loadable';
 import MapPage from 'containers/MapPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import NotificationPage from '../Notification/Loadable';
+import HistoryPage from '../History/Loadable';
+import LayersPage from '../Layers/Loadable';
+import StormEventsPage from '../StormEvents/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
@@ -23,7 +37,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { ThemeProvider } from '@material-ui/styles';
-import theme from 'theme'
+import theme from 'theme';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,23 +45,23 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: theme.mixins.toolbar,
   content: {
+    position: "relative",
     flexGrow: 1,
     width: "100%",
     padding: 0,
     marginTop: 64,
-    marginLeft: -240
   },
-  content: {
-    zIndex: 1000,
-    flexGrow: 1,
-    width: "100%",
-    padding: 0,
-    marginTop: 64,
-    marginLeft: -240
+  imageIcon: {
+    height: '100%'
+  },
+  iconRoot: {
+    textAlign: 'center'
   }
 }));
 
-export default function App(props) {
+function App(props) {
+  useInjectReducer({ key: 'mapPage', reducer });
+  useInjectSaga({ key: 'mapPage', saga });
   const classes = useStyles();
   console.info("app");
   console.info(props);
@@ -57,20 +71,24 @@ export default function App(props) {
         <div className={classes.root}>
           <CssBaseline />
           <Header isLogged={props.isLogged} />
-          <Switch>
-            {/*props.isLogged && (
-              <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-            )*/}
-            {!props.isLogged && (
-              <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
-            )}
-            <Route exact path="/:path?" component={() => [<Sidebar auth={props.auth}  isLogged={props.isLogged} />, <MapPage auth={props.auth} />]} />
-            <Route exact path={"/notification"} component={({match}) => <NotificationPage auth={props.auth} />} />
-            <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
-            <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
-            <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
-            <Route component={NotFoundPage} />
-          </Switch>
+          <Sidebar auth={props.auth}  isLogged={props.isLogged} />
+          <main className={classes.content}>
+            <MapPage />
+            <Switch>
+              {/*props.isLogged && (
+                <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+              )*/}
+              {!props.isLogged && (
+                <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
+              )}
+              <Route exact path="/" component={() => null} />
+              <Route exact path={"/notification"} component={({match}) => <NotificationPage auth={props.auth} />} />
+              <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
+              <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
+              <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
+              <Route component={NotFoundPage} />
+            </Switch>
+          </main>
         </div>
         <GlobalStyle />
       </ThemeProvider>
@@ -78,3 +96,25 @@ export default function App(props) {
   );
 }
 
+
+App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  //mapPage: makeSelectMapPage(),
+  //wmsVisible: makeSelectVisibleWmsLayer()
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(App);

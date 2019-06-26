@@ -88,14 +88,11 @@ class Map extends React.Component {
     }, 180);
   }
 
-/*   componentWillReceiveProps(nextProps) {
+   componentWillReceiveProps(nextProps) {
     console.info("receive props");
-    const { map } = this.state;
     const options = nextProps.options;
-    //map.invalidateSize();
-    //this.flyTo(options);
-    //this.porcatPErPulire();
-  } */
+    this.flyTo(options);
+  } 
 
   componentDidUpdate(nextProps) {
     console.info("update component");
@@ -112,7 +109,7 @@ class Map extends React.Component {
 
   fitBounds(bounds) {
     const bound = bounds ? bounds : this.state.map.getBounds();
-    this.state.map.fitBounds(bound, {paddingTopLeft: [0, 240]});
+    this.state.map.fitBounds(bound, {paddingTopLeft: [70, 240]});
   }
 
   setView(options) {
@@ -131,7 +128,7 @@ class Map extends React.Component {
 
   render () {
     return (
-      <div id="gis-map" ref="map" style={{ height: 'calc(100vh - 64px)', width: '100vw', minHeight: '100%', minWidth: '100vw' }}>
+      <div id="gis-map" ref="map" style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}>
         { this.state.map ? this.props.children : undefined }
       </div>
     )

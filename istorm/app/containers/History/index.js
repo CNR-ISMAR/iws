@@ -16,9 +16,7 @@ const styles = (theme, style) => {
   console.info(theme, style);
   return {
     subNav: {
-      position: "absolute", 
-      top: 0, 
-      left: 240, 
+      position: "relative", 
       zIndex: 10000, 
       width: 250,
       backgroundColor: "rgba(1,1,1,.4)",

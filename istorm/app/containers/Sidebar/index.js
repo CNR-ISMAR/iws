@@ -20,7 +20,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
-import makeSelectMapPage from '../MapPage/selectors';
+import makeSelectMapPage from '../App/selectors';
 import { useInjectReducer } from 'utils/injectReducer';
 import { toggleDrawerMini, toggleDrawer } from './actions';
 import makeSelectSidebar from './selectors';
