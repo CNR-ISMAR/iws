@@ -61,7 +61,7 @@ const styles = (theme) => {
       maxWidth: 140,
     },
     overlayToolsWrapper: {
-      
+      //maxWidth: 140,
     }
   }
 };
@@ -78,9 +78,9 @@ function MapPage(props) {
         {props.wmsVisible.length && <WmsLayers key={"wms-layer-group-"} layers={props.wmsVisible} />}
       </Map>
       <div className={props.classes.mapControl}>
-      <Grid container className={props.classes.overlayToolsWrapper} spacing={2}>
-        <Grid container item direction="row" justify="flex-end" alignItems="flex-start" xs={12}>
-          <Grid item xs={2} className={[props.classes.overlayMap, props.classes.overlayZoom]}>
+      <Grid container item className={props.classes.overlayToolsWrapper} spacing={2}>
+        <Grid container item direction="column" justify="flex-end" alignItems="flex-end" xs={12}>
+          <Grid item className={[props.classes.overlayMap, props.classes.overlayZoom]}>
             <List className={props.classes.overlayZoomList}>
               <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
                 <Add />
@@ -90,9 +90,7 @@ function MapPage(props) {
               </ListItem>
             </List>
           </Grid>
-        </Grid>
-        <Grid container item direction="row" justify="flex-end" alignItems="flex-start" xs={12}>
-          <Grid item xs={2} className={[props.classes.overlayMap, props.classes.overlayLayersMap]}>
+          <Grid item className={[props.classes.overlayMap, props.classes.overlayLayersMap]}>
             <List>
                 <ListItem button onClick={(e) => props.dispatch()} key={"dfsdfasfgdsfdsf"}>
                   <ListItemText primary={"Wave Level"} />

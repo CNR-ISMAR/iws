@@ -39,7 +39,7 @@ const styles = (theme) => {
     drawer: {
       position: "relative",
       width: drawerWidth,
-      flexShrink: 0,
+      //flexShrink: 0,
     },
     subMenuWrapper: {
       position: "relative",

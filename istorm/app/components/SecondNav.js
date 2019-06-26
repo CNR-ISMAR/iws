@@ -18,6 +18,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { toggleLayerVisibility } from '../containers/App/actions';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Mail from '@material-ui/icons/Mail';
+import { StationIcon } from '../utils/icons';
 
 export default function SecondNav(props) {
   console.info("nav")
@@ -27,6 +28,7 @@ export default function SecondNav(props) {
         {props.wmsLayers.length && props.wmsLayers.map(layers => 
           layers.length && layers.map(layer => 
             <ListItem button onClick={(e) => props.dispatch(toggleLayerVisibility(layer))} key={"dfsdfasfgdsfdsf"}>
+              <ListItemIcon><StationIcon /></ListItemIcon>
               <ListItemText primary={layer.name} />
               <ListItemSecondaryAction>
                 <Checkbox
