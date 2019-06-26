@@ -15,6 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Mail from '@material-ui/icons/Mail';
+import { NotificationIcon } from '../utils/icons';
 
 export default function FirstNav(props) {
   console.info("primary nav")
@@ -22,7 +23,7 @@ export default function FirstNav(props) {
   return (
     <List>
         <ListItem button key={"nav-notification"}>
-          <ListItemIcon><Mail /></ListItemIcon>
+          <ListItemIcon><NotificationIcon /></ListItemIcon>
           <Link to={"notification"} ><ListItemText primary={"Notification"} /></Link>
         </ListItem>
         <ListItem button key={"nav-storm-events"}>

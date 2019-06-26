@@ -30,6 +30,7 @@ import AvatarMenu from 'components/AvatarMenu';
 import FirstNav from 'components/FirstNav';
 import SecondNav from 'components/SecondNav';
 import ThirdNav from 'components/ThirdNav';
+import FourthNav from 'components/FourthNav';
 
 const drawerWidth = 240;
 
@@ -45,7 +46,8 @@ const styles = (theme) => {
     },
     drawerPaper: {
       width: drawerWidth,
-      marginTop: 64
+      marginTop: 64,
+      backgroundColor: "#0B303A"
     },
     toolbar: theme.mixins.toolbar,
     drawerOpen: {
@@ -113,6 +115,8 @@ function Sidebar(props) {
       <SecondNav dispatch={props.dispatch} wmsLayers={props.mapPage.wmsLayers} />
       <Divider />
       <ThirdNav dispatch={props.dispatch} wmsLayers={props.mapPage.wmsLayers} />
+      <Divider />
+      <FourthNav paperAnchorBottom/>
     </Drawer>
   )
 }

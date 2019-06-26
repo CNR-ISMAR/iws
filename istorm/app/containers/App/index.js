@@ -30,6 +30,8 @@ import NotificationPage from '../Notification/Loadable';
 import HistoryPage from '../History/Loadable';
 import LayersPage from '../Layers/Loadable';
 import StormEventsPage from '../StormEvents/Loadable';
+import SettingsPage from '../Settings/Loadable';
+import InfoPage from '../Info/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
@@ -56,7 +58,10 @@ const useStyles = makeStyles(theme => ({
   },
   iconRoot: {
     textAlign: 'center'
-  }
+  },
+  overlayMap: {
+    backgroundColor: "rgba(255,255,255,.8)"
+  },
 }));
 
 function App(props) {
@@ -86,6 +91,8 @@ function App(props) {
               <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
               <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
               <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
+              <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
+              <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
               <Route component={NotFoundPage} />
             </Switch>
           </main>

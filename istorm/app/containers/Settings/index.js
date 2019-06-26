@@ -22,17 +22,17 @@ const styles = (theme, style) => {
       zIndex: 10000, 
       width: 250,
       backgroundColor: "rgba(255,255,255,.8)",
-      height: "calc(100vh - 64px)"
+      maxHeight: "calc(100vh - 64px)"
     },
   }
 };
 
-function StormEventsPage(props) {
+function SettingsPage(props) {
   return (
     <div className={props.classes.subNav}>
-      <div>StormEventsPage</div>
+      <div>Settings</div>
     </div>
   );
 }
 
-export default withStyles(styles, {withTheme: true})(StormEventsPage);
+export default withStyles(styles, {withTheme: true})(SettingsPage);

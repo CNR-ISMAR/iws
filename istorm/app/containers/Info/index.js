@@ -27,12 +27,12 @@ const styles = (theme, style) => {
   }
 };
 
-function StormEventsPage(props) {
+function InfoPage(props) {
   return (
     <div className={props.classes.subNav}>
-      <div>StormEventsPage</div>
+      <div>Info</div>
     </div>
   );
 }
 
-export default withStyles(styles, {withTheme: true})(StormEventsPage);
+export default withStyles(styles, {withTheme: true})(InfoPage);
