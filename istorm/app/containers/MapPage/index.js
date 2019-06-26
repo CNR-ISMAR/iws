@@ -13,6 +13,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import makeSelectMapPage, { makeSelectVisibleWmsLayer } from '../App/selectors';
+import { zoomIn, zoomOut } from '../App/actions';
 import messages from './messages';
 import Map from '../../components/Map';
 import TileLayers from '../../components/Map/TileLayer';
@@ -81,10 +82,10 @@ function MapPage(props) {
         <Grid container item direction="row" justify="flex-end" alignItems="flex-start" xs={12}>
           <Grid item xs={2} className={[props.classes.overlayMap, props.classes.overlayZoom]}>
             <List className={props.classes.overlayZoomList}>
-              <ListItem button onClick={(e) => props.dispatch()} key={"zoom-in"} className={props.classes.overlayZoomItem}>
+              <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
                 <Add />
               </ListItem>
-              <ListItem button onClick={(e) => props.dispatch()} key={"zoom-out"} className={props.classes.overlayZoomItem}>
+              <ListItem button onClick={(e) => props.dispatch(zoomOut())} key={"zoom-out"} className={props.classes.overlayZoomItem}>
                 <Remove />
               </ListItem>
             </List>
