@@ -20,17 +20,14 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
-import makeSelectMapPage from '../App/selectors';
+import { makeSelectLayers } from '../App/selectors';
 import { useInjectReducer } from 'utils/injectReducer';
 import { toggleDrawerMini, toggleDrawer } from './actions';
 import makeSelectSidebar from './selectors';
 import reducer from './reducer';
 
 import AvatarMenu from 'components/AvatarMenu';
-import FirstNav from 'components/FirstNav';
-import SecondNav from 'components/SecondNav';
-import ThirdNav from 'components/ThirdNav';
-import FourthNav from 'components/FourthNav';
+import SidebarNav from 'components/SidebarNav';
 
 const drawerWidth = 240;
 
@@ -39,7 +36,11 @@ const styles = (theme) => {
     drawer: {
       position: "relative",
       width: drawerWidth,
-      //flexShrink: 0,
+      flexShrink: 0,
+      whiteSpace: 'nowrap',
+    },
+    button: {
+      color: theme.palette.custom.contrastText
     },
     subMenuWrapper: {
       position: "relative",
@@ -47,9 +48,12 @@ const styles = (theme) => {
     drawerPaper: {
       width: drawerWidth,
       marginTop: 64,
-      backgroundColor: theme.palette.primary.dark
+      backgroundColor: theme.palette.custom.darkBackground
     },
-    toolbar: theme.mixins.toolbar,
+    toolbar: {
+      height: 30,
+      width: "100%"
+    },
     drawerOpen: {
       width: drawerWidth,
       transition: theme.transitions.create('width', {
@@ -73,7 +77,7 @@ const styles = (theme) => {
       overflowX: 'hidden',
       width: theme.spacing(7) + 1,
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1,
+        width: theme.spacing(7) + 1,
       },
     },
   }
@@ -107,16 +111,10 @@ function Sidebar(props) {
         <AvatarMenu auth={props.auth} />
       </div>}
       <div className={props.classes.toolbar}>
-        <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))}>mini mode</Button>
-        <Button onClick={(e) => props.dispatch(toggleDrawer(e))}>close menu</Button>
+        <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))} size="small" className={props.classes.button}>&gt;&gt;</Button>
+        <Button onClick={(e) => props.dispatch(toggleDrawer(e))} size="small" className={props.classes.button}>&times;</Button>
       </div>
-      <FirstNav dispatch={props.dispatch} />
-      <Divider />
-      <SecondNav dispatch={props.dispatch} wmsLayers={props.mapPage.wmsLayers} />
-      <Divider />
-      <ThirdNav dispatch={props.dispatch} wmsLayers={props.mapPage.wmsLayers} />
-      <Divider />
-      <FourthNav paperAnchorBottom/>
+      <SidebarNav dispatch={props.dispatch} layers={props.layers} />
     </Drawer>
   )
 }
@@ -126,7 +124,7 @@ Sidebar.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  mapPage: makeSelectMapPage(),
+  layers: makeSelectLayers(),
   sidebar: makeSelectSidebar(),
 });
 

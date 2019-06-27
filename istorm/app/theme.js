@@ -23,6 +23,15 @@ const theme = createMuiTheme({
     useNextVariants: true,
   },
   palette: {
+    custom: {
+      darkBackground: "#0B303A",
+      contrastText: "#698397",
+      contrastTextSelected: "#FFFFFF",
+      waveIcon: "#d10000",
+      seaIcon: "#fa0",
+      favoriteIcon: "#c430a3",
+      mapOverlayBackground: "rgba(255,255,255,.8)"
+    },
     type: 'light',
     primary: {
       dark: "#0B303A",
@@ -38,13 +47,13 @@ const theme = createMuiTheme({
       main: red.A400,
     },
     background: {
-      default: '#0B303A',
-      paper: "#0B303A",
+      default: '#FFFFFF',
+      paper: "#FFFFFF",
     },
   },
   typography: {
     fontFamily: [
-      'Raleway',
+      'Metropolis',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
@@ -62,7 +71,7 @@ const theme = createMuiTheme({
       '@global': {
         '@font-face': [metropolis],
       },
-    },
+    }
   },
 });
 

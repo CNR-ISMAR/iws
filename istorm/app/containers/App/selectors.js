@@ -31,8 +31,14 @@ const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(
 const makeSelectVisibleWmsLayer = () =>
   createSelector(
     selectMapPageDomain,
-    substate => flatten(substate.wmsLayers.map(wmsLayer => wmsLayer.filter(layer => layer.isVisible))),
+    substate => Object.keys(substate.layers).map(wmsLayer => substate.layers[wmsLayer]).filter(layer => layer.isVisible),
+  );
+
+const makeSelectLayers = () =>
+  createSelector(
+    selectMapPageDomain,
+    substate => substate.layers,
   );
 
 export default makeSelectMapPage;
-export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation };
+export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers };

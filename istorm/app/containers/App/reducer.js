@@ -41,6 +41,31 @@ export const initialState = {
     ],
   },
   baseLayers: ["wiki"],
+  layers: {
+    wmpMean: {
+      name: "Wave mean period",
+      id: "wmpMean",
+      isVisible: true,
+      // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
+      url: waveUrl,
+      isTimeseries: true,
+      options: {
+        // layers: 'sea_level-std',
+        layers: 'wmp-mean',
+        elevation: 0,
+        logscale: false,
+        format: 'image/png',
+        transparent: true,
+        abovemaxcolor: "extend",
+        belowmincolor: "extend",
+        numcolorbands: 20,
+        styles: 'boxfill/rainbow',
+        colorscalerange: '2.44,7.303',
+        version: '1.3.0',
+        // version: '1.1.1',
+      }
+    }
+  },
   wmsLayers: [
     /* [{
       url: "http://dev.plasive.org:8085/geoserver/wms",
@@ -72,7 +97,7 @@ export const initialState = {
     //     styles: 'boxfill/mpl_rdbu_r'
     //   }
     // }],
-    [{
+    /* [{
       name: "Wave mean period",
       id: "wmp-mean",
       isVisible: true,
@@ -94,7 +119,7 @@ export const initialState = {
         version: '1.3.0',
         // version: '1.1.1',
       }
-    }]
+    }] */
     /*,
     [{
       name: "Sea level mean",
@@ -128,15 +153,7 @@ const mapPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case TOGGLE_LAYER_VISIBILITY:
-          let idx = null;
-          let idx2 = null;
-          state.wmsLayers.forEach((wmsLayer, wmsLayerIndex) => {
-            wmsLayer.filter(layer => layer.id === action.layer.id).forEach((layers, layersIndex) => {
-              idx = wmsLayerIndex;
-              idx2 = layersIndex;
-            })
-          }); 
-          draft.wmsLayers[idx][idx2].isVisible = !action.layer.isVisible;
+          draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
         break;
       case ZOOM_IN:
         draft.options.zoom = draft.options.zoom + 1;

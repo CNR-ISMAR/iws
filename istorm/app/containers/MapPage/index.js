@@ -13,7 +13,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import makeSelectMapPage, { makeSelectVisibleWmsLayer } from '../App/selectors';
-import { zoomIn, zoomOut } from '../App/actions';
+import { zoomIn, zoomOut, toggleLayerVisibility } from '../App/actions';
 import messages from './messages';
 import Map from '../../components/Map';
 import TileLayers from '../../components/Map/TileLayer';
@@ -44,21 +44,28 @@ const styles = (theme) => {
       //marginLeft: -240
     },
     overlayMap: {
-      backgroundColor: "rgba(255,255,255,.8)"
+      backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayZoomList: {
-      padding: 0
+      padding: 0,
     },
     overlayZoomItem: {
       paddingLeft: 10,
       paddingRight: 10,
     },
     overlayZoom: {
-      maxWidth: 45,
+      backgroundColor: theme.palette.custom.mapOverlayBackground,
+      position: "absolute",
+      top: theme.spacing(2),
+      right: theme.spacing(2),
     },
     overlayLayersMap: {
-      padding: theme.spacing(1),
+      position: "absolute",
+      top: 110,
+      right: theme.spacing(2),
+      padding: 0,
       maxWidth: 140,
+      backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayToolsWrapper: {
       //maxWidth: 140,
@@ -75,35 +82,31 @@ function MapPage(props) {
       <Map options={props.mapPage.options}>
         <TileLayers layers={props.mapPage.baseLayers} />
         {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
-        {props.wmsVisible.length && <WmsLayers key={"wms-layer-group-"} layers={props.wmsVisible} />}
+        {props.wmsVisible.length && props.wmsVisible.map(layer => <WmsLayers key={"wms-layer-" + layer.id} layer={layer} />)}
       </Map>
       <div className={props.classes.mapControl}>
-      <Grid container item className={props.classes.overlayToolsWrapper} spacing={2}>
-        <Grid container item direction="column" justify="flex-end" alignItems="flex-end" xs={12}>
-          <Grid item className={[props.classes.overlayMap, props.classes.overlayZoom]}>
-            <List className={props.classes.overlayZoomList}>
-              <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
-                <Add />
+        <div item className={props.classes.overlayZoom}>
+          <List className={props.classes.overlayZoomList}>
+            <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
+              <Add />
+            </ListItem>
+            <ListItem button onClick={(e) => props.dispatch(zoomOut())} key={"zoom-out"} className={props.classes.overlayZoomItem}>
+              <Remove />
+            </ListItem>
+          </List>
+        </div>
+        <div item className={props.classes.overlayLayersMap}>
+          <List>
+              <ListItem button selected={props.mapPage.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-wave-level"}>
+                <ListItemText primary={props.mapPage.layers["wmpMean"].name} />
+                <WaveIcon color={props.theme.palette.custom.waveIcon} />
               </ListItem>
-              <ListItem button onClick={(e) => props.dispatch(zoomOut())} key={"zoom-out"} className={props.classes.overlayZoomItem}>
-                <Remove />
+              <ListItem button onClick={(e) => props.dispatch(toggleLayerVisibility())} key={"nav-layer-sea-level"}>
+                <ListItemText primary={"Sea Level"} />
+                <SeaLevelIcon color={props.theme.palette.custom.seaIcon} />
               </ListItem>
-            </List>
-          </Grid>
-          <Grid item className={[props.classes.overlayMap, props.classes.overlayLayersMap]}>
-            <List>
-                <ListItem button onClick={(e) => props.dispatch()} key={"dfsdfasfgdsfdsf"}>
-                  <ListItemText primary={"Wave Level"} />
-                  <WaveIcon />
-                </ListItem>
-                <ListItem button onClick={(e) => props.dispatch()} key={"sdsdsa"}>
-                  <ListItemText primary={"Sea Level"} />
-                  <SeaLevelIcon />
-                </ListItem>
-            </List>
-          </Grid>
-        </Grid>
-      </Grid>
+          </List>
+        </div>
       </div>
     </>
   );
