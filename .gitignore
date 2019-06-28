@@ -68,5 +68,6 @@ local_settings.py
 dss_pharos
 iws/flooding/data/*
 build_log.txt
+srcgeonode/
 
 .idea/

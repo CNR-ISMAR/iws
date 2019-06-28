@@ -77,7 +77,7 @@ setup(
         'django-ckeditor==5.3.1',
         'django-bootstrap-breadcrumbs==0.9.1',
         'django-rest-swagger==2.1.2',
-        'pygdal==2.4.0.4',
+        'pygdal==2.1.2.3',
         'pandas==0.24.2',
         'django-pandas==0.6.0',
         'django-revproxy==0.9.15'
