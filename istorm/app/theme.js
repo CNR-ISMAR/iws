@@ -24,13 +24,16 @@ const theme = createMuiTheme({
   },
   palette: {
     custom: {
+      headerText: "#455414",
+      dark: "#0B303A",
       darkBackground: "#0B303A",
       contrastText: "#698397",
       contrastTextSelected: "#FFFFFF",
       waveIcon: "#d10000",
       seaIcon: "#fa0",
       favoriteIcon: "#c430a3",
-      mapOverlayBackground: "rgba(255,255,255,.8)"
+      mapOverlayBackground: "rgba(255,255,255,.8)",
+      listSelected: "#698397",
     },
     type: 'light',
     primary: {

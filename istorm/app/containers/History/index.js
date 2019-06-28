@@ -10,6 +10,8 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
+import HeaderBar from "../../components/HeaderBar";
+import { HistoryIcon } from '../../utils/icons';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -30,7 +32,7 @@ const styles = (theme, style) => {
 function HistoryPage(props) {
   return (
     <div className={props.classes.subNav}>
-      <div>HistoryPage</div>
+      <HeaderBar title={"History"} icon={HistoryIcon} />
     </div>
   );
 }

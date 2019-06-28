@@ -15,6 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Link from '@material-ui/core/Link';
+import Badge from '@material-ui/core/Badge';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
@@ -31,8 +32,8 @@ const styles = (theme) => {
         color: theme.palette.custom.contrastTextSelected
       }
     },
-    listItemTextSelected: {
-      
+    divider: {
+      backgroundColor: theme.palette.custom.contrastText,
     }
   }
 };
@@ -56,7 +57,11 @@ function SidebarNav(props) {
   return (
     <List>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("notification")} onClick={() => linkTo("notification")} key={"nav-notification"}>
-          <ListItemIcon><NotificationIcon color={props.theme.palette.custom.contrastText} /></ListItemIcon>
+          <ListItemIcon>
+            <Badge badgeContent={4} color="secondary">
+              <NotificationIcon color={props.theme.palette.custom.contrastText} />
+            </Badge>
+          </ListItemIcon>
           <ListItemText primary={"Notification"} />
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("storm-events")} onClick={() => linkTo("storm-events")} key={"nav-storm-events"}>
@@ -72,7 +77,7 @@ function SidebarNav(props) {
           <ListItemText primary={"History"} />
         </ListItem>
         
-        <Divider />
+        <Divider className={props.classes.divider} variant={"middle"} />
 
         <ListItem button className={props.classes.listItem} selected={props.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-station-wind"}>
           <ListItemIcon><StationIcon color={props.theme.palette.custom.contrastText} primaryColor={props.theme.palette.custom.waveIcon} /></ListItemIcon>
@@ -98,7 +103,7 @@ function SidebarNav(props) {
           </ListItemSecondaryAction>
         </ListItem>
 
-        <Divider />
+        <Divider className={props.classes.divider} variant={"middle"} />
 
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("favourites")} onClick={() => linkTo("favourites")} key={"nav-favourite-list"}>
           <ListItemIcon><ListIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
@@ -116,7 +121,7 @@ function SidebarNav(props) {
           </ListItemSecondaryAction>
         </ListItem>
 
-        <Divider />
+        <Divider className={props.classes.divider} variant={"middle"} />
 
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("settings")} onClick={() => linkTo("settings")} key={"nav-settings"}>
           <ListItemIcon><SettingsIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>

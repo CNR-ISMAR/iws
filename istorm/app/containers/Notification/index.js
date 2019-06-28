@@ -10,6 +10,13 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+
+import HeaderBar from "../../components/HeaderBar";
+import { NotificationIcon } from '../../utils/icons';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -24,13 +31,37 @@ const styles = (theme, style) => {
       backgroundColor: "rgba(255,255,255,.8)",
       
     },
+    listItem: {
+      color: theme.palette.custom.contrastText,
+      "&.Mui-selected": {
+        color: theme.palette.custom.contrastTextSelected
+      }
+    },
+    divider: {
+      backgroundColor: theme.palette.custom.contrastText,
+      fontSize: 22
+    }
   }
 };
 
 function NotificationPage(props) {
   return (
     <div className={props.classes.subNav}>
-      <div>Notification</div>
+      <HeaderBar title={"Notification"} icon={NotificationIcon} />
+      <List>
+        <ListItem button className={props.classes.listItem} key={"nav-notiftestion"}>
+          <ListItemText primary={"test"} />
+        </ListItem>
+        <ListItem button className={props.classes.listItem} key={"nav-stormtestents"}>
+          <ListItemText primary={"test 1"} />
+        </ListItem>
+        <ListItem button className={props.classes.listItem} key={"navtestyers"}>
+          <ListItemText primary={"test 2"} />
+        </ListItem>
+        <ListItem button className={props.classes.listItem} key={"nav-test"}>
+          <ListItemText primary={"test 3"} />
+        </ListItem>
+      </List>
     </div>
   );
 }

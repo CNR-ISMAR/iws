@@ -40,7 +40,12 @@ const styles = (theme) => {
       whiteSpace: 'nowrap',
     },
     button: {
-      color: theme.palette.custom.contrastText
+      color: theme.palette.common.white,
+      fontSize: 20,
+      lineHeight: 1.2,
+      padding: 0,
+      minWidth: 30,
+      height: 20
     },
     subMenuWrapper: {
       position: "relative",
@@ -51,8 +56,10 @@ const styles = (theme) => {
       backgroundColor: theme.palette.custom.darkBackground
     },
     toolbar: {
-      height: 30,
-      width: "100%"
+      height: 20,
+      width: "100%",
+      textAlign: "right",
+      backgroundColor: theme.palette.custom.listSelected
     },
     drawerOpen: {
       width: drawerWidth,
@@ -111,8 +118,8 @@ function Sidebar(props) {
         <AvatarMenu auth={props.auth} />
       </div>}
       <div className={props.classes.toolbar}>
-        <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))} size="small" className={props.classes.button}>&gt;&gt;</Button>
-        <Button onClick={(e) => props.dispatch(toggleDrawer(e))} size="small" className={props.classes.button}>&times;</Button>
+        <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))} className={props.classes.button} style={{fontSize: 16}}>&gt;&gt;</Button>
+        <Button onClick={(e) => props.dispatch(toggleDrawer(e))} className={props.classes.button}>&times;</Button>
       </div>
       <SidebarNav dispatch={props.dispatch} layers={props.layers} />
     </Drawer>

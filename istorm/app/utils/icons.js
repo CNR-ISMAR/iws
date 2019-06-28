@@ -69,7 +69,7 @@ export function WaveIcon(props) {
  export function InfoIcon(props) {
     return (
        <SvgIcon>
-         <g><path fill={props.color} d="M12.5.031A12.5,12.5,0,1,0,25,12.531,12.5,12.5,0,0,0,12.5.031Zm0,23.355A10.855,10.855,0,1,1,23.355,12.531h0A10.864,10.864,0,0,1,12.5,23.386Z" transform="translate(0 -0.031)"/><path fill={props.color} d="M11.191,6.251a1.19,1.19,0,1,1-1.18-1.19A1.193,1.193,0,0,1,11.191,6.251Z" transform="translate(2.5 1.397)"/><rect width="2.06" height="7.105" transform="translate(11.471 12.316)"/></g>
+         <g><path fill={props.color} d="M12.5.031A12.5,12.5,0,1,0,25,12.531,12.5,12.5,0,0,0,12.5.031Zm0,23.355A10.855,10.855,0,1,1,23.355,12.531h0A10.864,10.864,0,0,1,12.5,23.386Z" transform="translate(0 -0.031)"/><path fill={props.color} d="M11.191,6.251a1.19,1.19,0,1,1-1.18-1.19A1.193,1.193,0,0,1,11.191,6.251Z" transform="translate(2.5 1.397)"/><rect fill={props.color} width="2.06" height="7.105" transform="translate(11.471 12.316)"/></g>
        </SvgIcon>
     )
 }

@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from "clsx";
 
-import { Link } from 'react-router-dom';
+import { Link as LinkRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -22,6 +22,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
+import Link from '@material-ui/core/Link';
 
 import { requestLogout } from '../AuthProvider/actions';
 import { makeSelectDrawerOpen } from '../Sidebar/selectors';
@@ -31,12 +32,19 @@ const styles = (theme) => {
   return {
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: theme.palette.common.white
     },
     menuButton: {
-      marginRight: 15,
+      marginRight: theme.spacing(2),
+      color: theme.palette.custom.headerText,
+      fontSize: 16,
+      //fontWeight: 600
     },
     hide: {
       display: 'none',
+    },
+    spacer: {
+      flexGrow: 1,
     },
   }
 };
@@ -56,14 +64,14 @@ function Header(props) {
               [props.classes.hide]: props.drawerOpen,
             })}
           >
-          <MenuIcon />
+          <MenuIcon  color={props.theme.palette.custom.headerText} />
         </IconButton>
-        <Typography variant="h5" noWrap>
-          <Link to="/">iStrom</Link>
+        <Typography variant="h6" noWrap>
+          <Link to="/" component={LinkRouter}>iStrom</Link>
         </Typography>
-        <Link to="/map">Map</Link>
-        {!props.isLogged && (<Link to="/login">Login</Link>)}
-        {props.isLogged && (<Button onClick={(e) => props.dispatch(requestLogout(e))}>Logout</Button>)}
+        <div className={props.classes.spacer} />
+        {!props.isLogged && (<Link to="/login" component={LinkRouter} className={props.classes.menuButton}>Login</Link>)}
+        {props.isLogged && (<Button color={"secondary"} onClick={(e) => props.dispatch(requestLogout(e))}  className={props.classes.menuButton}>Logout</Button>)}
       </Toolbar>
     </AppBar>
   )
