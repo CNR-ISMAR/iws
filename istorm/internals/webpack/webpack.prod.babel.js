@@ -98,6 +98,9 @@ module.exports = require('./webpack.base.babel')({
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     new OfflinePlugin({
+      ServiceWorker: {
+        events: true,
+      },
       relativePaths: false,
       publicPath: '/',
       appShell: '/',
