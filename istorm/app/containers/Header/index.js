@@ -64,7 +64,7 @@ function Header(props) {
               [props.classes.hide]: props.drawerOpen,
             })}
           >
-          <MenuIcon  color={props.theme.palette.custom.headerText} />
+          <MenuIcon colorPrimary={props.theme.palette.custom.headerText} />
         </IconButton>
         <Typography variant="h6" noWrap>
           <Link to="/" component={LinkRouter}>iStrom</Link>

@@ -67,8 +67,13 @@ const styles = (theme) => {
       maxWidth: 140,
       backgroundColor: theme.palette.custom.mapOverlayBackground
     },
-    overlayToolsWrapper: {
-      //maxWidth: 140,
+    overlayLayerMapHeader: {
+      width: "100%",
+      backgroundColor: theme.palette.custom.darkBackground,
+      textAlign: "right"
+    },
+    overlayLayerMapList: {
+      padding: 0
     }
   }
 };
@@ -96,7 +101,8 @@ function MapPage(props) {
           </List>
         </div>
         <div item className={props.classes.overlayLayersMap}>
-          <List>
+          <div className={props.classes.overlayLayerMapHeader}></div>
+          <List className={props.classes.overlayLayerMapList}>
               <ListItem button selected={props.mapPage.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-wave-level"}>
                 <ListItemText primary={props.mapPage.layers["wmpMean"].name} />
                 <WaveIcon color={props.theme.palette.custom.waveIcon} />

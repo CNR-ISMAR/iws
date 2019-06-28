@@ -33,6 +33,7 @@ import StormEventsPage from '../StormEvents/Loadable';
 import SettingsPage from '../Settings/Loadable';
 import InfoPage from '../Info/Loadable';
 import FavouritesPage from '../Favourites/Loadable';
+import StationChart from '../StationChart/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
@@ -69,6 +70,11 @@ function App(props) {
               <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
               <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
               <Route exact path={"/favourites"} component={({match}) => <FavouritesPage auth={props.auth} />} />
+              <Route path={"/favourites"}>
+                <FavouritesPage auth={props.auth} />
+                <Route exact path={"/favourites/chart/:id"} component={({match}) => <StationChart auth={props.auth} />} />
+              </Route>
+              <Route exact path={"/station/:id"} component={({match}) => <StationChart auth={props.auth} />} />
               <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
               <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
               <Route component={NotFoundPage} />

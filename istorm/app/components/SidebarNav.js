@@ -30,6 +30,9 @@ const styles = (theme) => {
       color: theme.palette.custom.contrastText,
       "&.Mui-selected": {
         color: theme.palette.custom.contrastTextSelected
+      },
+      "& .MuiListItemIcon": {
+        minWidth: 40
       }
     },
     divider: {
