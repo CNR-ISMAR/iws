@@ -14,7 +14,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Slide from '@material-ui/core/Slide';
 
 import HeaderBar from "../../components/HeaderBar";
 import { NotificationIcon } from '../../utils/icons';

@@ -3,11 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    height: "100%"
   },
   toolbar: theme.mixins.toolbar,
   content: {
     position: "relative",
-    flexGrow: 1,
+    display: "flex",
+    //flexWrap: "wrap",
+    //flexDirection: "row",
+    flexDirection: "row",
     width: "100%",
     padding: 0,
     marginTop: 64,

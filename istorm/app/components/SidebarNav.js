@@ -45,6 +45,9 @@ const styles = (theme) => {
     },
     divider: {
       backgroundColor: theme.palette.custom.contrastText,
+    },
+    spacer: {
+      flexGrow: 1,
     }
   }
 };
@@ -62,7 +65,7 @@ function SidebarNav(props) {
   };
 
   const isCurrentPage = (pagePath) => {
-    return props.location.pathname === `/${pagePath}`;
+    return new RegExp(`^\/${pagePath.replace("/", "\/")}(.*?)`).test(props.location.pathname);
   };
 
   return (

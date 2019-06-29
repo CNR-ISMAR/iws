@@ -74,7 +74,18 @@ const styles = (theme) => {
     },
     overlayLayerMapList: {
       padding: 0
-    }
+    },
+    overlayLayerMapListText: {
+      padding: 0,
+      "& .MuiTypography-root": {
+        fontSize: 13,
+      }
+    },
+    overlayLayerMapListIcon: {
+      width: "0.9em",
+      height: "0.9em",
+      marginLeft: 7
+    },
   }
 };
 
@@ -104,12 +115,12 @@ function MapPage(props) {
           <div className={props.classes.overlayLayerMapHeader}></div>
           <List className={props.classes.overlayLayerMapList}>
               <ListItem button selected={props.mapPage.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-wave-level"}>
-                <ListItemText primary={props.mapPage.layers["wmpMean"].name} />
-                <WaveIcon color={props.theme.palette.custom.waveIcon} />
+                <ListItemText primary={props.mapPage.layers["wmpMean"].name} className={props.classes.overlayLayerMapListText} />
+                <WaveIcon color={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
               </ListItem>
               <ListItem button onClick={(e) => props.dispatch(toggleLayerVisibility())} key={"nav-layer-sea-level"}>
-                <ListItemText primary={"Sea Level"} />
-                <SeaLevelIcon color={props.theme.palette.custom.seaIcon} />
+                <ListItemText primary={"Sea Level"}  className={props.classes.overlayLayerMapListText} />
+                <SeaLevelIcon color={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
               </ListItem>
           </List>
         </div>

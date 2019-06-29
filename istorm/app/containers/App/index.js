@@ -49,41 +49,40 @@ function App(props) {
   console.info("app");
   console.info(props);
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <div className={classes.root}>
-          <CssBaseline />
-          <Header isLogged={props.isLogged} />
-          <Sidebar auth={props.auth}  isLogged={props.isLogged} />
-          <main className={classes.content}>
-            <MapPage />
-            <Switch>
-              {/*props.isLogged && (
-                <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-              )*/}
-              {!props.isLogged && (
-                <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
-              )}
-              <Route exact path="/" component={() => null} />
-              <Route exact path={"/notification"} component={({match}) => <NotificationPage auth={props.auth} />} />
-              <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
-              <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
-              <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
-              <Route exact path={"/favourites"} component={({match}) => <FavouritesPage auth={props.auth} />} />
-              <Route path={"/favourites"}>
-                <FavouritesPage auth={props.auth} />
-                <Route exact path={"/favourites/station/:id"} component={({match}) => <StationChart auth={props.auth} />} />
-              </Route>
-              <Route exact path={"/station/:id"} component={({match}) => <StationChart auth={props.auth} />} />
-              <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
-              <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </main>
-        </div>
-        <GlobalStyle />
-      </ThemeProvider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <CssBaseline />
+        <Header isLogged={props.isLogged} />
+        <Sidebar auth={props.auth}  isLogged={props.isLogged} />
+        <main className={classes.content}>
+          <MapPage />
+          <Switch>
+            {/*props.isLogged && (
+              <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+            )*/}
+            {!props.isLogged && (
+              <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
+            )}
+            <Route exact path="/" component={() => null} />
+            <Route exact path={"/notification"} component={({match}) => <NotificationPage auth={props.auth} />} />
+            <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
+            <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
+            <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
+            <Route path={"/favourites"} component={({match, history, location}) => (
+              <>
+                <FavouritesPage auth={props.auth} history={history} location={location}/>
+                <Route exact path={"/favourites/station/:id"} component={({match, history, location}) => <StationChart auth={props.auth} history={history} goTo={"/favourites"} location={location} />} />
+              </>
+            )} />  
+            <Route exact path={"/station/:id"} component={({match, history}) => <StationChart auth={props.auth} history={history} />} />
+            <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
+            <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </main>
+      </div>
+      <GlobalStyle />
+    </ThemeProvider>
   );
 }
 
