@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH } from 'containers/AuthProvider/constants';
-import { requestError } from 'containers/AuthProvider/actions';
+import { requestError, requestLoginSuccess, requestLogoutSuccess } from '../../containers/AuthProvider/actions';
 
 import { login, oauthOption } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';
@@ -9,7 +9,7 @@ import { login, oauthOption } from 'utils/api';
 export function* loginAuthSaga(action) {
   // See example in containers/HomePage/saga.js
   const loginOption = { 
-    method: 'post', 
+    method: 'post',
     body: Object.assign(oauthOption, { 
       username: action.request.email,
       password: action.request.password
@@ -17,7 +17,11 @@ export function* loginAuthSaga(action) {
   };
   try {
     const request = yield call(login, loginOption);
-    console.info(request);
+    yield put(requestLoginSuccess(request));
+    if(action.redirect) {
+      action.redirect("");
+    }
+    yield put(Redirect, "/");
   } catch(e) {
     yield put(requestError(e.message));
   }
@@ -26,6 +30,7 @@ export function* loginAuthSaga(action) {
 export function* logoutAuthSaga(action) {
   console.info("logout saga");
   console.info(action);
+  yield put(requestLogoutSuccess());
   // See example in containers/HomePage/saga.js
 }
 

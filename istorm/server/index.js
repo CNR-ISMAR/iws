@@ -25,6 +25,7 @@ const app = express();
 // const proxyHost = 'https://iws.ismar.cnr.it';
 // const proxyHost = environment.THREDDS_TO_PROXY;
 const proxyHost = environment.THREDDS_TO_PROXY;
+const proxyHostApi = environment.API_URL_TO_PROXY;
 // const proxyUrl = 'https://iws.ismar.cnr.it/thredds';
 console.log('proxyHost');
 console.log(proxyHost);
@@ -39,6 +40,20 @@ app.use('/thredds', proxy(proxyHost, {
   },
   proxyReqPathResolver: function (req) {
     return req.url.replace('/wms/', '/thredds/wms/');
+  }
+}));
+
+app.use('/api', proxy(proxyHostApi, {
+  proxyReqOptDecorator(opts) {
+    if ('origin' in opts.headers)
+      delete opts.headers['origin'];
+    if ('x-powered-by' in opts.headers)
+      delete opts.headers['x-powered-by'];
+    // console.log(opts)
+    return opts;
+  },
+  proxyReqPathResolver: function (req) {
+    return req.url;//.replace('/wms/', '/thredds/wms/');
   }
 }));
 

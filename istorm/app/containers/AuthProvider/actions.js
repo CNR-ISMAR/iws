@@ -6,16 +6,18 @@
 
 import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
 
-export function requestLogin(request) {
+export function requestLogin(request, redirect) {
   return {
     type: REQUEST_LOGIN,
-    request: request
+    request: request,
+    redirect: redirect
   };
 }
 
-export function requestLoginSuccess() {
+export function requestLoginSuccess(result) {
   return {
     type: REQUEST_LOGIN_SUCCESS,
+    result: result
   };
 }
 

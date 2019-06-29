@@ -22,9 +22,11 @@ const styles = (theme) => {
     content: {
       position: "relative",
       flexGrow: 1,
-      width: "100%",
+      //width: "100%",
+      zIndex: 10,
       padding: 0,
-      marginTop: 64
+      paddingTop: 64,
+      backgroundColor: theme.palette.custom.mapOverlayBackground
     },
   }
 };
@@ -33,7 +35,7 @@ export function LoginPage(props) {
 
   return (
     <main className={props.classes.content}>
-      <LoginForm {...props} login={(request) => props.dispatch(requestLogin(request))} />
+      <LoginForm {...props} login={(request, redirect) => props.dispatch(requestLogin(request, redirect))} />
     </main>
   );
 }

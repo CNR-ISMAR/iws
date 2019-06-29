@@ -11,6 +11,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
+import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,6 +21,17 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+
+const styles = (theme) => {
+  return {
+    errorBox: {
+      textAlign: "center",
+      padding: theme.spacing(.5),
+      color: theme.palette.common.white,
+      backgroundColor: theme.palette.custom.waveIcon,
+    },
+  }
+};
 
 function MadeWithLove() {
   return (
@@ -39,8 +51,8 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       formData: {
-        email: "",
-        password: "",
+        email: "demo@mycitydemo.it",
+        password: "gaspari"
       },
       defaultFormData: {
         password: "",
@@ -55,7 +67,7 @@ class LoginForm extends React.Component {
 
   submitChange(event) {
     event.preventDefault();
-    this.props.login(this.state.formData)
+    this.props.login(this.state.formData, this.props.history.push)
   };
 
   resetForm() {
@@ -101,6 +113,11 @@ class LoginForm extends React.Component {
             id="password"
             autoComplete="current-password"
           />
+          {this.props.auth.error && (
+            <Typography variant="body2" gutterBottom className={this.props.classes.errorBox}>
+              {this.props.auth.error}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth
@@ -134,4 +151,4 @@ class LoginForm extends React.Component {
 
 LoginForm.propTypes = {};
 
-export default LoginForm;
+export default withStyles(styles, {withTheme: true})(LoginForm);

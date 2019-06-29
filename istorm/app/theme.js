@@ -74,8 +74,8 @@ const theme = createMuiTheme({
       '@global': {
         '@font-face': [metropolis],
       },
-    }
-  },
+    },
+  }
 });
 
 export default theme;

@@ -1,6 +1,7 @@
 import request from "./request";
 
 const BASE_URL = process.env.API_URL;
+
 const defaultOption = {
     headers: new Headers({
         'Accept': 'application/json', 
@@ -10,7 +11,11 @@ const defaultOption = {
 };
 
 const getOption = (option) => {
-    return Object.assign(defaultOption, option);
+    option = Object.assign(defaultOption, option);
+    if(option.body) {
+        option.body = JSON.stringify(option.body)
+    }
+    return option
 }
 
 export const oauthOption = {
@@ -20,4 +25,6 @@ export const oauthOption = {
 }
 
 
-export const login = (options) => request(`${BASE_URL}/oauth/token`, getOption(options));
+export const login = (options) => {
+    return request(`${BASE_URL}/oauth/token`, getOption(options))
+};

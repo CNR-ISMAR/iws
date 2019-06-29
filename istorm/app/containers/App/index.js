@@ -61,7 +61,7 @@ function App(props) {
               <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
             )*/}
             {!props.isLogged && (
-              <Route exact path="/login" component={() => <LoginPage auth={props.auth} />} />
+              <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
             )}
             <Route exact path="/" component={() => null} />
             <Route exact path={"/notification"} component={({match}) => <NotificationPage auth={props.auth} />} />
@@ -71,7 +71,7 @@ function App(props) {
             <Route path={"/favourites"} component={({match, history, location}) => (
               <>
                 <FavouritesPage auth={props.auth} history={history} location={location}/>
-                <Route exact path={"/favourites/station/:id"} component={({match, history, location}) => <StationChart auth={props.auth} history={history} goTo={"/favourites"} location={location} />} />
+                <Route exact path={"/favourites/station/:id"} component={({matchSub, historySub, locationSub}) => <StationChart auth={props.auth} history={historySub} goTo={"/favourites"} location={locationSub} />} />
               </>
             )} />  
             <Route exact path={"/station/:id"} component={({match, history}) => <StationChart auth={props.auth} history={history} />} />
