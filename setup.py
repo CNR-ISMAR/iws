@@ -53,7 +53,7 @@ setup(
     ],
     license="BSD",
     keywords="iws geonode django",
-    url='https://github.com/iws/iws',
+    url='https://github.com/CNR-ISMAR/iws',
     packages=['iws',],
     include_package_data=True,
     zip_safe=False,
