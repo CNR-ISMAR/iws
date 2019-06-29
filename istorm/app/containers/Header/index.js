@@ -38,6 +38,9 @@ const styles = (theme) => {
       marginRight: theme.spacing(2),
       color: theme.palette.custom.headerText,
       fontSize: 16,
+      "& .MuiSvgIcon-root path:nth-child(2)": {
+        fill: theme.palette.custom.headerText,
+      }
       //fontWeight: 600
     },
     hide: {
@@ -64,7 +67,7 @@ function Header(props) {
               [props.classes.hide]: props.drawerOpen,
             })}
           >
-          <MenuIcon colorPrimary={props.theme.palette.custom.headerText} />
+          <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
           <Link to="/" component={LinkRouter}>iStrom</Link>

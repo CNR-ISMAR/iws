@@ -11,8 +11,9 @@ import createReducer from './reducers';
 
 export const persistConfig = {
   key: 'root',
+  version: 1,
   storage,
-  whitelist: ['auth'] 
+  whitelist: ['auth', 'sidebar'] 
 }
 
 export default function configureStore(initialState = {}, history) {

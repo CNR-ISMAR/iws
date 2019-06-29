@@ -20,9 +20,9 @@ const styles = (theme) => {
     },
     avatarText: {
       flexGrow: 1,
-      paddingLeft: theme.spacing(1),
-      lineHeight: 2.1,
-      fontSize: 16,
+      paddingLeft: theme.spacing(1.6),
+      lineHeight: 2.4,
+      fontSize: 14,
       display: "inline-block",
       color: theme.palette.custom.contrastText
     }

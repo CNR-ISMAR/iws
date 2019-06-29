@@ -18,10 +18,9 @@ export function* loginAuthSaga(action) {
   try {
     const request = yield call(login, loginOption);
     yield put(requestLoginSuccess(request));
-    if(action.redirect) {
-      action.redirect("");
+    if(typeof action.redirect !== "undefined") {
+      action.redirect("/");
     }
-    yield put(Redirect, "/");
   } catch(e) {
     yield put(requestError(e.message));
   }
