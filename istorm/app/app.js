@@ -13,6 +13,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
+import { PersistGate } from 'redux-persist/integration/react'
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
@@ -43,16 +44,18 @@ const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-        {/*<ThemeProvider theme={theme}>*/}
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        {/*</ThemeProvider>*/}
-        </ConnectedRouter>
-      </LanguageProvider>
+    <Provider store={store.store}>
+      <PersistGate loading={null} persistor={store.persistore}>
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
+          {/*<ThemeProvider theme={theme}>*/}
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          {/*</ThemeProvider>*/}
+          </ConnectedRouter>
+        </LanguageProvider>
+      </PersistGate>
     </Provider>,
     MOUNT_NODE,
   );

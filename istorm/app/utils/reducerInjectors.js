@@ -3,6 +3,8 @@ import { isEmpty, isFunction, isString } from 'lodash';
 
 import checkStore from './checkStore';
 import createReducer from '../reducers';
+import { persistConfig } from '../configureStore';
+import { persistReducer } from 'redux-persist';
 
 export function injectReducerFactory(store, isValid) {
   return function injectReducer(key, reducer) {
@@ -21,7 +23,7 @@ export function injectReducerFactory(store, isValid) {
       return;
 
     store.injectedReducers[key] = reducer; // eslint-disable-line no-param-reassign
-    store.replaceReducer(createReducer(store.injectedReducers));
+    store.replaceReducer(persistReducer(persistConfig, createReducer(store.injectedReducers)));
   };
 }
 

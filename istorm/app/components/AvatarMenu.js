@@ -9,13 +9,35 @@
 
 import React from 'react';
 
-export default function AvatarMenu(props) {
+import { withStyles } from '@material-ui/styles';
+import { Typography, Avatar } from '@material-ui/core';
+
+const styles = (theme) => {
+  return {
+    avatar: {
+      width: 30,
+      height: 30
+    },
+    avatarText: {
+      flexGrow: 1,
+      paddingLeft: theme.spacing(1),
+      lineHeight: 2.1,
+      fontSize: 16,
+      display: "inline-block",
+      color: theme.palette.custom.contrastText
+    }
+  }
+};
+
+function AvatarMenu(props) {
   console.info("avatarMenu")
   console.info(props);
   return (
     <>
-        <h1>{props.auth.user.email}</h1>
+        <Avatar className={props.classes.avatar}>L</Avatar> 
+        <Typography variant="subtitle1" className={props.classes.avatarText}>{props.auth.user.email}</Typography>
     </>
   );
 }
 
+export default withStyles(styles, {withTheme: true})(AvatarMenu);

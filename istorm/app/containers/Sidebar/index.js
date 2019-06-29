@@ -61,6 +61,12 @@ const styles = (theme) => {
       textAlign: "right",
       backgroundColor: theme.palette.custom.listSelected
     },
+    toolbarAvatar: {
+      paddingTop: theme.spacing(1),
+      paddingLeft: theme.spacing(1.5),
+      display: "flex",
+      flexDirection: "row"
+    },
     drawerOpen: {
       width: drawerWidth,
       transition: theme.transitions.create('width', {
@@ -87,6 +93,12 @@ const styles = (theme) => {
         width: theme.spacing(7) + 1,
       },
     },
+    avatarText: {
+      flexGrow: 1,
+      paddingLeft: theme.spacing(0.5),
+      display: "inline-block",
+      color: "#FFFFFF"
+    }
   }
 };
 
@@ -114,13 +126,13 @@ function Sidebar(props) {
         }),
       }}
     >
-      {props.isLogged && <div className={props.classes.toolbar}>
-        <AvatarMenu auth={props.auth} />
-      </div>}
       <div className={props.classes.toolbar}>
         <Button onClick={(e) => props.dispatch(toggleDrawer(e))} className={props.classes.button}>&times;</Button>
         <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))} className={props.classes.button} style={{fontSize: 16}}>{props.sidebar.drawer.minimal ? (<span>&gt;&gt;</span>) : (<span>&lt;&lt;</span>)}</Button>
       </div>
+      {props.isLogged && <div className={props.classes.toolbarAvatar}>
+        <AvatarMenu auth={props.auth} />
+      </div>}
       <SidebarNav dispatch={props.dispatch} layers={props.layers} />
     </Drawer>
   )
