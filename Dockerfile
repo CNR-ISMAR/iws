@@ -19,8 +19,6 @@ RUN apt-get update && apt-get install -y \
                 libmemcached-dev libsasl2-dev zlib1g-dev \
                 python-pylibmc \
                 uwsgi uwsgi-plugin-python \
-		python-invoke \
-		python-setuptools \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 
@@ -38,6 +36,7 @@ COPY . /usr/src/iws
 #COPY ./srcgeonode /usr/src/geonode
 RUN pip install celery
 RUN pip install docker==3.7.0
+RUN pip install invoke
 RUN pip install -r requirements.txt
 RUN pip install -e .
 

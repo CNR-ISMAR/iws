@@ -1,4 +1,4 @@
-version: '2'
+version: "2.0"
 services:
 
   db:
@@ -206,7 +206,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - statics:/mnt/volumes/statics
+      - /opt/iws/statics:/mnt/volumes/statics
 
 
   data-dir-conf:
