@@ -5,12 +5,14 @@
  *
  */
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+
+import Chart from '../../components/Chart';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -46,6 +48,25 @@ const styles = (theme, style) => {
 function StationChart(props) {
   console.info("Station Chart");
   console.info(props);
+
+  const log = (wrapper) => { 
+    console.info(wrapper); 
+    return true; 
+  };
+
+  const data = [
+    {x: 0, y: 8},
+    {x: 1, y: 5},
+    {x: 2, y: 4},
+    {x: 3, y: 9},
+    {x: 4, y: 1},
+    {x: 5, y: 7},
+    {x: 6, y: 6},
+    {x: 7, y: 3},
+    {x: 8, y: 2},
+    {x: 9, y: 0}
+  ];
+
   const close = () => {
     if(typeof props.goTo !== "undefined") {
       props.history.push(props.goTo) 
@@ -61,9 +82,7 @@ function StationChart(props) {
       </div>
       <div className={props.classes.wrapper}>
         <h1>Chart</h1>
-        <iframe src="https://play.grafana.org/d-solo/000000012/grafana-play-home?orgId=1&from=1561762631610&to=1561769831611&theme=dark&panelId=4" width="100%" height="40%" frameborder="0"></iframe>
-        <h6></h6>
-        <iframe src="https://play.grafana.org/d-solo/000000012/grafana-play-home?orgId=1&from=1561762631610&to=1561769831611&theme=dark&panelId=4" width="100%" height="40%" frameborder="0"></iframe>
+        <Chart data={data} />
       </div>
     </div>
   );
