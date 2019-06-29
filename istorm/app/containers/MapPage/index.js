@@ -39,7 +39,7 @@ const styles = (theme) => {
       flexGrow: 1,
       width: "100%",
       height: "100%",
-      padding: theme.spacing(2),
+      padding: 0,
       margin: 0,
       //marginLeft: -240
     },

@@ -71,7 +71,7 @@ function HeaderBar(props) {
         <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} >&times;</Button>
       </div>
       <Toolbar>
-        <div className={props.classes.titleIcon}><props.icon color={props.theme.palette.custom.contrastText}/></div>
+        <div className={props.classes.titleIcon}><props.icon color={props.theme.palette.custom.contrastText} primaryColor={typeof props.primaryColor !== "undefined" ? props.primaryColor : undefined} /></div>
         <Typography className={props.classes.title} variant="h6" noWrap>{props.title}</Typography>
       </Toolbar>
     </>

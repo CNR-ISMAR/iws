@@ -118,8 +118,8 @@ function Sidebar(props) {
         <AvatarMenu auth={props.auth} />
       </div>}
       <div className={props.classes.toolbar}>
-        <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))} className={props.classes.button} style={{fontSize: 16}}>{props.sidebar.drawer.minimal ? (<span>&gt;&gt;</span>) : (<span>&lt;&lt;</span>)}</Button>
         <Button onClick={(e) => props.dispatch(toggleDrawer(e))} className={props.classes.button}>&times;</Button>
+        <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))} className={props.classes.button} style={{fontSize: 16}}>{props.sidebar.drawer.minimal ? (<span>&gt;&gt;</span>) : (<span>&lt;&lt;</span>)}</Button>
       </div>
       <SidebarNav dispatch={props.dispatch} layers={props.layers} />
     </Drawer>

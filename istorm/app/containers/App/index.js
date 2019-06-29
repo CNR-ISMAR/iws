@@ -72,7 +72,7 @@ function App(props) {
               <Route exact path={"/favourites"} component={({match}) => <FavouritesPage auth={props.auth} />} />
               <Route path={"/favourites"}>
                 <FavouritesPage auth={props.auth} />
-                <Route exact path={"/favourites/chart/:id"} component={({match}) => <StationChart auth={props.auth} />} />
+                <Route exact path={"/favourites/station/:id"} component={({match}) => <StationChart auth={props.auth} />} />
               </Route>
               <Route exact path={"/station/:id"} component={({match}) => <StationChart auth={props.auth} />} />
               <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />

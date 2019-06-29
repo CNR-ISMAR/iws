@@ -16,11 +16,15 @@ const styles = (theme, style) => {
   console.info(theme, style);
   return {
     subNav: {
-      position: "absolute", 
-      top: 0, 
-      left: 250, 
+      position: "relative", 
+      //top: 0, 
+      //left: 250, 
       zIndex: 10, 
       //width: 250,
+      //float: "left",
+      display: "inline-block",
+      padding: 0,
+      margin: 0,
       backgroundColor: theme.palette.custom.darkBackground,
       color: theme.palette.common.white,
     },

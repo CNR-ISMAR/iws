@@ -18,12 +18,15 @@ const styles = (theme, style) => {
   console.info(theme, style);
   return {
     subNav: {
-      position: "absolute", 
-      top: 0, 
-      left: 0, 
+      position: "relative", 
+      //top: 0, 
+      //left: 0, 
       zIndex: 10, 
       width: 250,
-      backgroundColor: "rgba(255,255,255,.8)",
+      padding:0,
+      marginRight: 4,
+      display: "inline-block",
+      backgroundColor: theme.palette.custom.mapOverlayBackground,
       
     },
   }
@@ -32,7 +35,7 @@ const styles = (theme, style) => {
 function FavouritesPage(props) {
   return (
     <div className={props.classes.subNav}>
-      <HeaderBar title={"Favourites"} icon={FavoriteIcon} />
+      <HeaderBar title={"Favourites"} icon={FavoriteIcon} primaryColor={props.theme.palette.custom.favoriteIcon} />
     </div>
   );
 }

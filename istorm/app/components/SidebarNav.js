@@ -28,11 +28,19 @@ const styles = (theme) => {
   return {
     listItem: {
       color: theme.palette.custom.contrastText,
+      paddingTop: 6,
+      paddingBottom: 6,
       "&.Mui-selected": {
-        color: theme.palette.custom.contrastTextSelected
+        color: theme.palette.custom.contrastTextSelected,
+        "& .MuiSvgIcon-root *:not(circle)": {
+          fill: theme.palette.custom.contrastTextSelected
+        }
       },
-      "& .MuiListItemIcon": {
-        minWidth: 40
+    },
+    listItemIcon: {
+      minWidth: 40,
+      "& .MuiSvgIcon-root": {
+        fontSize: "1.3rem"
       }
     },
     divider: {
@@ -49,7 +57,7 @@ function SidebarNav(props) {
     if(isCurrentPage(path)) { 
       props.history.push("/") 
     } else {
-      props.history.push(path)
+      props.history.push(`/${path}`)
     }
   };
 
@@ -60,7 +68,7 @@ function SidebarNav(props) {
   return (
     <List>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("notification")} onClick={() => linkTo("notification")} key={"nav-notification"}>
-          <ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}>
             <Badge badgeContent={4} color="secondary">
               <NotificationIcon color={props.theme.palette.custom.contrastText} />
             </Badge>
@@ -68,22 +76,22 @@ function SidebarNav(props) {
           <ListItemText primary={"Notification"} />
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("storm-events")} onClick={() => linkTo("storm-events")} key={"nav-storm-events"}>
-          <ListItemIcon><StormEventsIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><StormEventsIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Sea storm events"} />
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("layers")} onClick={() => linkTo("layers")} key={"nav-layers"}>
-          <ListItemIcon><LayersIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><LayersIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Layers"} />
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("history")} onClick={() => linkTo("history")} key={"nav-history"}>
-          <ListItemIcon><HistoryIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><HistoryIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"History"} />
         </ListItem>
         
         <Divider className={props.classes.divider} variant={"middle"} />
 
         <ListItem button className={props.classes.listItem} selected={props.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-station-wind"}>
-          <ListItemIcon><StationIcon color={props.theme.palette.custom.contrastText} primaryColor={props.theme.palette.custom.waveIcon} /></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><StationIcon color={props.theme.palette.custom.contrastText} primaryColor={props.theme.palette.custom.waveIcon} /></ListItemIcon>
           <ListItemText primary={props.layers["wmpMean"].name} />
           <ListItemSecondaryAction>
             <Checkbox
@@ -95,7 +103,7 @@ function SidebarNav(props) {
         </ListItem>
 
         <ListItem button className={props.classes.listItem} selected={false} onClick={(e) => props.dispatch(toggleLayerVisibility("station-sea"))} key={"nav-station-sea"}>
-          <ListItemIcon><StationIcon color={props.theme.palette.custom.contrastText} primaryColor={props.theme.palette.custom.seaIcon} /></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><StationIcon color={props.theme.palette.custom.contrastText} primaryColor={props.theme.palette.custom.seaIcon} /></ListItemIcon>
           <ListItemText primary={"Station sea"} />
           <ListItemSecondaryAction>
             <Checkbox
@@ -109,11 +117,11 @@ function SidebarNav(props) {
         <Divider className={props.classes.divider} variant={"middle"} />
 
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("favourites")} onClick={() => linkTo("favourites")} key={"nav-favourite-list"}>
-          <ListItemIcon><ListIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><ListIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Favourites list"} />
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={false} key={"nav-favourite-places"}>
-          <ListItemIcon><FavoriteIcon color={props.theme.palette.custom.contrastText} primaryColor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><FavoriteIcon color={props.theme.palette.custom.contrastText} primaryColor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
           <ListItemText primary={"Favourites places"} />
           <ListItemSecondaryAction>
             <Checkbox
@@ -127,11 +135,11 @@ function SidebarNav(props) {
         <Divider className={props.classes.divider} variant={"middle"} />
 
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("settings")} onClick={() => linkTo("settings")} key={"nav-settings"}>
-          <ListItemIcon><SettingsIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><SettingsIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Settings"} />
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("info")} onClick={() => linkTo("info")} key={"nav-info"}>
-          <ListItemIcon><InfoIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><InfoIcon color={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Info"} />
         </ListItem>
     </List>
