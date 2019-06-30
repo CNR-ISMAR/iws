@@ -97,7 +97,7 @@ class Map extends React.Component {
         >
         {true && (
           <>
-            {this.props.layers && this.props.layers.length && this.props.layers.map((layer, layerInxed) => <Layer key={"map-layer-" + layerInxed} layer={layer}/>)}
+            {this.props.layers && this.props.layers.length && this.props.layers.map((layer) => <Layer key={"map-layer-" + layer.id} layer={layer}/>)}
           </>
         )}
       </ReactMapGL>

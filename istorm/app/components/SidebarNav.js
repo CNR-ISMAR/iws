@@ -105,13 +105,13 @@ function SidebarNav(props) {
           </ListItemSecondaryAction>
         </ListItem>
 
-        <ListItem button className={props.classes.listItem} selected={false} onClick={(e) => props.dispatch(toggleLayerVisibility("station-sea"))} key={"nav-station-sea"}>
+        <ListItem button className={props.classes.listItem} selected={props.layers["stations"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("stations"))} key={"nav-station-sea"}>
           <ListItemIcon className={props.classes.listItemIcon}><StationIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.seaIcon} /></ListItemIcon>
           <ListItemText primary={"Station sea"} />
           <ListItemSecondaryAction>
             <Checkbox
-              checked={false}
-              onChange={(e) => props.dispatch(toggleLayerVisibility("station-sea"))}
+              checked={props.layers["stations"].isVisible}
+              onChange={(e) => props.dispatch(toggleLayerVisibility("stations"))}
               //color="primary"
             />
           </ListItemSecondaryAction>
