@@ -20,10 +20,10 @@ const waveUrl = proxyUrl + "/thredds/wms/tmes/TMES_waves_" + ncdate + ".nc";
 const seaLevelUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".nc";
 
 export const initialState = {
-  bbox: [[11.601563,36.031332], [23.950195,46.255847]],
+  bbox: [[46.286224,25.708008], [35.960223,11.733398]],
   viewport: {
-    longitude: 41.343825,
-    latitude: 17.775879,
+    longitude: 12.33265,
+    latitude: 45.43713, 
     zoom: 5,
     bearing: 0,
     pitch: 30

@@ -39,24 +39,25 @@ class Map extends React.Component {
         height: window.document.body.offsetHeight,
         latitude: 41.343825,
         longitude: 17.775879,
-        zoom: 6
+        zoom: 6,
+        transitionDuration: 1000,
+        transitionInterpolator: new FlyToInterpolator(),
+        transitionEasing: easeCubic
       }
     };
     
 
     this.flyTo = this.flyTo.bind(this);
     this.flyToBbox = this.flyToBbox.bind(this);
-    /*
-    this.setView = this.setView.bind(this);
-    this.porcatPErPulire = this.porcatPErPulire.bind(this);
-    this.fitBounds = this.fitBounds.bind(this);*/
+    this.updateViewport = this.updateViewport.bind(this);
   }
 
   componentDidMount() {
     console.info("did mount");
-    const viewport = this.flyToBbox(this.props.bbox, 6000);
-    this.props.dispatch(setViewport({ ...this.state.viewport, ...viewport }));
+    this.props.bbox && this.flyToBbox(this.props.bbox);
   }
+  /*
+  
 
   componentWillReceiveProps(nextProps) {
     console.info("receive props");
@@ -75,30 +76,28 @@ class Map extends React.Component {
       this.setState({viewport, mapboxIsLoading: false});
     }
   } 
-
-  flyTo(latitude, longitude, zoom, speed) {
+  */
+  flyTo(latitude, longitude, zoom) {
     const viewport = {
       ...this.props.viewport,
-      longitude: latitude || this.props.viewport.latitude,
-      latitude: longitude || this.props.viewport.longitude,
-      zoom: zoom || this.props.viewport.zoom,
-      transitionDuration: speed || 800,
-      transitionInterpolator: new FlyToInterpolator(),
-      transitionEasing: easeCubic
+      longitude: latitude,
+      latitude: longitude,
+      zoom: zoom,
     };
+    this.props.dispatch(setViewport({ ...this.props.viewport, ...viewport }))
     return viewport;
   }
 
-  componentWillUnmount() { 
-    console.info("map unmount")
-  }
-
-  flyToBbox(bbox, speed) {
+  flyToBbox(bbox) {
     const {longitude, latitude, zoom} = new WebMercatorViewport(this.state.viewport)
       .fitBounds(bbox || this.props.bbox, {
-        offset: [-280, -70]
+        offset: [-280, -70, -100, 0]
       });
-    return this.flyTo(latitude, longitude, zoom, speed);
+    return this.flyTo(latitude, longitude, zoom);
+  }
+
+  updateViewport(viewport, transitionInfo) {
+    return transitionInfo && Object.keys(transitionInfo).length && this.props.dispatch(setViewport({ ...this.props.viewport, ...viewport }));
   }
 
   render () {
@@ -110,12 +109,12 @@ class Map extends React.Component {
         id="gis-map" 
         ref="map" 
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}  
-        {...this.state.viewport} 
+        {...this.props.viewport} 
         mapboxApiAccessToken={mapboxToken} 
-        onViewportChange={(viewport) => this.setState({viewport})}
+        onViewportChange={this.updateViewport}
         //onViewStateChange={(e) => this.mapboxLoadingEnd(e)}
         >
-        {!this.state.mapboxIsLoading && (
+        {true && (
           <>
             {this.props.layers && this.props.layers.length && this.props.layers.map((layer, layerInxed) => <Layer key={"map-layer-" + layerInxed} layer={layer}/>)}
           </>
@@ -125,4 +124,4 @@ class Map extends React.Component {
   }
 }
 
-export default withStyles(styles, {withTheme: true})(Map);
+export default withStyles(styles, {withTheme: true})(React.memo(Map));

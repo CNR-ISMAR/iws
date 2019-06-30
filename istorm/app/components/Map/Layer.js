@@ -12,6 +12,8 @@ class Layer extends BaseControl {
     componentDidMount() {
         const map = this._context.map;
         const { layer } = this.props;
+        console.info("loaded");
+        console.info(map.loaded());
         if(map.loaded()) {
             map.addLayer(layer);
         } else {
