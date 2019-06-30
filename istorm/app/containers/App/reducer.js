@@ -46,33 +46,11 @@ export const initialState = {
       maxzoom: 22
     }]
   },
-  options: {
-    center: [40.088190, 16.291049],
-    zoom: 7,
-    zoomControl: false,
-    boundsOptions: {
-      paddingBottomRight: [250, 0],
-    },
-    timeDimension: true,
-    timeDimensionOptions: {
-        timeInterval: timeInterval,
-        period: "PT1H",
-        currentTime: currentTime.getTime()
-    }, 
-    timeDimensionControl: true,
-    minZoom: 2,
-     maxBounds: [
-      [-85, -180],
-      [85, 180],
-    ],
-  },
-  baseLayers: ["wiki"],
   layers: {
     wmpMean: {
       name: "Wave mean period",
       id: "wmpMean",
       isVisible: true,
-      url: waveUrl,
       isTimeseries: true,
       type: 'raster',
       source: {
@@ -85,6 +63,27 @@ export const initialState = {
       },
       paint: {
 
+      }
+    },
+    stations: {
+      name: "Station",
+      id: "stations",
+      isVisible: true,
+      isTimeseries: false,
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+      },
+      paint: {
+        'circle-color': '#f00',
+        'circle-radius': 4,
+        "circle-radius": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          8,
+          5
+        ]
       }
     }
   }

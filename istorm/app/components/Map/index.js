@@ -53,56 +53,37 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    console.info("did mount");
-    this.props.bbox && this.flyToBbox(this.props.bbox);
+    if(this.props.bbox) {
+      const viewport = this.flyToBbox(this.props.bbox);
+      this.props.dispatch(setViewport({ ...this.state.viewport, ...this.props.viewport, ...viewport }));
+    }
   }
-  /*
-  
 
-  componentWillReceiveProps(nextProps) {
-    console.info("receive props");
-    let viewport = null;
-
-    if(nextProps.viewport.zoom !== this.props.viewport.zoom || nextProps.viewport.longitude !== this.props.viewport.longitude || nextProps.viewport.latitude !== this.props.viewport.latitude) {
-      viewport = this.flyTo(nextProps.viewport.latitude, nextProps.viewport.longitude, nextProps.viewport.zoom);
-    } else {
-      if(JSON.stringify(nextProps.bbox) !== JSON.stringify(this.props.bbox)) {
-        viewport = this.flyToBbox(nextProps.bbox);
-      }
-      
-    }
-    
-    if(viewport) {
-      this.setState({viewport, mapboxIsLoading: false});
-    }
-  } 
-  */
   flyTo(latitude, longitude, zoom) {
     const viewport = {
-      ...this.props.viewport,
       longitude: latitude,
       latitude: longitude,
       zoom: zoom,
     };
-    this.props.dispatch(setViewport({ ...this.props.viewport, ...viewport }))
     return viewport;
   }
 
   flyToBbox(bbox) {
     const {longitude, latitude, zoom} = new WebMercatorViewport(this.state.viewport)
       .fitBounds(bbox || this.props.bbox, {
-        offset: [-280, -70, -100, 0]
+        offset: [-300, 0, 0 , 0]
       });
     return this.flyTo(latitude, longitude, zoom);
   }
 
-  updateViewport(viewport, transitionInfo) {
-    return transitionInfo && Object.keys(transitionInfo).length && this.props.dispatch(setViewport({ ...this.props.viewport, ...viewport }));
+  updateViewport(viewport) {
+    this.props.dispatch(setViewport(viewport));
   }
 
   render () {
     return (
       <ReactMapGL 
+        disableTokenWarning={true}
         width={this.state.viewport.width} 
         height={this.state.viewport.height} 
         mapStyle={this.props.mapStyle} 

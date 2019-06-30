@@ -14,6 +14,7 @@ class Layer extends BaseControl {
         const { layer } = this.props;
         console.info("loaded");
         console.info(map.loaded());
+        
         if(map.loaded()) {
             map.addLayer(layer);
         } else {
@@ -28,11 +29,13 @@ class Layer extends BaseControl {
     componentWillUnmount() {
         const map = this._context.map;
         const { layer } = this.props;
-        map.removeLayer(layer.id);
-        map.removeSource(layer.id);
+        if(map) {
+            map.removeLayer(layer.id);
+            map.removeSource(layer.id);
+        }
     }
 
     _render() { return null; }
 };
 
-export default React.memo(Layer);
+export default Layer;
