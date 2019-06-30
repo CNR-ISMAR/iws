@@ -79,4 +79,4 @@ RUN pip install djangorestframework==3.5.4
 #ADD install/libgeos_patch.py /libgeos_patch.py
 #RUN patch /usr/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py /libgeos_patch.py
 
-#ENTRYPOINT ["/usr/src/iws/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/iws/entrypoint.sh"]
