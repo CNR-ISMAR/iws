@@ -11,3 +11,4 @@
 export const TOGGLE_LAYER_VISIBILITY = 'app/App/TOGGLE_LAYER_VISIBILITY';
 export const ZOOM_IN = 'app/App/ZOOM_IN';
 export const ZOOM_OUT = 'app/App/ZOOM_OUT';
+export const SET_VIEWPORT = 'app/App/SET_VIEWPORT';

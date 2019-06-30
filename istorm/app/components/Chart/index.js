@@ -25,16 +25,15 @@ const styles = (theme) => {
 function Chart(props) {
   const [chart, setChartState] = useState({width: 0, height: 0});
   const wrapper = useRef(null);
-  useEffect(() => {
-    console.info(wrapper);
-    setChartState({width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
-  }, [wrapper]);
 
+  const updateWidthHeight = () => {
+    setChartState({width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
+  };
+
+  useEffect(updateWidthHeight, [wrapper]);
   return (
     <div ref={wrapper} className={props.classes.subNav}>
       <XYPlot height={chart.height} width={chart.width}>
-        <VerticalGridLines />
-        <HorizontalGridLines />
         <XAxis />
         <YAxis />
         <LineSeries data={props.data} />

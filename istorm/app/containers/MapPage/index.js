@@ -16,8 +16,8 @@ import makeSelectMapPage, { makeSelectVisibleWmsLayer } from '../App/selectors';
 import { zoomIn, zoomOut, toggleLayerVisibility } from '../App/actions';
 import messages from './messages';
 import Map from '../../components/Map';
-import TileLayers from '../../components/Map/TileLayer';
-import WmsLayers from '../../components/Map/WmsLayers';
+//import TileLayers from '../../components/Map/TileLayer';
+//import WmsLayers from '../../components/Map/WmsLayers';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -37,8 +37,8 @@ const styles = (theme) => {
       position: "absolute",
       zIndex: 10,
       flexGrow: 1,
-      width: "100%",
-      height: "100%",
+      right: 0,
+      width: 157,
       padding: 0,
       margin: 0,
       //marginLeft: -240
@@ -95,11 +95,11 @@ function MapPage(props) {
 
   return (
     <>
-      <Map options={props.mapPage.options}>
+      <Map viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.wmsVisible} />
+        {/*<>
         <TileLayers layers={props.mapPage.baseLayers} />
-        {/*props.mapPage.wmsLayers && props.mapPage.wmsLayers.map((layers, layersIndex) => <WmsLayers key={"project-layer-" + layersIndex} layers={layers} />)*/}
         {props.wmsVisible.length && props.wmsVisible.map(layer => <WmsLayers key={"wms-layer-" + layer.id} layer={layer} />)}
-      </Map>
+        </>*/}
       <div className={props.classes.mapControl}>
         <div item className={props.classes.overlayZoom}>
           <List className={props.classes.overlayZoomList}>
@@ -116,11 +116,11 @@ function MapPage(props) {
           <List className={props.classes.overlayLayerMapList}>
               <ListItem button selected={props.mapPage.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-wave-level"}>
                 <ListItemText primary={props.mapPage.layers["wmpMean"].name} className={props.classes.overlayLayerMapListText} />
-                <WaveIcon color={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
+                <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
               </ListItem>
               <ListItem button onClick={(e) => props.dispatch(toggleLayerVisibility())} key={"nav-layer-sea-level"}>
                 <ListItemText primary={"Sea Level"}  className={props.classes.overlayLayerMapListText} />
-                <SeaLevelIcon color={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
+                <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
               </ListItem>
           </List>
         </div>

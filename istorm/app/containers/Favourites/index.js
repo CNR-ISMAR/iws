@@ -53,7 +53,7 @@ function FavouritesPage(props) {
 
   return (
     <div className={props.classes.subNav}>
-      <HeaderBar title={"Favourites"} icon={FavoriteIcon} primaryColor={props.theme.palette.custom.favoriteIcon} />
+      <HeaderBar title={"Favourites"} icon={FavoriteIcon} primarycolor={props.theme.palette.custom.favoriteIcon} />
       <List>
         <ListItem button className={props.classes.listItem} key={"nav-notiftestion"} selected={isCurrentPage("favourites/station/44")} onClick={() => linkTo("favourites/station/44")}>
           <ListItemText primary={"test"} />

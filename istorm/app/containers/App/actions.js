@@ -4,7 +4,14 @@
  *
  */
 
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT } from './constants';
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT } from './constants';
+
+export function setViewport(viewport) {
+  return {
+    type: SET_VIEWPORT,
+    viewport: viewport
+  };
+}
 
 export function toggleLayerVisibility(layer) {
   return {

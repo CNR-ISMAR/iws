@@ -3,28 +3,23 @@
  * LoginForm
  *
  */
-import iso8601 from 'iso8601-js-period';
-window.nezasa = {iso8601: iso8601}
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'leaflet/dist/leaflet.css';
-import "leaflet-timedimension/dist/leaflet.timedimension.control.css";
-import './fix.css';
-import L from 'leaflet';
-// L.Icon.Default.imagePath = 'https://npmcdn.com/leaflet@1.0.1/dist/images/';
-L.Icon.Default.imagePath = 'leaflet-timedimension/dist/images/';
-import "leaflet-timedimension/src/leaflet.timedimension";
-import "leaflet-timedimension/src/leaflet.timedimension.util";
-import "leaflet-timedimension/src/leaflet.timedimension.control";
-import "leaflet-timedimension/src/leaflet.timedimension.layer";
-import "leaflet-timedimension/src/leaflet.timedimension.layer.wms";
-import "leaflet-timedimension/src/leaflet.timedimension.player";
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
+
+import 'mapbox-gl/dist/mapbox-gl.css';
+import ReactMapGL, { LinearInterpolator, FlyToInterpolator } from 'react-map-gl';
+import WebMercatorViewport from 'viewport-mercator-project';
+import { easeCubic } from 'd3-ease';
+
+import Layer from "./Layer";
+import { setViewport } from "../../containers/App/actions";
+
+const mapboxToken = process.env.MAPBOX_TOKEN;
 
 const styles = (theme) => {
   return {
@@ -37,104 +32,97 @@ const styles = (theme) => {
 class Map extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      map: null
+      mapboxIsLoading: true,
+      viewport: {
+        width: window.document.body.offsetWidth,
+        height: window.document.body.offsetHeight,
+        latitude: 41.343825,
+        longitude: 17.775879,
+        zoom: 6
+      }
     };
+    
 
     this.flyTo = this.flyTo.bind(this);
+    this.flyToBbox = this.flyToBbox.bind(this);
+    /*
     this.setView = this.setView.bind(this);
     this.porcatPErPulire = this.porcatPErPulire.bind(this);
-    this.fitBounds = this.fitBounds.bind(this);
-  }
-
-  getChildContext() {
-    return { map: this.state.map };
+    this.fitBounds = this.fitBounds.bind(this);*/
   }
 
   componentDidMount() {
     console.info("did mount");
-    const { options } = this.props;
-    const { fitBounds, flyTo } = this;
+    const viewport = this.flyToBbox(this.props.bbox, 6000);
+    this.props.dispatch(setViewport({ ...this.state.viewport, ...viewport }));
+  }
 
-    const map = L.map(this.refs.map, options);
+  componentWillReceiveProps(nextProps) {
+    console.info("receive props");
+    let viewport = null;
 
-    this.setState({ map }, () => {
-      fitBounds()
-      //flyTo(options)
-    });
+    if(nextProps.viewport.zoom !== this.props.viewport.zoom || nextProps.viewport.longitude !== this.props.viewport.longitude || nextProps.viewport.latitude !== this.props.viewport.latitude) {
+      viewport = this.flyTo(nextProps.viewport.latitude, nextProps.viewport.longitude, nextProps.viewport.zoom);
+    } else {
+      if(JSON.stringify(nextProps.bbox) !== JSON.stringify(this.props.bbox)) {
+        viewport = this.flyToBbox(nextProps.bbox);
+      }
+      
+    }
+    
+    if(viewport) {
+      this.setState({viewport, mapboxIsLoading: false});
+    }
+  } 
 
+  flyTo(latitude, longitude, zoom, speed) {
+    const viewport = {
+      ...this.props.viewport,
+      longitude: latitude || this.props.viewport.latitude,
+      latitude: longitude || this.props.viewport.longitude,
+      zoom: zoom || this.props.viewport.zoom,
+      transitionDuration: speed || 800,
+      transitionInterpolator: new FlyToInterpolator(),
+      transitionEasing: easeCubic
+    };
+    return viewport;
   }
 
   componentWillUnmount() { 
-    let { map } = this.state;
-    map.off(); 
-    map.remove();
+    console.info("map unmount")
   }
 
-  timeout = null;
-
-  porcatPErPulire() {
-    let { timeout } = this;
-    const { map } = this.state;
-    if(timeout) {
-      clearTimeout(timeout);
-      timeout = null;  
-    }
-    timeout = setTimeout(() => {
-      if(map) {
-        map.invalidateSize();
-      }
-    }, 180);
-  }
-
-   componentWillReceiveProps(nextProps) {
-    console.info("receive props");
-    const options = nextProps.options;
-    this.flyTo(options);
-  } 
-
-  componentDidUpdate(nextProps) {
-    console.info("update component");
-    const options = nextProps.options;
-    //this.flyTo(options);
-  }
-
-  flyTo(options) {
-    this.state.map.flyTo([options.center[0], options.center[1]], options.zoom, {
-      animate: true,
-      duration: .8
-    });
-  }
-
-  fitBounds(bounds) {
-    const bound = bounds ? bounds : this.state.map.getBounds();
-    this.state.map.fitBounds(bound, {paddingTopLeft: [70, 240]});
-  }
-
-  setView(options) {
-    this.state.map.setView([options.center[0], options.center[1]], options.zoom, {
-      reset: false,
-      animate: true,
-      pan: {
-        animate: true,
-        duration: .8
-      },
-      zoom: {
-        animate: true
-      }
-    });
+  flyToBbox(bbox, speed) {
+    const {longitude, latitude, zoom} = new WebMercatorViewport(this.state.viewport)
+      .fitBounds(bbox || this.props.bbox, {
+        offset: [-280, -70]
+      });
+    return this.flyTo(latitude, longitude, zoom, speed);
   }
 
   render () {
     return (
-      <div id="gis-map" ref="map" style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}>
-        { this.state.map ? this.props.children : undefined }
-      </div>
+      <ReactMapGL 
+        width={this.state.viewport.width} 
+        height={this.state.viewport.height} 
+        mapStyle={this.props.mapStyle} 
+        id="gis-map" 
+        ref="map" 
+        style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}  
+        {...this.state.viewport} 
+        mapboxApiAccessToken={mapboxToken} 
+        onViewportChange={(viewport) => this.setState({viewport})}
+        //onViewStateChange={(e) => this.mapboxLoadingEnd(e)}
+        >
+        {!this.state.mapboxIsLoading && (
+          <>
+            {this.props.layers && this.props.layers.length && this.props.layers.map((layer, layerInxed) => <Layer key={"map-layer-" + layerInxed} layer={layer}/>)}
+          </>
+        )}
+      </ReactMapGL>
     )
   }
 }
-Map.childContextTypes = {
-  map: PropTypes.object
-};
+
 export default withStyles(styles, {withTheme: true})(Map);

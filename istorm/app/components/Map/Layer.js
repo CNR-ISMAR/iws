@@ -1,27 +1,36 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { BaseControl } from 'react-map-gl';
 
-class Layer extends React.Component {
+class Layer extends BaseControl {
 
     constructor(props) {
         super(props);
     }
   
     componentDidMount() {
-        this.props.layer.addTo(this.context.map);
+        const map = this._context.map;
+        const { layer } = this.props;
+        if(map.loaded()) {
+            map.addLayer(layer);
+        } else {
+            map.on('load', () => {
+                map.addLayer(layer);
+                map.off('load');
+            });    
+        }
+        
     }
 
     componentWillUnmount() {
-        const { map } = this.context;
+        const map = this._context.map;
         const { layer } = this.props;
-        layer.removeFrom(map);
-        //map.removeLayer(layer)
+        map.removeLayer(layer.id);
+        map.removeSource(layer.id);
     }
 
-    render() { return null; }
+    _render() { return null; }
 };
-Layer.contextTypes = {
-    map: PropTypes.object
-};
-export default Layer;
+
+export default React.memo(Layer);

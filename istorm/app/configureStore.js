@@ -55,6 +55,7 @@ export default function configureStore(initialState = {}, history) {
   const persistore = persistStore(store);
 
   // Extensions
+  store.persistore = persistore;
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
@@ -64,9 +65,12 @@ export default function configureStore(initialState = {}, history) {
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       
-      store.replaceReducer(
-        persistReducer(persistConfig, createReducer(store.injectedReducers))
-        );
+      store.replaceReducer(() => {
+        const redu = persistReducer(persistConfig, createReducer(store.injectedReducers));
+        //const redu = createReducer(store.injectedReducers);
+        store.persistore.persist();
+        return redu;
+      });
     });
   }
 

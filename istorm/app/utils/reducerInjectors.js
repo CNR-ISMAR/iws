@@ -24,6 +24,8 @@ export function injectReducerFactory(store, isValid) {
 
     store.injectedReducers[key] = reducer; // eslint-disable-line no-param-reassign
     store.replaceReducer(persistReducer(persistConfig, createReducer(store.injectedReducers)));
+    //store.replaceReducer(createReducer(store.injectedReducers));
+    //store.persistore.persist();
   };
 }
 

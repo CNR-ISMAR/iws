@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT } from './constants';
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -20,6 +20,32 @@ const waveUrl = proxyUrl + "/thredds/wms/tmes/TMES_waves_" + ncdate + ".nc";
 const seaLevelUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".nc";
 
 export const initialState = {
+  bbox: [[11.601563,36.031332], [23.950195,46.255847]],
+  viewport: {
+    longitude: 41.343825,
+    latitude: 17.775879,
+    zoom: 5,
+    bearing: 0,
+    pitch: 30
+  },
+  style: {
+    version: 8,
+    sources: {
+      backgroundLayer: {
+        type: "raster",
+        tiles: ["https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"],
+        tileSize: 256,
+        attribution: 'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+      }
+    },
+    layers: [{
+      id: "backgroundLayer",
+      type: "raster",
+      source: "backgroundLayer",
+      minzoom: 0,
+      maxzoom: 22
+    }]
+  },
   options: {
     center: [40.088190, 16.291049],
     zoom: 7,
@@ -46,23 +72,19 @@ export const initialState = {
       name: "Wave mean period",
       id: "wmpMean",
       isVisible: true,
-      // url: "http://localhost:3000/thredds/wms/tmes/TMES_sea_level_20190618.nc",
       url: waveUrl,
       isTimeseries: true,
-      options: {
-        // layers: 'sea_level-std',
-        layers: 'wmp-mean',
-        elevation: 0,
-        logscale: false,
-        format: 'image/png',
-        transparent: true,
-        abovemaxcolor: "extend",
-        belowmincolor: "extend",
-        numcolorbands: 20,
-        styles: 'boxfill/rainbow',
-        colorscalerange: '2.44,7.303',
-        version: '1.3.0',
-        // version: '1.1.1',
+      type: 'raster',
+      source: {
+      type: 'raster',
+        tiles: [
+          'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190630.nc?LAYERS=wmd-std&ELEVATION=0&TIME=2019-06-30T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
+        ],
+        width: 256,
+        height: 256
+      },
+      paint: {
+
       }
     }
   }
@@ -76,10 +98,13 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
         break;
       case ZOOM_IN:
-        draft.options.zoom = draft.options.zoom + 1;
+        draft.viewport.zoom = draft.viewport.zoom + .5;
       break;
       case ZOOM_OUT:
-        draft.options.zoom = draft.options.zoom - 1;
+        draft.viewport.zoom = draft.viewport.zoom - .5;
+      break;
+      case SET_VIEWPORT:
+        draft.viewport = action.viewport;
       break;
     }
   });
