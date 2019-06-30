@@ -34,8 +34,9 @@ RUN pip install --upgrade pip
 #install app
 COPY . /usr/src/iws
 #COPY ./srcgeonode /usr/src/geonode
-RUN pip install celery
+RUN pip install celery==4.2.1
 RUN pip install docker==3.7.0
+RUN pip install django-autocomplete-light==2.3.3
 RUN pip install invoke
 RUN pip install -r requirements.txt
 RUN pip install -e .
