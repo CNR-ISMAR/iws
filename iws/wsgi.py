@@ -36,16 +36,18 @@ framework.
 import os
 import sys
 
-execfile("/opt/VirtEnv/iws/bin/activate_this.py", {'__file__': "/opt/VirtEnv/iws/bin/activate_this.py"})
+# TODO use an env variable for dockerized or virtualenv installation
+
+#execfile("/opt/VirtEnv/iws/bin/activate_this.py", {'__file__': "/opt/VirtEnv/iws/bin/activate_this.py"})
 
 
 # add the hellodjango project path into the sys.path
-sys.path.append('/opt/iws')
-sys.path.append('/opt/geonode')
+# sys.path.append('/opt/iws')
+# sys.path.append('/opt/geonode')
 
 
 # add the virtualenv site-packages path to the sys.path
-sys.path.append('/opt/VirtEnv/istorm_geonode/lib/site-packages')
+# sys.path.append('/opt/VirtEnv/istorm_geonode/lib/site-packages')
 
 # poiting to the project settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "iws.settings")

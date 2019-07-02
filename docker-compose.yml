@@ -11,8 +11,8 @@ services:
       org.geonode.component: db
       org.geonode.instance.name: geonode
     volumes:
-      - /opt/iws/dbdata:/var/lib/postgresql/data
-      - /opt/iws/dbbackups:/pg_backups
+      - /opt/iws/volumes/dbdata:/var/lib/postgresql/data
+      - /opt/iws/volumes/dbbackups:/pg_backups
     env_file:
     - ./.env
     environment:
@@ -204,9 +204,8 @@ services:
       - geoserver
     ports:
       - 80:80
-      - 443:443
     volumes:
-      - /opt/iws/statics:/mnt/volumes/statics
+      - /opt/iws/volumes/statics:/mnt/volumes/statics
 
 
   data-dir-conf:

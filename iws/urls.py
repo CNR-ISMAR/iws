@@ -26,8 +26,6 @@ from iws.measurements.grafana_proxy import GraphanaProxyView
 
 urlpatterns += (
 ## include your urls here
-    # DSS pharos views
-    url(r'^dss_pharos/', include('dss_pharos.urls')),
     # invitations
     url(r'invitations/', include ('invitations.urls')),
     #sea storm atlas
