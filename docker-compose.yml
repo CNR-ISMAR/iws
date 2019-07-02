@@ -11,8 +11,8 @@ services:
       org.geonode.component: db
       org.geonode.instance.name: geonode
     volumes:
-      - dbdata:/var/lib/postgresql/data
-      - dbbackups:/pg_backups
+      - /opt/iws/dbdata:/var/lib/postgresql/data
+      - /opt/iws/dbbackups:/pg_backups
     env_file:
     - ./.env
     environment:

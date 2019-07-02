@@ -26,8 +26,9 @@ var/
 geonode/
 
 #docker volumes
+volumes
 statics
-
+dbtata
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -38,6 +39,8 @@ statics
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+startup_log.txt
+
 
 # Unit test / coverage reports
 htmlcov/

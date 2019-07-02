@@ -50,7 +50,7 @@ RUN pip install -e .
 # superseded by pygdal
 #RUN pip install GDAL==2.1.3 --global-option=build_ext --global-option="-I/usr/include/gdal"
 RUN GDAL_VERSION=`gdal-config --version` && echo $GDAL_VERSION \
-    && PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9])" \
+    && PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9] | tail -1)" \
     && pip install pygdal==$PYGDAL_VERSION
 
 # fix for known bug in system-wide packages
