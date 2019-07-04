@@ -11,8 +11,10 @@ export const initialState = {
     loading: false,
     error: null,
     list: [{
+      id: "lol 1",
       title: "Ciao sono la prima"
     },{
+      id: "lol 2",
       title: "hey ecco la seconda"
     }],
   }
