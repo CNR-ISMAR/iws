@@ -14,6 +14,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { useInjectReducer } from 'utils/injectReducer';
+import { toggleDrawerMini, toggleDrawer } from './actions';
+import makeSelectSidebar from './selectors';
+import reducer from './reducer';
 
 import HeaderBar from "../../components/HeaderBar";
 import { FavoriteIcon } from '../../utils/icons';
@@ -37,7 +41,7 @@ const styles = (theme, style) => {
 };
 
 function FavouritesPage(props) {
-
+  useInjectReducer({ key: 'favourites', reducer });
   const linkTo = (path) => {
     if(isCurrentPage(path)) { 
       props.history.push("/favourites") 
