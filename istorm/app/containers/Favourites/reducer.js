@@ -7,9 +7,14 @@ import produce from 'immer';
 import { TOGGLE_DRAWER, OPEN_DRAWER, CLOSE_DRAWER, TOGGLE_DRAWER_MINI, CLOSE_DRAWER_MINI, OPEN_DRAWER_MINI } from './constants';
 
 export const initialState = {
-  drawer: {
-    open: true,
-    minimal: false,
+  favourites: {
+    loading: false,
+    error: null,
+    list: [{
+      title: "Ciao sono la prima"
+    },{
+      title: "hey ecco la seconda"
+    }],
   }
 };
 
