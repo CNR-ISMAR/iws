@@ -15,7 +15,6 @@ function pick(obj, keys) {
 }
 
 const app_env = pick(environment, JSON.parse(environment.GRANT_APP_ACCESS_TO));
-console.info(app_env);
 
 // console.log(app_env)
 

@@ -12,7 +12,9 @@ import messages from './messages';
 import { withStyles } from '@material-ui/core/styles';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+import DeckGL from '@deck.gl/react';
 import ReactMapGL, { LinearInterpolator, FlyToInterpolator } from 'react-map-gl';
+import { StaticMap } from 'react-map-gl';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
@@ -82,25 +84,26 @@ class Map extends React.Component {
 
   render () {
     return (
-      <ReactMapGL 
+      <DeckGL 
         disableTokenWarning={true}
-        width={this.state.viewport.width} 
-        height={this.state.viewport.height} 
-        mapStyle={this.props.mapStyle} 
+        //width={this.state.viewport.width} 
+        //height={this.state.viewport.height} 
         id="gis-map" 
         ref="map" 
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}  
-        {...this.props.viewport} 
-        mapboxApiAccessToken={mapboxToken} 
-        onViewportChange={this.updateViewport}
-        //onViewStateChange={(e) => this.mapboxLoadingEnd(e)}
+        viewState={this.props.viewport} 
+        //mapboxApiAccessToken={mapboxToken} 
+        onViewStateChange={this.updateViewport}
+        mapStyle={this.props.mapStyle}
+        controller={true}
         >
-        {true && (
+        <ReactMapGL disableTokenWarning={true} mapboxApiAccessToken={mapboxToken} />
+        {false && (
           <>
             {this.props.layers && this.props.layers.length && this.props.layers.map((layer) => <Layer key={"map-layer-" + layer.id} layer={layer}/>)}
           </>
         )}
-      </ReactMapGL>
+      </DeckGL>
     )
   }
 }
