@@ -84,26 +84,24 @@ class Map extends React.Component {
 
   render () {
     return (
-      <DeckGL 
+      <ReactMapGL 
         disableTokenWarning={true}
-        //width={this.state.viewport.width} 
-        //height={this.state.viewport.height} 
+        width={this.state.viewport.width} 
+        height={this.state.viewport.height} 
         id="gis-map" 
         ref="map" 
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}  
         viewState={this.props.viewport} 
-        //mapboxApiAccessToken={mapboxToken} 
-        onViewStateChange={this.updateViewport}
+        mapboxApiAccessToken={mapboxToken} 
+        onViewportChange={this.updateViewport}
         mapStyle={this.props.mapStyle}
-        controller={true}
         >
-        <ReactMapGL disableTokenWarning={true} mapboxApiAccessToken={mapboxToken} />
-        {false && (
+        {true && (
           <>
             {this.props.layers && this.props.layers.length && this.props.layers.map((layer) => <Layer key={"map-layer-" + layer.id} layer={layer}/>)}
           </>
         )}
-      </DeckGL>
+      </ReactMapGL>
     )
   }
 }
