@@ -11,6 +11,7 @@ app_name = 'oauth'
 
 urlpatterns = [
     url(r'^oauth/', include('openistorm.oauth.urls')),
+    url(r'^favorites/', include('openistorm.favorites.urls')),
 ]
 
 # router.register(r'users', UserViewSet)
