@@ -118,8 +118,8 @@ function MapPage(props) {
                 <ListItemText primary={props.mapPage.layers["wmpMean"].name} className={props.classes.overlayLayerMapListText} />
                 <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
               </ListItem>
-              <ListItem button onClick={(e) => props.dispatch(toggleLayerVisibility())} key={"nav-layer-sea-level"}>
-                <ListItemText primary={"Sea Level"}  className={props.classes.overlayLayerMapListText} />
+              <ListItem button selected={props.mapPage.layers["seaLevel"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-sea-level"}>
+                <ListItemText primary={props.mapPage.layers["seaLevel"].name}  className={props.classes.overlayLayerMapListText} />
                 <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
               </ListItem>
           </List>
