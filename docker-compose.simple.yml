@@ -2,7 +2,6 @@ version: '2.2'
 services:
 
   db:
-#    image: geonode/postgis:9.6
     build: ./postgis
     restart: unless-stopped
     container_name: db4${COMPOSE_PROJECT_NAME}
@@ -37,7 +36,6 @@ services:
         org.geonode.instance.name: geonode
     depends_on:
       - db
-      - elasticsearch
       - rabbitmq
     command: celery worker --app=iws.celeryapp:app --broker=amqp://guest:guest@rabbitmq:5672/ -B -l INFO
     volumes:
@@ -84,9 +82,6 @@ services:
       SITEURL: http://localhost/
       ALLOWED_HOSTS: "['localhost','*', 'django', 'django:8000']"
       GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
-      # GEOSERVER_ADMIN_PASSWORD: admin
-      # See https://github.com/geosolutions-it/geonode-generic/issues/28
-      # to see why we force API version to 1.24
       DOCKER_API_VERSION: "1.24"
 
   django:
@@ -100,9 +95,7 @@ services:
       org.geonode.instance.name: geonode
     depends_on:
       - db
-      - elasticsearch
       - rabbitmq
-      - data-dir-conf
     command: python manage.py runserver --settings=iws.settings 0.0.0.0:8000
     volumes:
       - .:/usr/src/iws
@@ -198,27 +191,6 @@ services:
       org.geonode.component: rabbitmq
       org.geonode.instance.name: geonode
 
-  data-dir-conf:
-    image: geonode/geoserver_data:2.14.x
-    restart: on-failure
-    container_name: gsconf4${COMPOSE_PROJECT_NAME}
-    labels:
-        org.geonode.component: conf
-        org.geonode.instance.name: geonode
-    command: /bin/true
-    # command: tail -f /dev/null
-    volumes:
-      - geoserver-data-dir:/geoserver_data/data
-
-  elasticsearch:
-    image: elasticsearch:2.4.1
-    restart: unless-stopped
-    container_name: elasticsearch4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    tty: true
-    labels:
-        org.geonode.component: elasticsearch
-        org.geonode.instance.name: geonode
 volumes:
   geoserver-data-dir:
   dbdata:
