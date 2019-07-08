@@ -4,10 +4,14 @@
  *
  */
 import produce from 'immer';
+import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
+
+const currentTimeDimention = moment(currentTime).format("YYYY-MM-DD");
+const currentTimeDimentionOneYearBefore = moment(currentTime).subtract(1, "years").format("YYYY-MM-DD");
 
 const tomorrow = new Date();
 tomorrow.setDate(currentTime.getDate() + 1);
@@ -56,7 +60,25 @@ export const initialState = {
       source: {
       type: 'raster',
         tiles: [
-          'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190630.nc?LAYERS=wmd-std&ELEVATION=0&TIME=2019-06-30T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
+          waveUrl + '?LAYERS=wmp-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
+        ],
+        width: 256,
+        height: 256
+      },
+      paint: {
+
+      }
+    },
+    seaLevel: {
+      name: "seaLevel",
+      id: "seaLevel",
+      isVisible: true,
+      isTimeseries: true,
+      type: 'raster',
+      source: {
+      type: 'raster',
+        tiles: [
+          seaLevelUrl + '?LAYERS=sea_level-mean&ELEVATION=0&TIME=' + "2018-12-07" + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
         ],
         width: 256,
         height: 256

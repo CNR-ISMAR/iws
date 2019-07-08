@@ -43,6 +43,9 @@ const styles = (theme) => {
       }
       //fontWeight: 600
     },
+    logoImage: {
+      width: 120,
+    },
     hide: {
       display: 'none',
     },
@@ -70,7 +73,7 @@ function Header(props) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
-          <Link to="/" component={LinkRouter}>iStrom</Link>
+          <Link to="/" component={LinkRouter}><img src={require('images/logo_scritta.svg')} className={props.classes.logoImage} /></Link>
         </Typography>
         <div className={props.classes.spacer} />
         {!props.isLogged && (<Link to="/login" component={LinkRouter} className={props.classes.menuButton}>Login</Link>)}
