@@ -11,6 +11,8 @@ services:
     labels:
       org.geonode.component: db
       org.geonode.instance.name: geonode
+    ports:
+      - 5432:5432
     volumes:
       - ./volumes/dbdata:/var/lib/postgresql/data
       - ./volumes/dbbackups:/pg_backups
