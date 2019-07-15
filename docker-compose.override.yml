@@ -6,17 +6,17 @@ services:
       GEONODE_LB_HOST_IP: localhost
       GEONODE_LB_PORT: 80
       SITEURL: http://localhost/
-      ALLOWED_HOSTS: "['localhost']"
-      GEOSERVER_PUBLIC_LOCATION: http://localhost/geoserver/
+      ALLOWED_HOSTS: "['localhost', 'iws.seastorms.eu', 'www.seastorms.eu']"
+      GEOSERVER_PUBLIC_LOCATION: http://iws.seastorms.eu/geoserver/
 
   celery:
     environment:
       DEBUG: 'True'
       GEONODE_LB_HOST_IP: localhost
       GEONODE_LB_PORT: 80
-      SITEURL: http://localhost/
-      ALLOWED_HOSTS: "['localhost']"
-      GEOSERVER_PUBLIC_LOCATION: http://localhost/geoserver/
+      SITEURL: http://iws.seastorms.eu/
+      ALLOWED_HOSTS: "['localhost', 'iws.seastorms.eu', 'www.seastorms.eu']"
+      GEOSERVER_PUBLIC_LOCATION: http://iws.seastorms.eu/geoserver/
 
   geoserver:
     environment:

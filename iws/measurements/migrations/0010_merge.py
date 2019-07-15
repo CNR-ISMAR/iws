@@ -8,7 +8,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('measurements', '0009_auto_20190201_1718'),
-        ('measurements', '0009_auto_20190201_2000'),
     ]
 
     operations = [

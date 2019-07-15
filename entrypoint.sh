@@ -27,9 +27,13 @@ fi
 /usr/local/bin/invoke initialized
 echo "initialized"
 
-echo "refresh static data"
-/usr/local/bin/invoke statics
-echo "static data refreshed"
+if [ ! -d  "/mnt/volumes/statics/static" ]; then
+    echo "refresh static data"
+    /usr/local/bin/invoke statics
+    echo "static data refreshed"
+else
+    echo "static data unchanged"
+fi
 
 cmd="$@"
 
