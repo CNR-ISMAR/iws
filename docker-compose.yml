@@ -63,7 +63,7 @@ services:
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     env_file:
-    - ./.env
+    - ./django.env
     environment:
       DJANGO_SETTINGS_MODULE: iws.settings
       GEONODE_INSTANCE_NAME: geonode
@@ -153,7 +153,7 @@ services:
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     env_file:
-    - ./.env
+      - ./.env
     environment:
       DJANGO_SETTINGS_MODULE: iws.settings
       GEONODE_INSTANCE_NAME: geonode
