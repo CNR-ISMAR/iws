@@ -7,8 +7,9 @@ set -x
 INITIAL_PATH='/opt/'
 
 
-cd "$INITIAL_PATH"
-pip install -e iws/
+cd "$INITIAL_PATH"iws
+pip install -r requirements.txt --upgrade
+pip install -e . --upgrade
 cd "$INITIAL_PATH"iws/install
 patch "$VIRTUAL_ENV"/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py libgeos_patch.py
 
