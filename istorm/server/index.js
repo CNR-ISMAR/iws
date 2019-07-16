@@ -25,7 +25,8 @@ const app = express();
 // const proxyHost = 'https://iws.ismar.cnr.it';
 // const proxyHost = environment.THREDDS_TO_PROXY;
 const proxyHost = environment.THREDDS_TO_PROXY;
-const proxyHostApi = environment.API_URL_TO_PROXY;
+// const proxyHostApi = environment.API_URL_TO_PROXY;
+const proxyHostApi = environment.API_URL;
 // const proxyUrl = 'https://iws.ismar.cnr.it/thredds';
 console.log('proxyHost');
 console.log(proxyHost);
@@ -33,6 +34,10 @@ app.use('/thredds', proxy(proxyHost, {
   proxyReqOptDecorator(opts) {
     if ('origin' in opts.headers)
       delete opts.headers['origin'];
+    if ('Referer' in opts.headers)
+      delete opts.headers['Referer'];
+    if ('referer' in opts.headers)
+      delete opts.headers['referer'];
     if ('x-powered-by' in opts.headers)
       delete opts.headers['x-powered-by'];
     // console.log(opts)
