@@ -1,6 +1,6 @@
 {
   "name": "@sakitam-gis/webgl-wind",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Wind power visualization with WebGL particles",
   "author": "sakitam-fdd <smilefdd@gmail.com>",
   "homepage": "https://github.com/sakitam-gis/webgl-wind/packages/core",
@@ -34,5 +34,6 @@
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "f69acaa3cd3e1ef8aab05c833fbf2320109e02ed"
 }
