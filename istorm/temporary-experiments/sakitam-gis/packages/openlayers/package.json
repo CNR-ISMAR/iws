@@ -1,6 +1,6 @@
 {
   "name": "@sakitam-gis/ol-windgl",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Wind power visualization with openlayers",
   "author": "sakitam-fdd <smilefdd@gmail.com>",
   "homepage": "https://github.com/sakitam-gis/webgl-wind/packages/openlayers",
@@ -31,7 +31,7 @@
     "build": "cross-env LIB_ENV=development webpack --config webpack.config.js"
   },
   "dependencies": {
-    "@sakitam-gis/webgl-wind": "^3.0.1"
+    "@sakitam-gis/webgl-wind": "^3.0.2"
   },
   "peerDependencies": {
     "ol": "^5.3.1"
@@ -44,5 +44,5 @@
     "npm": ">= 3.0.0"
   },
   "license": "MIT",
-  "gitHead": "f69acaa3cd3e1ef8aab05c833fbf2320109e02ed"
+  "gitHead": "9f64b85579e33ec5ef48637e6a13699c12a627e9"
 }
