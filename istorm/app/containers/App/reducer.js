@@ -60,7 +60,7 @@ export const initialState = {
       source: {
       type: 'raster',
         tiles: [
-          waveUrl + '?LAYERS=wmp-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
+          waveUrl + '?LAYERS=wmp-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=2.44%2C7.303&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
         ],
         width: 256,
         height: 256
@@ -78,7 +78,7 @@ export const initialState = {
       source: {
       type: 'raster',
         tiles: [
-          seaLevelUrl + '?LAYERS=sea_level-mean&ELEVATION=0&TIME=' + "2018-12-07" + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
+          seaLevelUrl + '?LAYERS=sea_level-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
         ],
         width: 256,
         height: 256
