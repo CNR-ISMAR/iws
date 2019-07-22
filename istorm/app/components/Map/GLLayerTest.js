@@ -120,7 +120,8 @@ class GLLayerTest extends BaseControl {
   calcNumParticles(width, height) {
     console.log('calcNumParticles')
     return Math.min(Math.floor(width / 10 * height / 10),
-      3000);
+      3000
+    );
   }
 
 
@@ -137,7 +138,7 @@ class GLLayerTest extends BaseControl {
     console.log(data)
 
     // let resolution = map.getView().getResolution();
-    let resolution = 1548.0;
+    let resolution = 1024.0;
     let scale = data.resolution / resolution;
     // let scale = 1;
     const map = this._context.map;

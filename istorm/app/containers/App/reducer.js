@@ -30,7 +30,7 @@ export const initialState = {
     latitude: 45.43713, 
     zoom: 5,
     bearing: 0,
-    pitch: 30
+    pitch: 0
   },
   style: {
     version: 8,
