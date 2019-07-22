@@ -54,7 +54,7 @@ export const initialState = {
     wmpMean: {
       name: "Wave mean period",
       id: "wmpMean",
-      isVisible: true,
+      isVisible: false,
       isTimeseries: true,
       type: 'raster',
       source: {
@@ -72,7 +72,7 @@ export const initialState = {
     seaLevel: {
       name: "seaLevel",
       id: "seaLevel",
-      isVisible: true,
+      isVisible: false,
       isTimeseries: true,
       type: 'raster',
       source: {
