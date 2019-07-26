@@ -1,5 +1,4 @@
 import {CanvasOverlay } from 'react-map-gl';
-import GLLayerTest from './GLLayerTest';
 import { window } from 'react-map-gl/src/utils/globals';
 import PropTypes from 'prop-types';
 import BaseControl from 'react-map-gl/dist/es6/components/base-control';

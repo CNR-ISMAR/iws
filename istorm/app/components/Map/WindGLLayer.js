@@ -7,7 +7,7 @@ import GLCanvasOverlay from './GLCanvasOverlay';
 import windImageSrc from './tmp/2019071600.png'
 import windJson from './tmp/2019071600.json'
 
-class GLLayerTest extends BaseControl {
+class WindGLLayer extends BaseControl {
 
   constructor(props) {
     super(props);
@@ -272,4 +272,4 @@ class GLLayerTest extends BaseControl {
 
 };
 
-export default GLLayerTest;
+export default WindGLLayer;
