@@ -21,11 +21,8 @@ import Layer from "./Layer";
 import { setViewport } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator, SVGOverlay } from 'react-map-gl';
-// import ReactMapGL, {BaseControl,  LinearInterpolator, FlyToInterpolator, SVGOverlay, CanvasOverlay } from 'react-map-gl';
-// import GLLayer from "./GLLayer";
-// import SVGOverlayTest from "./SVGOverlayTest";
-import GLLayerTest from "./GLLayerTest";
-import GLCanvasOverlay from './GLCanvasOverlay';
+
+import WindGLLayer from "./WindGLLayer";
 
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
@@ -141,8 +138,8 @@ class Map extends React.Component {
               // && [0].map( () => <GLLayer key={"aaa-"} />)
             }
             {/*<SVGOverlayTest key={'SVGOverlayTest'} layer={{id:'SVGOverlayTest',ref:'SVGOverlayTest'}}/>*/}
-            {/*<GLCanvasOverlay key={'GLLayerTest'} layer={{id:'GLLayerTest',ref:'GLLayerTest'}}/>*/}
-            <GLLayerTest key={'GLLayerTest'} layer={{id:'GLLayerTest',ref:'GLLayerTest'}}/>
+            {/*<GLCanvasOverlay key={'WindGLLayer'} layer={{id:'WindGLLayer',ref:'WindGLLayer'}}/>*/}
+            <WindGLLayer key={'WindGLLayer'} layer={{id:'WindGLLayer',ref:'WindGLLayer'}}/>
           </>
         )}
       </ReactMapGL>
