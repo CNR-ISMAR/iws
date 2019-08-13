@@ -2,7 +2,7 @@ version: "2.0"
 services:
 
   db:
-    image: geonode/postgis:9.6
+    image: geonode/postgis:10
     #image: iws_db:modified
     restart: unless-stopped
     container_name: db4${COMPOSE_PROJECT_NAME}
