@@ -16,11 +16,11 @@ patch "$VIRTUAL_ENV"/local/lib/python2.7/site-packages/django/contrib/gis/geos/l
 cd ..
 
 GDAL_VERSION=`gdal-config --version`
-PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9])"
+PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9] | tail -1)"
 pip install pygdal==$PYGDAL_VERSION
 
 pip uninstall psycopg2
-pip install --no-binary psycopg2 psycopg2==2.7.3.1
+pip install --no-binary psycopg2 psycopg2==2.7.7
 
 pip uninstall djangorestframework
 pip install djangorestframework==3.5.4
