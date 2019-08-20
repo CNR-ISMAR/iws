@@ -66,7 +66,7 @@ INSTALLED_APPS += (PROJECT_NAME,
                    PROJECT_NAME + '.tmes',
                    # 'rest_framework',
                    'rest_framework_swagger',
-                   'django_extensions',
+                   #'django_extensions',
 )
 
 # Location of url mappings
