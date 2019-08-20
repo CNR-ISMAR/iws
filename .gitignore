@@ -28,7 +28,7 @@ geonode/
 #docker volumes
 volumes
 statics
-dbtata
+dbdata
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
