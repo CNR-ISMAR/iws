@@ -120,7 +120,15 @@ class WindLayer {
     }
     let data = wind.windData;
     console.log(map)
-    let resolution = 1024.0;
+    // let resolution = 1024.0;
+    // Spx = C * cos(latitude) / 2 ^ (zoomlevel + 8)
+    // 40075016.686
+    // let resolution = 40075016.686 * Math.cos(map.transform._center.lat) / 2 ^ (map.transform._zoom + 8)
+    let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.transform._zoom/map.transform.zoomFraction) + 8)
+    // let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (5 + 8))
+    console.log('resolution')
+    console.log(resolution)
+    console.log(Math.pow(2, map.transform._zoom + 8))
     // let resolution = map.transform.width;
     let scale = data.resolution / resolution;
     let position = map.project([data.lo1, data.la1]);
