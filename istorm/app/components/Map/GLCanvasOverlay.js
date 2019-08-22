@@ -31,9 +31,11 @@ class GLCanvasOverlay extends CanvasOverlay {
         return;
       }
 
-      // const pixelRatio = window.devicePixelRatio || 1;
-      // ctx.save();
-      // ctx.scale(pixelRatio, pixelRatio);
+      const pixelRatio = window.devicePixelRatio || 1;
+      // console.log(ctx)
+      // ctx.canvas.save();
+      // ctx.canvas.scale(pixelRatio, pixelRatio);
+
       const _this$_context = this._context,
         viewport = _this$_context.viewport,
         isDragging = _this$_context.isDragging;
@@ -45,11 +47,10 @@ class GLCanvasOverlay extends CanvasOverlay {
         project: viewport.project.bind(viewport),
         unproject: viewport.unproject.bind(viewport)
       });
+
       // ctx.restore();
     });
   }
-
-
 
   componentDidMount() {
     const canvas = this._containerRef.current;
@@ -61,39 +62,6 @@ class GLCanvasOverlay extends CanvasOverlay {
 
     this._redraw();
   }
-
-  _redraw = () => {
-    // const ctx = this._ctx;
-    // if (!ctx) {
-    //   return;
-    // }
-    //
-    // const pixelRatio = window.devicePixelRatio || 1;
-    // ctx.save();
-    // ctx.scale(pixelRatio, pixelRatio);
-    //
-    // const {viewport, isDragging} = this._context;
-    // this.props.redraw({
-    //   width: viewport.width,
-    //   height: viewport.height,
-    //   ctx,
-    //   isDragging,
-    //   project: viewport.project.bind(viewport),
-    //   unproject: viewport.unproject.bind(viewport)
-    // });
-    //
-    // ctx.restore();
-  };
-
-
-
-
-
-
-
-
-
-
 }
 
 

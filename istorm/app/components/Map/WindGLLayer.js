@@ -16,7 +16,9 @@ class WindGLLayer extends BaseControl {
     this.updateWindScale = this.updateWindScale.bind(this);
     this.drawWind = this.drawWind.bind(this);
     this.refreshWind = this.refreshWind.bind(this);
-      this.state = {wind: null};
+      this.state = {
+        wind: null
+      };
   }
 
   componentDidMount() {
@@ -36,6 +38,12 @@ class WindGLLayer extends BaseControl {
 
   }
   redraw({width, height, ctx, project}) {
+    this.state.mapInfo = {
+      width:width,
+      height:height,
+      ctx:ctx,
+      project:project,
+    }
     console.log('redraw')
     console.log('width, height, ctx, project')
     console.log(width, height, ctx, project)
@@ -65,9 +73,10 @@ class WindGLLayer extends BaseControl {
     windData.image = windImage;
     windImage.src = windImageSrc;
     const updateWindScale = this.updateWindScale
+    const mapInfo = this.state.mapInfo
       windImage.onload = function () {
       wind.setWind(windData);
-      updateWindScale(wind);
+      updateWindScale(wind, mapInfo);
     };
 
     windImage.crossOrigin = "Anonymous"
@@ -125,8 +134,9 @@ class WindGLLayer extends BaseControl {
   }
 
 
-  updateWindScale(wind) {
+  updateWindScale(wind, mapInfo) {
     console.log('updateWindScale')
+    console.log(mapInfo)
     if (!wind || !wind.windData) {
       console.log('error !wind || !wind.windData')
       return;
@@ -139,9 +149,12 @@ class WindGLLayer extends BaseControl {
 
     // let resolution = map.getView().getResolution();
     let resolution = 1024.0;
+    // let resolution = mapInfo.width*1.4;
     let scale = data.resolution / resolution;
+    // scale=window.devicePixelRatio;
     // let scale = 1;
     const map = this._context.map;
+    console.log(map)
     // let position = map.getPixelFromCoordinate([data.offset_x, data.offset_y]);
     // let position = map.unproject([data.offset_x, data.offset_y]);
     let position = map.project([data.lo1, data.la1]);
@@ -175,8 +188,9 @@ class WindGLLayer extends BaseControl {
     //   windCanvas.hidden = false;
     // }
   }
+
   drawWind(wind) {
-    // console.log(wind)
+    // console.log('drawWind')
     if (this.state.wind.windData) {
       // console.log('vero')
       this.state.wind.draw();
@@ -187,6 +201,7 @@ class WindGLLayer extends BaseControl {
   }
 
   refreshWind(wind) {
+    console.log('refreshWind')
     return new Promise(function(resolve, reject) {
       if (!wind) {
         resolve();
@@ -240,7 +255,7 @@ class WindGLLayer extends BaseControl {
           windImage.src = HOST + "/2019071600.png";
           windImage.onload = function () {
             wind.setWind(windData);
-            updateWindScale();
+            updatmeWindScale();
           };
         }
 
@@ -256,6 +271,7 @@ class WindGLLayer extends BaseControl {
     });
   }
   updateWindCanvasSize(wind, windCanvas) {
+    console.log('updateWindCanvasSize')
     if (!wind) {
       return;
     }
@@ -268,6 +284,37 @@ class WindGLLayer extends BaseControl {
   }
 
 
+    //
+    // function updateWindScale() {
+    //     if (!wind || !wind.windData) {
+    //         return;
+    //     }
+    //
+    //     let data = wind.windData;
+    //
+    //     let resolution = map.getView().getResolution();
+    //     let scale = data.resolution / resolution;
+    //
+    //     let position = map.getPixelFromCoordinate([data.offset_x, data.offset_y]);
+    //     if (!position) {
+    //         return;
+    //     }
+    //     position[1] -= data.height * scale;
+    //
+    //     let offset = [
+    //         Math.max(-position[0] / scale, 0),
+    //         Math.max(-position[1] / scale, 0)
+    //     ];
+    //
+    //     wind.move(position[0], position[1]);
+    //     wind.offset(offset[0], offset[1]);
+    //     wind.zoom(scale);
+    //     wind.reset();
+    //
+    //     if (showWind) {
+    //         windCanvas.hidden = false;
+    //     }
+    // }
 
 
 };
