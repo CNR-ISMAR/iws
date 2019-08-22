@@ -60,8 +60,8 @@ function createTexture(gl, filter, data, width, height) {
     if (data instanceof Uint8Array) {
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
     } else {
-      console.log('createTexture')
-      console.log(data)
+      // console.log('createTexture')
+      // console.log(data)
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, data);
     }
     gl.bindTexture(gl.TEXTURE_2D, null);
@@ -222,10 +222,11 @@ var defaultRampColors = {
 var WindGL = function WindGL(gl) {
     this.gl = gl;
 
+    // this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
     this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
-    this.speedFactor = 0.7; // how fast the particles move
-    this.dropRate = 0.003; // how often the particles move to a random place
-    this.dropRateBump = 0.01; // drop rate increase relative to individual particle speed
+    this.speedFactor = 0.8; // how fast the particles move
+    this.dropRate = 0.01; // how often the particles move to a random place
+    this.dropRateBump = 0.1; // drop rate increase relative to individual particle speed
     this.pointSize = 1.5;
     this.maxWind = 32.0;
     this.opacity = 0.6;
