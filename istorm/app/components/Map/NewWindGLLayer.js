@@ -59,6 +59,7 @@ class WindLayer {
   onAdd(map, gl) {
     console.log(map, gl)
 
+    this.state.map = map
     const wind = new WindGL(gl);
     wind.numParticles = this.calcNumParticles(map.transform.width, map.transform.height);
     let windData = windJson;
@@ -74,34 +75,29 @@ class WindLayer {
     windData.windData = windImage;
     wind.setWind(windData)
     this.state.wind = wind
-    this.state.map = map
-    this.drawWind();
-
-    // const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-    // gl.shaderSource(vertexShader, vertexSource);
-    // gl.compileShader(vertexShader);
-    // const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    // gl.shaderSource(fragmentShader, fragmentSource);
-    // gl.compileShader(fragmentShader);
-    //
-    // this.program = gl.createProgram();
-    // gl.attachShader(this.program, vertexShader);
-    // gl.attachShader(this.program, fragmentShader);
-    // gl.linkProgram(this.program);
   }
 
   drawWind() {
-    if (this.state.wind.windData) {
+    if (this.state.wind && this.state.wind.windData) {
       this.state.wind.draw();
     }
     requestAnimationFrame(this.drawWind);
   }
 
-  render(gl, matrix) {
+  prerender(gl, matrix) {
+    console.log('prerender')
     const map = this.state.map
     const wind = this.state.wind
     this.updateWindScale(wind, map)
+
+  }
+
+  render(gl, matrix) {
     console.log('render')
+    const map = this.state.map
+    const wind = this.state.wind
+    // this.updateWindScale(wind, map)
+    this.drawWind();
   }
 
   calcNumParticles(width, height) {
@@ -124,7 +120,7 @@ class WindLayer {
     // Spx = C * cos(latitude) / 2 ^ (zoomlevel + 8)
     // 40075016.686
     // let resolution = 40075016.686 * Math.cos(map.transform._center.lat) / 2 ^ (map.transform._zoom + 8)
-    let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.transform._zoom/map.transform.zoomFraction) + 8)
+    let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.getZoom()) + 8) / 6
     // let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (5 + 8))
     console.log('resolution')
     console.log(resolution)
