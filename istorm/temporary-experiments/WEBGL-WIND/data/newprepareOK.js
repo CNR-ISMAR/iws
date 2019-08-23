@@ -28,7 +28,8 @@ function normalize(arr) {
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
 
-const data = JSON.parse(fs.readFileSync('TMES.json'));
+const data = JSON.parse(fs.readFileSync('TMES_waves_20190823-110000.json'));
+// const data = JSON.parse(fs.readFileSync('TMES.json'));
 const name = process.argv[2];
 let u = data[0];
 let v = data[1];
@@ -36,12 +37,12 @@ let v = data[1];
 u.data = normalize(u.data)
 v.data = normalize(v.data)
 
-u.minimum = getMin(u.data)
-u.maximum = getMax(u.data)
-v.minimum = getMin(v.data)
-v.maximum = getMax(v.data)
+u.minimum = getMin(u.data)/15
+u.maximum = getMax(u.data)/15
+v.minimum = getMin(v.data)*4
+v.maximum = getMax(v.data)*4
 
-console.log(u.minimum, u.maximum, v.minimum, v.maximum)
+console.log("data values: ", u.minimum, u.maximum, v.minimum, v.maximum)
 
 const width = u.header.nx;
 const height = u.header.ny;
@@ -49,10 +50,10 @@ const height = u.header.ny;
 
 
 //console.log(u)
-console.log(width, height)
+console.log("png dimensions: ", width, height)
 
 const png = new PNG({
-    colorType: 2,
+    colorType: 6,
     filterType: 4,
     width: width,
     height: height
@@ -62,14 +63,13 @@ for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
         const i = (y * width + x) * 4;
         const k = y * width + x;
-        // const k = y * width + Math.floor((x + width / 2)) % width;
-      // console.log('height = ' + height +' width = ' + width)
-      // console.log('y = ' + y +' x = ' + x)
-      // console.log('i = ' + i)
-      //   console.log('k = ' + k)
         if(u.data[k] && v.data[k]) {
+          u.data[k] = u.data[k] / 15
+          v.data[k] = v.data[k] * 4
             png.data[i + 0] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
             png.data[i + 1] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));
+            // png.data[i + 1] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
+            // png.data[i + 0] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));
             png.data[i + 2] = 0;
             png.data[i + 3] = 255;
         }
@@ -79,14 +79,22 @@ for (let y = 0; y < height; y++) {
 png.pack().pipe(fs.createWriteStream(name + '.png'));
 
 fs.writeFileSync(name + '.json', JSON.stringify({
-    source: 'http://nomads.ncep.noaa.gov',
+    source: 'https://iws.ismar.cnr.it/',
     date: u.header.refTime,
     width: width,
     height: height,
-    uMin: u.minimum,
-    uMax: u.maximum,
-    vMin: v.minimum,
-    vMax: v.maximum
+    max_x: v.maximum,
+    max_y: u.maximum,
+    min_x: v.minimum,
+    min_y: u.minimum,
+    lo1:  u.header.lo1,
+    la1:  u.header.la1,
+    lo2:  u.header.lo2,
+    la2:  u.header.la2,
+    // "lo1":12.21,
+    // "la1":45.85,
+    resolution: 1024.0,
+    error:false
 }, null, 2) + '\n');
 
 function formatDate(date, time) {

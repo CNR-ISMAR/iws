@@ -154,6 +154,7 @@ services:
     volumes:
       - statics:/mnt/volumes/statics
       - geoserver-data-dir:/geoserver_data/data
+      - .:/usr/src/iws
     env_file:
     - ./.env
     environment:

@@ -48,6 +48,18 @@ app.use('/thredds', proxy(proxyHost, {
   }
 }));
 
+/*
+name: wawes / sea_level_avg sea_level_std
+timestamp: timestamp hourly
+format: json / png
+ */
+/*
+http://localhost:3000/layer/sea_level_avg/154433232312/json
+ */
+app.get('/layer/:name/:timestamp/:format', (req, res) => {
+  return res.send(req.params);
+});
+
 app.use('/api', proxy(proxyHostApi, {
   proxyReqOptDecorator(opts) {
     if ('origin' in opts.headers)

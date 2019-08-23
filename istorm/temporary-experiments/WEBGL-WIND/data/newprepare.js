@@ -28,6 +28,7 @@ function normalize(arr) {
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
 
+// const data = JSON.parse(fs.readFileSync('TMES_waves_20190823-210000.json'));
 const data = JSON.parse(fs.readFileSync('TMES.json'));
 const name = process.argv[2];
 let u = data[0];

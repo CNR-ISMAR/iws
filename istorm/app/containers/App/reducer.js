@@ -29,7 +29,7 @@ export const initialState = {
     longitude: 12.33265,
     latitude: 45.43713, 
     zoom: 5,
-    // bearing: 0,
+    // bearing: 3,
     // pitch: 0
   },
   style: {
@@ -99,7 +99,7 @@ export const initialState = {
       },
       paint: {
         'circle-color': '#f00',
-        'circle-radius': 4,
+        // 'circle-radius': 4,
         "circle-radius": [
           "case",
           ["boolean", ["feature-state", "hover"], false],

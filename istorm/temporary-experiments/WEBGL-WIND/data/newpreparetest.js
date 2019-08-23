@@ -28,7 +28,6 @@ function normalize(arr) {
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
 
-// const data = JSON.parse(fs.readFileSync('TMES_waves_20190823-210000.json'));
 const data = JSON.parse(fs.readFileSync('TMES.json'));
 const name = process.argv[2];
 let u = data[0];
@@ -42,14 +41,15 @@ u.maximum = getMax(u.data)
 v.minimum = getMin(v.data)
 v.maximum = getMax(v.data)
 
-console.log("data values: ", u.minimum, u.maximum, v.minimum, v.maximum)
+console.log(u.minimum, u.maximum, v.minimum, v.maximum)
 
 const width = u.header.nx;
-const height = u.header.ny - 1;
+const height = u.header.ny;
+// const height = u.header.ny - 1;
 
 
 //console.log(u)
-console.log("png dimensions: ", width, height)
+console.log(width, height)
 
 const png = new PNG({
     colorType: 2,
@@ -61,7 +61,12 @@ const png = new PNG({
 for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
         const i = (y * width + x) * 4;
-        const k = y * width + Math.floor((x + width / 2)) % width;
+        const k = y * width + x;
+        // const k = y * width + Math.floor((x + width / 2)) % width;
+      // console.log('height = ' + height +' width = ' + width)
+      // console.log('y = ' + y +' x = ' + x)
+      // console.log('i = ' + i)
+      //   console.log('k = ' + k)
         if(u.data[k] && v.data[k]) {
             png.data[i + 0] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
             png.data[i + 1] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));
@@ -81,11 +86,7 @@ fs.writeFileSync(name + '.json', JSON.stringify({
     uMin: u.minimum,
     uMax: u.maximum,
     vMin: v.minimum,
-    vMax: v.maximum,
-    lo1:  u.header.lo1,
-    la1:  u.header.la1,
-    lo2:  u.header.lo2,
-    la2:  u.header.la2,
+    vMax: v.maximum
 }, null, 2) + '\n');
 
 function formatDate(date, time) {

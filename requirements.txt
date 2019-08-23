@@ -11,3 +11,7 @@ django-revproxy==0.9.15
 #awesome-slugify==1.6.5
 git+https://github.com/voronind/awesome-slugify.git
 oauth2-provider==0.0
+
+# OpenIstorm
+netCDF4==1.5.1.2
+wget==3.2
