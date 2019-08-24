@@ -545,4 +545,3 @@ CKEDITOR_UPLOAD_PATH = 'cked_upload'
 #set the mapa number for sea storm atlas, used in redirect into urls.py 
 STORM_ATLAS_MAP = 165
 
-
