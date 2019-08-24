@@ -7,4 +7,4 @@ from django.conf.urls import url
 # urlpatterns = [
 #     url(r'^geojson$', FavoriteListGeoJson.as_view(), name="geojson"),
 #     url(r'^$', FavoriteList.as_view(), name="list"),
-]
+# ]
