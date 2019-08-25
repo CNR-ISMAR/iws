@@ -1,30 +1,34 @@
 from rest_framework.response import Response
-from rest_framework.generics import  GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework import mixins, views
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from django.db.models import Max, Min
+from .models import ImageLayer
+from .serializers import ImageLayerSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.core.serializers import serialize
 import json
+import datetime
+from dateutil import parser
 
 
-# name: wawes / sea_level_avg sea_level_std
-# timestamp: timestamp hourly
-# format: json / png
+class ImageLayerList(ListAPIView):
+    serializer_class =  ImageLayerSerializer
+    permission_classes = (AllowAny,)
+    queryset = ImageLayer.objects.all()
 
+    def filter_queryset(self, qs):
+        qs = super(ImageLayerList, self).get_queryset()
+        dataset = self.request.query_params.get('dataset', 'waves')
+        fromdate = self.request.query_params.get('from', None)
+        todate = self.request.query_params.get('to', None)
+        fromdate = parser.parse(fromdate).timestamp().strftime('%s') if fromdate is not None else datetime.datetime.now().strftime('%s')
+        todate = parser.parse(todate).timestamp().strftime('%s') if todate is not None else (datetime.datetime.now() + datetime.timedelta(days=2)).strftime('%s')
+        qs = qs.filter(dataset=dataset, timestamp__range=(fromdate, todate)).all()
+        return qs
 
-
-# class JsonNC(GenericAPIView):
-#     def get(self, *args, **kwargs):
-#         file_path = os.path.join(settings.MEDIA_ROOT, path)
-#         if os.path.exists(file_path):
-#             with open(file_path, 'rb') as fh:
-#                 response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-#                 response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-#                 return response
-#         raise Http404
-#
-#
-#
-
-
-
-
+class ImageLayerBoundaries(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self, x):
+        boundaries = ImageLayer.objects.aggregate(max=Max('timestamp'), min=Min('timestamp'))
+        return Response(boundaries)
