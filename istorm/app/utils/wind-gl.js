@@ -209,15 +209,15 @@ function rotateNum(num) {
     return 1 - num;
 }
 
-// var defaultRampColors = {
-//     0.0: '#3288bd',
-//     0.173: '#66c2a5',
-//     0.349: '#edc945',
-//     0.511: '#fd8815',
-//     0.662: '#f46d43',
-//     0.845: '#d53e4f',
-//     1.0: '#aa3ed5',
-// };
+//var defaultRampColors = {
+//    0.0: '#3288bd',
+//    0.173: '#66c2a5',
+//    0.349: '#edc945',
+//    0.511: '#fd8815',
+//    0.662: '#f46d43',
+//    0.845: '#d53e4f',
+//    1.0: '#aa3ed5',
+//};
 var defaultRampColors = {
     0.0: '#87CEFA',
     0.173: '#00BFFF',
@@ -228,15 +228,32 @@ var defaultRampColors = {
     1.0: '#191970',
 };
 
+/* 
+ this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
+this.speedFactor = 0.7; // how fast the particles move
+this.dropRate = 0.003; // how often the particles move to a random place
+this.dropRateBump = 0.01; // drop rate increase relative to individual particle speed
+this.pointSize = 1.5;
+this.maxWind = 32.0;
+this.opacity = 0.6;
+
+
+this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
+this.speedFactor = 0.8; // how fast the particles move
+this.dropRate = 0.01; // how often the particles move to a random place
+this.dropRateBump = 0.1; // drop rate increase relative to individual particle speed
+this.pointSize = 1.5;
+this.maxWind = 32.0;
+this.opacity = 0.6; */
 var WindGL = function WindGL(gl) {
     this.gl = gl;
 
     // this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
-    this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
-    this.speedFactor = 0.8; // how fast the particles move
-    this.dropRate = 0.01; // how often the particles move to a random place
-    this.dropRateBump = 0.1; // drop rate increase relative to individual particle speed
-    this.pointSize = 1.5;
+    this.fadeOpacity = 0.993//0.998; // how fast the particle trails fade on each frame
+    this.speedFactor = 0.1; // how fast the particles move
+    this.dropRate = 0.003; // how often the particles move to a random place
+    this.dropRateBump = 0.02; // drop rate increase relative to individual particle speed
+    this.pointSize = 4;
     this.maxWind = 32.0;
     this.opacity = 0.6;
 
@@ -416,7 +433,7 @@ WindGL.prototype.drawParticles = function drawParticles () {
         this.offsetY / this.windData.height);
     gl.uniform2fv(program.u_distortion, this.calcDistortion());
 
-    gl.drawArrays(gl.POINTS, 0, this._numParticles);
+    gl.drawArrays(gl.POINT, 0, this._numParticles);
 };
 
 WindGL.prototype.updateParticles = function updateParticles () {

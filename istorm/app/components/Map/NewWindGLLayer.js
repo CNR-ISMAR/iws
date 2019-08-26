@@ -53,18 +53,18 @@ class NullIslandLayer {
 
 class WindLayer {
   constructor(ctx) {
-    this.id = 'wind';
+    this.id = 'anim-wave-layer';
     this.type = 'custom';
     this.ctx = ctx;
     this.renderingMode = '2d';
+    this.animationFrame = null;
     this.state = {wind: null, map: null};
-    this.render = this.render.bind(this)
+    //this.render = this.render.bind(this)
     this.drawWind = this.drawWind.bind(this)
   }
 
   onAdd(map, gl) {
-    // console.log(map, gl)
-
+    console.log('onAdd')
     this.state.map = map
     const wind = new WindGL(this.ctx);
     wind.numParticles = this.calcNumParticles(map.transform.width, map.transform.height);
@@ -81,30 +81,26 @@ class WindLayer {
     windData.windData = windImage;
     wind.setWind(windData)
     this.state.wind = wind
+    this.updateWindScale(wind, map)
+    this.drawWind();
+  }
+
+  onRemove() {
+    cancelAnimationFrame(this.animationFrame);
   }
 
   drawWind() {
     if (this.state.wind && this.state.wind.windData) {
       this.state.wind.draw();
     }
-    requestAnimationFrame(this.drawWind);
-  }
-
-  prerender(gl, matrix) {
-    // console.log(gl, matrix)
-    // console.log('prerender')
-    const map = this.state.map
-    const wind = this.state.wind
-    this.updateWindScale(wind, map)
-
+    this.animationFrame = requestAnimationFrame(this.drawWind);
   }
 
   render(gl, matrix) {
-    // console.log('render')
-    const map = this.state.map
-    const wind = this.state.wind
-    // this.updateWindScale(wind, map)
-    this.drawWind();
+    const map = this.state.map;
+    const wind = this.state.wind;
+    
+    this.updateWindScale(wind, map)
   }
 
   calcNumParticles(width, height) {
@@ -184,6 +180,13 @@ class NewWindGLLayer extends BaseControl {
       });
     }
 
+  }
+
+  componentWillUnmount() {
+    const map = this._context.map;
+    if(map) {
+      map.removeLayer("anim-wave-layer");
+    }
   }
 
   _render() {
