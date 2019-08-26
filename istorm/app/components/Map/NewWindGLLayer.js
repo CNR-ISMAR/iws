@@ -5,7 +5,8 @@ import WindGL from '../../utils/wind-gl';
 // import GLCanvasOverlay from './GLCanvasOverlay';
 // import windJson from './tmp/2019071600.json'
 // import windImageSrc from './tmp/2019071600.png'
-import windImageSrc from './tmp/ok2.png'
+// import windImageSrc from './tmp/ok2.png'
+import windImageSrc from './tmp/py.png'
 import windJson from './tmp/ok2.json'
 // import windImageSrc from './tmp/tmes.png'
 import {window} from "react-map-gl/dist/es6/utils/globals";

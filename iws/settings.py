@@ -489,3 +489,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,
 }
+
+THREDDS_URL = "https://iws.ismar.cnr.it/thredds/ncss/tmes/"
