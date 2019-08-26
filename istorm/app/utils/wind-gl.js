@@ -252,7 +252,7 @@ var WindGL = function WindGL(gl) {
     this.fadeOpacity = 0.993//0.998; // how fast the particle trails fade on each frame
     this.speedFactor = 0.1; // how fast the particles move
     this.dropRate = 0.003; // how often the particles move to a random place
-    this.dropRateBump = 0.02; // drop rate increase relative to individual particle speed
+    this.dropRateBump = 0.015; // drop rate increase relative to individual particle speed
     this.pointSize = 4;
     this.maxWind = 32.0;
     this.opacity = 0.6;
@@ -456,7 +456,7 @@ WindGL.prototype.updateParticles = function updateParticles () {
         this.offsetY / this.windData.height);
     gl.uniform2fv(program.u_distortion, distortion);
 
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    gl.drawArrays(gl.TRIANGLE, 0, 6);
     
     // Read wind data.
     var pixels = this.particleState;
