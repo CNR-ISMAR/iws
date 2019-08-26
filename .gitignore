@@ -28,7 +28,7 @@ geonode/
 #docker volumes
 volumes
 statics
-dbtata
+dbdata
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -75,6 +75,7 @@ development.db-journal
 local_settings.py
 dss_pharos
 iws/flooding/data/*
+dump_*
 build_log.txt
 srcgeonode/
 

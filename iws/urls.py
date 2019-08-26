@@ -48,3 +48,4 @@ urlpatterns = patterns('',
        TemplateView.as_view(template_name='site_index.html'),
        name='home'),
  ) + urlpatterns
+
