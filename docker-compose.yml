@@ -83,8 +83,8 @@ services:
       C_FORCE_ROOT: 1
       #SITEURL: http://localhost/
       # replaced with defaults in settings
-      GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
-      GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
+      #GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
+      #GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
       OGC_REQUEST_TIMEOUT: 300
       STATIC_ROOT: /mnt/volumes/statics/static
       MEDIA_ROOT: /mnt/volumes/statics/uploaded
@@ -134,7 +134,7 @@ services:
 
   django:
     restart: unless-stopped
-    #image: iws_django:modified
+    image: iws_django:latest
     build: .
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -153,7 +153,7 @@ services:
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     env_file:
-      - ./.env
+      - ./django.env
     environment:
       DJANGO_SETTINGS_MODULE: iws.settings
       GEONODE_INSTANCE_NAME: geonode
@@ -194,7 +194,8 @@ services:
       DOCKER_API_VERSION: "1.24"
 
   geonode:
-    image: geonode/nginx:geoserver
+    #image: geonode/nginx:geoserver
+    image: iws_nginx:latest
     restart: unless-stopped
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -213,6 +214,7 @@ services:
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/nginxconf:/etc/nginx/nginxconf
       - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
 
 
   data-dir-conf:

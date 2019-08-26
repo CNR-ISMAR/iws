@@ -30,8 +30,7 @@ except ImportError:
 # General Django development settings
 #
 PROJECT_NAME = 'iws'
-
-SITENAME = 'iws'
+SITENAME = os.getenv("SITENAME", '{{ project_name }}')
 
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
@@ -66,7 +65,7 @@ INSTALLED_APPS += (PROJECT_NAME,
                    PROJECT_NAME + '.tmes',
                    # 'rest_framework',
                    'rest_framework_swagger',
-                   # 'django_extensions',
+                   'django_extensions',
 )
 
 # Location of url mappings

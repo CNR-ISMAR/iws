@@ -26,6 +26,8 @@ from iws.measurements.grafana_proxy import GraphanaProxyView
 
 urlpatterns += (
 ## include your urls here
+    #pinaxnotifications
+    url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
     # invitations
     url(r'invitations/', include ('invitations.urls')),
     #sea storm atlas
