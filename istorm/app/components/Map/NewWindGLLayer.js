@@ -106,7 +106,7 @@ class WindLayer {
   calcNumParticles(width, height) {
     // console.log('calcNumParticles')
     return Math.min(Math.floor(width / 10 * height / 10),
-      2500
+      2200
     );
   }
 
@@ -123,7 +123,7 @@ class WindLayer {
     // Spx = C * cos(latitude) / 2 ^ (zoomlevel + 8)
     // 40075016.686
     // let resolution = 40075016.686 * Math.cos(map.transform._center.lat) / 2 ^ (map.transform._zoom + 8)
-    let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.getZoom()) + 8) / 5.04
+    let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.getZoom()) + 8) / 5.01
     // let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (5 + 8))
     // console.log('resolution')
     // // console.log(resolution)
