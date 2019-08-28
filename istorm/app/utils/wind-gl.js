@@ -231,25 +231,25 @@ function rotateNum(num) {
     return 1 - num;
 }
 
-// var defaultRampColors = {
-//    0.0: '#3288bd',
-//    0.173: '#66c2a5',
-//    0.349: '#edc945',
-//    0.511: '#fd8815',
-//    0.662: '#f46d43',
-//    0.845: '#d53e4f',
-//    1.0: '#aa3ed5',
-// };
-
 var defaultRampColors = {
-    0.0: '#87CEFA',
-    0.173: '#00BFFF',
-    0.349: '#1E90FF',
-    0.511: '#4169E1',
-    0.662: '#0000CD',
-    0.845: '#00008B',
-    1.0: '#191970',
+   0.0: '#3288bd',
+   0.173: '#66c2a5',
+   0.349: '#edc945',
+   0.511: '#fd8815',
+   0.662: '#f46d43',
+   0.845: '#d53e4f',
+   1.0: '#aa3ed5',
 };
+
+// var defaultRampColors = {
+//     0.0: '#87CEFA',
+//     0.173: '#00BFFF',
+//     0.349: '#1E90FF',
+//     0.511: '#4169E1',
+//     0.662: '#0000CD',
+//     0.845: '#00008B',
+//     1.0: '#191970',
+// };
 
 var WindGL = function WindGL(gl) {
     this.gl = gl;
@@ -277,12 +277,12 @@ var WindGL = function WindGL(gl) {
     // this.maxWind = 12;
     // this.opacity = 0.6;
 
-    this.fadeOpacity = 0.994//0.998; // how fast the particle trails fade on each frame
-    this.speedFactor = 0.11; // how fast the particles move
+    this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
+    this.speedFactor = 0.7; // how fast the particles move
     this.dropRate = 0.003; // how often the particles move to a random place
-    this.dropRateBump = 0.015; // drop rate increase relative to individual particle speed
-    this.pointSize = 3.5;
-    this.maxWind = 32.0;
+    this.dropRateBump = 0.01; // drop rate increase relative to individual particle speed
+    this.pointSize = 1.5;
+    this.maxWind = 12;
     this.opacity = 0.6;
 
     this.drawProgram = createProgram(gl, drawVert, drawFrag);
