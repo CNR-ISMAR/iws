@@ -108,6 +108,7 @@ services:
       - .:/usr/src/iws
       - statics:/mnt/volumes/statics
       - geoserver-data-dir:/geoserver_data/data
+      - ./temp_vol:/mnt/volumes/statics/static/waves
     env_file:
     - ./.env
     environment:

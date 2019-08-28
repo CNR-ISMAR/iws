@@ -18,6 +18,7 @@ RUN apt-get install -y \
     python-imaging python-lxml \
     python-dev libgdal-dev \
     python-ldap \
+    gdal-bin \
     libmemcached-dev libsasl2-dev zlib1g-dev \
     python-pylibmc \
     uwsgi uwsgi-plugin-python \

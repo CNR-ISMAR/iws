@@ -491,3 +491,4 @@ REST_FRAMEWORK = {
 }
 
 THREDDS_URL = "https://iws.ismar.cnr.it/thredds/ncss/tmes/"
+WAVES_DATA = os.path.join(STATIC_ROOT, 'waves')

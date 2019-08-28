@@ -10,12 +10,16 @@ import netCDF4
 from PIL import Image
 import json
 from dateutil import parser
-# from django.conf import settings
+from django.conf import settings
 
 
 class NCToImg:
 
-    def __init__(self, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean", "wsh-mean")):
+    def __init__(self, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean","wsh-mean")):
+
+        if not os.path.exists(settings.WAVES_DATA):
+            os.makedirs(settings.WAVES_DATA)
+
         now = datetime.now() - timedelta(days=0)
 
         self.parameters = parameters;
@@ -29,7 +33,9 @@ class NCToImg:
             "%Y%m%d")
 
         self.nc_filename = "TMES_" + self.dataset + "_" + self.source_date + ".nc"
-        self.url = "https://iws.ismar.cnr.it/thredds/ncss/tmes/" \
+        self.nc_filepath = os.path.join(settings.WAVES_DATA,"TMES_" + self.dataset + "_" + self.source_date + ".nc")
+
+        self.url = settings.THREDDS_URL \
                    + self.nc_filename \
                    + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
                    + self.time_from \
@@ -40,19 +46,19 @@ class NCToImg:
         self.transform()
 
     def transform(self):
-        wget.download(self.url, output=self.nc_filename)
+        # wget.download(self.url, out=self.nc_filepath)
 
-        if os.path.isfile(self.nc_filename):
+        if os.path.isfile(self.nc_filepath):
             # logging.info("File " + self.nc_filename+ " scaricato...")
 
-            tif1filename = "TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif"
-            tif2filename = "TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif"
+            tif1filename = os.path.join(settings.WAVES_DATA,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
+            tif2filename = os.path.join(settings.WAVES_DATA,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
 
             os.system(
-                'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filename + '":' +
+                'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
                 self.parameters[0] + ' ' + tif1filename)
             os.system(
-                'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filename + '":' +
+                'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
                 self.parameters[1] + ' ' + tif2filename)
 
             if os.path.isfile(tif1filename) & os.path.isfile(tif2filename):
@@ -61,6 +67,7 @@ class NCToImg:
                 ds1 = gdal.Open(tif1filename)
                 ds2 = gdal.Open(tif2filename)
 
+
                 since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
 
                 nx = ds1.RasterXSize
@@ -68,7 +75,7 @@ class NCToImg:
 
                 compParams = [10, 3]
 
-                ncfile = netCDF4.Dataset(self.nc_filename, 'r')
+                ncfile = netCDF4.Dataset(self.nc_filepath, 'r')
                 lon = ncfile.variables["lon"][:]
                 lat = ncfile.variables["lat"][:]
 
@@ -84,8 +91,10 @@ class NCToImg:
                 dy = str(-yres)
 
                 n_bande = ds1.RasterCount
+                # print("BANDE TOTALI "+str(n_bande))
 
                 for banda in range(1, n_bande):
+                    print("BANDA "+str(banda))
                     band1 = ds1.GetRasterBand(banda)
                     array1 = band1.ReadAsArray()
                     band2 = ds2.GetRasterBand(banda)
@@ -93,7 +102,8 @@ class NCToImg:
                     arrays = [array1, array2]
                     m = band1.GetMetadata()
 
-                    ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
+                    # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
+                    ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
                     json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M:000Z')
 
                     data = []
@@ -125,27 +135,35 @@ class NCToImg:
                             for valsX in range((nx)):
                                 valore = arrays[p][valsY][valsX]
                                 if valore is not None and str(valore) != "-999.0":
-                                    data[p]['data'].append(valore)
+                                    # print(valore)
+                                    # print(type(valore))
+                                    # exit(type(valore))
+                                    data[p]['data'].append(valore.item())
                                 else:
-                                    data[p]['data'].append("NaN")
+                                    data[p]['data'].append(None)
 
                         p = p + 1
 
                     tsfile = "TMES_"+ self.dataset + '_' + ts + ".json"
-                    with open(tsfile, 'w') as outfile:
+
+                    tsfile_path = os.path.join(settings.WAVES_DATA,tsfile)
+                    with open(tsfile_path, 'w') as outfile:
                         json.dump(data, outfile, indent=2)
-                    self.generate_image_and_meta_from_json(tsfile, self.dataset + '_' + ts)
+                    self.generate_image_and_meta_from_json(tsfile_path, os.path.join(settings.WAVES_DATA,self.dataset + '_' + ts))
+                    # TODO: save in database
 
                     # logging.info("Esportati "+str(n_bande)+ " file json in: "+str(datetime.now() - startTime))
 
-                    ds1 = None
-                    ds2 = None
-
-                    os.system("rm " + self.nc_filename)
-                    os.system("rm " + tif1filename)
-                    os.system("rm " + tif2filename)
+                    os.system("chmod -R 777 " + settings.WAVES_DATA)
+                # ds1 = None
+                # ds2 = None
+                # os.system("rm " + self.nc_filepath)
+                os.system("rm " + tif1filename)
+                os.system("rm " + tif2filename)
+                os.system("chmod -R 777 " + settings.WAVES_DATA)
 
     def generate_image_and_meta_from_json(self, input_file, output_name):
+        print(output_name)
         # input_file = self.input_file
         # output_name = self.output_name
 
@@ -153,8 +171,8 @@ class NCToImg:
             data = json.load(json_file)
 
         u, v = data[0], data[1]
-        u['data'] = self.normalize_data(u['data'])
-        v['data'] = self.normalize_data(v['data'])
+        u['data'] = u['data']
+        v['data'] = v['data']
         u['min'] = self.min(u['data'])
         v['min'] = self.min(v['data'])
         u['max'] = self.max(u['data'])
@@ -199,10 +217,10 @@ class NCToImg:
         with open(output_name + ".json", 'w') as outfile:
             json.dump(json_data, outfile, indent=2)
 
-        os.system("rm " + self.input_file)
+        os.system("rm " + input_file)
 
-    def normalize_data(self, data):
-        return list(map(lambda x: None if x == 'NaN' else x, data))
+    # def normalize_data(self, data):
+    #     return list(map(lambda x: None if x == 'NaN' else x, data))
 
     def min(self, data):
         return min(x for x in data if x is not None)
