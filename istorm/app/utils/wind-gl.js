@@ -60,8 +60,6 @@ function createTexture(gl, filter, data, width, height) {
     if (data instanceof Uint8Array) {
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
     } else {
-      // console.log('createTexture')
-      // console.log(data)
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, data);
     }
     gl.bindTexture(gl.TEXTURE_2D, null);
@@ -153,9 +151,33 @@ void main() {
 }
 `;
 
-var quadVert = "precision mediump float;\n\nattribute vec2 a_pos;\n\nvarying vec2 v_tex_pos;\n\nvoid main() {\n    v_tex_pos = a_pos;\n    gl_Position = vec4(1.0 - 2.0 * a_pos, 0, 1);\n}\n";
+var quadVert = `
+precision mediump float;
 
-var screenFrag = "precision mediump float;\n\nuniform sampler2D u_screen;\nuniform float u_opacity;\n\nvarying vec2 v_tex_pos;\n\nvoid main() {\n    vec4 color = texture2D(u_screen, 1.0 - v_tex_pos);\n    // a hack to guarantee opacity fade out even with a value close to 1.0\n    gl_FragColor = vec4(floor(255.0 * color * u_opacity) / 255.0);\n}\n";
+attribute vec2 a_pos;
+
+varying vec2 v_tex_pos;
+
+void main() {
+    v_tex_pos = a_pos;
+    gl_Position = vec4(1.0 - 2.0 * a_pos, 0, 1);
+}
+`;
+
+var screenFrag = `
+precision mediump float;
+
+uniform sampler2D u_screen;
+uniform float u_opacity;
+
+varying vec2 v_tex_pos;
+
+void main() {
+    vec4 color = texture2D(u_screen, 1.0 - v_tex_pos);
+    // a hack to guarantee opacity fade out even with a value close to 1.0
+    gl_FragColor = vec4(floor(255.0 * color * u_opacity) / 255.0);
+}
+`;
 
 var windFrag = `
 precision highp float;
@@ -209,7 +231,7 @@ function rotateNum(num) {
     return 1 - num;
 }
 
-//var defaultRampColors = {
+// var defaultRampColors = {
 //    0.0: '#3288bd',
 //    0.173: '#66c2a5',
 //    0.349: '#edc945',
@@ -217,7 +239,8 @@ function rotateNum(num) {
 //    0.662: '#f46d43',
 //    0.845: '#d53e4f',
 //    1.0: '#aa3ed5',
-//};
+// };
+
 var defaultRampColors = {
     0.0: '#87CEFA',
     0.173: '#00BFFF',
@@ -228,27 +251,32 @@ var defaultRampColors = {
     1.0: '#191970',
 };
 
-/* 
- this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
-this.speedFactor = 0.7; // how fast the particles move
-this.dropRate = 0.003; // how often the particles move to a random place
-this.dropRateBump = 0.01; // drop rate increase relative to individual particle speed
-this.pointSize = 1.5;
-this.maxWind = 32.0;
-this.opacity = 0.6;
-
-
-this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
-this.speedFactor = 0.8; // how fast the particles move
-this.dropRate = 0.01; // how often the particles move to a random place
-this.dropRateBump = 0.1; // drop rate increase relative to individual particle speed
-this.pointSize = 1.5;
-this.maxWind = 32.0;
-this.opacity = 0.6; */
 var WindGL = function WindGL(gl) {
     this.gl = gl;
+    /*
+    MARCO
+     */
+    /*
+    this.fadeOpacity = 0.994//0.998; // how fast the particle trails fade on each frame
+    this.speedFactor = 0.11; // how fast the particles move
+    this.dropRate = 0.003; // how often the particles move to a random place
+    this.dropRateBump = 0.015; // drop rate increase relative to individual particle speed
+    this.pointSize = 3.5;
+    this.maxWind = 32.0;
+    this.opacity = 0.6;
+     */
 
+    /*
+    ORIGINAL
+     */
     // this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
+    // this.speedFactor = 0.7; // how fast the particles move
+    // this.dropRate = 0.003; // how often the particles move to a random place
+    // this.dropRateBump = 0.01; // drop rate increase relative to individual particle speed
+    // this.pointSize = 1.5;
+    // this.maxWind = 12;
+    // this.opacity = 0.6;
+
     this.fadeOpacity = 0.994//0.998; // how fast the particle trails fade on each frame
     this.speedFactor = 0.11; // how fast the particles move
     this.dropRate = 0.003; // how often the particles move to a random place
@@ -269,6 +297,7 @@ var WindGL = function WindGL(gl) {
     this.scale = 1;
     this.offsetX = 0;
     this.offsetY = 0;
+    
 
     this.setColorRamp(defaultRampColors);
     this.resize();
@@ -382,8 +411,6 @@ WindGL.prototype.drawScreen = function drawScreen () {
     // enable blending to support drawing on top of an existing background (e.g. a map)
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    // gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-    // gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
     this.drawTexture(this.screenTexture, this.opacity);
     gl.disable(gl.BLEND);
 
@@ -457,7 +484,7 @@ WindGL.prototype.updateParticles = function updateParticles () {
     gl.uniform2fv(program.u_distortion, distortion);
 
     gl.drawArrays(gl.TRIANGLE, 0, 6);
-    
+
     // Read wind data.
     var pixels = this.particleState;
     gl.readPixels(0, 0, this.particleStateResolution, this.particleStateResolution,
@@ -487,7 +514,7 @@ WindGL.prototype.updateParticles = function updateParticles () {
         var length = Math.sqrt(velX * velX + velY * velY);
         var speed = Math.min(length / this.maxWind, 1.0);
         var dropRate = this.dropRate + speed * this.dropRateBump;
-        
+
         if (Math.random() < dropRate) {
             x = Math.random();
             y = Math.random();

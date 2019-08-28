@@ -31,19 +31,23 @@ function getMin(arr) {
 const PNG = require('pngjs').PNG;
 const fs = require('fs');
 
-const data = JSON.parse(fs.readFileSync('TMES_waves_20190823-110000.json'));
-// const data = JSON.parse(fs.readFileSync('TMES.json'));
+const data = JSON.parse(fs.readFileSync('TMES_waves_20190826-010000.json')); // + e - con -270
+// const data = JSON.parse(fs.readFileSync('UV270.json')); // + e - con -270
+// const data = JSON.parse(fs.readFileSync('UV.json')); // + e -
+// const data = JSON.parse(fs.readFileSync('3857_orig.json'));
 const name = process.argv[2];
 let u = data[0];
 let v = data[1];
 
 u.data = normalize(u.data)
 v.data = normalize(v.data)
+// u.data = u.data.map(function(x){return x*-1})
+// v.data = v.data.map(function(x){return x*-1})
 
-u.minimum = getMin(u.data) / 15
-u.maximum = getMax(u.data) / 15
-v.minimum = getMin(v.data) * 4
-v.maximum = getMax(v.data) * 4
+u.minimum = getMin(u.data)
+u.maximum = getMax(u.data)
+v.minimum = getMin(v.data)
+v.maximum = getMax(v.data)
 
 console.log("data values: ", u.minimum, u.maximum, v.minimum, v.maximum)
 
@@ -67,15 +71,20 @@ for (let y = 0; y < height; y++) {
     const i = (y * width + x) * 4;
     const k = y * width + x;
     if (u.data[k] && v.data[k]) {
-      u.data[k] = u.data[k] / 15
-      v.data[k] = v.data[k] * 4
       png.data[i + 0] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
+      // png.data[i + 0] = 0;
       png.data[i + 1] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));
       // png.data[i + 1] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
       // png.data[i + 0] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));
       png.data[i + 2] = 0;
       png.data[i + 3] = 255;
     }
+    // else {
+    //   png.data[i + 0] = 0
+    //   png.data[i + 1] = 0
+    //   png.data[i + 2] = 0
+    //   png.data[i + 3] = 0
+    // }
   }
 }
 
@@ -86,10 +95,10 @@ fs.writeFileSync(name + '.json', JSON.stringify({
   date: u.header.refTime,
   width: width,
   height: height,
-  max_x: v.maximum,
-  max_y: u.maximum,
-  min_x: v.minimum,
-  min_y: u.minimum,
+  max_x: u.maximum,
+  max_y: v.maximum,
+  min_x: u.minimum,
+  min_y: v.minimum,
   lo1: u.header.lo1,
   la1: u.header.la1,
   lo2: u.header.lo2,

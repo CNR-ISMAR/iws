@@ -18,7 +18,7 @@ now = datetime.now() - timedelta(days=0)
 oggi = now.strftime("%Y%m%d")
 oggiT = now.strftime("%Y-%m-%d")
 
-variabili = ["wmd-mean", "wsh-mean"]
+variabili = ["wsh-mean", "wmd-mean"]
 
 url = "https://iws.ismar.cnr.it/thredds/ncss/tmes/" + "TMES_waves_" + oggi + ".nc" + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" + oggiT + "T00%3A00%3A00Z&time_end=" + oggiT + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
