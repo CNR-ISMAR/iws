@@ -6,16 +6,26 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { useInjectReducer } from 'utils/injectReducer';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
 import HeaderBar from "../../components/HeaderBar";
+import HistoryForm from "../../components/HistoryForm";
 import { HistoryIcon } from '../../utils/icons';
 
+import makeSelectHistory from './selectors';
+import { updateHistory } from './actions';
+import reducer from './reducer';
+
+
 const styles = (theme, style) => {
-  console.info("themeeeeeeeeeeeeeeeee");
-  console.info(theme, style);
+  
   return {
     subNav: {
       position: "absolute", 
@@ -30,11 +40,32 @@ const styles = (theme, style) => {
 };
 
 function HistoryPage(props) {
+  useInjectReducer({ key: 'history', reducer });
   return (
     <div className={props.classes.subNav}>
       <HeaderBar title={"History"} icon={HistoryIcon} />
+      <HistoryForm from={props.from} to={props.to} updateHistory={(date) => props.dispatch(updateHistory(date))} />
     </div>
   );
 }
 
-export default withStyles(styles, {withTheme: true})(HistoryPage);
+HistoryPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  hisotry: makeSelectHistory(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(HistoryPage));

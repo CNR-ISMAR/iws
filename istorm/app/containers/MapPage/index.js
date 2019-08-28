@@ -13,9 +13,11 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import makeSelectMapPage, { makeSelectVisibleWmsLayer } from '../App/selectors';
+import makeSelectHistoryPage from '../History/selectors';
 import { zoomIn, zoomOut, toggleLayerVisibility } from '../App/actions';
 import messages from './messages';
 import Map from '../../components/Map';
+import Timeline from '../../components/Timeline';
 //import TileLayers from '../../components/Map/TileLayer';
 //import WmsLayers from '../../components/Map/WmsLayers';
 
@@ -26,6 +28,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Box from '@material-ui/core/Box';
 import Mail from '@material-ui/icons/Mail';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
@@ -71,6 +74,16 @@ const styles = (theme) => {
       width: "100%",
       backgroundColor: theme.palette.custom.darkBackground,
       textAlign: "right"
+    },
+    overlayMapTimeline: {
+      position: "absolute",
+      bottom: 0,
+      height: 54,
+      right: 0,
+      left: 0,
+      padding: 0,
+      width: "100%",
+      backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayLayerMapList: {
       padding: 0
@@ -125,6 +138,9 @@ function MapPage(props) {
           </List>
         </div>
       </div>
+      <div className={props.classes.overlayMapTimeline}>
+        <Timeline history={history} />
+      </div>
     </>
   );
 }
@@ -136,7 +152,8 @@ MapPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
-  wmsVisible: makeSelectVisibleWmsLayer()
+  wmsVisible: makeSelectVisibleWmsLayer(),
+  history: makeSelectHistoryPage()
 });
 
 function mapDispatchToProps(dispatch) {

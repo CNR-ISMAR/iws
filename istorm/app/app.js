@@ -17,6 +17,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 // Import root app
 import App from 'containers/App';
 
@@ -45,17 +48,19 @@ const MOUNT_NODE = document.getElementById('app');
 const render = messages => {
   ReactDOM.render(
     <Provider store={store.store}>
-      <PersistGate loading={null} persistor={store.persistore}>
-        <LanguageProvider messages={messages}>
-          <ConnectedRouter history={history}>
-          {/*<ThemeProvider theme={theme}>*/}
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          {/*</ThemeProvider>*/}
-          </ConnectedRouter>
-        </LanguageProvider>
-      </PersistGate>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <PersistGate loading={null} persistor={store.persistore}>
+          <LanguageProvider messages={messages}>
+            <ConnectedRouter history={history}>
+            {/*<ThemeProvider theme={theme}>*/}
+              <AuthProvider>
+                <App />
+              </AuthProvider>
+            {/*</ThemeProvider>*/}
+            </ConnectedRouter>
+          </LanguageProvider>
+        </PersistGate>  
+      </MuiPickersUtilsProvider>
     </Provider>,
     MOUNT_NODE,
   );
