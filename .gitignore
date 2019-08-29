@@ -79,4 +79,8 @@ dump_*
 build_log.txt
 srcgeonode/
 
+docker-compose.override.yml
+.env
+*.env
+
 .idea/
