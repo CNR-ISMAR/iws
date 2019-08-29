@@ -28,9 +28,6 @@ urlpatterns += (
 ## include your urls here
     #pinaxnotifications
     url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
-
-    # DSS pharos views
-    url(r'^dss_pharos/', include('dss_pharos.urls')),
     # invitations
     url(r'invitations/', include ('invitations.urls')),
     #sea storm atlas
