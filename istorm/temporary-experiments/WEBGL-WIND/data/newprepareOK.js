@@ -72,7 +72,6 @@ for (let y = 0; y < height; y++) {
     const k = y * width + x;
     if (u.data[k] && v.data[k]) {
       png.data[i + 0] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
-      // png.data[i + 0] = 0;
       png.data[i + 1] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));
       // png.data[i + 1] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
       // png.data[i + 0] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));

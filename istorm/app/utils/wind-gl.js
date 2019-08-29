@@ -151,8 +151,7 @@ void main() {
 }
 `;
 
-var quadVert = `
-precision mediump float;
+var quadVert = `precision mediump float;
 
 attribute vec2 a_pos;
 
@@ -164,8 +163,7 @@ void main() {
 }
 `;
 
-var screenFrag = `
-precision mediump float;
+var screenFrag = `precision mediump float;
 
 uniform sampler2D u_screen;
 uniform float u_opacity;
@@ -240,7 +238,6 @@ var defaultRampColors = {
    0.845: '#d53e4f',
    1.0: '#aa3ed5',
 };
-
 // var defaultRampColors = {
 //     0.0: '#87CEFA',
 //     0.173: '#00BFFF',
@@ -297,7 +294,7 @@ var WindGL = function WindGL(gl) {
     this.scale = 1;
     this.offsetX = 0;
     this.offsetY = 0;
-    
+
 
     this.setColorRamp(defaultRampColors);
     this.resize();
@@ -483,7 +480,7 @@ WindGL.prototype.updateParticles = function updateParticles () {
         this.offsetY / this.windData.height);
     gl.uniform2fv(program.u_distortion, distortion);
 
-    gl.drawArrays(gl.TRIANGLE, 0, 6);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
 
     // Read wind data.
     var pixels = this.particleState;
@@ -520,8 +517,8 @@ WindGL.prototype.updateParticles = function updateParticles () {
             y = Math.random();
         }
         else {
-            x = rotateNum(-velX * distortionX * 0.0001 * this.speedFactor + x);
-            y = rotateNum(velY * distortionY * 0.0001 * this.speedFactor + y);
+            x = rotateNum(velX * distortionX * 0.0001 * this.speedFactor + x);
+            y = rotateNum(-velY * distortionY * 0.0001 * this.speedFactor + y);
         }
 
         part[0] = x;
