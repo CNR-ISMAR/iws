@@ -107,9 +107,9 @@ USER_MESSAGES_ALLOW_MULTIPLE_RECIPIENTS = True
 DISPLAY_WMS_LINKS = True
 
 # prevent signing up by default
-ACCOUNT_OPEN_SIGNUP = True
+ACCOUNT_OPEN_SIGNUP = False
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = 'Mandatory'
 ACCOUNT_EMAIL_CONFIRMATION_EMAIL = True
 ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
@@ -384,7 +384,7 @@ if 'geonode.geoserver' in INSTALLED_APPS:
     MAP_BASELAYERS.extend(baselayers)
 
 # notification settings
-NOTIFICATION_ENABLED = True
+NOTIFICATION_ENABLED = False
 
 # notifications backends
 _EMAIL_BACKEND = "pinax.notifications.backends.email.EmailBackend"
