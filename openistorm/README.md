@@ -27,17 +27,19 @@ curl -X POST http://localhost/oauth/token/ \
     "scope": "read write groups"
 }
 ```
-# Favorites
 
-## GET list /favorites
+
+## Favorites
+
+### GET (list) /openistorm/favorites (NEEDS AUTH)
 ```
-curl -X GET http://localhost/favorites/geojson \
+curl -X GET http://localhost/openistorm/favorites/geojson \
   -H 'Accept: application/json, text/plain, */*' \
   -H 'Authorization: Bearer 65Inl6eWbYCSxFocZp69Y7Aj8aX3PC' \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json'
   ```
-### RESPONSE
+##### RESPONSE
 ```json
 {
     "crs": {
@@ -95,11 +97,11 @@ curl -X GET http://localhost/favorites/geojson \
 ```
 
 
-## POST store /favorites
+### POST (store) /openistorm/favorites (NEEDS AUTH)
 
 ```
 curl -X POST \
-  http://localhost/favorites/ \
+  http://localhost/openistorm/favorites/ \
   -H 'Accept: application/json, text/plain, */*' \
   -H 'Authorization: Bearer 65Inl6eWbYCSxFocZp69Y7Aj8aX3PC' \
   -H 'Cache-Control: no-cache' \
@@ -113,7 +115,7 @@ curl -X POST \
 }'
 ```
 
-### JSON PARAMETERS
+##### JSON PARAMETERS
 ```json
 {
 	"title": "myplace",
@@ -124,7 +126,7 @@ curl -X POST \
 ```
 
 
-### RESPONSE
+##### RESPONSE
 ```json
 {
     "id": 7,
@@ -133,6 +135,87 @@ curl -X POST \
     "longitude": 11.33845,
     "address": "via piero gobetti 101, 40129 Bologna (BO)",
     "user": 1001
+}
+```
+
+
+## Layers
+
+### Get list of layers in a period
+
+##### GET /openistorm/layers (AUTH NOT NEEDED)
+```
+curl -X GET http://localhost/openistorm/layers \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json'
+  ```
+  
+
+##### GET PARAMETERS
+| Parameter | Description                         | Optional | Values                                         | Default                   |
+|-----------|-------------------------------------|----------|------------------------------------------------|---------------------------|
+| from      | start date or datetime for the list | true     | datetime iso format eg: 2019-08-31T00:00:000Z  | today at 00.00            |
+| to        | end date or datetime for the list   | true     | datetime iso format  eg: 2019-07-02T23:59:000Z | (today + 3 days) at 23:59 |
+
+  
+##### RESPONSE
+```json
+[
+    {
+        "dataset": "waves",
+        "timestamp": 1567202400,
+        "date": "2019-08-31T00:00:00:000Z",
+        "metadata": "2019-08-31T00:00:00:000Z",
+        "image": "/mnt/volumes/statics/static/waves"
+    },
+    {
+        "dataset": "waves",
+        "timestamp": 1567206000,
+        "date": "2019-08-31T01:00:00:000Z",
+        "metadata": "2019-08-31T01:00:00:000Z",
+        "image": "/mnt/volumes/statics/static/waves"
+    },
+    {
+        "dataset": "waves",
+        "timestamp": 1567209600,
+        "date": "2019-08-31T02:00:00:000Z",
+        "metadata": "2019-08-31T02:00:00:000Z",
+        "image": "/mnt/volumes/statics/static/waves"
+    },
+    {
+        "dataset": "waves",
+        "timestamp": 1567213200,
+        "date": "2019-08-31T03:00:00:000Z",
+        "metadata": "2019-08-31T03:00:00:000Z",
+        "image": "/mnt/volumes/statics/static/waves"
+    },
+    {
+        "dataset": "waves",
+        "timestamp": 1567216800,
+        "date": "2019-08-31T04:00:00:000Z",
+        "metadata": "2019-08-31T04:00:00:000Z",
+        "image": "/mnt/volumes/statics/static/waves"
+    }
+]
+```
+
+### Get min and max dates in layers
+
+##### POST /openistorm/layers/boundaries (AUTH NOT NEEDED)
+
+```
+curl -X POST \
+  http://localhost/openistorm/layers/boundaries/ \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Content-Type: application/json' \
+```
+
+##### RESPONSE
+```json
+{
+    "max": "2019-08-31T21:00:00:000Z",
+    "min": "2019-08-29T23:00:00:000Z"
 }
 ```
 
