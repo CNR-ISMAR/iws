@@ -20,6 +20,7 @@
 
 import os
 from celery import Celery
+from django.conf import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iws.settings')
 
@@ -33,7 +34,10 @@ app = Celery('iws')
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
 app.config_from_object('django.conf:settings', namespace="CELERY")
-app.autodiscover_tasks()
+# app.autodiscover_tasks()
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS, force=True)
 
 
 @app.task(bind=True)

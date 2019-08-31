@@ -2,8 +2,10 @@ import React, {createElement} from 'react';
 import PropTypes from 'prop-types'
 import ReactMapGL, {BaseControl, CanvasOverlay, CanvasRedrawOptions} from 'react-map-gl';
 import WindGL from '../../utils/wind-gl';
-import windImageSrc from './tmp/uv270.png'
-import windJson from './tmp/uv270.json'
+// import windImageSrc from './tmp/uv270.png'
+// import windJson from './tmp/uv270.json'
+import windImageSrc from './tmp/waves_1567202400.png'
+import windJson from './tmp/waves_1567202400.json'
 import {window} from "react-map-gl/dist/es6/utils/globals";
 
 class NullIslandLayer {

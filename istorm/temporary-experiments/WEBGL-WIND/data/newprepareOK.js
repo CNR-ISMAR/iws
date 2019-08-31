@@ -32,6 +32,7 @@ const PNG = require('pngjs').PNG;
 const fs = require('fs');
 
 const data = JSON.parse(fs.readFileSync('TMES_waves_20190826-010000.json')); // + e - con -270
+// const data = JSON.parse(fs.readFileSync('TMES_waves_1567202400.json')); // + e - con -270
 // const data = JSON.parse(fs.readFileSync('UV270.json')); // + e - con -270
 // const data = JSON.parse(fs.readFileSync('UV.json')); // + e -
 // const data = JSON.parse(fs.readFileSync('3857_orig.json'));
