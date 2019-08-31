@@ -40,7 +40,7 @@ const styles = (theme, style) => {
 };
 
 function HistoryPage(props) {
-  useInjectReducer({ key: 'history', reducer });
+  //useInjectReducer({ key: 'timeline', reducer });
   return (
     <div className={props.classes.subNav}>
       <HeaderBar title={"History"} icon={HistoryIcon} />

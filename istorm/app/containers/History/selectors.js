@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the mapPage state domain
  */
 
-const selectHistoryDomain = state => state.history || initialState;
+const selectHistoryDomain = state => state.timeline || initialState;
 
 /**
  * Other specific selectors

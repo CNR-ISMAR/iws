@@ -14,6 +14,7 @@ import { compose } from 'redux';
 
 import makeSelectMapPage, { makeSelectVisibleWmsLayer } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
+import {  setCurrentDate } from '../History/actions';
 import { zoomIn, zoomOut, toggleLayerVisibility } from '../App/actions';
 import messages from './messages';
 import Map from '../../components/Map';
@@ -33,6 +34,7 @@ import Mail from '@material-ui/icons/Mail';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { WaveIcon, SeaLevelIcon } from '../../utils/icons';
+import { Hidden } from '@material-ui/core';
 
 const styles = (theme) => {
   return {
@@ -83,6 +85,9 @@ const styles = (theme) => {
       left: 0,
       padding: 0,
       width: "100%",
+      maxWidth: "100%",
+      overflowX: "scroll",
+      overflowY: "hidden",
       backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayLayerMapList: {
@@ -139,7 +144,7 @@ function MapPage(props) {
         </div>
       </div>
       <div className={props.classes.overlayMapTimeline}>
-        <Timeline history={history} />
+        <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} />
       </div>
     </>
   );
@@ -153,7 +158,7 @@ MapPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
   wmsVisible: makeSelectVisibleWmsLayer(),
-  history: makeSelectHistoryPage()
+  timeline: makeSelectHistoryPage()
 });
 
 function mapDispatchToProps(dispatch) {
