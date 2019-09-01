@@ -146,7 +146,7 @@ services:
       GEONODE_LB_PORT: ${GEONODE_PUBLIC_PORT}
       SITEURL: ${SITE_URL}
       ALLOWED_HOSTS: "['${SITE_HOST}', '${SITE_HOST}:${GEONODE_PUBLIC_PORT}', 'localhost','*', 'django', 'django:8000']"
-      GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
+      GEOSERVER_PUBLIC_LOCATION: '${SITE_URL}/gs/'
 
   geonode:
     image: geonode/nginx:development
