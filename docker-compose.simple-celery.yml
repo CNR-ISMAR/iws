@@ -162,7 +162,7 @@ services:
 #      - celery
 #      - geoserver
     ports:
-      - 80:${GEONODE_PUBLIC_PORT}
+      - ${GEONODE_PUBLIC_PORT}:80
     expose:
       - ${GEONODE_PUBLIC_PORT}
     volumes:
