@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework import mixins, views
 from rest_framework import status
 from django.db.models import Max, Min
@@ -10,25 +10,65 @@ from django.core.serializers import serialize
 import json
 import datetime
 from dateutil import parser
+from collections import OrderedDict
 
 
 class ImageLayerList(ListAPIView):
-    serializer_class =  ImageLayerSerializer
+    pagination_class = None
+    serializer_class = ImageLayerSerializer
     permission_classes = (AllowAny,)
     queryset = ImageLayer.objects.all()
 
     def filter_queryset(self, qs):
         qs = super(ImageLayerList, self).get_queryset()
         dataset = self.request.query_params.get('dataset', 'waves')
-        fromdate = self.request.query_params.get('from', None)
-        todate = self.request.query_params.get('to', None)
-        fromdate = parser.parse(fromdate).timestamp().strftime('%s') if fromdate is not None else datetime.datetime.now().strftime('%s')
-        todate = parser.parse(todate).timestamp().strftime('%s') if todate is not None else (datetime.datetime.now() + datetime.timedelta(days=2)).strftime('%s')
+        fromdate = self.request.query_params.get('from', '')
+        todate = self.request.query_params.get('to', '')
+
+        fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now()
+        todate = parser.parse(todate) if todate != '' else datetime.datetime.now() + datetime.timedelta(days=2)
+
+        fromdate = datetime.datetime.combine(fromdate, datetime.time.min).strftime('%s')
+        todate = datetime.datetime.combine(todate, datetime.time.max).strftime('%s')
+
         qs = qs.filter(dataset=dataset, timestamp__range=(fromdate, todate)).all()
         return qs
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        boundaries = ImageLayer.objects.aggregate(max=Max('timestamp'), min=Min('timestamp'))
+        results = OrderedDict((x['date'], x) for x in serializer.data)
+
+        now = datetime.datetime.now().replace(minute=0, second=0).isoformat()+'.000Z'
+
+        keys = list(results.keys())
+        current = now if now in results else keys[0] if len(keys) > 0 else None
+
+        # current = now if
+
+        return Response({
+            'min': datetime.datetime.fromtimestamp(boundaries['min']).isoformat()+'.000Z',
+            'max': datetime.datetime.fromtimestamp(boundaries['max']).isoformat()+'.000Z',
+            'from': keys[0] if len(keys) > 0 else None,
+            'to': keys[-1] if len(keys) > 0 else None,
+            'current': current,
+            "results": results
+        })
+
+
 class ImageLayerBoundaries(views.APIView):
     permission_classes = (AllowAny,)
-    def get(self, x):
+    def get(self, request):
         boundaries = ImageLayer.objects.aggregate(max=Max('timestamp'), min=Min('timestamp'))
+        boundaries = {
+            'min': datetime.datetime.fromtimestamp(boundaries['min']).isoformat()+'.000Z',
+            'max': datetime.datetime.fromtimestamp(boundaries['max']).isoformat()+'.000Z',
+        }
         return Response(boundaries)

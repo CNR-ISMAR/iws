@@ -11,8 +11,8 @@ from oauth2_provider import views as oauthViews
 
 urlpatterns = [
     url(r'oauth/', include('openistorm.oauth.urls')),
-    url(r'favorites/', include('openistorm.favorites.urls')),
-    url(r'imagelayers/', include('openistorm.layers.urls')),
+    url(r'openistorm/favorites/', include('openistorm.favorites.urls')),
+    url(r'openistorm/layers/', include('openistorm.layers.urls'), name='imagelayers'),
 ]
 
 # router.register(r'users', UserViewSet)

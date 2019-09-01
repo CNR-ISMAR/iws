@@ -19,10 +19,12 @@ class NCToImg:
 
     def __init__(self, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean","wsh-mean")):
 
-        if not os.path.exists(settings.WAVES_DATA):
-            os.makedirs(settings.WAVES_DATA)
+        if not os.path.exists(settings.LAYERDATA_ROOT):
+            os.makedirs(settings.LAYERDATA_ROOT)
 
-        now = datetime.now() - timedelta(days=0)
+        print(settings.LAYERDATA_ROOT)
+
+        now = datetime.now() - timedelta(days=1)
 
         self.parameters = parameters;
         self.dataset = dataset;
@@ -33,7 +35,8 @@ class NCToImg:
         self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime("%Y%m%d")
 
         self.nc_filename = "TMES_" + self.dataset + "_" + self.source_date + ".nc"
-        self.nc_filepath = os.path.join(settings.WAVES_DATA,"TMES_" + self.dataset + "_" + self.source_date + ".nc")
+        self.nc_filepath = os.path.join(settings.LAYERDATA_ROOT,"TMES_" + self.dataset + "_" + self.source_date + ".nc")
+        print(self.nc_filepath)
 
         self.url = settings.THREDDS_URL \
                    + self.nc_filename \
@@ -51,8 +54,8 @@ class NCToImg:
         if os.path.isfile(self.nc_filepath):
             # logging.info("File " + self.nc_filename+ " scaricato...")
 
-            tif1filename = os.path.join(settings.WAVES_DATA,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
-            tif2filename = os.path.join(settings.WAVES_DATA,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
+            tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
+            tif2filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
 
             os.system(
                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
@@ -104,7 +107,7 @@ class NCToImg:
 
                     # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
                     ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
-                    json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M:000Z')
+                    json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
 
                     data = []
 
@@ -159,12 +162,12 @@ class NCToImg:
 
                     tsfile = "TMES_"+ self.dataset + '_' + ts + ".json"
 
-                    tsfile_path = os.path.join(settings.WAVES_DATA,tsfile)
+                    tsfile_path = os.path.join(settings.LAYERDATA_ROOT,tsfile)
                     with open(tsfile_path, 'w') as outfile:
                         json.dump(data, outfile, indent=2)
 
                     output_prefix = self.dataset + '_' + ts
-                    self.generate_image_and_meta_from_json(tsfile_path, os.path.join(settings.WAVES_DATA,output_prefix))
+                    self.generate_image_and_meta_from_json(tsfile_path, os.path.join(settings.LAYERDATA_ROOT,output_prefix))
                     # TODO: save in database
                     image_layer, result = ImageLayer.objects.update_or_create(dataset=self.dataset, timestamp=ts,)
                     # print(image_layer.__dict__)
@@ -172,13 +175,13 @@ class NCToImg:
 
                     # logging.info("Esportati "+str(n_bande)+ " file json in: "+str(datetime.now() - startTime))
 
-                    os.system("chmod -R 777 " + settings.WAVES_DATA)
+                    os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
                 # ds1 = None
                 # ds2 = None
                 os.system("rm " + self.nc_filepath)
                 os.system("rm " + tif1filename)
                 os.system("rm " + tif2filename)
-                os.system("chmod -R 777 " + settings.WAVES_DATA)
+                os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
 
     def generate_image_and_meta_from_json(self, input_file, output_name):
         # print(output_name)

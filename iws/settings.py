@@ -491,4 +491,6 @@ REST_FRAMEWORK = {
 }
 
 THREDDS_URL = "https://iws.ismar.cnr.it/thredds/ncss/tmes/"
-WAVES_DATA = os.path.join(STATIC_ROOT, 'waves')
+LAYERDATA_ROOT = os.path.join(PROJECT_ROOT, 'storage', 'layerdata')
+SITE_URL = os.getenv('SITE_URL', 'https://iws.ismar.cnr.it')
+LAYERDATA_URL = SITE_URL+'/layerdata/'

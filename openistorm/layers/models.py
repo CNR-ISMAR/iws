@@ -9,9 +9,16 @@ class ImageLayer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     update_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
+    def url_prefix(self):
+        return settings.LAYERDATA_URL + 'waves_' + str(self.timestamp)
+
     @property
     def image(self):
-        return settings.WAVES_DATA
+        return self.url_prefix() + '.png'
+
+    @property
+    def metadata(self):
+        return self.url_prefix() + '.json'
 
     def __unicode__(self):
         return self.dataset + '_' + str(self.timestamp)

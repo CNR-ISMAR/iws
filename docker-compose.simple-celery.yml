@@ -40,12 +40,11 @@ services:
       - elasticsearch
       - rabbitmq
       - data-dir-conf
-    command: python manage.py runserver --settings=iws.settings 0.0.0.0:8000
+    command: celery worker --app=${COMPOSE_PROJECT_NAME}.celeryapp:app -B -l INFO
     volumes:
       - .:/usr/src/iws
       - statics:/mnt/volumes/statics
       - geoserver-data-dir:/geoserver_data/data
-      - ./storage/waves:/mnt/volumes/statics/static/waves
     env_file:
     - ./.env
     environment:
@@ -102,12 +101,11 @@ services:
       - elasticsearch
       - rabbitmq
       - data-dir-conf
-    command: celery worker --app=${COMPOSE_PROJECT_NAME}.celeryapp:app -B -l INFO
+    command: python manage.py runserver --settings=iws.settings 0.0.0.0:8000
     volumes:
       - .:/usr/src/iws
       - statics:/mnt/volumes/statics
       - geoserver-data-dir:/geoserver_data/data
-      - ./storage/waves:/mnt/volumes/statics/static/waves
     env_file:
     - ./.env
     environment:
@@ -168,6 +166,7 @@ services:
     volumes:
       - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
       - statics:/mnt/volumes/statics
+      - ./iws/storage:/mnt/volumes/storage
 
 #  istorm:
 #    container_name: istorm
