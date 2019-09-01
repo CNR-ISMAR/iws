@@ -42,7 +42,7 @@ WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 # ALLOWED_HOSTS = ['localhost', 'django', 'django:8000', 'twister', '192.168.1.78','150.178.42.78', 'iws.ismar.cnr.it', 'pharos4mpas.tools4msp.eu'] if os.getenv('ALLOWED_HOSTS') is None \
 #     else re.split(r' *[,|:|;] *', os.getenv('ALLOWED_HOSTS'))
 
-ALLOWED_HOSTS = re.split(r' *[,|:|;] *', os.getenv('ALLOWED_HOSTS', '[]')) + ['localhost', 'django', 'django:8000', 'twister', '192.168.1.78','150.178.42.78', 'iws.ismar.cnr.it', 'pharos4mpas.tools4msp.eu']
+ALLOWED_HOSTS = re.split(r' *[,;] *', os.getenv('ALLOWED_HOSTS', '[]')) + ['localhost', 'django', 'django:8000', 'twister', '192.168.1.78','150.178.42.78', 'iws.ismar.cnr.it', 'pharos4mpas.tools4msp.eu']
 
 PROXY_ALLOWED_HOSTS += ('nominatim.openstreetmap.org',)
 
