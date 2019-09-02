@@ -50,9 +50,9 @@ class NCToImg:
         self.url = settings.THREDDS_URL \
                    + self.nc_filename \
                    + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
-                   + '2018-10-29T00:00:00Z' \
+                   + '2018-10-29' \
                    + "T00%3A00%3A00Z&time_end=" \
-                   + '2018-10-29T23:00:00Z' \
+                   + '2018-10-29' \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
         self.transform()
