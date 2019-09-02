@@ -46,6 +46,15 @@ class NCToImg:
                    + self.time_to \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
+        # A CAUSA DI UN BUG DEVO TEMPORANEMENTE BLOCCARE LA DATA AL 18 ottobre: TODO: QUANDO RISOLTO RIMUOVERE!
+        self.url = settings.THREDDS_URL \
+                   + self.nc_filename \
+                   + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
+                   + '2018-10-29T00:00:00Z' \
+                   + "T00%3A00%3A00Z&time_end=" \
+                   + '2018-10-29T23:00:00Z' \
+                   + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
+
         self.transform()
 
     def transform(self):
