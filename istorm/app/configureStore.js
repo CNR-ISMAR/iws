@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createReducer from './reducers';
+import historySaga from './containers/History/saga';
 
 export const persistConfig = {
   key: 'root',
@@ -54,6 +55,7 @@ export default function configureStore(initialState = {}, history) {
   );
   const persistore = persistStore(store);
 
+  sagaMiddleware.run(historySaga);
   // Extensions
   store.persistore = persistore;
   store.runSaga = sagaMiddleware.run;

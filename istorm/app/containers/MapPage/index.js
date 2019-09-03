@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -16,6 +16,7 @@ import makeSelectMapPage, { makeSelectVisibleWmsLayer } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
 import {  setCurrentDate } from '../History/actions';
 import { zoomIn, zoomOut, toggleLayerVisibility } from '../App/actions';
+import { requestTimeline } from '../History/actions';
 import messages from './messages';
 import Map from '../../components/Map';
 import Timeline from '../../components/Timeline';
@@ -80,14 +81,30 @@ const styles = (theme) => {
     overlayMapTimeline: {
       position: "absolute",
       bottom: 0,
-      height: 54,
       right: 0,
       left: 0,
       padding: 0,
+      //height: 150,
       width: "100%",
       maxWidth: "100%",
+      //overflowX: "scroll",
+      //marginBottom: -15,
+      //overflow: "hidden",
+      backgroundColor: theme.palette.custom.mapOverlayBackground
+    },
+    overlayMapTimelineScroll: {
+      width: "100%",
       overflowX: "scroll",
-      overflowY: "hidden",
+      //overflowY: "hidden",
+      //transform: "rotate(-90deg) translateY(-80px)",
+      //transformOrigin: "right top",
+      //paddingBottom: 28,
+      //position: "absolute",
+      //height: 150,
+      //bottom: 0,
+      //right: 0,
+      //left: 0,
+      //padding: 0,
       backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayLayerMapList: {
@@ -110,6 +127,10 @@ const styles = (theme) => {
 function MapPage(props) {
   console.info("mapPage");
   console.info(props);
+
+  useEffect(() => {
+    props.dispatch(requestTimeline())
+  }, [])
 
   return (
     <>
@@ -144,7 +165,9 @@ function MapPage(props) {
         </div>
       </div>
       <div className={props.classes.overlayMapTimeline}>
-        <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} />
+        <div className={props.classes.overlayMapTimelineScroll}>
+          <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} />
+        </div>
       </div>
     </>
   );

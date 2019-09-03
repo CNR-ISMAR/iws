@@ -28,3 +28,7 @@ export const oauthOption = {
 export const login = (options) => {
     return request(`${BASE_URL}/oauth/token`, getOption(options))
 };
+
+export const requestTimelineData = (options) => {
+    return request(`http://iws.inkode.it:4443/openistorm/layers/`, getOption(options))
+};

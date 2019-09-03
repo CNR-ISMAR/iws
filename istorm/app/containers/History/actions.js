@@ -4,7 +4,28 @@
  *
  */
 
-import { UPDATE_HISTORY, SET_CURRENT_DATE } from './constants';
+import { UPDATE_HISTORY, SET_CURRENT_DATE, REQUEST_TIMELINE, SUCCESS_TIMELINE, ERROR_TIMELINE } from './constants';
+
+export function requestTimeline(request) {
+  return {
+    type: REQUEST_TIMELINE,
+    request
+  };
+}
+
+export function successTimeline(response) {
+  return {
+    type: SUCCESS_TIMELINE,
+    response
+  };
+}
+
+export function errorTimeline(error) {
+  return {
+    type: ERROR_TIMELINE,
+    error
+  };
+}
 
 export function updateHistory(date) {
   return {
