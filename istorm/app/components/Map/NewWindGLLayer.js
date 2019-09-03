@@ -4,8 +4,8 @@ import ReactMapGL, {BaseControl, CanvasOverlay, CanvasRedrawOptions} from 'react
 import WindGL from '../../utils/wind-gl';
 // import windImageSrc from './tmp/uv270.png'
 // import windJson from './tmp/uv270.json'
-import windImageSrc from './tmp/waves_1567202400.png'
-import windJson from './tmp/waves_1567202400.json'
+import windImageSrc from './tmp/waves_1540764000.png'
+import windJson from './tmp/waves_1540764000.json'
 import {window} from "react-map-gl/dist/es6/utils/globals";
 
 class NullIslandLayer {
