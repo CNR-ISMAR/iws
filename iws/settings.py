@@ -495,3 +495,4 @@ LAYERDATA_ROOT = os.path.join(PROJECT_ROOT, 'storage', 'layerdata')
 SITE_URL = os.getenv('SITE_URL', 'https://iws.ismar.cnr.it')
 SITE_HOST = os.getenv('SITE_HOST', 'iws.ismar.cnr.it')
 LAYERDATA_URL = SITE_URL+'/layerdata/'
+USE_X_FORWARDED_HOST = True
