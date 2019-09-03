@@ -24,7 +24,7 @@ class NCToImg:
 
         print(settings.LAYERDATA_ROOT)
 
-        now = datetime.now() - timedelta(days=0)
+        now = datetime.now() - timedelta(days=1)
 
         self.parameters = parameters;
         self.dataset = dataset;
@@ -46,14 +46,14 @@ class NCToImg:
                    + self.time_to \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
-        # A CAUSA DI UN BUG DEVO TEMPORANEMENTE BLOCCARE LA DATA AL 18 ottobre: TODO: QUANDO RISOLTO RIMUOVERE!
-        self.url = settings.THREDDS_URL \
-                   + self.nc_filename \
-                   + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
-                   + '2018-10-29' \
-                   + "T00%3A00%3A00Z&time_end=" \
-                   + '2018-10-29' \
-                   + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
+        # # A CAUSA DI UN BUG DEVO TEMPORANEMENTE BLOCCARE LA DATA AL 18 ottobre: TODO: QUANDO RISOLTO RIMUOVERE!
+        # self.url = settings.THREDDS_URL \
+        #            + self.nc_filename \
+        #            + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
+        #            + '2018-10-29' \
+        #            + "T00%3A00%3A00Z&time_end=" \
+        #            + '2018-10-29' \
+        #            + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
         self.transform()
 
