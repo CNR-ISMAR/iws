@@ -24,9 +24,9 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     def sea_level_url(self, layerOptions):
         #TODO: manage missing current data!!!!!
-        # TODO: quando si avrà una logica integrarla
+        #TODO: quando si avra' una logica integrarla
         layerFileName = 'TMES_sea_level_20190902.nc'
-        # TODO: questo tempo va sostituito col timestamp formatato a modino
+        #TODO: questo tempo va sostituito col timestamp formatato a modino
         time = '2019-02-02T00:00:00.000Z'
         options = {
             'ELEVATION': '0',
