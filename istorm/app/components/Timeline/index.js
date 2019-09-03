@@ -74,22 +74,12 @@ function Timeline(props) {
     const defaultSliderValue = hours.length > 0 ? Object.keys(props.timeline.results).indexOf(props.timeline.current) : 0;
     const [currentDate, setCurrentDate] = useState(moment(props.timeline.current, moment.ISO_8601));
     const [sliderValue, setSliderValue] = useState(defaultSliderValue);
-    const timelineFrom = moment(props.timeline.from, moment.ISO_8601);
-    const timelineTo = moment(props.timeline.to, moment.ISO_8601);
-    const diffDays = Math.floor(hours.length/24);
-    const diffHours = hours.length;
-    /* for(let i = 0; i < diffDays; i++) {
-      const ddd = timelineFrom.add(i, "days");
-      days.push({label : ddd.format("D dddd"), value: ddd});
-    }
-     */
     const timelineWidth = days.length * 200;
     
   console.info("Timeline");
+  console.info(daysKeys);
   console.info(days);
   console.info(hours);
-  console.info(diffDays);
-  console.info(diffHours);
   console.info(props);
 
 
@@ -115,7 +105,7 @@ function Timeline(props) {
     <Box display="flex" flexDirection="column" className={props.classes.timelineWrapper} style={{width: timelineWidth}}>
       <Box display="flex" className={props.classes.sliderBar} style={{width: timelineWidth}}>
           <Slider
-            defaultValue={0}
+            defaultValue={defaultSliderValue}
             ValueLabelComponent={(props) => <ValueLabelComponent {...props} valueText={valueText} />}
             //ValueLabelComponent={(props) => <ValueLabel {...props} value={currentDate.format("HH:mm")} />}
             step={1}
