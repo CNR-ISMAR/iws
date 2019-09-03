@@ -479,8 +479,6 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ),
 
-    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
-
     # 'DEFAULT_PARSER_CLASSES': (
     #     'rest_framework.parsers.JSONParser',
     # ),
@@ -490,6 +488,18 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,
+}
+OAUTH2_PROVIDER = {
+    'SCOPES': {
+        'read': 'read',
+        'write': 'write',
+    },
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
+    # 'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.OAuthLibCore',
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600 * 4,
+    'REFRESH_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 60,
+    #REFRESH_TOKEN_EXPIRE_SECONDS
+    # 'APPLICATION_MODEL': 'djcore.djcore.oauth.models.Application'
 }
 
 THREDDS_URL = "https://iws.ismar.cnr.it/thredds/ncss/tmes/"
