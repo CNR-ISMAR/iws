@@ -8,15 +8,22 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-
+import { createStructuredSelector } from 'reselect';
 import HeaderBar from "../../components/HeaderBar";
 import { NotificationIcon } from '../../utils/icons';
+import makeSelectNotifications, {selectNotifications} from './selectors'; 
+import reducer from './reducer';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import { useInjectReducer } from 'utils/injectReducer';
+import { REQUEST_NOTIFICATION } from './constants';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -48,9 +55,14 @@ const styles = (theme, style) => {
 };
 
 function NotificationPage(props) {
+  useInjectReducer({ key: 'notifications', reducer });
+  console.log('Notification page')
+  console.log(props.notifications)
   return (
     <div className={props.classes.subNav}>
       <HeaderBar title={"Notification"} icon={NotificationIcon} />
+      <button onClick={ props.requestNotification  }>Change State Notif</button>
+      <p>{props.notifications}</p>
       <List>
         <ListItem button className={props.classes.listItem} key={"nav-notiftestion"}>
           <ListItemText primary={"test"} />
@@ -69,4 +81,25 @@ function NotificationPage(props) {
   );
 }
 
-export default withStyles(styles, {withTheme: true})(NotificationPage);
+NotificationPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  notifications: makeSelectNotifications(),
+
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    /* dispatch, */
+    requestNotification: () => dispatch({type : REQUEST_NOTIFICATION}),
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(NotificationPage));
