@@ -2,7 +2,17 @@ import produce from 'immer';
 import { REQUEST_NOTIFICATION } from './constants';
 
 const initialState = {
-    testNotification: 'testNotificationBLABLA',
+    notifications: [{
+        id: 1,
+        title: 'alert',
+        body: 'ciao',
+    },
+    {
+        id: 2,
+        title: 'alert2',
+        body: 'ciao2',
+    }
+    ],
 };
 
 
@@ -11,7 +21,7 @@ const NotificationReducer = (state = initialState, action) =>
     produce(state, ( draft ) => {
         switch (action.type) {
         case REQUEST_NOTIFICATION:
-            draft.testNotification = 'testNotificationCHANGED';
+            draft.notifications = [];
             break;
         }
     })   

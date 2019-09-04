@@ -17,8 +17,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { createStructuredSelector } from 'reselect';
 import HeaderBar from "../../components/HeaderBar";
 import { NotificationIcon } from '../../utils/icons';
-import makeSelectNotifications, {selectNotifications} from './selectors'; 
+import makeSelectNotifications from './selectors'; 
 import reducer from './reducer';
+import NotificationReducer from './reducer';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -57,12 +58,11 @@ const styles = (theme, style) => {
 function NotificationPage(props) {
   useInjectReducer({ key: 'notifications', reducer });
   console.log('Notification page')
-  console.log(props.notifications)
   return (
     <div className={props.classes.subNav}>
       <HeaderBar title={"Notification"} icon={NotificationIcon} />
       <button onClick={ props.requestNotification  }>Change State Notif</button>
-      <p>{props.notifications}</p>
+      {  props.notifications && props.notifications.notifications &&  props.notifications.notifications.map(item => <p>{item.id}</p>) }
       <List>
         <ListItem button className={props.classes.listItem} key={"nav-notiftestion"}>
           <ListItemText primary={"test"} />
@@ -85,6 +85,12 @@ NotificationPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
+/* const mapStateToProps = (state) => {
+  return {
+    notifications: state.testNotification
+  }  
+}
+ */
 const mapStateToProps = createStructuredSelector({
   notifications: makeSelectNotifications(),
 
@@ -92,9 +98,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    /* dispatch, */
-    requestNotification: () => dispatch({type : REQUEST_NOTIFICATION}),
-  };
+    requestNotification: () => dispatch({type : REQUEST_NOTIFICATION}),}
+  
 }
 
 const withConnect = connect(
