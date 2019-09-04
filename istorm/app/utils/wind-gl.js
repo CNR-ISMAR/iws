@@ -274,13 +274,13 @@ var WindGL = function WindGL(gl) {
     // this.maxWind = 12;
     // this.opacity = 0.6;
 
-    this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
-    this.speedFactor = 0.7; // how fast the particles move
-    this.dropRate = 0.003; // how often the particles move to a random place
-    this.dropRateBump = 0.01; // drop rate increase relative to individual particle speed
-    this.pointSize = 1.5;
-    this.maxWind = 8;
-    this.opacity = 0.6;
+    this.fadeOpacity = 0.994//0.998; // how fast the particle trails fade on each frame
+    this.speedFactor = 0.8; // how fast the particles move
+    this.dropRate = 0.004; // how often the particles move to a random place
+    this.dropRateBump = 0.12; // drop rate increase relative to individual particle speed
+    this.pointSize = 3;
+    this.maxWind = 8.0;
+    this.opacity = 0.7;
 
     this.drawProgram = createProgram(gl, drawVert, drawFrag);
     this.screenProgram = createProgram(gl, quadVert, screenFrag);

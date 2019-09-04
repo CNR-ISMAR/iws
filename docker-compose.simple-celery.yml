@@ -142,11 +142,11 @@ services:
       HAYSTACK_SEARCH_RESULTS_PER_PAGE: 200
       DOCKER_API_VERSION: "1.24"
       DEBUG: 'True'
-      GEONODE_LB_HOST_IP: localhost
-      GEONODE_LB_PORT: 80
-      SITEURL: http://localhost/
-      ALLOWED_HOSTS: "['localhost','*', 'django', 'django:8000']"
-      GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
+      GEONODE_LB_HOST_IP: '${SITE_HOST}'
+      GEONODE_LB_PORT: ${GEONODE_PUBLIC_PORT}
+      SITEURL: ${SITE_URL}
+      ALLOWED_HOSTS: "['${SITE_HOST}', 'localhost','*', 'django', 'django:8000']"
+      GEOSERVER_PUBLIC_LOCATION: '${SITE_URL}/gs/'
 
   geonode:
     image: geonode/nginx:development
@@ -162,7 +162,9 @@ services:
 #      - celery
 #      - geoserver
     ports:
-      - 80:${GEONODE_PUBLIC_PORT}
+      - ${GEONODE_PUBLIC_PORT}:80
+    expose:
+      - ${GEONODE_PUBLIC_PORT}
     volumes:
       - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
       - statics:/mnt/volumes/statics
