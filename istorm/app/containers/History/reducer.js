@@ -22,7 +22,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const historyPageReducer = (state = initialState, action) =>
+const timelineReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case REQUEST_TIMELINE:
@@ -52,4 +52,4 @@ const historyPageReducer = (state = initialState, action) =>
     };
   });
 
-export default historyPageReducer;
+export default timelineReducer;

@@ -7,7 +7,7 @@ import { connectRouter } from 'connected-react-router';
 
 import history from 'utils/history';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-import timelineReducer from 'containers/history/reducer';
+import timelineReducer from 'containers/History/reducer';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
