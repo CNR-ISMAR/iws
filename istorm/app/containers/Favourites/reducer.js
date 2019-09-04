@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { TOGGLE_DRAWER, OPEN_DRAWER, CLOSE_DRAWER, TOGGLE_DRAWER_MINI, CLOSE_DRAWER_MINI, OPEN_DRAWER_MINI } from './constants';
+import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, REQUEST_ERROR } from './constants';
 
 export const initialState = {
   favourites: {
@@ -17,14 +17,29 @@ export const initialState = {
       id: "lol 2",
       title: "hey ecco la seconda"
     }],
-  }
+    result: []
+  } 
+  
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const mapPageReducer = (state = initialState, action) =>
+const favouritesReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case TOGGLE_DRAWER:
+      case REQUEST_FAVOURITES:
+        draft.favourites.loading = true;
+        draft.favourites.error = initialState.error;
+      break;
+      case REQUEST_FAVOURITES_SUCCESS:
+          draft.favourites.loading = false;
+          draft.favourites.error = initialState.error;
+          draft.favourites.result = action.result;
+        break;
+      case REQUEST_ERROR:
+          draft.favourites.loading = false;
+          draft.favourites.error = action.error;
+      break;
+     /*  case TOGGLE_DRAWER:
         draft.drawer.open = !draft.drawer.open;
         break;
       case OPEN_DRAWER:
@@ -41,8 +56,8 @@ const mapPageReducer = (state = initialState, action) =>
         break;
       case CLOSE_DRAWER_MINI:
         draft.drawer.minimal = false;
-        break;
+        break; */
     };
   });
 
-export default mapPageReducer;
+export default favouritesReducer;

@@ -4,9 +4,9 @@
  *
  */
 
-import { TOGGLE_DRAWER, CLOSE_DRAWER, OPEN_DRAWER, TOGGLE_DRAWER_MINI, CLOSE_DRAWER_MINI, OPEN_DRAWER_MINI} from './constants';
+import { /* TOGGLE_DRAWER, CLOSE_DRAWER, OPEN_DRAWER, TOGGLE_DRAWER_MINI, CLOSE_DRAWER_MINI, OPEN_DRAWER_MINI, */ REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, REQUEST_ERROR} from './constants';
 
-export function toggleDrawer() {
+/* export function toggleDrawer() {
   return {
     type: TOGGLE_DRAWER
   };
@@ -39,5 +39,26 @@ export function openDrawerMini() {
 export function closeDrawerMini() {
   return {
     type: CLOSE_DRAWER_MINI
+  };
+} */
+
+export function requestFavourites(request) {
+  return {
+    type: REQUEST_FAVOURITES,
+    request: request
+  };
+}
+
+export function requestFavouritesSuccess(result) {
+  return {
+    type: REQUEST_FAVOURITES_SUCCESS,
+    result: result
+  };
+}
+
+export function requestError(errorMessage) {
+  return {
+    type: REQUEST_ERROR,
+    error: errorMessage
   };
 }

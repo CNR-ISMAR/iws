@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the mapPage state domain
  */
 
-const selectSidebarDomain = state => state.sidebar || initialState;
+const selectFavourites = state => state.favourites || initialState;
 
 /**
  * Other specific selectors
@@ -15,17 +15,17 @@ const selectSidebarDomain = state => state.sidebar || initialState;
  * Default selector used by MapPage
  */
 
-const makeSelectSidebar = () =>
+const makeSelectFavourites = () =>
   createSelector(
-    selectSidebarDomain,
+    selectFavourites,
     substate => substate,
   );
 
-const makeSelectDrawerOpen = () =>
+/* const makeSelectDrawerOpen = () =>
   createSelector(
     selectSidebarDomain,
     substate => substate.drawer.open,
-  );
+  ); */
 
-export default makeSelectSidebar;
-export { selectSidebarDomain, makeSelectDrawerOpen };
+export default makeSelectFavourites;
+export { selectFavourites };

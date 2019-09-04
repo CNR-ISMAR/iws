@@ -8,6 +8,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import { createStructuredSelector } from 'reselect';
 
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -15,12 +16,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useInjectReducer } from 'utils/injectReducer';
-import { toggleDrawerMini, toggleDrawer } from './actions';
-import makeSelectSidebar from './selectors';
+/* import { toggleDrawerMini, toggleDrawer } from './actions'; */
+import makeSelectFavourites from './selectors';
 import reducer from './reducer';
 
 import HeaderBar from "../../components/HeaderBar";
 import { FavoriteIcon } from '../../utils/icons';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { REQUEST_FAVOURITES } from './constants';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -41,6 +45,7 @@ const styles = (theme, style) => {
 };
 
 function FavouritesPage(props) {
+  console.info('Favourites')
   useInjectReducer({ key: 'favourites', reducer });
   const linkTo = (path) => {
     if(isCurrentPage(path)) { 
@@ -50,10 +55,13 @@ function FavouritesPage(props) {
     }
   }
   
-
   const isCurrentPage = (pagePath) => {
     return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
   };
+
+  if(props.favourites && props.favourites.favourites){
+    console.log(props.favourites.favourites)
+  }
 
   return (
     <div className={props.classes.subNav}>
@@ -76,4 +84,20 @@ function FavouritesPage(props) {
   );
 }
 
-export default withStyles(styles, {withTheme: true})(FavouritesPage);
+const mapStateToProps = createStructuredSelector({
+  favourites: makeSelectFavourites(),
+
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    requestFavourites: () => dispatch({type : REQUEST_FAVOURITES}),}
+  
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(FavouritesPage));
