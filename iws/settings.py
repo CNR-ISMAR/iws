@@ -490,7 +490,21 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 30,
 }
 
+
 THREDDS_URL = "https://iws.ismar.cnr.it/thredds/ncss/tmes/"
 LAYERDATA_ROOT = os.path.join(PROJECT_ROOT, 'storage', 'layerdata')
 SITE_URL = os.getenv('SITE_URL', 'https://iws.ismar.cnr.it')
 LAYERDATA_URL = SITE_URL+'/layerdata/'
+
+OAUTH2_PROVIDER = {
+    'SCOPES': {
+        'read': 'read',
+        'write': 'write',
+    },
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
+    # 'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.OAuthLibCore',
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600 * 4,
+    'REFRESH_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 60,
+    #REFRESH_TOKEN_EXPIRE_SECONDS
+    # 'APPLICATION_MODEL': 'djcore.djcore.oauth.models.Application'
+}
