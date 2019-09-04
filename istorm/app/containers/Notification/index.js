@@ -19,7 +19,6 @@ import HeaderBar from "../../components/HeaderBar";
 import { NotificationIcon } from '../../utils/icons';
 import makeSelectNotifications from './selectors'; 
 import reducer from './reducer';
-import NotificationReducer from './reducer';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
