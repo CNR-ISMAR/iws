@@ -42,10 +42,10 @@ class ProfileViewSet(generics.RetrieveUpdateAPIView):
     """
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        print instance
-        # serializer = self.get_serializer(instance)
-        # return Response(serializer.data)
-        return Response(instance)
+        # print instance
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+        # return Response(instance)
 
     """
     Update a model instance.

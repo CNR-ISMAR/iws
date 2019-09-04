@@ -26,10 +26,11 @@ export const oauthOption = {
 
 
 export const login = (options) => {
+    options = getOption(options);   
     return request(`${BASE_URL}/oauth/token`, getOption(options))
 };
 
 export const getFavourites = (options) => {
     options = getOption(options);
-    return request(`${BASE_URL}/oauth/me/`, options)
+    return request(`${BASE_URL}/openistorm/favorites`, options)
 };
