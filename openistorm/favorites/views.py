@@ -10,6 +10,7 @@ import json
 
 
 class FavoriteList(ListCreateAPIView):
+    pagination_class = None
     serializer_class =  FavoriteSerializer
     permission_classes = (IsAuthenticated,)
     queryset = Favorite.objects.all()
@@ -31,6 +32,7 @@ class FavoriteList(ListCreateAPIView):
 
 
 class FavoriteListGeoJson(ListAPIView):
+    pagination_class = None
     serializer_class =  FavoriteSerializer
     permission_classes = (IsAuthenticated,)
     queryset = Favorite.objects.all()
