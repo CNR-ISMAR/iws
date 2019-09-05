@@ -1,5 +1,6 @@
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework import status
 
 from .models import Favorite
@@ -30,6 +31,21 @@ class FavoriteList(ListCreateAPIView):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+class FavoriteDetail(RetrieveUpdateDestroyAPIView,GenericViewSet):
+    serializer_class =  FavoriteSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Favorite.objects.all()
+
+    def get_queryset(self):
+        qs = super(FavoriteDetail, self).get_queryset()
+        user = self.request.user
+        return qs.filter(user=user)
+
+    # def destroy(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     # if instance.is_default == True:
+    #     #     return Response("Cannot delete default system category", status=status.HTTP_400_BAD_REQUEST)
+    #     self.perform_destroy(instance)
 
 class FavoriteListGeoJson(ListAPIView):
     pagination_class = None
