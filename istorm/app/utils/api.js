@@ -2,6 +2,19 @@ import request from "./request";
 
 const BASE_URL = process.env.API_URL;
 
+const apiTokenSingleton = () => {
+  let token = null;
+  return {
+    get: () => {
+      return token;
+    },
+    set: (inputToken) => {
+      token = inputToken
+    }
+  }
+};
+const apiToken = apiTokenSingleton();
+
 const defaultOption = {
     headers: new Headers({
         'Accept': 'application/json', 
@@ -11,11 +24,22 @@ const defaultOption = {
 };
 
 const getOption = (option) => {
-    option = Object.assign(defaultOption, option);
+    if(apiToken.get()) {
+      if(defaultOption.headers.has("Authorization")) {
+        defaultOption.headers.set('Authorization', `Bearer ${apiToken.get()}`);
+      } else {
+        defaultOption.headers.append('Authorization', `Bearer ${apiToken.get()}`);
+      }
+    }
+    option.headers = defaultOption.headers;
     if(option.body) {
         option.body = JSON.stringify(option.body)
     }
     return option
+}
+
+export function setToken(token) {
+  apiToken.set(token);
 }
 
 export const oauthOption = {
@@ -29,15 +53,16 @@ export const login = (options) => {
     return request(`${BASE_URL}/oauth/token/`, getOption(options))
 };
 
-const FavsOpts = {
-    headers:{
-        'Authorization': 'Bearer 65Inl6eWbYCSxFocZp69Y7Aj8aX3PC',
-        'Accept': 'application/json, text/plain', 
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache'
-    },
-}
+// const FavsOpts = {
+//     headers:{
+//         'Authorization': 'Bearer 65Inl6eWbYCSxFocZp69Y7Aj8aX3PC',
+//         'Accept': 'application/json, text/plain',
+//         'Content-Type': 'application/json',
+//         'Cache-Control': 'no-cache'
+//     },
+// }
 
 export const favourites = () => {
-    return request(`${BASE_URL}/openistorm/favorites/`, FavsOpts)
+  const options = getOption({})
+  return request(`${BASE_URL}/openistorm/favorites/`, options)
 };
