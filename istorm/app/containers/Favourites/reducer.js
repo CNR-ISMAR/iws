@@ -10,13 +10,6 @@ export const initialState = {
   favourites: {
     loading: false,
     error: null,
-    list: [{
-      id: "lol 1",
-      title: "Ciao sono la prima"
-    },{
-      id: "lol 2",
-      title: "hey ecco la seconda"
-    }],
     result: []
   } 
   
@@ -28,12 +21,12 @@ const favouritesReducer = (state = initialState, action) =>
     switch (action.type) {
       case REQUEST_FAVOURITES:
         draft.favourites.loading = true;
-        draft.favourites.error = initialState.error;
+        draft.favourites.error = initialState.favourites.error;
       break;
       case REQUEST_FAVOURITES_SUCCESS:
           draft.favourites.loading = false;
-          draft.favourites.error = initialState.error;
-          draft.favourites.result = action.result;
+          draft.favourites.error = initialState.favourites.error;
+          draft.favourites.result.push(action.result);
         break;
       case REQUEST_ERROR:
           draft.favourites.loading = false;

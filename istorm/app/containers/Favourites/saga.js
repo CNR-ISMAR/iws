@@ -1,15 +1,16 @@
 import { call, put, select, takeLatest  } from 'redux-saga/effects';
-import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS} from 'containers/Favourites/constants';
-import { requestFavourites, requestFavouritesSuccess, requestError } from '../../containers/Favourites/actions';
-import { getFavourites } from 'utils/api';
+import { REQUEST_FAVOURITES} from 'containers/Favourites/constants';
+import { requestFavouritesSuccess, requestError } from '../../containers/Favourites/actions';
+import { favourites } from 'utils/api';
 
-export function* FavouritesSaga() {
-    const options = {
+export function* FavouritesSaga(action) {
+    /* const options = {
       method: 'get'
-    };
+    }; */
     try {
-      const request = yield call(getFavourites, options);
+      const request = yield call(favourites);
       yield put(requestFavouritesSuccess(request));
+     
     } catch(e) {
       yield put(requestError(e.message));
       

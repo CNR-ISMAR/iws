@@ -26,11 +26,18 @@ export const oauthOption = {
 
 
 export const login = (options) => {
-    options = getOption(options);   
-    return request(`${BASE_URL}/oauth/token`, getOption(options))
+    return request(`${BASE_URL}/oauth/token/`, getOption(options))
 };
 
-export const getFavourites = (options) => {
-    options = getOption(options);
-    return request(`${BASE_URL}/openistorm/favorites`, options)
+const FavsOpts = {
+    headers:{
+        'Authorization': 'Bearer 65Inl6eWbYCSxFocZp69Y7Aj8aX3PC',
+        'Accept': 'application/json, text/plain', 
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache'
+    },
+}
+
+export const favourites = () => {
+    return request(`${BASE_URL}/openistorm/favorites/`, FavsOpts)
 };

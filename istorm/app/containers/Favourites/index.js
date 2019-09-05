@@ -16,10 +16,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
 /* import { toggleDrawerMini, toggleDrawer } from './actions'; */
 import makeSelectFavourites from './selectors';
 import reducer from './reducer';
-
+import saga from './saga';
 import HeaderBar from "../../components/HeaderBar";
 import { FavoriteIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
@@ -47,6 +48,8 @@ const styles = (theme, style) => {
 function FavouritesPage(props) {
   console.info('Favourites')
   useInjectReducer({ key: 'favourites', reducer });
+  useInjectSaga({ key: 'favourites', saga });
+  
   const linkTo = (path) => {
     if(isCurrentPage(path)) { 
       props.history.push("/favourites") 
@@ -66,6 +69,7 @@ function FavouritesPage(props) {
   return (
     <div className={props.classes.subNav}>
       <HeaderBar title={"Favourites"} icon={FavoriteIcon} primarycolor={props.theme.palette.custom.favoriteIcon} />
+      <button onClick={ props.requestFavourites }>Request Favs</button>
       <List>
         <ListItem button className={props.classes.listItem} key={"nav-notiftestion"} selected={isCurrentPage("favourites/station/44")} onClick={() => linkTo("favourites/station/44")}>
           <ListItemText primary={"test"} />
@@ -95,6 +99,12 @@ const mapDispatchToProps = (dispatch) => {
   
 }
 
+/* const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  }
+}
+ */
 const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
