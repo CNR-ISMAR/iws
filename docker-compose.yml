@@ -229,7 +229,7 @@ services:
     volumes:
       - ./volumes/geoserver-data-dir/data:/geoserver_data/data
 
-  tds-production:
+  tds:
     image: unidata/thredds-docker:4.6.12
     ports:
       - "82:8080"
@@ -243,7 +243,7 @@ services:
       #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       - ./volumes/tds/thredds/directory:/usr/local/tomcat/content/thredds
       #- /usr3/tds/data/:/usr/local/tomcat/content/data
-      - ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
+      #- ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
       #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
     env_file:
       - "tds.env"
