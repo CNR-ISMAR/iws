@@ -7,12 +7,9 @@ import produce from 'immer';
 import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, REQUEST_ERROR } from './constants';
 
 export const initialState = {
-  favourites: {
-    loading: false,
-    error: null,
-    result: []
-  } 
-  
+  loading: false,
+  error: null,
+  result: {}
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -20,17 +17,17 @@ const favouritesReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case REQUEST_FAVOURITES:
-        draft.favourites.loading = true;
-        draft.favourites.error = initialState.favourites.error;
+        draft.loading = true;
+        draft.error = initialState.error;
       break;
       case REQUEST_FAVOURITES_SUCCESS:
-          draft.favourites.loading = false;
-          draft.favourites.error = initialState.favourites.error;
-          draft.favourites.result.push(action.result);
+          draft.loading = false;
+          draft.error = initialState.error;
+          draft.result = action.result;
         break;
       case REQUEST_ERROR:
-          draft.favourites.loading = false;
-          draft.favourites.error = action.error;
+          draft.loading = false;
+          draft.error = action.error;
       break;
      /*  case TOGGLE_DRAWER:
         draft.drawer.open = !draft.drawer.open;
