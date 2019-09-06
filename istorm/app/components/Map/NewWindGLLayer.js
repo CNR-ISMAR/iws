@@ -80,7 +80,8 @@ class WindLayer {
     // Spx = C * cos(latitude) / 2 ^ (zoomlevel + 8)
     // 40075016.686
     // let resolution = 40075016.686 * Math.cos(map.transform._center.lat) / 2 ^ (map.transform._zoom + 8)
-    let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.getZoom()) + 8) / 5.01
+    let constRes = 5.01; // * window.devicePixelRatio
+    let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.getZoom()) + 8) / constRes
     // let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (5 + 8))
     // console.log('resolution')
     // // console.log(resolution)
@@ -147,7 +148,8 @@ class NewWindGLLayer extends BaseControl {
   }
 
   _render() {
-    const pixelRatio = window.devicePixelRatio || 1;
+    // const pixelRatio = window.devicePixelRatio || 1;
+    const pixelRatio = 1;
     const _this$_context$viewpo = this._context.viewport,
           width = _this$_context$viewpo.width,
           height = _this$_context$viewpo.height;

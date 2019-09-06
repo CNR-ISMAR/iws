@@ -155,6 +155,19 @@ curl -X POST \
 ```
 
 
+
+### DELETE (destroy) /openistorm/favorites/{id}/ (NEEDS AUTH)
+
+```
+curl -X DELETE \
+  http://iws.inkode.it:4443/openistorm/favorites/14/ \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Authorization: Bearer kytmgKOtyapCuIkj997jzc9A2rsXNS' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+```
+
+
 # Layers
 
 ### Get list of layers in a period
