@@ -17,6 +17,9 @@ class StormEventListGeoJson(ListAPIView):
     queryset = StormEvent.objects.all()
 
     def list(self, request, *args, **kwargs):
+        # TODO: filtrare dove il periodo è <= 10 gg || fine = None || eventi totali = 1 | is_aggregated è false | TMES min date è inferiore a data inizio
+        #  e solo eventi nel periodo coperto dal TMES, inoltre dove la geometry è un punto
+        # TODO: dati da db anzichè getfeatinfo?
         queryset = self.filter_queryset(self.get_queryset())
         serialized = serialize(
             'geojson', queryset,
