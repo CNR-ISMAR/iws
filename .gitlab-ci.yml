@@ -1,0 +1,21 @@
+variables:
+  IMAGE_NAME: repositories.inkode.it:4567/inkode/iws
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN repositories.inkode.it:4567
+
+build_latest:
+  only:
+#    - master
+#    - deploysetup
+    - caspartest
+  tags:
+    - docker-builder
+  script:
+    - cd istorm
+    - docker build -t $IMAGE_NAME:webistorm .
+    - docker push $IMAGE_NAME:webistorm

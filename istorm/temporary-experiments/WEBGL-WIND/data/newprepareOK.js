@@ -32,6 +32,7 @@ const PNG = require('pngjs').PNG;
 const fs = require('fs');
 
 const data = JSON.parse(fs.readFileSync('TMES_waves_20190826-010000.json')); // + e - con -270
+// const data = JSON.parse(fs.readFileSync('TMES_waves_1567202400.json')); // + e - con -270
 // const data = JSON.parse(fs.readFileSync('UV270.json')); // + e - con -270
 // const data = JSON.parse(fs.readFileSync('UV.json')); // + e -
 // const data = JSON.parse(fs.readFileSync('3857_orig.json'));
@@ -72,7 +73,6 @@ for (let y = 0; y < height; y++) {
     const k = y * width + x;
     if (u.data[k] && v.data[k]) {
       png.data[i + 0] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
-      // png.data[i + 0] = 0;
       png.data[i + 1] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));
       // png.data[i + 1] = Math.floor(255 * (u.data[k] - u.minimum) / (u.maximum - u.minimum));
       // png.data[i + 0] = Math.floor(255 * (v.data[k] - v.minimum) / (v.maximum - v.minimum));

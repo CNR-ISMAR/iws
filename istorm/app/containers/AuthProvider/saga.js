@@ -2,7 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH } from 'containers/AuthProvider/constants';
 import { requestError, requestLoginSuccess, requestLogoutSuccess } from '../../containers/AuthProvider/actions';
 
-import { login, oauthOption } from 'utils/api';
+import { login, oauthOption, setToken } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
@@ -17,6 +17,7 @@ export function* loginAuthSaga(action) {
   };
   try {
     const request = yield call(login, loginOption);
+    setToken(request.access_token);
     yield put(requestLoginSuccess(request));
     if(typeof action.redirect !== "undefined") {
       action.redirect("/");
@@ -34,6 +35,7 @@ export function* logoutAuthSaga(action) {
 }
 
 export function* refreshAuthSaga(action) {
+    // setToken(request.access_token);
   // See example in containers/HomePage/saga.js
 }
 

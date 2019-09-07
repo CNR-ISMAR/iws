@@ -151,8 +151,7 @@ void main() {
 }
 `;
 
-var quadVert = `
-precision mediump float;
+var quadVert = `precision mediump float;
 
 attribute vec2 a_pos;
 
@@ -164,8 +163,7 @@ void main() {
 }
 `;
 
-var screenFrag = `
-precision mediump float;
+var screenFrag = `precision mediump float;
 
 uniform sampler2D u_screen;
 uniform float u_opacity;
@@ -231,25 +229,24 @@ function rotateNum(num) {
     return 1 - num;
 }
 
-var defaultRampColors = {
-   0.0: '#3288bd',
-   0.173: '#66c2a5',
-   0.349: '#edc945',
-   0.511: '#fd8815',
-   0.662: '#f46d43',
-   0.845: '#d53e4f',
-   1.0: '#aa3ed5',
-};
-
 // var defaultRampColors = {
-//     0.0: '#87CEFA',
-//     0.173: '#00BFFF',
-//     0.349: '#1E90FF',
-//     0.511: '#4169E1',
-//     0.662: '#0000CD',
-//     0.845: '#00008B',
-//     1.0: '#191970',
+//    0.0: '#3288bd',
+//    0.173: '#66c2a5',
+//    0.349: '#edc945',
+//    0.511: '#fd8815',
+//    0.662: '#f46d43',
+//    0.845: '#d53e4f',
+//    1.0: '#aa3ed5',
 // };
+var defaultRampColors = {
+    0.0: '#87CEFA',
+    0.173: '#00BFFF',
+    0.349: '#1E90FF',
+    0.511: '#4169E1',
+    0.662: '#0000CD',
+    0.845: '#00008B',
+    1.0: '#191970',
+};
 
 var WindGL = function WindGL(gl) {
     this.gl = gl;
@@ -277,13 +274,13 @@ var WindGL = function WindGL(gl) {
     // this.maxWind = 12;
     // this.opacity = 0.6;
 
-    this.fadeOpacity = 0.998; // how fast the particle trails fade on each frame
-    this.speedFactor = 0.7; // how fast the particles move
-    this.dropRate = 0.003; // how often the particles move to a random place
-    this.dropRateBump = 0.01; // drop rate increase relative to individual particle speed
-    this.pointSize = 1.5;
-    this.maxWind = 12;
-    this.opacity = 0.6;
+    this.fadeOpacity = 0.994//0.998; // how fast the particle trails fade on each frame
+    this.speedFactor = 0.8; // how fast the particles move
+    this.dropRate = 0.004; // how often the particles move to a random place
+    this.dropRateBump = 0.12; // drop rate increase relative to individual particle speed
+    this.pointSize = 3;
+    this.maxWind = 8.0;
+    this.opacity = 0.7;
 
     this.drawProgram = createProgram(gl, drawVert, drawFrag);
     this.screenProgram = createProgram(gl, quadVert, screenFrag);
@@ -297,7 +294,7 @@ var WindGL = function WindGL(gl) {
     this.scale = 1;
     this.offsetX = 0;
     this.offsetY = 0;
-    
+
 
     this.setColorRamp(defaultRampColors);
     this.resize();
@@ -483,7 +480,7 @@ WindGL.prototype.updateParticles = function updateParticles () {
         this.offsetY / this.windData.height);
     gl.uniform2fv(program.u_distortion, distortion);
 
-    gl.drawArrays(gl.TRIANGLE, 0, 6);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
 
     // Read wind data.
     var pixels = this.particleState;
@@ -520,8 +517,8 @@ WindGL.prototype.updateParticles = function updateParticles () {
             y = Math.random();
         }
         else {
-            x = rotateNum(-velX * distortionX * 0.0001 * this.speedFactor + x);
-            y = rotateNum(velY * distortionY * 0.0001 * this.speedFactor + y);
+            x = rotateNum(velX * distortionX * 0.0001 * this.speedFactor + x);
+            y = rotateNum(-velY * distortionY * 0.0001 * this.speedFactor + y);
         }
 
         part[0] = x;

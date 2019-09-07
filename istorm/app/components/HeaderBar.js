@@ -26,12 +26,16 @@ import { toggleLayerVisibility  } from '../containers/App/actions';
 
 const styles = (theme) => {
   return {
-    listItem: {
-      color: theme.palette.custom.contrastText,
+    /* listItem: {
+      color: theme.palette.primary.dark,
+      "&:nth-child(odd)":{
+          background: theme.palette.custom.listItemSecondary,
+      },
       "&.Mui-selected": {
-        color: theme.palette.custom.contrastTextSelected
+        color: theme.palette.custom.white,
+        background: theme.palette.custom.listItemSelected
       }
-    },
+    }, */
     headerTop: {
       width: "100%",
       backgroundColor: theme.palette.custom.darkBackground,
@@ -40,10 +44,14 @@ const styles = (theme) => {
     headerTopClose: {
       color: theme.palette.common.white,
       fontSize: 20,
-      lineHeight: 1.2,
+      lineHeight: 0.7,
       padding: 0,
-      minWidth: 30,
-      height: 20
+      margin: 5,
+      minWidth: "auto",
+      border: "1px solid white",
+      borderRadius: 13,
+      height: 15,
+      width: 15,
     },
     divider: {
       backgroundColor: theme.palette.custom.contrastText,
@@ -53,12 +61,15 @@ const styles = (theme) => {
     },
     title: {
       color: theme.palette.custom.darkBackground
+    },
+    HeaderBar:{
+      height: 70,
     }
   }
 };
 
 function HeaderBar(props) {
-  console.info("SidebarNav")
+  console.info("SidebarNav HeaderBar")
   console.info(props);
 
   const close = () => {
@@ -66,7 +77,7 @@ function HeaderBar(props) {
   };
 
   return (
-    <>
+    <div className={props.classes.HeaderBar}>
       <div className={props.classes.headerTop}>
         <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} >&times;</Button>
       </div>
@@ -74,7 +85,7 @@ function HeaderBar(props) {
         <div className={props.classes.titleIcon}><props.icon iconcolor={props.theme.palette.custom.contrastText} primarycolor={typeof props.primarycolor !== "undefined" ? props.primarycolor : null} /></div>
         <Typography className={props.classes.title} variant="h6" noWrap>{props.title}</Typography>
       </Toolbar>
-    </>
+    </div>
   );
 }
 export default withRouter(withStyles(styles, {withTheme: true})(HeaderBar));

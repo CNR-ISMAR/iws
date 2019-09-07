@@ -6,34 +6,37 @@ import time
 import logging
 import wget
 import os
+import math
 import netCDF4
 from PIL import Image
 import json
 from dateutil import parser
 from django.conf import settings
+from .models import ImageLayer
 
 
 class NCToImg:
 
     def __init__(self, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean","wsh-mean")):
 
-        if not os.path.exists(settings.WAVES_DATA):
-            os.makedirs(settings.WAVES_DATA)
+        if not os.path.exists(settings.LAYERDATA_ROOT):
+            os.makedirs(settings.LAYERDATA_ROOT)
 
-        now = datetime.now() - timedelta(days=0)
+        print(settings.LAYERDATA_ROOT)
+
+        now = datetime.now() - timedelta(days=1)
 
         self.parameters = parameters;
         self.dataset = dataset;
 
-        self.time_from = parser.parse(time_from).strftime("%Y-%m-%d") if time_from is not None else now.strftime(
-            "%Y-%m-%d")
+        self.time_from = parser.parse(time_from).strftime("%Y-%m-%d") if time_from is not None else now.strftime("%Y-%m-%d")
         self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else now.strftime("%Y-%m-%d")
 
-        self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime(
-            "%Y%m%d")
+        self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime("%Y%m%d")
 
         self.nc_filename = "TMES_" + self.dataset + "_" + self.source_date + ".nc"
-        self.nc_filepath = os.path.join(settings.WAVES_DATA,"TMES_" + self.dataset + "_" + self.source_date + ".nc")
+        self.nc_filepath = os.path.join(settings.LAYERDATA_ROOT,"TMES_" + self.dataset + "_" + self.source_date + ".nc")
+        print(self.nc_filepath)
 
         self.url = settings.THREDDS_URL \
                    + self.nc_filename \
@@ -43,16 +46,25 @@ class NCToImg:
                    + self.time_to \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
+        # # A CAUSA DI UN BUG DEVO TEMPORANEMENTE BLOCCARE LA DATA AL 18 ottobre: TODO: QUANDO RISOLTO RIMUOVERE!
+        # self.url = settings.THREDDS_URL \
+        #            + self.nc_filename \
+        #            + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
+        #            + '2018-10-29' \
+        #            + "T00%3A00%3A00Z&time_end=" \
+        #            + '2018-10-29' \
+        #            + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
+
         self.transform()
 
     def transform(self):
-        # wget.download(self.url, out=self.nc_filepath)
+        wget.download(self.url, out=self.nc_filepath)
 
         if os.path.isfile(self.nc_filepath):
             # logging.info("File " + self.nc_filename+ " scaricato...")
 
-            tif1filename = os.path.join(settings.WAVES_DATA,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
-            tif2filename = os.path.join(settings.WAVES_DATA,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
+            tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
+            tif2filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
 
             os.system(
                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
@@ -104,7 +116,7 @@ class NCToImg:
 
                     # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
                     ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
-                    json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M:000Z')
+                    json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
 
                     data = []
 
@@ -133,11 +145,24 @@ class NCToImg:
                         })
                         for valsY in range((ny)):
                             for valsX in range((nx)):
-                                valore = arrays[p][valsY][valsX]
-                                if valore is not None and str(valore) != "-999.0":
-                                    # print(valore)
-                                    # print(type(valore))
-                                    # exit(type(valore))
+                                dir = arrays[0][valsY][valsX]
+                                mag = arrays[1][valsY][valsX]
+                                if dir is not None and str(dir) != "-999.0" and mag is not None and str(mag) != "-999.0" and str(dir) != "0.0" and str(mag) != "0.0":
+                                    dir = 270 - dir
+                                    if dir < 0:
+                                        dir = dir + 360
+
+                                    phi = dir * math.pi / 180;
+                                    # u = mag * math.cos(phi);
+                                    # v = mag * math.sin(phi);
+
+                                    if p == 0:
+                                        # valore = u
+                                        valore = mag * math.cos(phi);
+                                    else:
+                                        # valore = v
+                                        valore = mag * math.sin(phi);
+
                                     data[p]['data'].append(valore.item())
                                 else:
                                     data[p]['data'].append(None)
@@ -146,31 +171,38 @@ class NCToImg:
 
                     tsfile = "TMES_"+ self.dataset + '_' + ts + ".json"
 
-                    tsfile_path = os.path.join(settings.WAVES_DATA,tsfile)
+                    tsfile_path = os.path.join(settings.LAYERDATA_ROOT,tsfile)
                     with open(tsfile_path, 'w') as outfile:
                         json.dump(data, outfile, indent=2)
-                    self.generate_image_and_meta_from_json(tsfile_path, os.path.join(settings.WAVES_DATA,self.dataset + '_' + ts))
+
+                    output_prefix = self.dataset + '_' + ts
+                    self.generate_image_and_meta_from_json(tsfile_path, os.path.join(settings.LAYERDATA_ROOT,output_prefix))
                     # TODO: save in database
+                    image_layer, result = ImageLayer.objects.update_or_create(dataset=self.dataset, timestamp=ts,)
+                    # print(image_layer.__dict__)
+
 
                     # logging.info("Esportati "+str(n_bande)+ " file json in: "+str(datetime.now() - startTime))
 
-                    os.system("chmod -R 777 " + settings.WAVES_DATA)
+                    os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
                 # ds1 = None
                 # ds2 = None
-                # os.system("rm " + self.nc_filepath)
+                os.system("rm " + self.nc_filepath)
                 os.system("rm " + tif1filename)
                 os.system("rm " + tif2filename)
-                os.system("chmod -R 777 " + settings.WAVES_DATA)
+                os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
 
     def generate_image_and_meta_from_json(self, input_file, output_name):
-        print(output_name)
+        # print(output_name)
         # input_file = self.input_file
         # output_name = self.output_name
 
         with open(input_file) as json_file:
             data = json.load(json_file)
 
-        u, v = data[0], data[1]
+        u = data[0]
+        v = data[1]
+
         u['data'] = u['data']
         v['data'] = v['data']
         u['min'] = self.min(u['data'])
@@ -193,6 +225,7 @@ class NCToImg:
                     ))
                 else:
                     pngData.append((255, 255, 255, 0))
+
         pngData = tuple(pngData)
 
         image = Image.new('RGBA', (width, height))
@@ -205,10 +238,14 @@ class NCToImg:
             "width": width,
             "height": height,
 
-            "max_x": v['max'],
-            "max_y": u['max'],
-            "min_x": v['min'],
-            "min_y": u['min'],
+            "max_x": u['max'],
+            "max_y": v['max'],
+            "min_x": u['min'],
+            "min_y": v['min'],
+            "lo1": u["header"]["lo1"],
+            "la1": u["header"]["la1"],
+            "lo2": u["header"]["lo2"],
+            "la2": u["header"]["la2"],
 
             "resolution": 1024,
             "error": False

@@ -56,6 +56,7 @@ RUN chmod +x /usr/src/iws/tasks.py \
 # app-specific requirements
 RUN pip install --upgrade --no-cache-dir --src /usr/src -r requirements.txt
 RUN pip install --upgrade -e .
+RUN pip install numpy==1.16.4
 
 RUN pip uninstall -y psycopg2
 RUN pip install --no-binary psycopg2 psycopg2==2.7.3.1

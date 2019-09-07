@@ -16,3 +16,4 @@ MIGRATE_APPS:
   - base
   - services
   - oauth2_provider
+  - openistorm

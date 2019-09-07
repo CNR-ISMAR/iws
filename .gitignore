@@ -72,4 +72,6 @@ istorm/node_modules/*
 #istorm/build/*
 
 celerybeat-schedule
-/iws/static/waves/*
+storage/layerdata/*
+/openistorm/migrations/*
+.env

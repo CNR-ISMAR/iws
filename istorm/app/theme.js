@@ -19,14 +19,16 @@ const metropolis = {
 // A custom theme for this app
 // https://material-ui.com/customization/default-theme/
 const theme = createMuiTheme({
-  typography: {
+  /* typography: {
     useNextVariants: true,
-  },
+  }, */
   palette: {
     custom: {
       headerText: "#455414",
       dark: "#0B303A",
       darkBackground: "#0B303A",
+      listItemSelected: "rgba(105, 131, 151, .8)",
+      listItemSecondary: "rgba(222, 222, 222, .8)",
       contrastText: "#698397",
       contrastTextSelected: "#FFFFFF",
       waveIcon: "#d10000",
@@ -55,6 +57,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
+    useNextVariants: true,
     fontFamily: [
       'Metropolis',
       '-apple-system',
@@ -68,6 +71,7 @@ const theme = createMuiTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+    fontSmall: "0.875rem"
   },
   overrides: {
     MuiCssBaseline: {
