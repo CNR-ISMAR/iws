@@ -164,11 +164,11 @@ function MapPage(props) {
             </List>
           </div>
         </div>
-        <div className={props.classes.overlayMapTimeline}>
+        {(props.mapPage.newWindGLLayer.isVisible || props.mapPage.layers.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
           <div className={props.classes.overlayMapTimelineScroll}>
             <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
           </div>
-        </div>
+        </div>)}
       </>
       ) : null;
 }
