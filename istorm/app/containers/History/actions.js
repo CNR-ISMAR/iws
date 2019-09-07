@@ -4,7 +4,13 @@
  *
  */
 
-import { UPDATE_HISTORY, SET_CURRENT_DATE, REQUEST_TIMELINE, SUCCESS_TIMELINE, ERROR_TIMELINE } from './constants';
+import { UPDATE_HISTORY, SET_CURRENT_DATE, REQUEST_TIMELINE, SUCCESS_TIMELINE, ERROR_TIMELINE, TOGGLE_PLAY } from './constants';
+
+export function togglePlay() {
+  return {
+    type: TOGGLE_PLAY
+  }
+}
 
 export function requestTimeline(request) {
   return {

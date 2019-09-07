@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import makeSelectMapPage, { makeSelectVisibleWmsLayer } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
-import {  setCurrentDate } from '../History/actions';
+import { setCurrentDate, togglePlay } from '../History/actions';
 import { zoomIn, zoomOut, toggleLayerVisibility } from '../App/actions';
 import { requestTimeline } from '../History/actions';
 import messages from './messages';
@@ -105,7 +105,7 @@ const styles = (theme) => {
       //right: 0,
       //left: 0,
       //padding: 0,
-      backgroundColor: theme.palette.custom.mapOverlayBackground
+      //backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayLayerMapList: {
       padding: 0
@@ -166,7 +166,7 @@ function MapPage(props) {
       </div>
       <div className={props.classes.overlayMapTimeline}>
         <div className={props.classes.overlayMapTimelineScroll}>
-          <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} />
+          <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
         </div>
       </div>
     </>

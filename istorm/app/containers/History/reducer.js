@@ -5,18 +5,19 @@
  */
 import produce from 'immer';
 import moment from "moment";
-import { UPDATE_HISTORY, SET_CURRENT_DATE, REQUEST_TIMELINE, SUCCESS_TIMELINE, ERROR_TIMELINE } from './constants';
+import { UPDATE_HISTORY, SET_CURRENT_DATE, REQUEST_TIMELINE, SUCCESS_TIMELINE, ERROR_TIMELINE, TOGGLE_PLAY } from './constants';
 
 const dateFormat = "YYYY-MM-DD";
 const dateTimeFormat = "YYYY-MM-DD HH:mm:ss";
 
 export const initialState = {
   loading: false,
-  max: "2019-09-10T23:00:00.000Z",
-  min: "2019-08-28T00:00:00.000Z",
-  from: "2019-08-30T00:00:00.000Z",
-  to: "2019-09-05T23:00:00.000Z",
-  current: "2019-08-31T00:00:00.000Z",
+  play: false,
+  max: moment().toISOString(),
+  min: moment().toISOString(),
+  from: moment().toISOString(),
+  to: moment().toISOString(),
+  current: "2019-09-01T06:00:00.000Z",
   results: null,
   error: null
 };
@@ -25,6 +26,9 @@ export const initialState = {
 const timelineReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case TOGGLE_PLAY:
+          draft.play = !draft.play;
+        break;
       case REQUEST_TIMELINE:
           draft.loading = true;
           draft.error = null;
@@ -36,7 +40,7 @@ const timelineReducer = (state = initialState, action) =>
           draft.from = action.response.from;
           draft.to = action.response.to;
           draft.results = action.response.results;
-          draft.current = action.response.current;
+          //draft.current = action.response.current;
         break;
       case ERROR_TIMELINE:
           draft.loading = false;
