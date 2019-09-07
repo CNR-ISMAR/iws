@@ -93,13 +93,13 @@ function SidebarNav(props) {
         
         <Divider className={props.classes.divider} variant={"middle"} />
 
-        <ListItem button className={props.classes.listItem} selected={props.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-station-wind"}>
+        <ListItem button className={props.classes.listItem} selected={props.layers["seaLevel"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-station-wind"}>
           <ListItemIcon className={props.classes.listItemIcon}><StationIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.waveIcon} /></ListItemIcon>
-          <ListItemText primary={props.layers["wmpMean"].name} />
+          <ListItemText primary={props.layers["seaLevel"].name} />
           <ListItemSecondaryAction>
             <Checkbox
-              checked={props.layers["wmpMean"].isVisible}
-              onChange={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))}
+              checked={props.layers["seaLevel"].isVisible}
+              onChange={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))}
               //color="primary"
             />
           </ListItemSecondaryAction>

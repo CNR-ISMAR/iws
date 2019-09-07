@@ -127,14 +127,18 @@ const styles = (theme) => {
 function MapPage(props) {
   console.info("mapPage");
   console.info(props);
+  let layerInfo = null;
+  if(props.timeline.current && typeof props.timeline.results[props.timeline.current] !== "undefined") {
+    layerInfo = props.timeline.results[props.timeline.current];
+  }
 
   useEffect(() => {
     props.dispatch(requestTimeline())
   }, [])
 
-  return !props.timeline.loading && props.timeline.current != null ? (
+  return !props.timeline.loading && layerInfo != null ? (
       <>
-        <Map timeline={props.timeline} viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.mapPage.layers} newWindGLLayer={props.mapPage.newWindGLLayer} />
+        <Map timeline={props.timeline} layerInfo={layerInfo} viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.mapPage.layers} newWindGLLayer={props.mapPage.newWindGLLayer} />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>
             <List className={props.classes.overlayZoomList}>
@@ -149,12 +153,12 @@ function MapPage(props) {
           <div item className={props.classes.overlayLayersMap}>
             <div className={props.classes.overlayLayerMapHeader}></div>
             <List className={props.classes.overlayLayerMapList}>
-                <ListItem button selected={props.mapPage.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-wave-level"}>
-                  <ListItemText primary={props.mapPage.layers["wmpMean"].name} className={props.classes.overlayLayerMapListText} />
-                  <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
-                </ListItem>
-                <ListItem button selected={props.mapPage.newWindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-sea-level"}>
+                <ListItem button selected={props.mapPage.newWindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-sea-level"}>
                   <ListItemText primary={props.mapPage.newWindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
+                    <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
+                </ListItem>
+                <ListItem button selected={props.mapPage.layers["seaLevel"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
+                  <ListItemText primary={props.mapPage.layers["seaLevel"].name} className={props.classes.overlayLayerMapListText} />
                   <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
                 </ListItem>
             </List>

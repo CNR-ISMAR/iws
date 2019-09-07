@@ -2,44 +2,49 @@ import React, {createElement} from 'react';
 import PropTypes from 'prop-types'
 import ReactMapGL, {BaseControl, CanvasOverlay, CanvasRedrawOptions} from 'react-map-gl';
 import WindGL from '../../utils/wind-gl';
+import request from '../../utils/request';
 // import windImageSrc from './tmp/uv270.png'
 // import windJson from './tmp/uv270.json'
-import windImageSrc from './tmp/waves_1540764000.png'
+import windImageSrcOld from './tmp/waves_1540764000.png'
 import windJson from './tmp/waves_1540764000.json'
 import {window} from "react-map-gl/dist/es6/utils/globals";
 
 class WindLayer {
-  constructor(ctx) {
-    this.id = 'anim-wave-layer';
+  constructor(id, ctx, windImageSrc, windImageMeta) {
+    this.id = id;
     this.type = 'custom';
     this.ctx = ctx;
     this.renderingMode = '2d';
     this.animationFrame = null;
+    this.windImageSrc =  windImageSrcOld //windImageSrc;
+    this.windImageMeta =  windJson //windImageMeta;
     this.state = {wind: null, map: null};
     //this.render = this.render.bind(this)
     this.drawWind = this.drawWind.bind(this)
   }
 
   onAdd(map, gl) {
-    // console.log('onAdd')
+    const updateWindScale = this.updateWindScale
     this.state.map = map
     const wind = new WindGL(this.ctx);
     wind.numParticles = this.calcNumParticles(map.transform.width, map.transform.height);
-    let windData = windJson;
-    const windImage = new Image();
-    windData.image = windImage;
-    windImage.src = windImageSrc;
-    const updateWindScale = this.updateWindScale
-    windImage.onload = function () {
-      wind.setWind(windData);
-      updateWindScale(wind, map);
-    };
-    windImage.crossOrigin = "Anonymous"
-    windData.windData = windImage;
-    wind.setWind(windData)
-    this.state.wind = wind
-    this.updateWindScale(wind, map)
-    this.drawWind();
+
+    //request(this.windImageMeta)
+    //  .then(windJson => {
+        const windImage = new Image();
+        let windData = windJson;
+        windData.image = windImage;
+        windImage.src = this.windImageSrc;
+        windImage.onload = function () {
+          wind.setWind(windData);
+          updateWindScale(wind, map);
+        };
+        windData.windData = windImage;
+        wind.setWind(windData)
+        this.state.wind = wind
+        this.updateWindScale(wind, map)
+        this.drawWind();
+      //})
   }
 
   onRemove() {
@@ -102,9 +107,6 @@ class WindLayer {
       Math.max(-position[1] / scale, 0)
     ];
 
-    // console.log('offset')
-    // console.log(offset)
-
     wind.move(position[0], position[1]);
     wind.offset(offset[0], offset[1]);
     wind.zoom(scale);
@@ -121,19 +123,20 @@ class NewWindGLLayer extends BaseControl {
 
   componentDidMount() {
     const map = this._context.map;
-
+    const { layer, layerInfo } = this.props;
     const canvas = this._containerRef.current;
     if (canvas) {
       this._canvas = canvas;
       this._ctx = canvas.getContext('webgl', {antialiasing: false});
     }
-    map.addLayer(new WindLayer(this._ctx));
+    map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
   }
 
   componentWillUnmount() {
     const map = this._context.map;
+    const { layer, layerInfo } = this.props;
     if(typeof map.removeLayer === "function") {
-      map.removeLayer("anim-wave-layer");
+      map.removeLayer(layer.id);
     }
   }
 

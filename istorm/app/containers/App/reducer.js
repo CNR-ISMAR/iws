@@ -21,7 +21,7 @@ const proxyUrl = process.env.PROXY_URL;
 
 const waveUrl = proxyUrl + "/thredds/wms/tmes/TMES_waves_" + ncdate + ".nc";
 // const waveUrl = 'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190620.nc';
-const seaLevelUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".nc";
+const wmpMeanUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".nc";
 
 export const initialState = {
   bbox: [[46.286224,25.708008], [35.960223,11.733398]],
@@ -52,15 +52,15 @@ export const initialState = {
     }]
   },
   newWindGLLayer: {
-    name: "sea Level",
-    id: "seaLevel",
+    name: "Wave mean period",
+    id: "wmpMean",
     isVisible: true,
     isTimeseries: true,
   },
   layers: {
-    wmpMean: {
-      name: "Wave mean period",
-      id: "wmpMean",
+    seaLevel: {
+      name: "Sea Level",
+      id: "seaLevel",
       isVisible: true,
       isTimeseries: true,
       type: 'raster',
@@ -105,7 +105,7 @@ const mapPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case TOGGLE_LAYER_VISIBILITY:
-        if(action.layer === "seaLevel") {
+        if(action.layer === "wmpMean") {
           draft.newWindGLLayer.isVisible = !draft.newWindGLLayer.isVisible;
         } else {
           draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
