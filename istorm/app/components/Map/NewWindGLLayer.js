@@ -68,7 +68,7 @@ class WindLayer {
   calcNumParticles(width, height) {
     // console.log('calcNumParticles')
     return Math.min(Math.floor(width / 20 * height / 20),
-      2200
+      1200
     );
   }
 
