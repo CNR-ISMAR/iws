@@ -132,45 +132,41 @@ function MapPage(props) {
     props.dispatch(requestTimeline())
   }, [])
 
-  return (
-    <>
-      {!props.timeline.loading && props.timeline.current && (<Map viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.wmsVisible} />)}
-        {/*<>
-        <TileLayers layers={props.mapPage.baseLayers} />
-        {props.wmsVisible.length && props.wmsVisible.map(layer => <WmsLayers key={"wms-layer-" + layer.id} layer={layer} />)}
-        </>*/}
-      <div className={props.classes.mapControl}>
-        <div item className={props.classes.overlayZoom}>
-          <List className={props.classes.overlayZoomList}>
-            <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
-              <Add />
-            </ListItem>
-            <ListItem button onClick={(e) => props.dispatch(zoomOut())} key={"zoom-out"} className={props.classes.overlayZoomItem}>
-              <Remove />
-            </ListItem>
-          </List>
-        </div>
-        <div item className={props.classes.overlayLayersMap}>
-          <div className={props.classes.overlayLayerMapHeader}></div>
-          <List className={props.classes.overlayLayerMapList}>
-              <ListItem button selected={props.mapPage.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-wave-level"}>
-                <ListItemText primary={props.mapPage.layers["wmpMean"].name} className={props.classes.overlayLayerMapListText} />
-                <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
+  return !props.timeline.loading && props.timeline.current != null ? (
+      <>
+        <Map viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.wmsVisible} />
+        <div className={props.classes.mapControl}>
+          <div item className={props.classes.overlayZoom}>
+            <List className={props.classes.overlayZoomList}>
+              <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
+                <Add />
               </ListItem>
-              <ListItem button selected={props.mapPage.layers["seaLevel"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-sea-level"}>
-                <ListItemText primary={props.mapPage.layers["seaLevel"].name}  className={props.classes.overlayLayerMapListText} />
-                <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
+              <ListItem button onClick={(e) => props.dispatch(zoomOut())} key={"zoom-out"} className={props.classes.overlayZoomItem}>
+                <Remove />
               </ListItem>
-          </List>
+            </List>
+          </div>
+          <div item className={props.classes.overlayLayersMap}>
+            <div className={props.classes.overlayLayerMapHeader}></div>
+            <List className={props.classes.overlayLayerMapList}>
+                <ListItem button selected={props.mapPage.layers["wmpMean"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-wave-level"}>
+                  <ListItemText primary={props.mapPage.layers["wmpMean"].name} className={props.classes.overlayLayerMapListText} />
+                  <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
+                </ListItem>
+                <ListItem button selected={props.mapPage.layers["seaLevel"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-sea-level"}>
+                  <ListItemText primary={props.mapPage.layers["seaLevel"].name}  className={props.classes.overlayLayerMapListText} />
+                  <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
+                </ListItem>
+            </List>
+          </div>
         </div>
-      </div>
-      <div className={props.classes.overlayMapTimeline}>
-        <div className={props.classes.overlayMapTimelineScroll}>
-          <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
+        <div className={props.classes.overlayMapTimeline}>
+          <div className={props.classes.overlayMapTimelineScroll}>
+            <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+      ) : null;
 }
 
 
