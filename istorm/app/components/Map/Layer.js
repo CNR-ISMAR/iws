@@ -29,7 +29,7 @@ class Layer extends BaseControl {
     componentWillUnmount() {
         const map = this._context.map;
         const { layer } = this.props;
-        if(map) {
+        if(map.hasOwnProperty("removeLayer")) {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);
         }

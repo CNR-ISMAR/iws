@@ -20,7 +20,7 @@ import HistoryForm from "../../components/HistoryForm";
 import { HistoryIcon } from '../../utils/icons';
 
 import makeSelectHistory from './selectors';
-import { updateHistory } from './actions';
+import { updateHistory, requestTimeline } from './actions';
 import reducer from './reducer';
 
 
@@ -41,10 +41,15 @@ const styles = (theme, style) => {
 
 function HistoryPage(props) {
   //useInjectReducer({ key: 'timeline', reducer });
+  const upHist = (date) => {
+    props.dispatch(updateHistory(date));
+    props.dispatch(requestTimeline());
+  }
+
   return (
     <div className={props.classes.subNav}>
       <HeaderBar title={"History"} icon={HistoryIcon} />
-      <HistoryForm from={props.from} to={props.to} updateHistory={(date) => props.dispatch(updateHistory(date))} />
+      <HistoryForm from={props.from} to={props.to} updateHistory={(date) => upHist(date)} />
     </div>
   );
 }

@@ -142,7 +142,7 @@ class NewWindGLLayer extends BaseControl {
 
   componentWillUnmount() {
     const map = this._context.map;
-    if(map) {
+    if(map.hasOwnProperty("removeLayer")) {
       map.removeLayer("anim-wave-layer");
     }
   }

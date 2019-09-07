@@ -23,8 +23,8 @@ const styles = (theme, style) => {
 function HistoryForm(props) {
   const dateFormat = "YYYY-MM-DD";
   const [formData, setFormData] = useState({
-      from: moment(props.from).toDate(),
-      to: moment(props.to).toDate()
+      from: moment(props.from),
+      to: moment(props.to)
   });
 
   const handleDateChange = (date, where) => {
@@ -32,7 +32,6 @@ function HistoryForm(props) {
   }
 
   const submit = (e) => {
-    console.info(formData)
     e.preventDefault();
     props.updateHistory(formData)
   }
