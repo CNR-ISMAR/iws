@@ -12,24 +12,15 @@ class Layer extends BaseControl {
     componentDidMount() {
         const map = this._context.map;
         const { layer } = this.props;
-        console.info("loaded");
-        console.info(map.loaded());
-        
-        if(map.loaded()) {
-            map.addLayer(layer);
-        } else {
-            map.on('load', () => {
-                map.addLayer(layer);
-                map.off('load');
-            });    
-        }
-        
+        map.addLayer(layer);
     }
 
     componentWillUnmount() {
         const map = this._context.map;
         const { layer } = this.props;
-        if(map.hasOwnProperty("removeLayer")) {
+        console.info("GERONIMOOOOOOOOO",map.hasOwnProperty("removeLayer"), map);
+        console.info("GERONIMOOOOOOOOO", typeof map.removeLayer, map.loaded());
+        if(typeof map.removeLayer === "function") {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);
         }

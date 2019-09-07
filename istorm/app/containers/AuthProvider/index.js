@@ -19,8 +19,8 @@ import saga from './saga';
 import messages from './messages';
 
 export function Auth(props) {
-  useInjectReducer({ key: 'auth', reducer });
-  useInjectSaga({ key: 'auth', saga });
+  //useInjectReducer({ key: 'auth', reducer });
+  //useInjectSaga({ key: 'auth', saga });
 
   return (
     <>

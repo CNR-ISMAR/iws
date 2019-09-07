@@ -12,17 +12,13 @@ import messages from './messages';
 import { withStyles } from '@material-ui/core/styles';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import DeckGL from '@deck.gl/react';
-import { StaticMap } from 'react-map-gl';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
 import { setViewport } from "../../containers/App/actions";
 
-import ReactMapGL, { FlyToInterpolator, SVGOverlay } from 'react-map-gl';
-
-import WindGLLayer from "./WindGLLayer";
+import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
 import NewWindGLLayer from "./NewWindGLLayer";
 
 const mapboxToken = process.env.MAPBOX_TOKEN;
@@ -86,8 +82,6 @@ class Map extends React.Component {
       viewport: {
         width: window.document.body.offsetWidth,
         height: window.document.body.offsetHeight,
-        latitude: 41.343825,
-        longitude: 17.775879,
         zoom: 6,
         transitionDuration: 1000,
         transitionInterpolator: new FlyToInterpolator(),
@@ -128,7 +122,8 @@ class Map extends React.Component {
   flyToBbox(bbox) {
     const {longitude, latitude, zoom} = new WebMercatorViewport(this.state.viewport)
       .fitBounds(bbox || this.props.bbox, {
-        offset: [-300, 0, 0 , 0]
+        padding: {top: 0, right: 0, bottom: 0, left: 0},
+        offset: [0, 50]
       });
     return this.flyTo(latitude, longitude, zoom);
   }
@@ -137,21 +132,12 @@ class Map extends React.Component {
     this.props.dispatch(setViewport(viewport));
   }
 
-  onMapLoad(data) {
-    console.log(data)
+  onMapLoad(data, boh) {
+    console.log("Map Load")
+    console.log(data, boh)
+    this.setState({...this.state, mapboxIsLoading: false});
     // this.props.dispatch(setViewport(viewport));
   }
-  // redraw({project}) {
-  //   console.log('project')
-  //   console.log(project)
-  //   // const [cx, cy] = project([17,29, 91]);
-  //   const [cx, cy] = project([12.21, 45.85]);
-  // // "lo1": 12.21,
-  // // "la1": 45.85,
-  // // "lo2": 22.37,
-  // // "la2": 36.67
-  //   return <circle cx={cx} cy={cy} r={40} fill="blue" />;
-  // }
 
 
   render () {
@@ -170,20 +156,10 @@ class Map extends React.Component {
         onLoad={this.onMapLoad}
         mapStyle={this.props.mapStyle}
         >
-        {true && (
+        {!this.state.mapboxIsLoading && (
           <>
-            {
-              this.props.layers && this.props.layers.length
-              && this.props.layers.map((layer) => <Layer key={"map-layer-" + layer.id} layer={layer}/>)
-              // && [0].map( () => <Layer key={"map-layer-" + this.props.layers[0].id+"a"} layer={this.props.layers[0]}/>)
-              // && <GLLayer></GLLayer>
-              // && [0].map( () => <SVGOverlay key={'ol'} redraw={this.redraw}/>)
-              // && [0].map( () => <GLLayer key={"aaa-"} />)
-            }
-            {/*<SVGOverlayTest key={'SVGOverlayTest'} layer={{id:'SVGOverlayTest',ref:'SVGOverlayTest'}}/>*/}
-            {/*<GLCanvasOverlay key={'WindGLLayer'} layer={{id:'WindGLLayer',ref:'WindGLLayer'}}/>*/}
-            {/*<WindGLLayer key={'WindGLLayer'} layer={{id:'WindGLLayer',ref:'WindGLLayer'}}/>*/}
-            <NewWindGLLayer key={'NewWindGLLayer'} layer={{id:'NewWindGLLayer',ref:'NewWindGLLayer'}}/>
+            {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
+            {this.props.newWindGLLayer.isVisible && (<NewWindGLLayer key={'NewWindGLLayer'} layer={{id:'NewWindGLLayer', ref:'NewWindGLLayer'}}/>)}
           </>
         )}
       </ReactMapGL>
@@ -191,4 +167,4 @@ class Map extends React.Component {
   }
 }
 
-export default withStyles(styles, {withTheme: true})(React.memo(Map));
+export default withStyles(styles, {withTheme: true})(Map);

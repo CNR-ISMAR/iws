@@ -51,35 +51,23 @@ export const initialState = {
       maxzoom: 22
     }]
   },
+  newWindGLLayer: {
+    name: "sea Level",
+    id: "seaLevel",
+    isVisible: true,
+    isTimeseries: true,
+  },
   layers: {
     wmpMean: {
       name: "Wave mean period",
       id: "wmpMean",
-      isVisible: false,
+      isVisible: true,
       isTimeseries: true,
       type: 'raster',
       source: {
       type: 'raster',
         tiles: [
           waveUrl + '?LAYERS=wmp-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=2.44%2C7.303&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
-        ],
-        width: 256,
-        height: 256
-      },
-      paint: {
-
-      }
-    },
-    seaLevel: {
-      name: "seaLevel",
-      id: "seaLevel",
-      isVisible: false,
-      isTimeseries: true,
-      type: 'raster',
-      source: {
-      type: 'raster',
-        tiles: [
-          seaLevelUrl + '?LAYERS=sea_level-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=4.157%2C107.4&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
         ],
         width: 256,
         height: 256
@@ -117,7 +105,11 @@ const mapPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case TOGGLE_LAYER_VISIBILITY:
+        if(action.layer === "seaLevel") {
+          draft.newWindGLLayer.isVisible = !draft.newWindGLLayer.isVisible;
+        } else {
           draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
+        }
         break;
       case ZOOM_IN:
         draft.viewport.zoom = draft.viewport.zoom + .5;

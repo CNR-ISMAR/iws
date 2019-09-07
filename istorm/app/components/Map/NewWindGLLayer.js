@@ -123,26 +123,16 @@ class NewWindGLLayer extends BaseControl {
     const map = this._context.map;
 
     const canvas = this._containerRef.current;
-
     if (canvas) {
       this._canvas = canvas;
       this._ctx = canvas.getContext('webgl', {antialiasing: false});
     }
-
-    if (map.loaded()) {
-      map.addLayer(new WindLayer(this._ctx));
-    } else {
-      map.on('load', () => {
-        map.addLayer(new WindLayer(this._ctx));
-        map.off('load');
-      });
-    }
-
+    map.addLayer(new WindLayer(this._ctx));
   }
 
   componentWillUnmount() {
     const map = this._context.map;
-    if(map.hasOwnProperty("removeLayer")) {
+    if(typeof map.removeLayer === "function") {
       map.removeLayer("anim-wave-layer");
     }
   }

@@ -43,8 +43,8 @@ import theme from 'theme';
 import useStyles from 'useStyles';
 
 function App(props) {
-  useInjectReducer({ key: 'mapPage', reducer });
-  useInjectSaga({ key: 'mapPage', saga });
+  //useInjectReducer({ key: 'mapPage', reducer });
+  //useInjectSaga({ key: 'mapPage', saga });
   const classes = useStyles();
   console.info("app");
   console.info(props);
