@@ -17,7 +17,7 @@ export const initialState = {
   min: moment().toISOString(),
   from: moment().toISOString(),
   to: moment().toISOString(),
-  current: "2019-09-01T06:00:00.000Z",
+  current: null,
   results: null,
   error: null
 };
@@ -32,6 +32,8 @@ const timelineReducer = (state = initialState, action) =>
       case REQUEST_TIMELINE:
           draft.loading = true;
           draft.error = null;
+          draft.results = null;
+          draft.current = null;
         break;
       case SUCCESS_TIMELINE:
           draft.loading = false;
@@ -41,6 +43,7 @@ const timelineReducer = (state = initialState, action) =>
           draft.to = action.response.to;
           draft.results = action.response.results;
           //draft.current = action.response.current;
+          draft.current = "2019-09-01T06:00:00.000Z";
         break;
       case ERROR_TIMELINE:
           draft.loading = false;

@@ -134,7 +134,7 @@ function MapPage(props) {
 
   return (
     <>
-      <Map viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.wmsVisible} />
+      {!props.timeline.loading && props.timeline.current && (<Map viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.wmsVisible} />)}
         {/*<>
         <TileLayers layers={props.mapPage.baseLayers} />
         {props.wmsVisible.length && props.wmsVisible.map(layer => <WmsLayers key={"wms-layer-" + layer.id} layer={layer} />)}
@@ -195,4 +195,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withStyles(styles, {withTheme: true})(MapPage));
+export default compose(withConnect)(withStyles(styles, {withTheme: true})(React.memo(MapPage)));

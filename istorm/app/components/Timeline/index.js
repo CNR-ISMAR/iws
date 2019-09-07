@@ -96,7 +96,7 @@ const HoursSlider = withStyles((theme) => ({
   },
   thumb: {
     width: 10,
-    height: 52,
+    height: 48,
     marginTop: -20,
     opacity: .7,
     borderRadius: "inherit",
@@ -111,37 +111,38 @@ const HoursSlider = withStyles((theme) => ({
     backgroundColor: theme.palette.custom.listSelected,
     height: 8,
     width: 1,
-    marginTop: -5,
+    marginTop: -6,
   },
 }), {withTheme: true})(Slider);
 
 function Timeline(props) {
-    let interval = null;
-    let daysKeys = {};
-    let timelineWidth = 0;
-    const hours = props.timeline.results != null ? Object.keys(props.timeline.results).map((date, index) => {
-      const mDate = moment(date).utc();
-      const dString = mDate.format("YYYYMMDD");
-      if(typeof daysKeys[dString] !== "undefined") {
-       daysKeys[dString].width = daysKeys[dString].width + 10;
-      } else {
-        daysKeys[dString] = {
-          value: mDate,
-          width: 10
-        };
-      }
-      return { value: index, isoDate: date }
-    }) : [];
-    const days = Object.keys(daysKeys).map((ddd) => {
-      timelineWidth = timelineWidth + daysKeys[ddd].width;
-      return {
-        label : daysKeys[ddd].value.format("D dddd"), 
-        isoDate: daysKeys[ddd].value.toISOString(),
-        value: daysKeys[ddd].value,
-        width: daysKeys[ddd].width
-      }
-    });
-    const defaultSliderValue = hours.length > 0 ? Object.keys(props.timeline.results).indexOf(props.timeline.current) : 0;
+  let interval = null;
+  const intervalDuration = 3000;
+  let daysKeys = {};
+  let timelineWidth = 0;
+  const hours = props.timeline.results != null ? Object.keys(props.timeline.results).map((date, index) => {
+    const mDate = moment(date).utc();
+    const dString = mDate.format("YYYYMMDD");
+    if(typeof daysKeys[dString] !== "undefined") {
+      daysKeys[dString].width = daysKeys[dString].width + 10;
+    } else {
+      daysKeys[dString] = {
+        value: mDate,
+        width: 10
+      };
+    }
+    return { value: index, isoDate: date }
+  }) : [];
+  const days = Object.keys(daysKeys).map((ddd) => {
+    timelineWidth = timelineWidth + daysKeys[ddd].width;
+    return {
+      label : daysKeys[ddd].value.format("D dddd"), 
+      isoDate: daysKeys[ddd].value.toISOString(),
+      value: daysKeys[ddd].value,
+      width: daysKeys[ddd].width
+    }
+  });
+  const defaultSliderValue = hours.length > 0 ? Object.keys(props.timeline.results).indexOf(props.timeline.current) : 0;
 
 
   const valueText = (value) => {
@@ -170,7 +171,7 @@ function Timeline(props) {
           } else {
             props.setCurrentDate(moment(hours[defaultSliderValue + 1].isoDate));
           }
-        }, 2000);
+        }, intervalDuration);
       }
     } else {
       if(interval) {
