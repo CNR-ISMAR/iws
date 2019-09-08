@@ -22,12 +22,30 @@ class Layer extends BaseControl {
         map.addLayer(newLayer);
     }
 
+    componentWillReceiveProps(newProps) {
+        const map = this._context.map;
+        const { layer, layerInfo } = newProps;
+        const source = map.getLayer(layer.id)
+        if(source) {
+            let newLayer = layer;
+            if("seaLevel" === layer.id) {
+                newLayer = Object.assign(newLayer, {
+                    //tiles: [layerInfo.sea_level_mean],
+                });
+            }
+            map.removeLayer(layer.id);
+            map.removeSource(layer.id);
+            map.addLayer(newLayer);
+        }
+      }
+
     componentWillUnmount() {
         const map = this._context.map;
         const { layer } = this.props;
         console.info("GERONIMOOOOOOOOO", map.hasOwnProperty("removeLayer"), map);
         console.info("GERONIMOOOOOOOOO", typeof map.removeLayer, map.loaded());
-        if(typeof map.removeLayer === "function") {
+        const source = map.getLayer(layer.id)
+        if(source) {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);
         }

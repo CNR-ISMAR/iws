@@ -131,12 +131,8 @@ class NewWindGLLayer extends BaseControl {
   }
 
   componentWillReceiveProps(newProps) {
-    console.info("RECEIVE PROPS     @@@@@@@@@@@@@@@@@");
     const map = this._context.map;
     const { layer, layerInfo } = newProps;
-    /* if(typeof map.removeLayer === "function") {
-      map.removeLayer(layer.id);
-    } */
     const source = map.getLayer(layer.id)
     if(source) {
       map.removeLayer(layer.id);
@@ -146,8 +142,9 @@ class NewWindGLLayer extends BaseControl {
 
   componentWillUnmount() {
     const map = this._context.map;
-    const { layer, layerInfo } = this.props;
-    if(typeof map.removeLayer === "function") {
+    const { layer } = this.props;
+    const source = map.getLayer(layer.id)
+    if(source) {
       map.removeLayer(layer.id);
     }
   }
