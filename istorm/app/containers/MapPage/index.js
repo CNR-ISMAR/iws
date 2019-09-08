@@ -210,19 +210,18 @@ function MapPage(props) {
                 </ListItem>
             </List>
             <Typography component="div" align="center" variant="caption">
-              <Grid component="label" container flex spacing={1}>
-                <Grid item flex>STD</Grid>
-                <Grid item flex>
+              <Grid component="label" container spacing={1}>
+                <Grid item>STD</Grid>
+                <Grid item>
                   <Switch
                     size="small"
                     checked={props.mapPage.mean}
                     onChange={() => props.dispatch(toggleLayerMean())}
-                    flex
                     style={{display: "flex"}}
                     value="mean"
                   />
                 </Grid>
-                <Grid item flex>MEAN</Grid>
+                <Grid item>MEAN</Grid>
               </Grid>
             </Typography>
           </div>

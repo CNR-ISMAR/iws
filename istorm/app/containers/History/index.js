@@ -49,7 +49,7 @@ function HistoryPage(props) {
   return (
     <div className={props.classes.subNav}>
       <HeaderBar title={"History"} icon={HistoryIcon} />
-      <HistoryForm from={props.from} to={props.to} updateHistory={(date) => upHist(date)} />
+      <HistoryForm max={props.timeline.max} min={props.timeline.min} from={props.timeline.from} to={props.timeline.to} updateHistory={(date) => upHist(date)} />
     </div>
   );
 }
@@ -59,7 +59,7 @@ HistoryPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  hisotry: makeSelectHistory(),
+  timeline: makeSelectHistory(),
 });
 
 function mapDispatchToProps(dispatch) {
