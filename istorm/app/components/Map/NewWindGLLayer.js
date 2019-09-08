@@ -1,13 +1,8 @@
 import React, {createElement} from 'react';
 import PropTypes from 'prop-types'
-import ReactMapGL, {BaseControl, CanvasOverlay, CanvasRedrawOptions} from 'react-map-gl';
+import { BaseControl } from 'react-map-gl';
 import WindGL from '../../utils/wind-gl';
 import request from '../../utils/request';
-// import windImageSrc from './tmp/uv270.png'
-// import windJson from './tmp/uv270.json'
-import windImageSrcOld from './tmp/waves_1540764000.png'
-// import windJson from './tmp/waves_1540764000.json'
-import {window} from "react-map-gl/dist/es6/utils/globals";
 
 class WindLayer {
   constructor(id, ctx, windImageSrc, windImageMeta) {
@@ -33,12 +28,14 @@ class WindLayer {
      .then(windJson => {
         const windImage = new Image();
         let windData = windJson;
+        windData.imageDone = false;
         windData.image = windImage;
         windImage.crossOrigin = "*";
         windImage.src = this.windImageSrc;
         windImage.onload = function () {
           wind.setWind(windData);
           updateWindScale(wind, map);
+          windData.imageDone = true;
         };
         windData.windData = windImage;
         wind.setWind(windData)
@@ -76,7 +73,7 @@ class WindLayer {
 
   updateWindScale(wind, map) {
     // console.log('updateWindScale')
-    if (!wind || !wind.windData) {
+    if (!wind || !wind.windData || !wind.windData.imageDone) {
       console.log('error !wind || !wind.windData')
       return;
     }
@@ -131,6 +128,20 @@ class NewWindGLLayer extends BaseControl {
       this._ctx = canvas.getContext('webgl', {antialiasing: false});
     }
     map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.info("RECEIVE PROPS     @@@@@@@@@@@@@@@@@");
+    const map = this._context.map;
+    const { layer, layerInfo } = newProps;
+    /* if(typeof map.removeLayer === "function") {
+      map.removeLayer(layer.id);
+    } */
+    const source = map.getLayer(layer.id)
+    if(source) {
+      map.removeLayer(layer.id);
+      map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
+    }
   }
 
   componentWillUnmount() {

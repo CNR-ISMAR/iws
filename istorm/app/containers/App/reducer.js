@@ -76,9 +76,9 @@ export const initialState = {
 
       }
     },
-    stations: {
-      name: "Station",
-      id: "stations",
+    stationsWave: {
+      name: "Station Wave",
+      id: "stations-wave",
       isVisible: true,
       isTimeseries: false,
       type: 'circle',
@@ -87,11 +87,32 @@ export const initialState = {
         data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
       },
       paint: {
-        'circle-color': '#f00',
+        'circle-color': '#d10000',
         // 'circle-radius': 4,
         "circle-radius": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
+          8,
+          5
+        ]
+      }
+    },
+    stationsSeaLevel: {
+      name: "Station Seal Level",
+      id: "stations-sea-level",
+      isVisible: true,
+      isTimeseries: false,
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+      },
+      paint: {
+        'circle-color': '#fa0',
+        // 'circle-radius': 4,
+        "circle-radius": [
+          "case",
+          ["boolean", ["feature-state", "hover"], true],
           8,
           5
         ]

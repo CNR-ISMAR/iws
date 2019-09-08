@@ -128,8 +128,20 @@ function MapPage(props) {
   console.info("mapPage");
   console.info(props);
   let layerInfo = null;
+  let layers = {};
+  let newWindGLLayer = {};
   if(props.timeline.current && typeof props.timeline.results[props.timeline.current] !== "undefined") {
     layerInfo = props.timeline.results[props.timeline.current];
+
+    /*if(props.mapPage.layers["seaLevel"].isVisible && props.mapPage.layers[layer].id == "seaLevel") {
+      seaLevel = Object.assign(newLayer, {
+        //tiles: [layerInfo.sea_level_mean],
+      });
+    }*/
+
+
+
+
   }
 
   useEffect(() => {
@@ -138,7 +150,16 @@ function MapPage(props) {
 
   return !props.timeline.loading && layerInfo != null ? (
       <>
-        <Map timeline={props.timeline} layerInfo={layerInfo} viewport={props.mapPage.viewport} bbox={props.mapPage.bbox} dispatch={props.dispatch} mapStyle={props.mapPage.style} layers={props.mapPage.layers} newWindGLLayer={props.mapPage.newWindGLLayer} />
+        <Map 
+          timeline={props.timeline} 
+          layerInfo={layerInfo} 
+          viewport={props.mapPage.viewport} 
+          bbox={props.mapPage.bbox} 
+          dispatch={props.dispatch} 
+          mapStyle={props.mapPage.style} 
+          layers={props.mapPage.layers} 
+          newWindGLLayer={props.mapPage.newWindGLLayer} 
+          />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>
             <List className={props.classes.overlayZoomList}>
