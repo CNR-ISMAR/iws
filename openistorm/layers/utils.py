@@ -264,3 +264,34 @@ class NCToImg:
 
     def max(self, data):
         return max(x for x in data if x is not None)
+
+class NCQuery:
+    def __init__(self, lat=42.394178, lon=17.180859, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean","wsh-mean")):
+
+        self.lat = lat
+        self.lon = lon
+
+        if not os.path.exists(settings.LAYERDATA_ROOT):
+            os.makedirs(settings.LAYERDATA_ROOT)
+
+        print(settings.LAYERDATA_ROOT)
+
+        now = datetime.now() - timedelta(days=1)
+
+        self.parameters = parameters;
+        self.dataset = dataset;
+
+        self.time_from = parser.parse(time_from).strftime("%Y-%m-%d") if time_from is not None else now.strftime("%Y-%m-%d")
+        self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else now.strftime("%Y-%m-%d")
+
+        self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime("%Y%m%d")
+
+        # TODO: tutta la logica di composizione url, NOTA BENE che alcuni periodi potrebbero richiedere l'interrogazione di 2 url!
+        self.url = 'https://iws.ismar.cnr.it/thredds/dodsC/tmes/TMES_waves_20190906.nc'
+
+    def get_values(self):
+        dataset = netCDF4.Dataset(self.url)
+        select = dataset.sel(lon=self.lon, lat=self.lat, method='nearest')
+        # lati = 42.394178
+        # loni = 17.180859
+
