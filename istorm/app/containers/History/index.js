@@ -43,7 +43,7 @@ function HistoryPage(props) {
   //useInjectReducer({ key: 'timeline', reducer });
   const upHist = (date) => {
     props.dispatch(updateHistory(date));
-    props.dispatch(requestTimeline());
+    props.dispatch(requestTimeline(date));
   }
 
   return (

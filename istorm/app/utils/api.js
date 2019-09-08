@@ -53,8 +53,12 @@ export const login = (options) => {
     return request(`${BASE_URL}/oauth/token`, getOption(options))
 };
 
-export const requestTimelineData = (options) => {
-    return request(`${BASE_URL}/openistorm/layers/`, getOption(options))
+export const requestTimelineData = (options, from, to) => {
+  let url = `${BASE_URL}/openistorm/layers/`;
+  if(from && to) {
+    url += `?from=${from}&to=${to}`;
+  }
+  return request(url, getOption(options));
 };
 
 // const FavsOpts = {
