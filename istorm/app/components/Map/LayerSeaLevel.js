@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BaseControl } from 'react-map-gl';
 
-class Layer extends BaseControl {
+class LayerSeaLevel extends BaseControl {
 
     constructor(props) {
         super(props);
@@ -11,18 +11,24 @@ class Layer extends BaseControl {
   
     componentDidMount() {
         const map = this._context.map;
-        const { layer } = this.props;
-        map.addLayer(layer);
+        const { layer, layerInfo } = this.props;
+        const newLayer = Object.assign(layer, {
+            //tiles: [layerInfo.sea_level_mean],
+        });
+        map.addLayer(newLayer);
     }
 
     componentWillReceiveProps(newProps) {
         const map = this._context.map;
-        const { layer } = newProps;
+        const { layer, layerInfo } = newProps;
         const source = map.getLayer(layer.id)
         if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
+            const newLayer = Object.assign(layer, {
+                //tiles: [layerInfo.sea_level_mean],
+            });
             map.removeLayer(layer.id);
             map.removeSource(layer.id);
-            map.addLayer(layer);
+            map.addLayer(newLayer);
         }
       }
 
@@ -39,4 +45,4 @@ class Layer extends BaseControl {
     _render() { return null; }
 };
 
-export default Layer;
+export default LayerSeaLevel;

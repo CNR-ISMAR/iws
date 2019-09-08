@@ -20,6 +20,7 @@ import { setViewport } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
 import NewWindGLLayer from "./NewWindGLLayer";
+import LayerSeaLevel from "./LayerSeaLevel";
 
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
@@ -105,8 +106,9 @@ class Map extends React.Component {
         >
         {!this.state.mapboxIsLoading && (
           <>
+            {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel}/>)}
+            {this.props.newWindGLLayer.isVisible && (<NewWindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.newWindGLLayer}/>)}
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
-            {this.props.newWindGLLayer.isVisible && (<NewWindGLLayer layerInfo={this.props.layerInfo} key={'NewWindGLLayer'} layer={this.props.newWindGLLayer}/>)}
           </>
         )}
       </ReactMapGL>

@@ -9,6 +9,7 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 export const TOGGLE_LAYER_VISIBILITY = 'app/App/TOGGLE_LAYER_VISIBILITY';
+export const TOGGLE_LAYER_MEAN = 'app/App/TOGGLE_LAYER_MEAN';
 export const ZOOM_IN = 'app/App/ZOOM_IN';
 export const ZOOM_OUT = 'app/App/ZOOM_OUT';
 export const SET_VIEWPORT = 'app/App/SET_VIEWPORT';

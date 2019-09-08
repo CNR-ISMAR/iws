@@ -4,7 +4,13 @@
  *
  */
 
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT } from './constants';
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, TOGGLE_LAYER_MEAN } from './constants';
+
+export function toggleLayerMean() {
+  return {
+    type: TOGGLE_LAYER_MEAN
+  };
+}
 
 export function setViewport(viewport) {
   return {

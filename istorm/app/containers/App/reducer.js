@@ -5,7 +5,7 @@
  */
 import produce from 'immer';
 import moment from 'moment';
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT } from './constants';
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, TOGGLE_LAYER_MEAN } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -25,6 +25,7 @@ const wmpMeanUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".n
 
 export const initialState = {
   bbox: [[46.286224,25.708008], [35.960223,11.733398]],
+  mean: true,
   viewport: {
     longitude: 12.33265,
     latitude: 45.43713, 
@@ -57,25 +58,25 @@ export const initialState = {
     isVisible: true,
     isTimeseries: true,
   },
-  layers: {
-    seaLevel: {
-      name: "Sea Level",
-      id: "seaLevel",
-      isVisible: true,
-      isTimeseries: true,
-      type: 'raster',
-      source: {
-      type: 'raster',
-        tiles: [
-          waveUrl + '?LAYERS=wmp-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=2.44%2C7.303&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
-        ],
-        width: 256,
-        height: 256
-      },
-      paint: {
-
-      }
+  seaLevel: {
+    name: "Sea Level",
+    id: "seaLevel",
+    isVisible: true,
+    isTimeseries: true,
+    type: 'raster',
+    source: {
+    type: 'raster',
+      tiles: [
+        waveUrl + '?LAYERS=wmp-mean&ELEVATION=0&TIME=' + currentTimeDimention + 'T00%3A00%3A00.000Z&TRANSPARENT=true&STYLES=boxfill%2Frainbow&COLORSCALERANGE=2.44%2C7.303&NUMCOLORBANDS=20&LOGSCALE=false&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256'
+      ],
+      width: 256,
+      height: 256
     },
+    paint: {
+
+    }
+  },
+  layers: {
     stationsWave: {
       name: "Station Wave",
       id: "stations-wave",
@@ -125,9 +126,14 @@ export const initialState = {
 const mapPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case TOGGLE_LAYER_MEAN:
+        draft.mean = !draft.mean;
+        break;
       case TOGGLE_LAYER_VISIBILITY:
         if(action.layer === "wmpMean") {
           draft.newWindGLLayer.isVisible = !draft.newWindGLLayer.isVisible;
+        } else if(action.layer === "seaLevel") {
+          draft.seaLevel.isVisible = !draft.seaLevel.isVisible;
         } else {
           draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
         }

@@ -15,7 +15,7 @@ import { compose } from 'redux';
 import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleNewWindGLLayer } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
 import { setCurrentDate, togglePlay } from '../History/actions';
-import { zoomIn, zoomOut, toggleLayerVisibility } from '../App/actions';
+import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean } from '../App/actions';
 import { requestTimeline } from '../History/actions';
 import messages from './messages';
 import Map from '../../components/Map';
@@ -30,12 +30,48 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Typography from '@material-ui/core/Typography';
+import Switch from '@material-ui/core/Switch';
 import Box from '@material-ui/core/Box';
 import Mail from '@material-ui/icons/Mail';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { WaveIcon, SeaLevelIcon } from '../../utils/icons';
 import { Hidden } from '@material-ui/core';
+
+const AntSwitch = withStyles(theme => ({
+  root: {
+    width: 28,
+    height: 16,
+    padding: 0,
+    //display: 'flex',
+  },
+  switchBase: {
+    padding: 2,
+    color: theme.palette.grey[500],
+    '&$checked': {
+      transform: 'translateX(12px)',
+      color: theme.palette.common.white,
+      '& + $track': {
+        opacity: 1,
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+      },
+    },
+  },
+  thumb: {
+    width: 12,
+    height: 12,
+    boxShadow: 'none',
+  },
+  track: {
+    border: `1px solid ${theme.palette.grey[500]}`,
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor: theme.palette.common.white,
+  },
+  checked: {},
+}))(Switch);
 
 const styles = (theme) => {
   return {
@@ -128,20 +164,8 @@ function MapPage(props) {
   console.info("mapPage");
   console.info(props);
   let layerInfo = null;
-  let layers = {};
-  let newWindGLLayer = {};
   if(props.timeline.current && typeof props.timeline.results[props.timeline.current] !== "undefined") {
     layerInfo = props.timeline.results[props.timeline.current];
-
-    /*if(props.mapPage.layers["seaLevel"].isVisible && props.mapPage.layers[layer].id == "seaLevel") {
-      seaLevel = Object.assign(newLayer, {
-        //tiles: [layerInfo.sea_level_mean],
-      });
-    }*/
-
-
-
-
   }
 
   useEffect(() => {
@@ -158,6 +182,8 @@ function MapPage(props) {
           dispatch={props.dispatch} 
           mapStyle={props.mapPage.style} 
           layers={props.mapPage.layers} 
+          mean={props.mapPage.mean}
+          seaLevel={props.mapPage.seaLevel}
           newWindGLLayer={props.mapPage.newWindGLLayer} 
           />
         <div className={props.classes.mapControl}>
@@ -178,14 +204,30 @@ function MapPage(props) {
                   <ListItemText primary={props.mapPage.newWindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
                     <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
                 </ListItem>
-                <ListItem button selected={props.mapPage.layers["seaLevel"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
-                  <ListItemText primary={props.mapPage.layers["seaLevel"].name} className={props.classes.overlayLayerMapListText} />
+                <ListItem button selected={props.mapPage.seaLevel.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
+                  <ListItemText primary={props.mapPage.seaLevel.name} className={props.classes.overlayLayerMapListText} />
                   <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
                 </ListItem>
             </List>
+            <Typography component="div" align="center" variant="caption">
+              <Grid component="label" container flex spacing={1}>
+                <Grid item flex>STD</Grid>
+                <Grid item flex>
+                  <Switch
+                    size="small"
+                    checked={props.mapPage.mean}
+                    onChange={() => props.dispatch(toggleLayerMean())}
+                    flex
+                    style={{display: "flex"}}
+                    value="mean"
+                  />
+                </Grid>
+                <Grid item flex>MEAN</Grid>
+              </Grid>
+            </Typography>
           </div>
         </div>
-        {(props.mapPage.newWindGLLayer.isVisible || props.mapPage.layers.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
+        {(props.mapPage.newWindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
           <div className={props.classes.overlayMapTimelineScroll}>
             <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
           </div>

@@ -7,6 +7,7 @@ import request from '../../utils/request';
 class WindLayer {
   constructor(id, ctx, windImageSrc, windImageMeta) {
     this.id = id;
+    this.loading = false; 
     this.type = 'custom';
     this.ctx = ctx;
     this.renderingMode = '2d';
@@ -15,10 +16,12 @@ class WindLayer {
     this.windImageMeta =  windImageMeta;
     this.state = {wind: null, map: null};
     //this.render = this.render.bind(this)
-    this.drawWind = this.drawWind.bind(this)
+    this.drawWind = this.drawWind.bind(this);
+    this.updateWindScale = this.updateWindScale.bind(this);
   }
 
   onAdd(map, gl) {
+    this.loading = true;
     const updateWindScale = this.updateWindScale
     this.state.map = map
     const wind = new WindGL(this.ctx);
@@ -28,14 +31,13 @@ class WindLayer {
      .then(windJson => {
         const windImage = new Image();
         let windData = windJson;
-        windData.imageDone = false;
         windData.image = windImage;
         windImage.crossOrigin = "*";
         windImage.src = this.windImageSrc;
         windImage.onload = function () {
           wind.setWind(windData);
           updateWindScale(wind, map);
-          windData.imageDone = true;
+          this.loading = false;
         };
         windData.windData = windImage;
         wind.setWind(windData)
@@ -73,8 +75,7 @@ class WindLayer {
 
   updateWindScale(wind, map) {
     // console.log('updateWindScale')
-    if (!wind || !wind.windData || !wind.windData.imageDone) {
-      console.log('error !wind || !wind.windData')
+    if (!wind || !wind.windData || !this.loading) {
       return;
     }
     let data = wind.windData;
@@ -134,7 +135,7 @@ class NewWindGLLayer extends BaseControl {
     const map = this._context.map;
     const { layer, layerInfo } = newProps;
     const source = map.getLayer(layer.id)
-    if(source) {
+    if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
       map.removeLayer(layer.id);
       map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
     }
