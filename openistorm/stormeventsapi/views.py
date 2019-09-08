@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework import status
