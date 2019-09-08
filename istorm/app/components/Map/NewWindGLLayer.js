@@ -6,7 +6,7 @@ import request from '../../utils/request';
 // import windImageSrc from './tmp/uv270.png'
 // import windJson from './tmp/uv270.json'
 import windImageSrcOld from './tmp/waves_1540764000.png'
-import windJson from './tmp/waves_1540764000.json'
+// import windJson from './tmp/waves_1540764000.json'
 import {window} from "react-map-gl/dist/es6/utils/globals";
 
 class WindLayer {
@@ -16,8 +16,8 @@ class WindLayer {
     this.ctx = ctx;
     this.renderingMode = '2d';
     this.animationFrame = null;
-    this.windImageSrc =  windImageSrcOld //windImageSrc;
-    this.windImageMeta =  windJson //windImageMeta;
+    this.windImageSrc =  windImageSrc;
+    this.windImageMeta =  windImageMeta;
     this.state = {wind: null, map: null};
     //this.render = this.render.bind(this)
     this.drawWind = this.drawWind.bind(this)
@@ -29,11 +29,12 @@ class WindLayer {
     const wind = new WindGL(this.ctx);
     wind.numParticles = this.calcNumParticles(map.transform.width, map.transform.height);
 
-    //request(this.windImageMeta)
-    //  .then(windJson => {
+    request(this.windImageMeta)
+     .then(windJson => {
         const windImage = new Image();
         let windData = windJson;
         windData.image = windImage;
+        windImage.crossOrigin = "*";
         windImage.src = this.windImageSrc;
         windImage.onload = function () {
           wind.setWind(windData);
@@ -44,7 +45,7 @@ class WindLayer {
         this.state.wind = wind
         this.updateWindScale(wind, map)
         this.drawWind();
-      //})
+      })
   }
 
   onRemove() {
