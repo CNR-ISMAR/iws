@@ -54,7 +54,7 @@ export const login = (options) => {
 };
 
 export const requestTimelineData = (options) => {
-    return request(`http://iws.inkode.it:4443/openistorm/layers/`, getOption(options))
+    return request(`${BASE_URL}/openistorm/layers/`, getOption(options))
 };
 
 // const FavsOpts = {
