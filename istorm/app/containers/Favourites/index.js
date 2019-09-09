@@ -27,6 +27,7 @@ import { FavoriteIcon, ListIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { REQUEST_FAVOURITES } from './constants';
+import { requestFavourites } from "./actions";
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -82,13 +83,9 @@ function FavouritesPage(props) {
     return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
   };
 
-  if(props.favourites && 
-    Object.entries(props.favourites.result).length === 0 &&
-    !props.favourites.result.results ){
-    // Results.push(props.favourites.result)
-    setTimeout(props.requestFavourites, 500)
-    
-  } 
+  useEffect(() => {
+    props.dispatch(requestFavourites())
+  }, [])
   
 
   return (
@@ -122,16 +119,11 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestFavourites: () => dispatch({type : REQUEST_FAVOURITES}),
+    dispatch,
   }
   
 }
 
-/* const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  }
-}
  */
 const withConnect = connect(
   mapStateToProps,
