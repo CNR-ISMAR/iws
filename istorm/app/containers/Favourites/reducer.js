@@ -9,7 +9,7 @@ import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, REQUEST_ERROR } from '.
 export const initialState = {
   loading: false,
   error: null,
-  result: {}
+  results: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -19,11 +19,12 @@ const favouritesReducer = (state = initialState, action) =>
       case REQUEST_FAVOURITES:
         draft.loading = true;
         draft.error = initialState.error;
+        draft.results = []
       break;
       case REQUEST_FAVOURITES_SUCCESS:
           draft.loading = false;
           draft.error = initialState.error;
-          draft.result = action.result;
+          draft.results = action.result;
         break;
       case REQUEST_ERROR:
           draft.loading = false;

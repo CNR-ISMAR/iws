@@ -93,13 +93,11 @@ function FavouritesPage(props) {
       {/*{JSON.stringify(props.favourites)}*/}
       { console.log('Favourites Return')}
       <HeaderBar title={"Favourites List"} icon={ListIcon} primarycolor={props.theme.palette.custom.favoriteIcon} />
-      { /* JSON.stringify(props.favourites) */}
-      {props.favourites.result &&
-      props.favourites.result.length > 0 &&
+      {
         <List>{
-        props.favourites.result.map((result) => {
+        props.favourites.results.map((result) => {
           return (
-            <ListItem button className={props.classes.listItem} key={"nav-stormtestents"} selected={isCurrentPage("favourites/station/55")} onClick={() => linkTo("favourites/station/55")}>
+            <ListItem button className={props.classes.listItem} key={"nav-stormtestents-"+result.id} selected={isCurrentPage("favourites/station/55")} onClick={() => linkTo("favourites/station/55")}>
             <ListItemText primary={result.title} />
             <ListItemText primary={result.address} />
           </ListItem>
