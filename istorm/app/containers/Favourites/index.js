@@ -96,8 +96,8 @@ function FavouritesPage(props) {
     return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
   };
 
-  const close = (id) => {
-    console.log('close '+id)
+  const _delete = (id) => {
+    /* console.log('delete Fav '+id) */
     props.dispatch(deleteFavourite(id))
   };
 
@@ -121,7 +121,7 @@ function FavouritesPage(props) {
                 <ListItemText primary={`${result.title} ${result.id}`} />
                 <ListItemText primary={result.address} />
               </div>
-              <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close(result.id)} >&times;</Button>
+              <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
             </ListItem>
               )
             })
