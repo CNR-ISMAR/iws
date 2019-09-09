@@ -4,7 +4,7 @@
  *
  */
 
-import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, REQUEST_ERROR} from './constants';
+import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, REQUEST_ERROR, DELETE_FAVOURITE_SUCCESS} from './constants';
 
 export function requestFavourites(request) {
   return {

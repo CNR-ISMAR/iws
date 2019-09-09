@@ -15,6 +15,7 @@ export function* FavouritesSaga(action) {
       yield put(requestError(e.message));
       
     }
+
   }
 
 export function* deleteFavouriteSaga(action) {
