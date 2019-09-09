@@ -27,6 +27,12 @@ export function deleteFavourite(id) {
   };
 }
 
+export function deleteFavouriteSuccess(id) {
+  return {
+    type: DELETE_FAVOURITE_SUCCESS
+  };
+}
+
 export function requestError(errorMessage) {
   return {
     type: REQUEST_ERROR,

@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, REQUEST_ERROR } from './constants';
+import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR } from './constants';
 
 export const initialState = {
   loading: false,
@@ -30,7 +30,10 @@ const favouritesReducer = (state = initialState, action) =>
           draft.loading = true;
           draft.error = initialState.error;
          /*  draft.results = [] */
-        break;  
+        break;
+      case DELETE_FAVOURITE_SUCCESS:
+          draft.loading = false;
+        break;
       case REQUEST_ERROR:
           draft.loading = false;
           draft.error = action.error;
