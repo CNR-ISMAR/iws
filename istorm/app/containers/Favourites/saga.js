@@ -4,31 +4,29 @@ import { requestFavouritesSuccess, requestError, deleteFavouriteSuccess } from '
 import { favourites, deleteFavourite } from 'utils/api';
 
 export function* FavouritesSaga(action) {
-    /* const options = {
-      method: 'get'
-    }; */
-    try {
-      const request = yield call(favourites);
-      yield put(requestFavouritesSuccess(request));
-     
-    } catch(e) {
-      yield put(requestError(e.message));
-      
-    }
-
+  /* const options = {
+    method: 'get'
+  }; */
+  try {
+    const request = yield call(favourites);
+    yield put(requestFavouritesSuccess(request));
+    
+  } catch(e) {
+    yield put(requestError(e.message));
+    
   }
+
+}
 
 export function* deleteFavouriteSaga(action) {
   const options = {
     method: 'delete'
   }; 
-  console.log(action)
   try {
     const request = yield call(deleteFavourite, action.id);
     yield put(deleteFavouriteSuccess(request));
-   
+    yield call(FavouritesSaga)
   } catch(e) {
-    console.log(e)
     yield put(requestError(e.message));
 
   }

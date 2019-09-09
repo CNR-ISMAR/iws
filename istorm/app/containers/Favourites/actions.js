@@ -27,7 +27,7 @@ export function deleteFavourite(id) {
   };
 }
 
-export function deleteFavouriteSuccess(id) {
+export function deleteFavouriteSuccess() {
   return {
     type: DELETE_FAVOURITE_SUCCESS
   };
