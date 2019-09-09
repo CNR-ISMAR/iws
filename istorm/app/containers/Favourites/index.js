@@ -124,7 +124,6 @@ const mapDispatchToProps = (dispatch) => {
   
 }
 
- */
 const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
