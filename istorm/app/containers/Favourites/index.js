@@ -109,8 +109,8 @@ function FavouritesPage(props) {
   return (
     <div className={props.classes.subNav}>
       { console.log('Favourites Return')}
-      { console.log(props.favourites)}
-      { JSON.stringify(props.favourites.error) }
+      { /* console.log(props.favourites) */}
+      { /* JSON.stringify(props.favourites.error) */ }
       <HeaderBar headerTopClose={props.classes.headerTopClose} title={"Favourites List"} icon={ListIcon} primarycolor={props.theme.palette.custom.favoriteIcon} />
       {
         <List>{
