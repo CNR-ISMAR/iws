@@ -41,18 +41,7 @@ const styles = (theme) => {
       backgroundColor: theme.palette.custom.darkBackground,
       textAlign: "right"
     },
-    headerTopClose: {
-      color: theme.palette.common.white,
-      fontSize: 20,
-      lineHeight: 0.7,
-      padding: 0,
-      margin: 5,
-      minWidth: "auto",
-      border: "1px solid white",
-      borderRadius: 13,
-      height: 15,
-      width: 15,
-    },
+    
     divider: {
       backgroundColor: theme.palette.custom.contrastText,
     },
@@ -79,7 +68,7 @@ function HeaderBar(props) {
   return (
     <div className={props.classes.HeaderBar}>
       <div className={props.classes.headerTop}>
-        <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} >&times;</Button>
+        <Button size={"small"} className={props.headerTopClose} onClick={() => close()} >&times;</Button>
       </div>
       <Toolbar>
         <div className={props.classes.titleIcon}><props.icon iconcolor={props.theme.palette.custom.contrastText} primarycolor={typeof props.primarycolor !== "undefined" ? props.primarycolor : null} /></div>

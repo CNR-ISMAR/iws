@@ -13,4 +13,5 @@ export const OPEN_DRAWER_MINI = 'app/Sidebar/OPEN_DRAWER_MINI';
 export const CLOSE_DRAWER_MINI = 'app/Sidebar/CLOSE_DRAWER_MINI'; */
 export const REQUEST_FAVOURITES = 'app/Favourites/REQUEST_FAVOURITES';
 export const REQUEST_FAVOURITES_SUCCESS = 'app/Favourites/REQUEST_FAVOURITES_SUCCESS';
+export const DELETE_FAVOURITE = 'app/Favourites/DELETE_FAVOURITE';
 export const REQUEST_ERROR = 'app/Favourites/REQUEST_ERROR';
