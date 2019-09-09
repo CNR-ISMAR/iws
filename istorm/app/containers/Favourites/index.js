@@ -90,14 +90,14 @@ function FavouritesPage(props) {
 
   return (
     <div className={props.classes.subNav}>
+      {/*{JSON.stringify(props.favourites)}*/}
       { console.log('Favourites Return')}
       <HeaderBar title={"Favourites List"} icon={ListIcon} primarycolor={props.theme.palette.custom.favoriteIcon} />
       { /* JSON.stringify(props.favourites) */}
-      {Object.entries(props.favourites.result).length > 0 &&
-      props.favourites.result.results &&
-      props.favourites.result.results.length > 0 &&
+      {props.favourites.result &&
+      props.favourites.result.length > 0 &&
         <List>{
-        props.favourites.result.results.map((result) => {
+        props.favourites.result.map((result) => {
           return (
             <ListItem button className={props.classes.listItem} key={"nav-stormtestents"} selected={isCurrentPage("favourites/station/55")} onClick={() => linkTo("favourites/station/55")}>
             <ListItemText primary={result.title} />
