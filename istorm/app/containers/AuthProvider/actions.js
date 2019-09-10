@@ -4,7 +4,20 @@
  *
  */
 
-import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
+import { SYNC_AUTH, STOP_LOADING, REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
+
+export function stopLoading(request) {
+  return {
+    type: STOP_LOADING,
+    request: request
+  };
+}
+export function syncAuth(request) {
+  return {
+    type: SYNC_AUTH,
+    request: request
+  };
+}
 
 export function requestLogin(request, redirect) {
   return {

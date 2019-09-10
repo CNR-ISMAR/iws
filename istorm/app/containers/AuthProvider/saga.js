@@ -1,8 +1,8 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH } from 'containers/AuthProvider/constants';
-import { requestError, requestLoginSuccess, requestLogoutSuccess } from '../../containers/AuthProvider/actions';
-
-import { login, oauthOption, setToken } from 'utils/api';
+import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT } from 'containers/AuthProvider/constants';
+import { requestError, requestLoginSuccess, requestLogoutSuccess, stopLoading } from '../../containers/AuthProvider/actions';
+import makeSelectAuth, { tokensExistsExpired  } from '../../containers/AuthProvider/selectors';
+import { login, loginRefresh, oauthOption, setToken, oauthOptionRefreshToken } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
@@ -10,10 +10,10 @@ export function* loginAuthSaga(action) {
   // See example in containers/HomePage/saga.js
   const loginOption = { 
     method: 'post',
-    body: Object.assign(oauthOption, { 
+    body: {...oauthOption, ...{
       username: action.request.email,
       password: action.request.password
-    })
+    }}
   };
   try {
     const request = yield call(login, loginOption);
@@ -27,16 +27,34 @@ export function* loginAuthSaga(action) {
   }
 }
 
-export function* logoutAuthSaga(action) {
-  console.info("logout saga");
-  console.info(action);
+export function* logoutAuthSaga() {
   yield put(requestLogoutSuccess());
-  // See example in containers/HomePage/saga.js
 }
 
-export function* refreshAuthSaga(action) {
-    // setToken(request.access_token);
-  // See example in containers/HomePage/saga.js
+export function* refreshAuthSaga() {
+
+  const tokensExpired = yield select(tokensExistsExpired());
+
+  if(tokensExpired) {
+    const authDomain = yield select(makeSelectAuth())
+    const loginOption = { 
+      method: 'post',
+      body: Object.assign(oauthOptionRefreshToken, {
+        refresh_token: authDomain.oauth.refreshToken
+      })
+    };
+    try {
+      const request = yield call(loginRefresh, loginOption);
+      setToken(request.access_token);
+      yield put(requestLoginSuccess(request));
+      yield call(userProfileSaga);
+    } catch(e) {
+      yield put(requestError(e.message));
+      yield call(logoutAuthSaga);
+    }
+  } else {
+    yield put(stopLoading())
+  }
 }
 
 /**

@@ -5,7 +5,7 @@
  */
 import produce from 'immer';
 import moment from "moment";
-import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
+import { STOP_LOADING, SYNC_AUTH, REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
 
 export const initialState = {
   loading: false,
@@ -24,6 +24,13 @@ export const initialState = {
 const authReducer = (state = initialState, action) =>
   produce(state, ( draft ) => {
     switch (action.type) {
+      case STOP_LOADING:
+          draft.loading = false;
+        break;
+      case SYNC_AUTH:
+          draft.oauth = action.request.oauth;
+          draft.user = action.request.user;
+        break;
       case REQUEST_LOGIN:
           draft.loading = true;
         break;

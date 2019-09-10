@@ -48,9 +48,19 @@ export const oauthOption = {
     client_secret: process.env.CLIENT_SECRET,
 }
 
+export const oauthOptionRefreshToken = {
+  grant_type: "refresh_token",
+  client_id: process.env.CLINET_ID,
+  client_secret: process.env.CLIENT_SECRET,
+}
 
 export const login = (options) => {
     return request(`${BASE_URL}/oauth/token/`, getOption(options))
+};
+
+export const loginRefresh = (options) => {
+  options = getOption(options);
+  return request(`${BASE_URL}/oauth/token/`, options)
 };
 
 export const requestTimelineData = (options, from, to) => {

@@ -5,7 +5,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
-import storage from 'redux-persist/lib/storage';
+import { persitanceMiddleWare, persistanceSaga } from './persistence';
 import createReducer from './reducers';
 import authSaga from './containers/AuthProvider/saga';
 import historySaga from './containers/History/saga';
@@ -36,7 +36,7 @@ export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [sagaMiddleware, routerMiddleware(history)];
+  const middlewares = [sagaMiddleware, routerMiddleware(history), persitanceMiddleWare];
 
   const enhancers = [applyMiddleware(...middlewares)];
 
@@ -45,7 +45,8 @@ export default function configureStore(initialState = {}, history) {
     initialState,
     composeEnhancers(...enhancers),
   );
-
+  
+  sagaMiddleware.run(persistanceSaga);
   sagaMiddleware.run(authSaga);
   sagaMiddleware.run(historySaga);
   sagaMiddleware.run(mapSaga);
