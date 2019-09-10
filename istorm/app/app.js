@@ -13,7 +13,59 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { PersistGate } from 'redux-persist/integration/react'
+
+import "outdated-browser-rework/dist/style.css";
+import outdatedBrowserRework from "outdated-browser-rework";
+
+outdatedBrowserRework({
+	browserSupport: {
+		'Chrome': 57, // Includes Chrome for mobile devices
+		'Edge': 39,
+		'Safari': 10,
+		'Mobile Safari': 10,
+		'Firefox': 50,
+		'Opera': 50,
+		'Vivaldi': 1,
+		// You could specify minor version too for those browsers that need it.
+		'Yandex': 10,
+		// You could specify a version here if you still support IE in 2017.
+		// You could also instead seriously consider what you're doing with your time and budget
+		'IE': false
+	},
+	requireChromeOnAndroid: false,
+	isUnknownBrowserOK: true, 
+	messages: {
+    it: {
+			outOfDate: "Spiacenti ma il tuo browser è troppo vecchio",
+			unsupported: "Spiacenti ma il tuo browser non è supportato!",
+			update: {
+				web: "Per utilizzare il servizio hai bisogno di un browser aggiornato",
+				googlePlay: "aggiorna Chrome da Google Play",
+				appStore: "aggiorna ios dalle impostazioni"
+			},
+			// You can set the URL to null if you do not want a clickable link or provide
+			// your own markup in the `update.web` message.
+			url: "https://bestvpn.org/outdatedbrowser/it",
+			callToAction: "Vai alla pagina dei download",
+			close: "Chiudi"
+		},
+		en: {
+			outOfDate: "Spiacenti ma il tuo browser è troppo vecchio",
+			unsupported: "Spiacenti ma il tuo browser non è supportato!",
+			update: {
+				web: "Per utilizzare il servizio hai bisogno di un browser aggiornato",
+				googlePlay: "aggiorna Chrome da Google Play",
+				appStore: "aggiorna ios dalle impostazioni"
+			},
+			// You can set the URL to null if you do not want a clickable link or provide
+			// your own markup in the `update.web` message.
+			url: "https://bestvpn.org/outdatedbrowser/en",
+			callToAction: "Vai alla pagina dei download",
+			close: "Chiudi"
+		}
+	}
+})
+
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
@@ -33,6 +85,7 @@ import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
+import { initializeReactGA } from './ga';
 import configureStore from './configureStore';
 
 // Import i18n messages
@@ -46,20 +99,19 @@ const MOUNT_NODE = document.getElementById('app');
 // import theme from './theme';
 
 const render = messages => {
+  initializeReactGA(history);
   ReactDOM.render(
     <Provider store={store.store}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <PersistGate loading={null} persistor={store.persistore}>
-          <LanguageProvider messages={messages}>
-            <ConnectedRouter history={history}>
-            {/*<ThemeProvider theme={theme}>*/}
-              <AuthProvider>
-                <App />
-              </AuthProvider>
-            {/*</ThemeProvider>*/}
-            </ConnectedRouter>
-          </LanguageProvider>
-        </PersistGate>  
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
+          {/*<ThemeProvider theme={theme}>*/}
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          {/*</ThemeProvider>*/}
+          </ConnectedRouter>
+        </LanguageProvider> 
       </MuiPickersUtilsProvider>
     </Provider>,
     MOUNT_NODE,

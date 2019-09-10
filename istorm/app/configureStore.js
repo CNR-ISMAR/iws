@@ -5,19 +5,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
-import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createReducer from './reducers';
 import authSaga from './containers/AuthProvider/saga';
 import historySaga from './containers/History/saga';
 import mapSaga from './containers/App/saga';
-
-export const persistConfig = {
-  key: 'root',
-  version: 1,
-  storage,
-  whitelist: ['auth', 'sidebar'] 
-}
 
 export default function configureStore(initialState = {}, history) {
   let composeEnhancers = compose;
@@ -48,20 +40,16 @@ export default function configureStore(initialState = {}, history) {
 
   const enhancers = [applyMiddleware(...middlewares)];
 
-  const persistedReducer = persistReducer(persistConfig, createReducer())
-
   const store = createStore(
-    persistedReducer,
+    createReducer(),
     initialState,
     composeEnhancers(...enhancers),
   );
-  const persistore = persistStore(store);
 
   sagaMiddleware.run(authSaga);
   sagaMiddleware.run(historySaga);
   sagaMiddleware.run(mapSaga);
   // Extensions
-  store.persistore = persistore;
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
@@ -72,13 +60,10 @@ export default function configureStore(initialState = {}, history) {
     module.hot.accept('./reducers', () => {
       
       store.replaceReducer(() => {
-        const redu = persistReducer(persistConfig, createReducer(store.injectedReducers));
-        //const redu = createReducer(store.injectedReducers);
-        store.persistore.persist();
-        return redu;
+        return createReducer(store.injectedReducers);
       });
     });
   }
 
-  return { store, persistore };
+  return { store };
 }
