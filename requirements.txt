@@ -16,3 +16,4 @@ oauth2-provider==0.0
 netCDF4==1.5.1.2
 wget==3.2
 numpy==1.16.4
+fcm-django==0.2.21

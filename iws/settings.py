@@ -509,3 +509,6 @@ SITE_HOST = os.getenv('SITE_HOST', 'iws.ismar.cnr.it')
 LAYERDATA_URL = SITE_URL+'/layerdata/'
 USE_X_FORWARDED_HOST = True
 THREDDS_TO_PROXY = os.getenv('THREDDS_TO_PROXY', 'https://iws.ismar.cnr.it')
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY', 'NO KEY..')
+}
