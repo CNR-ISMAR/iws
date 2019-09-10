@@ -6,10 +6,10 @@ class NotificationSerializer(serializers.ModelSerializer):
     latitude = serializers.SerializerMethodField()
 
     def get_latitude(self, instance):
-        return instance.position.x
+        return instance.position.y
 
     def get_longitude(self, instance):
-        return instance.position.y
+        return instance.position.x
 
     class Meta:
         model = Notification
