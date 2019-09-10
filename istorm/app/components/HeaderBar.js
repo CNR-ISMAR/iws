@@ -50,10 +50,10 @@ const styles = (theme) => {
     },
     title: {
       color: theme.palette.custom.darkBackground
-    },
+    },/* 
     HeaderBar:{
       height: 70,
-    }
+    } */
   }
 };
 

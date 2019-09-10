@@ -28,6 +28,7 @@ import { FavoriteIcon, ListIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { requestFavourites, deleteFavourite } from "./actions";
+import { setViewport } from '../App/actions';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -47,6 +48,8 @@ const styles = (theme, style) => {
     listItem: {
       color: theme.palette.primary.dark,
       maxHeight: 50,
+      display: "flex",
+      justifyContent: 'space-between',
       "& div[class^='MuiListItemText']": {
         lineHeight: 0.2,
       },
@@ -96,8 +99,8 @@ function FavouritesPage(props) {
     return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
   };
 
-  const close = (id) => {
-    console.log('close '+id)
+  const _delete = (id) => {
+    /* console.log('delete Fav '+id) */
     props.dispatch(deleteFavourite(id))
   };
 
@@ -108,27 +111,34 @@ function FavouritesPage(props) {
 
   return (
     <div className={props.classes.subNav}>
-      { console.log('Favourites Return')}
-      { /* console.log(props.favourites) */}
+      {/*  console.log('Favourites Return') */}
+      { console.log(props.favourites)}
       { /* JSON.stringify(props.favourites.error) */ }
       <HeaderBar headerTopClose={props.classes.headerTopClose} title={"Favourites List"} icon={ListIcon} primarycolor={props.theme.palette.custom.favoriteIcon} />
       {
         <List>{
         props.favourites.results.map((result) => {
           return (
-            <ListItem button className={props.classes.listItem} key={"nav-stormtestents-"+result.id} selected={isCurrentPage("favourites/station/55")}>
-              <div className={props.classes.listItemLink} onClick={() => linkTo("favourites/station/55")}>
+            <ListItem 
+              button 
+              className={props.classes.listItem} 
+              key={"nav-stormtestents-"+result.id} 
+              selected={isCurrentPage("favourites/station/55")}>
+              <div 
+                className={props.classes.listItemLink} 
+                onClick={() => props.dispatch(setViewport({longitude: result.longitude, latitude: result.latitude, zoom: 5}))}>
                 <ListItemText primary={`${result.title} ${result.id}`} />
-                <ListItemText primary={result.address} />
+                {/* <ListItemText primary={result.address} /> */}
               </div>
-              <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close(result.id)} >&times;</Button>
+              <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
             </ListItem>
               )
             })
           }
         </List>
       }
-      
+      {/* 
+      <div onClick={() => props.dispatch(setViewport({longitude: 13.33265, latitude: 45.43713})) }>Set Viewport</div> */}
     </div>
   );
 }
