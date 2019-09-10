@@ -17,3 +17,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #########################################################################
+
+from .celeryapp import app as celery_app
+
+__all__ = ['celery_app']

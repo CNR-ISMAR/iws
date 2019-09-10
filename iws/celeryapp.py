@@ -35,20 +35,19 @@ app = Celery('iws', broker="amqp://guest:guest@rabbitmq:5672/")
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
 app.config_from_object('django.conf:settings', namespace="CELERY")
-# app.autodiscover_tasks()
+
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS, force=True)
-
 
 @app.task(bind=True)
 def debug_task(self):
     print("Request: {!r}".format(self.request))
 
 
-@app.task(base=Task)
-def testcommand(arg):
-    print(arg)
-
-@app.on_after_configure.connect
-def crontest(sender, **kwargs):
-    sender.add_periodic_task(30.0, testcommand.s('testcommand TASK'), name='add every 30 seconds')
+# @app.task(base=Task)
+# def testcommand(arg):
+#     print(arg)
+#
+# @app.on_after_configure.connect
+# def crontest(sender, **kwargs):
+#     sender.add_periodic_task(30.0, testcommand.s('testcommand TASK'), name='add every 30 seconds')
