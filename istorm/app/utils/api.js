@@ -63,6 +63,11 @@ export const loginRefresh = (options) => {
   return request(`${BASE_URL}/oauth/token/`, options)
 };
 
+export const getProfile = (options) => {
+  options = getOption(options);
+  return request(`${BASE_URL}/oauth/me/`, options)
+};
+
 export const requestTimelineData = (options, from, to) => {
   let url = `${BASE_URL}/openistorm/layers/`;
   if(from && to) {

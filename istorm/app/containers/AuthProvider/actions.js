@@ -4,7 +4,7 @@
  *
  */
 
-import { SYNC_AUTH, STOP_LOADING, REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
+import { SYNC_AUTH, REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS ,STOP_LOADING, REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
 
 export function stopLoading(request) {
   return {
@@ -16,6 +16,20 @@ export function syncAuth(request) {
   return {
     type: SYNC_AUTH,
     request: request
+  };
+}
+
+export function requestProfile(request) {
+  return {
+    type: REQUEST_PROFILE,
+    request: request
+  };
+}
+
+export function requestProfileSuccess(result) {
+  return {
+    type: REQUEST_PROFILE_SUCCESS,
+    result: result
   };
 }
 

@@ -2,7 +2,8 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT } from 'containers/AuthProvider/constants';
 import { requestError, requestLoginSuccess, requestLogoutSuccess, stopLoading } from '../../containers/AuthProvider/actions';
 import makeSelectAuth, { tokensExistsExpired  } from '../../containers/AuthProvider/selectors';
-import { login, loginRefresh, oauthOption, setToken, oauthOptionRefreshToken } from 'utils/api';
+import { push } from 'connected-react-router';
+import { login, loginRefresh, oauthOption, setToken, oauthOptionRefreshToken, getProfile } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
@@ -19,11 +20,23 @@ export function* loginAuthSaga(action) {
     const request = yield call(login, loginOption);
     setToken(request.access_token);
     yield put(requestLoginSuccess(request));
-    if(typeof action.redirect !== "undefined") {
-      action.redirect("/");
-    }
+    //yield call(userProfileSaga);
+    yield put(push("/"));
   } catch(e) {
     yield put(requestError(e.message));
+  }
+}
+
+export function* userProfileSaga() {
+  const options = {
+    method: 'get'
+  };
+  try {
+    const request = yield call(getProfile, options);
+    yield put(requestProfileSuccess(request));
+  } catch(e) {
+    yield put(requestError(e.message));
+    yield call(logoutAuthSaga);
   }
 }
 
