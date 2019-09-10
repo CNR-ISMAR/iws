@@ -92,9 +92,38 @@ curl -X DELETE \
   -H 'Accept: application/json, text/plain, */*' \
   -H 'Authorization: Bearer kytmgKOtyapCuIkj997jzc9A2rsXNS' \
   -H 'Cache-Control: no-cache' \
-  -H 'Content-Type: application/json' \
+  -H 'Content-Type: application/json'
 ```
 
+
+
+### PUT (mark as read) /openistorm/favorites/{id}/markasread/ (NEEDS AUTH)
+
+```
+PUT /openistorm/notifications/5/markasread/ HTTP/1.1
+Host: localhost
+Authorization: Bearer IrEx4uSopFJ4CHjAPrjLihMlRjQc2w
+Accept: application/json, text/plain, */*
+Cache-Control: no-cache
+Content-Type: application/json
+Accept-Encoding: gzip, deflate
+cache-control: no-cache
+```
+### RESPONSE:
+
+```json
+{
+    "id": 5,
+    "longitude": 5358566.684976625,
+    "latitude": 1536078.5204189022,
+    "title": "aaaa",
+    "description": "aaaaaa",
+    "position": "SRID=3857;POINT (1536078.5204189021605998 5358566.6849766252562404)",
+    "read": true,
+    "user": 1000,
+    "favorite": null
+}
+```
 
 # Favorites
 
