@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from models import Favorite
+from models import Notification
 
-class FavoriteSerializer(serializers.ModelSerializer):
+class NotificationSerializer(serializers.ModelSerializer):
     longitude = serializers.SerializerMethodField()
     latitude = serializers.SerializerMethodField()
 
@@ -12,6 +12,8 @@ class FavoriteSerializer(serializers.ModelSerializer):
         return instance.position.y
 
     class Meta:
-        model = Favorite
+        model = Notification
         fields = '__all__'
+
+
 

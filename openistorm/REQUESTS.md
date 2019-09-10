@@ -36,6 +36,66 @@ curl -X POST http://iws.inkode.it:4443/oauth/token/ \
 ```
 
 
+# Notifications
+
+### GET (list) /openistorm/notifications/ (NEEDS AUTH)
+```
+GET /openistorm/notifications/ HTTP/1.1
+Host: localhost
+Authorization: Bearer 6ud3G1CydyqQWK3FDinexWcfXmEQ55
+Accept: application/json, text/plain, */*
+Cache-Control: no-cache
+Content-Type: application/json
+cache-control: no-cache
+
+  ```
+##### RESPONSE
+```json
+[
+    {
+        "id": 4,
+        "title": "Altro?",
+        "description": "altro,.",
+        "position": "SRID=3857;POINT (1506726.7015573945827782 5412502.5738232750445604)",
+        "read": false,
+        "user": 1000,
+        "favorite": null
+    },
+    {
+        "id": 3,
+        "title": "ECCOLO",
+        "description": "un'altra incredibile notizia",
+        "position": "SRID=3857;POINT (1597228.1430470433551818 5211830.0836553489789367)",
+        "read": false,
+        "user": 1000,
+        "favorite": 8
+    },
+    {
+        "id": 1,
+        "title": "AAAAAA",
+        "description": "vvvvvv",
+        "position": "SRID=3857;POINT (1753771.1769750842358917 5162323.5260628005489707)",
+        "read": false,
+        "user": 1000,
+        "favorite": null
+    }
+]
+```
+
+
+
+### DELETE (destroy) /openistorm/favorites/{id}/ (NEEDS AUTH)
+
+```
+curl -X DELETE \
+  http://iws.inkode.it:4443/openistorm/favorites/14/ \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Authorization: Bearer kytmgKOtyapCuIkj997jzc9A2rsXNS' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+```
+
+
 # Favorites
 
 ### GET (list) /openistorm/favorites (NEEDS AUTH)
