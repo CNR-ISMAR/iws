@@ -135,7 +135,7 @@ function FavouritesPage(props) {
   };
 
   useEffect(() => {
-    if(props.favourites.results.length === 0 && props.favourites.loading == false)
+    if(props.favourites.loading == false)
      props.dispatch(requestFavourites())
   }, [])
 
