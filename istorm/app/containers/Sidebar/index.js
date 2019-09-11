@@ -133,7 +133,7 @@ function Sidebar(props) {
       {props.isLogged && <div className={props.classes.toolbarAvatar}>
         <AvatarMenu auth={props.auth} />
       </div>}
-      <SidebarNav dispatch={props.dispatch} layers={props.layers} />
+      <SidebarNav isLogged={props.isLogged} dispatch={props.dispatch} layers={props.layers} />
     </Drawer>
   )
 }

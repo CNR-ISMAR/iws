@@ -75,7 +75,7 @@ function SidebarNav(props) {
 
   return (
     <List>
-        <ListItem button className={props.classes.listItem} selected={isCurrentPage("notification")} onClick={() => linkTo("notification")} key={"nav-notification"}>
+        <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("notification")} onClick={() => linkTo("notification")} key={"nav-notification"}>
           <ListItemIcon className={props.classes.listItemIcon}>
             <Badge badgeContent={4} color="secondary">
               <NotificationIcon iconcolor={props.theme.palette.custom.contrastText} />
@@ -111,7 +111,7 @@ function SidebarNav(props) {
 
         <Divider className={props.classes.divider} variant={"middle"} />
 
-        <ListItem button className={props.classes.listItem} selected={isCurrentPage("favourites")} onClick={() => linkTo("favourites")} key={"nav-favourite-list"}>
+        <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("favourites")} onClick={() => linkTo("favourites")} key={"nav-favourite-list"}>
           <ListItemIcon className={props.classes.listItemIcon}><ListIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Favourites list"} />
           <PlayArrowIcon />
