@@ -30,7 +30,7 @@ class NCToImg:
         self.dataset = dataset;
 
         self.time_from = parser.parse(time_from).strftime("%Y-%m-%d") if time_from is not None else now.strftime("%Y-%m-%d")
-        self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else now.strftime("%Y-%m-%d")
+        self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else (now + timedelta(days=3)).strftime("%Y-%m-%d")
 
         self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime("%Y%m%d")
 
@@ -46,19 +46,10 @@ class NCToImg:
                    + self.time_to \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
-        # # A CAUSA DI UN BUG DEVO TEMPORANEMENTE BLOCCARE LA DATA AL 18 ottobre: TODO: QUANDO RISOLTO RIMUOVERE!
-        # self.url = settings.THREDDS_URL \
-        #            + self.nc_filename \
-        #            + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
-        #            + '2018-10-29' \
-        #            + "T00%3A00%3A00Z&time_end=" \
-        #            + '2018-10-29' \
-        #            + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
-
         self.transform()
 
     def transform(self):
-        wget.download(self.url, out=self.nc_filepath)
+        wget.download(self.url, out=self.nc_filepath, bar=None)
 
         if os.path.isfile(self.nc_filepath):
             # logging.info("File " + self.nc_filename+ " scaricato...")
