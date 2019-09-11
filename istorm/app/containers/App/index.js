@@ -31,6 +31,15 @@ import InfoPage from '../Info/Loadable';
 import FavouritesPage from '../Favourites/Loadable';
 import StationChart from '../StationChart/Loadable';
 
+import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+
+import makeSelectNotifications from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+
+import {requestNotifications} from './actions'
+
 import GlobalStyle from '../../global-styles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -39,18 +48,24 @@ import theme from 'theme';
 import useStyles from 'useStyles';
 
 function App(props) {
+  useInjectReducer({ key: 'appStates', reducer });
+  useInjectSaga({ key: 'appStates', saga });
   const classes = useStyles();
   console.info("app");
   console.info(props);
 
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());
+    if(props.isLogged && !props.appStates.notifications.loading)
+      props.dispatch(requestNotifications()); 
   }, []);
 
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
+        { console.log('props.appStates.notifications') }
+        { console.log(props.appStates.notifications) }
         <CssBaseline />
         <Header isLogged={props.isLogged} />
         <Sidebar auth={props.auth}  isLogged={props.isLogged} />
@@ -87,6 +102,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  appStates: makeSelectNotifications(),
   //mapPage: makeSelectMapPage(),
   //wmsVisible: makeSelectVisibleWmsLayer()
 });

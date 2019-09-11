@@ -21,7 +21,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
 import { toggleLayerVisibility  } from '../containers/App/actions';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 
 
 import { NotificationIcon, StormEventsIcon, LayersIcon, HistoryIcon, StationIcon, ListIcon, FavoriteIcon, SettingsIcon, InfoIcon } from '../utils/icons';
@@ -34,7 +35,7 @@ const styles = (theme) => {
       paddingBottom: 6,
       "&.Mui-selected": {
         color: theme.palette.custom.contrastTextSelected,
-        "& .MuiSvgIcon-root *:not(circle)": {
+        "& .MuiSvgIcon-root:not([class*=arrow]) *:not(circle)": {
           fill: theme.palette.custom.contrastTextSelected
         }
       },
@@ -53,6 +54,9 @@ const styles = (theme) => {
     },
     spacer: {
       flexGrow: 1,
+    },
+    arrow:{
+
     }
   }
 };
@@ -82,7 +86,11 @@ function SidebarNav(props) {
             </Badge>
           </ListItemIcon>
           <ListItemText primary={"Notification"} />
-          <PlayArrowIcon />
+          { isCurrentPage("notification") ?
+            <ArrowLeftIcon className={props.classes.arrow}/>
+            :
+            <ArrowRightIcon className={props.classes.arrow}/>
+          }
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("storm-events")} onClick={() => linkTo("storm-events")} key={"nav-storm-events"}>
           <ListItemIcon className={props.classes.listItemIcon}><StormEventsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
@@ -114,7 +122,11 @@ function SidebarNav(props) {
         <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("favourites")} onClick={() => linkTo("favourites")} key={"nav-favourite-list"}>
           <ListItemIcon className={props.classes.listItemIcon}><ListIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Favourites list"} />
-          <PlayArrowIcon />
+          { isCurrentPage("favourites") ?
+            <ArrowLeftIcon className={props.classes.arrow}/>
+            :
+            <ArrowRightIcon className={props.classes.arrow}/>
+          }
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={false} key={"nav-favourite-places"}>
           <ListItemIcon className={props.classes.listItemIcon}><FavoriteIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
