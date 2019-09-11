@@ -25,8 +25,6 @@ class ProfileViewSet(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
-        # print(self.request.user)
-        # exit(self.request.user)
         return self.request.user
 
     def get_queryset(self):
@@ -42,10 +40,8 @@ class ProfileViewSet(generics.RetrieveUpdateAPIView):
     """
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        # print instance
-        serializer = self.get_serializer(instance)
+        serializer = UserSerializer(instance)
         return Response(serializer.data)
-        # return Response(instance)
 
     """
     Update a model instance.

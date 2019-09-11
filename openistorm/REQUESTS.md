@@ -36,6 +36,50 @@ curl -X POST http://iws.inkode.it:4443/oauth/token/ \
 ```
 
 
+# User profile
+
+### GET /oauth/me (NEEDS AUTH)
+```
+GET /oauth/me HTTP/1.1
+Authorization: Bearer InMBy9w9pXBqznm5LaMIDMfMU7gZYb
+Accept: application/json, text/plain, */*
+Content-Type: application/json
+
+
+
+  ```
+##### RESPONSE
+```json
+{
+    "id": 1000,
+    "last_login": "2019-09-09T15:15:10.474878Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "ad@m.in",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2011-06-09T13:15:27Z",
+    "organization": null,
+    "profile": null,
+    "position": null,
+    "voice": null,
+    "fax": null,
+    "delivery": null,
+    "city": null,
+    "area": null,
+    "zipcode": null,
+    "country": null,
+    "language": "en",
+    "timezone": "",
+    "groups": [
+        1
+    ],
+    "user_permissions": []
+}
+```
+
 # Notifications
 
 ### GET (list) /openistorm/notifications/ (NEEDS AUTH)
