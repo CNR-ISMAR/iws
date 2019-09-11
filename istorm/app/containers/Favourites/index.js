@@ -112,7 +112,8 @@ const styles = (theme, style) => {
 function FavouritesPage(props) {
   useInjectReducer({ key: 'favourites', reducer });
   useInjectSaga({ key: 'favourites', saga });
-  
+  console.info("Favourite Page");
+  console.info(props);
   const linkTo = (path) => {
     if(isCurrentPage(path)) { 
       props.history.push(`/favourites`) 
@@ -122,8 +123,9 @@ function FavouritesPage(props) {
   } 
   
   const isCurrentPage = (pagePath) => {
-    
-    return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
+    console.log('currentPage()')
+    console.log(props.history)
+    // return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
     
   };
 
@@ -133,7 +135,8 @@ function FavouritesPage(props) {
   };
 
   useEffect(() => {
-    props.dispatch(requestFavourites())
+    if(props.favourites.results.length === 0)
+     props.dispatch(requestFavourites())
   }, [])
   
   const thisProps = props
@@ -143,35 +146,22 @@ function FavouritesPage(props) {
       <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={"Favourites List"} icon={ListIcon}  />
       {
         <List>
-        <Router>{
+        {
         props.favourites.results.map((result) => {
           return (
             <ListItem 
               button 
               className={props.classes.listItem} 
               key={"nav-stormtestents-"+result.id} 
-              selected={isCurrentPage(`favourites/location/${result.id}`)}>
-              <div onClick={ () =>  linkTo(`favourites/location/${result.id}`) } >
-                <ListItemText primary={`${result.title} ${result.id}`} />
-                {/* <ListItemText primary={result.address} /> */}
-              </div>
-              
+              selected={isCurrentPage()}>
+              <Link to={`favourites/location/${result.id}`}>
+                <ListItemText primary={`${result.title} ${result.id}`} /> 
+              </Link>
               <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
             </ListItem>
               )
             })
           }
-          
-          { <Route path="favourites/location/:id" component={(props) => {  
-            if(thisProps.favourites.results.length > 0){
-              const selectedFav = thisProps.favourites.results.filter(function(result) {
-                return result.id == props.match.params.id;
-              });
-              // console.log(selectedFav)
-              thisProps.dispatch(setViewport({longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8})) 
-            }
-            return null  }} /> }
-          </Router>
         </List>
       }
       {/* 
