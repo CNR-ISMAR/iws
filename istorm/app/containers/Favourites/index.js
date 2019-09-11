@@ -18,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
+
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 /* import { toggleDrawerMini, toggleDrawer } from './actions'; */
@@ -49,15 +50,16 @@ const styles = (theme, style) => {
       fontSize: 20,
       lineHeight: 0.1,
       padding: 7,
-      margin: 5,
+      margin: '5px 25px 5px 5px',
       minWidth: "auto",
       borderRadius: 15,
       height: 15,
       width: 15,
       color: theme.palette.primary.light,
-      borderWidth: 1,
+      /* borderWidth: 1,
       borderColor: theme.palette.primary.light,
-      borderStyle: "solid",
+      borderStyle: "solid", */
+      border: "1px solid "+theme.palette.primary.light
 
     },
     listItem: {
@@ -85,24 +87,31 @@ const styles = (theme, style) => {
       "&.Mui-selected": {
         color: "white",
         background: theme.palette.custom.selectBk,
-        headerTopClose:{
+        "& button[class*='headerTopClose']": {
           color: theme.palette.primary.light,
-          bordeColor: theme.palette.primary.light,
+          border: "1px solid "+theme.palette.primary.light
         },
         "& >a": {
           color: theme.palette.primary.light,
         },
         "&:hover":{
-          background: theme.palette.custom.selectBk
+          background: theme.palette.custom.selectBk,
         },
       },
       "& button[class*='headerTopClose']": {
         color: theme.palette.primary.dark,
-        borderColor: theme.palette.primary.dark,
-        
+        border: "1px solid "+theme.palette.primary.dark,
+        margin: 0,
       },
       "&:hover":{
-        background: theme.palette.custom.selectBk
+        background: theme.palette.custom.selectBk,
+        "& button[class*='headerTopClose']": {
+          color: theme.palette.primary.light,
+          border: "1px solid "+theme.palette.primary.light
+        },
+        "& >a": {
+          color: theme.palette.primary.light,
+        },
       },
     },
   }
@@ -113,20 +122,20 @@ function FavouritesPage(props) {
   useInjectReducer({ key: 'favourites', reducer });
   useInjectSaga({ key: 'favourites', saga });
   console.info("Favourite Page");
-  console.info(props);
-  const linkTo = (path) => {
+  
+
+  /* const linkTo = (path) => {
     if(isCurrentPage(path)) { 
       props.history.push(`/favourites`) 
     } else {
       props.history.push(`/${path}`)
     }
-  } 
+  }  */
   
   const isCurrentPage = (pagePath) => {
-    console.log('currentPage()')
-    console.log(props.history)
-    // return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
-    
+    const check = pagePath === props.location.pathname ? true : false
+    //return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
+    return check
   };
 
   const _delete = (id) => {
@@ -136,8 +145,19 @@ function FavouritesPage(props) {
 
   useEffect(() => {
     if(props.favourites.loading == false)
-     props.dispatch(requestFavourites())
+      props.dispatch(requestFavourites())
   }, [])
+
+  useEffect(() => {
+    if(props.match.params.id && props.favourites.results.length > 0){
+      const selectedFav = props.favourites.results.filter(function(result) {
+        return result.id == props.match.params.id;
+      });
+      props.dispatch(setViewport({longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8})) 
+      console.log('dispatch set viewport fav')
+    }
+   
+  })
 
   const thisProps = props
   return (
@@ -153,8 +173,8 @@ function FavouritesPage(props) {
               button 
               className={props.classes.listItem} 
               key={"nav-stormtestents-"+result.id} 
-              selected={isCurrentPage()}>
-              <Link to={`favourites/location/${result.id}`}>
+              selected={isCurrentPage(`/favourites/${result.id}`)}>
+              <Link to={`/favourites/${result.id}`}>
                 <ListItemText primary={`${result.title} ${result.id}`} /> 
               </Link>
               <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
@@ -164,8 +184,7 @@ function FavouritesPage(props) {
           }
         </List>
       }
-      {/* 
-      <div onClick={() => props.dispatch(setViewport({longitude: 13.33265, latitude: 45.43713})) }>Set Viewport</div> */}
+      {/* <div onClick={() => props.dispatch(setViewport({longitude: 13.33265, latitude: 45.43713})) }>Set Viewport</div> */}
     </div>
   );
 }  
