@@ -14,11 +14,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectMapPage, { makeSelectVisibleWmsLayer } from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+import { syncPersistanceRequest, isSync } from "../../persistence";
 
 import Header from 'containers/Header';
 import Sidebar from 'containers/Sidebar';
@@ -43,11 +39,15 @@ import theme from 'theme';
 import useStyles from 'useStyles';
 
 function App(props) {
-  //useInjectReducer({ key: 'mapPage', reducer });
-  //useInjectSaga({ key: 'mapPage', saga });
   const classes = useStyles();
   console.info("app");
   console.info(props);
+
+  useEffect(() => {
+    props.dispatch(syncPersistanceRequest());
+  }, []);
+
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>

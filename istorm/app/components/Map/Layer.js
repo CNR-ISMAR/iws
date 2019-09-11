@@ -18,7 +18,7 @@ class Layer extends BaseControl {
     componentWillReceiveProps(newProps) {
         const map = this._context.map;
         const { layer } = newProps;
-        const source = map.getLayer(layer.id)
+        const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
         if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);
@@ -29,7 +29,7 @@ class Layer extends BaseControl {
     componentWillUnmount() {
         const map = this._context.map;
         const { layer } = this.props;
-        const source = map.getLayer(layer.id)
+        const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
         if(source) {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);

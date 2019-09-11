@@ -1,8 +1,9 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH } from 'containers/AuthProvider/constants';
-import { requestError, requestLoginSuccess, requestLogoutSuccess } from '../../containers/AuthProvider/actions';
-
-import { login, oauthOption, setToken } from 'utils/api';
+import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT } from 'containers/AuthProvider/constants';
+import { requestError, requestLoginSuccess, requestLogoutSuccess, stopLoading } from '../../containers/AuthProvider/actions';
+import makeSelectAuth, { tokensExistsExpired  } from '../../containers/AuthProvider/selectors';
+import { push } from 'connected-react-router';
+import { login, loginRefresh, oauthOption, setToken, oauthOptionRefreshToken, getProfile } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
@@ -10,33 +11,63 @@ export function* loginAuthSaga(action) {
   // See example in containers/HomePage/saga.js
   const loginOption = { 
     method: 'post',
-    body: Object.assign(oauthOption, { 
+    body: {...oauthOption, ...{
       username: action.request.email,
       password: action.request.password
-    })
+    }}
   };
   try {
     const request = yield call(login, loginOption);
     setToken(request.access_token);
     yield put(requestLoginSuccess(request));
-    if(typeof action.redirect !== "undefined") {
-      action.redirect("/");
-    }
+    //yield call(userProfileSaga);
+    yield put(push("/"));
   } catch(e) {
     yield put(requestError(e.message));
   }
 }
 
-export function* logoutAuthSaga(action) {
-  console.info("logout saga");
-  console.info(action);
-  yield put(requestLogoutSuccess());
-  // See example in containers/HomePage/saga.js
+export function* userProfileSaga() {
+  const options = {
+    method: 'get'
+  };
+  try {
+    const request = yield call(getProfile, options);
+    yield put(requestProfileSuccess(request));
+  } catch(e) {
+    yield put(requestError(e.message));
+    yield call(logoutAuthSaga);
+  }
 }
 
-export function* refreshAuthSaga(action) {
-    // setToken(request.access_token);
-  // See example in containers/HomePage/saga.js
+export function* logoutAuthSaga() {
+  yield put(requestLogoutSuccess());
+}
+
+export function* refreshAuthSaga() {
+
+  const tokensExpired = yield select(tokensExistsExpired());
+
+  if(tokensExpired) {
+    const authDomain = yield select(makeSelectAuth())
+    const loginOption = { 
+      method: 'post',
+      body: Object.assign(oauthOptionRefreshToken, {
+        refresh_token: authDomain.oauth.refreshToken
+      })
+    };
+    try {
+      const request = yield call(loginRefresh, loginOption);
+      setToken(request.access_token);
+      yield put(requestLoginSuccess(request));
+      yield call(userProfileSaga);
+    } catch(e) {
+      yield put(requestError(e.message));
+      yield call(logoutAuthSaga);
+    }
+  } else {
+    yield put(stopLoading())
+  }
 }
 
 /**

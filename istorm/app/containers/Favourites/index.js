@@ -8,6 +8,7 @@
 import React, {useEffect}  from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import { BrowserRouter as Router, Route, Link  } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -42,14 +43,35 @@ const styles = (theme, style) => {
       width: 300,
       maxWidth: 300,
       //flex: 1,
-      backgroundColor: theme.palette.custom.mapOverlayBackground,
-      
+      backgroundColor: theme.palette.custom.panelLightBk,
+    },
+    headerTopClose: {
+      fontSize: 20,
+      lineHeight: 0.1,
+      padding: 7,
+      margin: 5,
+      minWidth: "auto",
+      borderRadius: 15,
+      height: 15,
+      width: 15,
+      color: theme.palette.primary.light,
+      borderWidth: 1,
+      borderColor: theme.palette.primary.light,
+      borderStyle: "solid",
+
     },
     listItem: {
       color: theme.palette.primary.dark,
+      backgroundColor: theme.palette.custom.panelLightBk,
       maxHeight: 50,
       display: "flex",
       justifyContent: 'space-between',
+      paddingLeft: theme.palette.custom.paddingSide,
+      paddingRight: theme.palette.custom.paddingSide,
+      "& >a": {
+        textDecoration: "none",
+        color: theme.palette.primary.dark,
+      },
       "& div[class^='MuiListItemText']": {
         lineHeight: 0.2,
       },
@@ -58,30 +80,34 @@ const styles = (theme, style) => {
         lineHeight: 1,
       },
       "&:nth-child(odd)":{
-          background: theme.palette.custom.listItemSecondary,
+          background: theme.palette.custom.panelLightAlternative,
       },
       "&.Mui-selected": {
         color: "white",
-        background: theme.palette.custom.listItemSelected,
+        background: theme.palette.custom.selectBk,
+        headerTopClose:{
+          color: theme.palette.primary.light,
+          bordeColor: theme.palette.primary.light,
+        },
+        "& >a": {
+          color: theme.palette.primary.light,
+        },
         "&:hover":{
-          background: theme.palette.custom.listItemSelected
-        }
+          background: theme.palette.custom.selectBk
+        },
       },
-    },
-    headerTopClose: {
-      color: theme.palette.common.white,
-      fontSize: 20,
-      lineHeight: 0.1,
-      padding: 7,
-      margin: 5,
-      minWidth: "auto",
-      border: "2px solid white",
-      borderRadius: 15,
-      height: 15,
-      width: 15,
+      "& button[class*='headerTopClose']": {
+        color: theme.palette.primary.dark,
+        borderColor: theme.palette.primary.dark,
+        
+      },
+      "&:hover":{
+        background: theme.palette.custom.selectBk
+      },
     },
   }
 };
+
 
 function FavouritesPage(props) {
   useInjectReducer({ key: 'favourites', reducer });
@@ -89,14 +115,16 @@ function FavouritesPage(props) {
   
   const linkTo = (path) => {
     if(isCurrentPage(path)) { 
-      props.history.push("/favourites") 
+      props.history.push(`/favourites`) 
     } else {
       props.history.push(`/${path}`)
     }
-  }
+  } 
   
   const isCurrentPage = (pagePath) => {
+    
     return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
+    
   };
 
   const _delete = (id) => {
@@ -108,40 +136,50 @@ function FavouritesPage(props) {
     props.dispatch(requestFavourites())
   }, [])
   
-
+  const thisProps = props
   return (
     <div className={props.classes.subNav}>
-      {/*  console.log('Favourites Return') */}
-      { console.log(props.favourites)}
-      { /* JSON.stringify(props.favourites.error) */ }
-      <HeaderBar headerTopClose={props.classes.headerTopClose} title={"Favourites List"} icon={ListIcon} primarycolor={props.theme.palette.custom.favoriteIcon} />
+      { /* console.log(props.location.pathname) */ }
+      <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={"Favourites List"} icon={ListIcon}  />
       {
-        <List>{
+        <List>
+        <Router>{
         props.favourites.results.map((result) => {
           return (
             <ListItem 
               button 
               className={props.classes.listItem} 
               key={"nav-stormtestents-"+result.id} 
-              selected={isCurrentPage("favourites/station/55")}>
-              <div 
-                className={props.classes.listItemLink} 
-                onClick={() => props.dispatch(setViewport({longitude: result.longitude, latitude: result.latitude, zoom: 5}))}>
+              selected={isCurrentPage(`favourites/location/${result.id}`)}>
+              <div onClick={ () =>  linkTo(`favourites/location/${result.id}`) } >
                 <ListItemText primary={`${result.title} ${result.id}`} />
                 {/* <ListItemText primary={result.address} /> */}
               </div>
+              
               <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
             </ListItem>
               )
             })
           }
+          
+          { <Route path="favourites/location/:id" component={(props) => {  
+            if(thisProps.favourites.results.length > 0){
+              const selectedFav = thisProps.favourites.results.filter(function(result) {
+                return result.id == props.match.params.id;
+              });
+              // console.log(selectedFav)
+              thisProps.dispatch(setViewport({longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8})) 
+            }
+            return null  }} /> }
+          </Router>
         </List>
       }
       {/* 
       <div onClick={() => props.dispatch(setViewport({longitude: 13.33265, latitude: 45.43713})) }>Set Viewport</div> */}
     </div>
   );
-}
+}  
+ 
 
 const mapStateToProps = createStructuredSelector({
   favourites: makeSelectFavourites(),
