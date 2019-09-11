@@ -135,10 +135,10 @@ function FavouritesPage(props) {
   };
 
   useEffect(() => {
-    if(props.favourites.results.length === 0)
+    if(props.favourites.results.length === 0 && props.favourites.loading == false)
      props.dispatch(requestFavourites())
   }, [])
-  
+
   const thisProps = props
   return (
     <div className={props.classes.subNav}>
