@@ -41,6 +41,9 @@ const styles = (theme) => {
       },
       "&:hover":{
         color: theme.palette.custom.contrastTextSelected,
+        "& .MuiSvgIcon-root:not([class*=arrow]) *": {
+          fill: theme.palette.custom.contrastTextSelected
+        }
       }
     },
     listItemIcon: {
