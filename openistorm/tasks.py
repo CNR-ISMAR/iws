@@ -72,4 +72,4 @@ def import_waves(args):
 
 @app.on_after_configure.connect
 def localcrontest(sender, **kwargs):
-    sender.add_periodic_task(60.0, import_waves.s({}), name='add every 60 seconds')
+    sender.add_periodic_task(1200.0, import_waves.s({}), name='add every 60 seconds')
