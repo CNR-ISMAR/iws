@@ -17,6 +17,10 @@ class ImageLayer(models.Model):
         return self.url_prefix() + '.png'
 
     @property
+    def image_background(self):
+        return self.url_prefix() + '_bg.png'
+
+    @property
     def metadata(self):
         return self.url_prefix() + '.json'
 

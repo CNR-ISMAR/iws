@@ -23,8 +23,8 @@ class ImageLayerList(ListAPIView):
         qs = super(ImageLayerList, self).get_queryset()
         dataset = self.request.query_params.get('dataset', 'waves')
         # TODO: sistemare quaNDO AVREMO UN SERVIZIO FUNZIONANTE
-        fromdate = '2018-10-28T23:00:00.000Z'
-        # fromdate = self.request.query_params.get('from', '')
+        # fromdate = '2018-10-28T23:00:00.000Z'
+        fromdate = self.request.query_params.get('from', '')
         todate = self.request.query_params.get('to', '')
 
         fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now()

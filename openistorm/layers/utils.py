@@ -14,6 +14,12 @@ from dateutil import parser
 from django.conf import settings
 from .models import ImageLayer
 
+# import numpy as np
+# from numpy import array
+# import matplotlib.pyplot as plt
+# import random
+# # matplotlib-2.2.4
+
 
 class NCToImg:
 
@@ -183,10 +189,10 @@ class NCToImg:
                 os.system("rm " + tif2filename)
                 os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
 
+    def gaussian(self, x, a, b, c, d=0):
+        return a * math.exp(-(x - b) ** 2 / (2 * c ** 2)) + d
+
     def generate_image_and_meta_from_json(self, input_file, output_name):
-        # print(output_name)
-        # input_file = self.input_file
-        # output_name = self.output_name
 
         with open(input_file) as json_file:
             data = json.load(json_file)
@@ -204,24 +210,57 @@ class NCToImg:
         width, height = u['header']['nx'], u['header']['ny']
 
         pngData = []
+        pngDataBackground = []
         for y in range(0, height):
             for x in range(0, width):
                 k = (y * width) + x
                 if u['data'][k] is not None and v['data'][k] is not None:
-                    pngData.append((
+                    p = (
                         int(255 * (u['data'][k] - u['min']) / (u['max'] - u['min'])),
                         int(255 * (v['data'][k] - v['min']) / (v['max'] - v['min'])),
                         0,
                         255,
-                    ))
+                    )
+                    pngData.append(p)
+
+                    p = (
+                        int( 255 * 0.39 * (v['data'][k]**2 - v['min']**2) / (v['max']**2 - v['min']**2) ),
+                        0,
+                        255 - int( 255 * 1.2 * (v['data'][k]**2 - v['min']**2) / (v['max']**2 - v['min']**2) ),
+                        255,
+                    )
+                    pngDataBackground.append(p)
                 else:
                     pngData.append((255, 255, 255, 0))
+                    pngDataBackground.append((255, 255, 255, 0))
 
-        pngData = tuple(pngData)
+
+                #     # Generate a list of 5000 int between 1200,5500
+                #     M = 5000
+                #     myList = [random.randrange(1200, 5500) for i in xrange(0, M)]
+                #
+                #     # Convert to 50 x 100 list
+                #     n = 50
+                #     newList = [myList[i:i + n] for i in range(0, len(myList), n)]
+                #
+                #     # Convert to 50 x 100 numpy array
+                #     nArray = array(newList)
+                #     print nArray
+                #
+                #     a11 = nArray.reshape(50, 100)
+                #     plt.imshow(a11, cmap='hot')
+                #     plt.colorbar()
+                #     plt.show()
+
+        # pngData = tuple(pngData)
 
         image = Image.new('RGBA', (width, height))
         image.putdata(pngData)
         image.save(output_name + ".png", "PNG")
+
+        imageBackground = Image.new('RGBA', (width, height))
+        imageBackground.putdata(pngDataBackground)
+        imageBackground.save(output_name + "_bg.png", "PNG")
 
         json_data = {
             "source": "https://iws.ismar.cnr.it/",

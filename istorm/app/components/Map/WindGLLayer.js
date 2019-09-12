@@ -73,7 +73,7 @@ class WindLayer {
   calcNumParticles(width, height) {
     // console.log('calcNumParticles')
     return Math.min(Math.floor(width / 20 * height / 20),
-      1200
+      1500
     );
   }
 
@@ -123,37 +123,40 @@ class WindGLLayer extends BaseControl {
       this._canvas = canvas;
       this._ctx = canvas.getContext('webgl', {antialiasing: false});
     }
-      // map.addLayer({
-      //   'id': 'bgwaves',
-      //   'type': 'raster',
-      //   'source': {
-      //     type: 'image',
-      //     url: blu,
-      //     coordinates: [
-      //       [
-      //         12.21,
-      //         45.85
-      //       ],
-      //       [
-      //         22.37,
-      //         45.85
-      //       ],
-      //       [
-      //         22.37,
-      //         36.67,
-      //       ],
-      //       [
-      //         12.21,
-      //         36.67,
-      //       ]
-      //     ]
-      //   },
-      //   "paint": {
-      //       "raster-opacity": 0.5,
-      //       'raster-hue-rotate': 0,
-      //       "raster-resampling": "nearest"
-      //   }
-      // });
+    const bgLayer = {
+        'id': 'bgwaves',
+        'type': 'raster',
+        'source': {
+          type: 'image',
+          url: blu,
+          coordinates: [
+            [
+              12.21,
+              45.85
+            ],
+            [
+              22.37,
+              45.85
+            ],
+            [
+              22.37,
+              36.67,
+            ],
+            [
+              12.21,
+              36.67,
+            ]
+          ]
+        },
+        "paint": {
+            // "raster-opacity": 0.5,
+            "raster-opacity": 0.8,
+            // 'raster-hue-rotate': 0,
+            'raster-hue-rotate': 0.2,
+            // "raster-resampling": "nearest"
+        }
+      }
+      map.addLayer(bgLayer);
       if (this._ctx && this._ctx instanceof WebGLRenderingContext) {
         map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
       } else {
