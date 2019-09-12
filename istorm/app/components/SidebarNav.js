@@ -33,18 +33,35 @@ const styles = (theme) => {
       color: theme.palette.custom.contrastText,
       paddingTop: 6,
       paddingBottom: 6,
+      flex: 2,
       "&.Mui-selected": {
         color: theme.palette.custom.contrastTextSelected,
         "& .MuiSvgIcon-root:not([class*=arrow]) *:not(circle)": {
           fill: theme.palette.custom.contrastTextSelected
+        },
+        "& .MuiBadge-badge":{
+          color: theme.palette.primary.dark,
+          backgroundColor: theme.palette.primary.light,
         }
       },
       "&:hover":{
         color: theme.palette.custom.contrastTextSelected,
-        "& .MuiSvgIcon-root:not([class*=arrow]) *": {
+        "& .MuiSvgIcon-root:not([class*=arrow]) *:not(circle)": {
           fill: theme.palette.custom.contrastTextSelected
+        },
+        "& .MuiBadge-badge":{
+          color: theme.palette.primary.dark,
+          backgroundColor: theme.palette.primary.light,
         }
-      }
+      },
+      "& .MuiBadge-badge":{
+        color: theme.palette.custom.contrastTextSelected,
+        width: 29,
+        backgroundColor: theme.palette.custom.contrastText,
+        borderRadius: 20,
+        right: 20,
+        height: 19,
+      },
     },
     listItemIcon: {
       minWidth: 40,
@@ -58,9 +75,7 @@ const styles = (theme) => {
     spacer: {
       flexGrow: 1,
     },
-    arrow:{
-
-    }
+    arrow:{}
   }
 };
 
@@ -84,11 +99,11 @@ function SidebarNav(props) {
     <List>
         <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("notification")} onClick={() => linkTo("notification")} key={"nav-notification"}>
           <ListItemIcon className={props.classes.listItemIcon}>
-            <Badge badgeContent={4} color="secondary">
-              <NotificationIcon iconcolor={props.theme.palette.custom.contrastText} />
-            </Badge>
+            <NotificationIcon iconcolor={props.theme.palette.custom.contrastText} />
           </ListItemIcon>
           <ListItemText primary={"Notification"} />
+          <Badge badgeContent={ props.notifications.results.length > 0 && props.notifications.results.length } color="secondary">
+          </Badge>
           { isCurrentPage("notification") ?
             <ArrowLeftIcon className={props.classes.arrow}/>
             :

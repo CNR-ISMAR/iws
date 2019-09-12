@@ -38,7 +38,7 @@ import StationChart from '../StationChart/Loadable';
 /* import reducer from '../Notification/reducer'; */
 
 
-/* import {requestNotifications} from './actions' */
+import {requestNotification} from '../AuthProvider/actions' 
 
 import GlobalStyle from '../../global-styles';
 
@@ -50,19 +50,19 @@ import useStyles from 'useStyles';
 function App(props) {
   const classes = useStyles();
   console.info("app");
-  console.info(props);
+  //console.info(props);
 
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());
-   // if(props.isLogged && !props.notifications.loading)
-    //  props.dispatch(requestNotifications()); 
+    //if(props.isLogged && props.auth.notifications.results.length == 0 )
+    props.dispatch(requestNotification()); 
   }, []);
 
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        { /*  console.log(props.notifications) */ }
+        {   /* console.log(props.auth.notifications) */ }
         <CssBaseline />
         <Header isLogged={props.isLogged} />
         <Sidebar auth={props.auth}  isLogged={props.isLogged} />

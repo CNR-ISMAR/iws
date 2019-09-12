@@ -32,9 +32,10 @@ const styles = (theme) => {
 function AvatarMenu(props) {
   console.info("avatarMenu")
   console.info(props);
+  const username = props.auth.user.username
   return (
     <>
-        <Avatar className={props.classes.avatar}>L</Avatar> 
+        <Avatar className={props.classes.avatar}>{username.charAt(0).toUpperCase()}</Avatar> 
         <Typography variant="subtitle1" className={props.classes.avatarText}>{props.auth.user.username}</Typography>
     </>
   );

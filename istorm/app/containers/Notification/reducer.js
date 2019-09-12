@@ -1,36 +1,38 @@
-import produce from 'immer';
-import { REQUEST_NOTIFICATION } from './constants';
-
-const initialState = {
-    notifications: [{
-        id: 1,
-        title: 'alert',
-        body: 'ciao',
-    },
-    {
-        id: 2,
-        title: 'alert2',
-        body: 'ciao2',
-    }
-    ],
-};
+/* import produce from 'immer';
+import { REQUEST_NOTIFICATION, REQUEST_NOTIFICATION_SUCCESS, REQUEST_ERROR, } from './constants';
 
 
-const NotificationReducer = (state = initialState, action) =>
+export const initialState = {
+    
+    loading: false,
+    error: null,    
+    results: []
+    
+}
   
-    produce(state, ( draft ) => {
+const notificationReducer = (state = initialState, action) => {
+    produce(state, draft => {
         switch (action.type) {
         case REQUEST_NOTIFICATION:
-            draft.notifications = [];
+            draft.loading = true;
+            draft.error = initialState.error;
+            draft.results = []
+        break;
+        case REQUEST_NOTIFICATION_SUCCESS:
+            draft.loading = false;
+            draft.error = initialState.error;
+            draft.results = action.result;
             break;
+        case REQUEST_ERROR:
+            draft.loading = false;
+            draft.error = action.error;
+        break;
+        default: // need this for default case
+            return state 
+            
         }
-    })   
-   /* {
-    const newState = {...state}
-    if (action.type === REQUEST_NOTIFICATION) {
-        newState.testNotification = 'testNotificationCHANGED';
-    }
-    return newState
-   } */
-
-export default NotificationReducer;
+       
+        
+    })
+}
+export default notificationReducer; */

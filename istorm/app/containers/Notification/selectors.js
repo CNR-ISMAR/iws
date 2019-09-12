@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the auth state domain
  */
 
-const selectNotifications = state => state.notifications || initialState;
+const selectNotification = state => state.notification || initialState;
 
 /**
  * Other specific selectors
@@ -14,14 +14,13 @@ const selectNotifications = state => state.notifications || initialState;
 /**
  * Default selector used by Auth
  */
-
-const makeSelectNotifications = () =>
+const makeSelectNotification = () =>
   createSelector(
-    selectNotifications,
+    selectNotification,
     substate => substate,
   );
 
 
 
-export default makeSelectNotifications;
-export { selectNotifications };
+export default makeSelectNotification;
+export { selectNotification };

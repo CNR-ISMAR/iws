@@ -5,7 +5,11 @@
  */
 import produce from 'immer';
 import moment from "moment";
-import { STOP_LOADING, SYNC_AUTH, REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS, REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_ERROR, REQUEST_REFRESH_SUCCESS } from './constants';
+import { STOP_LOADING, SYNC_AUTH, REQUEST_LOGIN, 
+      REQUEST_LOGOUT, REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS, 
+      REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, 
+      REQUEST_ERROR, REQUEST_REFRESH_SUCCESS, REQUEST_NOTIFICATION,
+      REQUEST_NOTIFICATION_SUCCESS } from './constants';
 
 export const initialState = {
   loading: false,
@@ -17,6 +21,11 @@ export const initialState = {
     token: null,
     refreshToken: null,
     expire_at: null 
+  },
+  notifications: {
+    loading: false,
+    error: null,
+    results: []
   }
 };
 
@@ -65,6 +74,16 @@ const authReducer = (state = initialState, action) =>
           draft.error = initialState.error;
           draft.user = action.result;
         break;
+      case REQUEST_NOTIFICATION:
+          draft.notifications.loading = true;
+          draft.notifications.error = initialState.notifications.error;
+          draft.notifications.results = []
+      break;
+      case REQUEST_NOTIFICATION_SUCCESS:
+          draft.notifications.loading = false;
+          draft.notifications.error = initialState.notifications.error;
+          draft.notifications.results = action.result;
+          break;  
       case REQUEST_ERROR:
           draft.loading = false;
           draft.error = action.error;

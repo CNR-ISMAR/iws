@@ -31,6 +31,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { requestFavourites, deleteFavourite } from "./actions";
 import { setViewport } from '../App/actions';
+import theme from "../../theme"
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -159,7 +160,7 @@ function FavouritesPage(props) {
    
   })
 
-  const thisProps = props
+  
   return (
     <div className={props.classes.subNav}>
       { /* console.log(props.location.pathname) */ }

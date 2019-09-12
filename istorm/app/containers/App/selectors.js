@@ -9,8 +9,6 @@ const selectMapPageDomain = state => state.mapPage || initialState;
 
 const selectRouter = state => state.router;
 
-const selectNotifications = state => state.appStates || initialState;
-
 /**
  * Other specific selectors
  */
@@ -42,12 +40,7 @@ const makeSelectLayers = () =>
     substate => substate.layers,
   );
 
-const makeSelectNotifications = () =>
-  createSelector(
-    selectNotifications,
-    substate => substate,
-  );
 
 
 export default makeSelectMapPage;
-export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers, makeSelectNotifications };
+export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers };

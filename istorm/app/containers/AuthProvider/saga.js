@@ -1,13 +1,14 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT, REQUEST_PROFILE } from 'containers/AuthProvider/constants';
+import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT, REQUEST_PROFILE, REQUEST_NOTIFICATION } from 'containers/AuthProvider/constants';
 import { requestError, 
   requestLoginSuccess, 
   requestLogoutSuccess, 
   requestProfileSuccess,
+  requestNotificationSuccess,
   stopLoading } from '../../containers/AuthProvider/actions';
 import makeSelectAuth, { tokensExistsExpired  } from '../../containers/AuthProvider/selectors';
 import { push } from 'connected-react-router';
-import { login, loginRefresh, oauthOption, setToken, oauthOptionRefreshToken, getProfile } from 'utils/api';
+import { login, loginRefresh, oauthOption, setToken, oauthOptionRefreshToken, getProfile, notification } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
@@ -38,9 +39,24 @@ export function* userProfileSaga() {
   try {
     const request = yield call(getProfile, options);
     yield put(requestProfileSuccess(request));
+    yield call(notificationSaga);
   } catch(e) {
     yield put(requestError(e.message));
     yield call(logoutAuthSaga);
+  }
+}
+
+export function* notificationSaga() {
+  const options = {
+    method: 'get'
+  }; 
+  console.log('notificationSaga')
+  try {
+    const request = yield call(notification, options);
+    yield put(requestNotificationSuccess(request));
+  } catch(e) {
+    yield put(requestError(e.message));
+    /* yield call(logoutAuthSaga); */
   }
 }
 
@@ -65,6 +81,7 @@ export function* refreshAuthSaga() {
       setToken(request.access_token);
       yield put(requestLoginSuccess(request));
       yield call(userProfileSaga);
+      yield call(notificationSaga);
     } catch(e) {
       yield put(requestError(e.message));
       yield call(logoutAuthSaga);
@@ -86,4 +103,5 @@ export default function* authSaga() {
   yield takeLatest(REQUEST_LOGOUT, logoutAuthSaga);
   yield takeLatest(REQUEST_REFRESH, refreshAuthSaga);
   yield takeLatest(REQUEST_PROFILE, userProfileSaga);
+  yield takeLatest(REQUEST_NOTIFICATION, notificationSaga);
 }

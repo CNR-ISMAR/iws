@@ -14,95 +14,158 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { createStructuredSelector } from 'reselect';
+import Typography from '@material-ui/core/Typography';
+/* import { createStructuredSelector } from 'reselect'; */
 import HeaderBar from "../../components/HeaderBar";
+import Button from '@material-ui/core/Button';
 import { NotificationIcon } from '../../utils/icons';
-import makeSelectNotifications from './selectors'; 
-import reducer from './reducer';
+/* import makeSelectNotification from './selectors'; 
+import reducer from './reducer'; */
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import { useInjectReducer } from 'utils/injectReducer';
-import { REQUEST_NOTIFICATION } from './constants';
+/* import { useInjectReducer } from 'utils/injectReducer';
+import { REQUEST_NOTIFICATION } from './constants'; */
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
   console.info(theme, style);
   return {
     subNav: {
-      position: "absolute", 
-      top: 0, 
-      left: 0, 
-      zIndex: 10, 
-      width: 250,
-      backgroundColor: "rgba(255,255,255,.8)",
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      position: "relative", 
+      minHeight: "100%",
+      height: "auto",
+      zIndex: 1600, 
+      width: 300,
+      maxWidth: 300,
+      //flex: 1,
+      backgroundColor: theme.palette.custom.panelLightBk,
+    },
+    headerTopClose: {
+      fontSize: 20,
+      lineHeight: 0.1,
+      padding: 7,
+      margin: '5px 25px 5px 5px',
+      minWidth: "auto",
+      borderRadius: 15,
+      height: 15,
+      width: 15,
+      color: theme.palette.primary.light,
+      /* borderWidth: 1,
+      borderColor: theme.palette.primary.light,
+      borderStyle: "solid", */
+      border: "1px solid "+theme.palette.primary.light
+
     },
     listItem: {
-      color: theme.palette.custom.contrastText,
+      color: theme.palette.primary.dark,
+      backgroundColor: theme.palette.custom.panelLightBk,
+      maxHeight: 50,
+      display: "flex",
+      justifyContent: 'space-between',
+      paddingLeft: theme.palette.custom.paddingSide,
+      paddingRight: theme.palette.custom.paddingSide,
+      "& >a": {
+        textDecoration: "none",
+        color: theme.palette.primary.dark,
+      },
+      "& div[class^='MuiListItemText']": {
+        lineHeight: 0.2,
+      },
+      "& span[class^='MuiTypography']":{
+        fontSize: theme.typography.fontSmall,
+        lineHeight: 1,
+      },
+      "&:nth-child(odd)":{
+          background: theme.palette.custom.panelLightAlternative,
+      },
       "&.Mui-selected": {
-        color: theme.palette.custom.contrastTextSelected
-      }
+        color: "white",
+        background: theme.palette.custom.selectBk,
+        "& button[class*='headerTopClose']": {
+          color: theme.palette.primary.light,
+          border: "1px solid "+theme.palette.primary.light
+        },
+        "& >a": {
+          color: theme.palette.primary.light,
+        },
+        "&:hover":{
+          background: theme.palette.custom.selectBk,
+        },
+      },
+      "& button[class*='headerTopClose']": {
+        color: theme.palette.primary.dark,
+        border: "1px solid "+theme.palette.primary.dark,
+        margin: 0,
+      },
+      "&:hover":{
+        background: theme.palette.custom.selectBk,
+        "& button[class*='headerTopClose']": {
+          color: theme.palette.primary.light,
+          border: "1px solid "+theme.palette.primary.light
+        },
+        "& >a": {
+          color: theme.palette.primary.light,
+        },
+      },
     },
-    divider: {
-      backgroundColor: theme.palette.custom.contrastText,
-      fontSize: 22
-    }
   }
 };
 
 function NotificationPage(props) {
-  useInjectReducer({ key: 'notifications', reducer });
+ // useInjectReducer({ key: 'notification', reducer }); 
   console.log('Notification page')
+  /* console.log(props) */
   return (
     <div className={props.classes.subNav}>
-      <HeaderBar title={"Notification"} icon={NotificationIcon} />
-      <button onClick={ props.requestNotification  }>Change State Notif</button>
-      {  props.notifications && props.notifications.notifications &&  props.notifications.notifications.map(item => <p>{item.id}</p>) }
+      <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={"Notifications"} icon={NotificationIcon} />
       <List>
-        <ListItem button className={props.classes.listItem} key={"nav-notiftestion"}>
-          <ListItemText primary={"test"} />
-        </ListItem>
-        <ListItem button className={props.classes.listItem} key={"nav-stormtestents"}>
-          <ListItemText primary={"test 1"} />
-        </ListItem>
-        <ListItem button className={props.classes.listItem} key={"navtestyers"}>
-          <ListItemText primary={"test 2"} />
-        </ListItem>
-        <ListItem button className={props.classes.listItem} key={"nav-test"}>
-          <ListItemText primary={"test 3"} />
-        </ListItem>
-      </List>
+        { props.auth.notifications.results.length > 0 &&
+        props.auth.notifications.results.map((result) => {
+          return (
+            <ListItem 
+              button 
+              className={props.classes.listItem} 
+              key={"nav-notification-"+result.id}>
+              <div to={`/notification/${result.id}`}>
+                <ListItemText primary={`${result.title} ${result.id}`} />
+                <Typography variant="subtitle" gutterBottom>
+                {`${result.description}`}
+                </Typography>
+              </div>
+              <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
+            </ListItem>
+              )
+            })
+          }
+        </List>
     </div>
   );
 }
 
-NotificationPage.propTypes = {
+/* NotificationPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
-};
+}; */
 
 /* const mapStateToProps = (state) => {
   return {
-    notifications: state.testNotification
+    notification: { loading: false }
   }  
 }
- */
-const mapStateToProps = createStructuredSelector({
-  notifications: makeSelectNotifications(),
+  */
+/* const mapStateToProps = createStructuredSelector({
+  notification: makeSelectNotification(),
 
-})
+}) */
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestNotification: () => dispatch({type : REQUEST_NOTIFICATION}),}
-  
+    dispatch,
+  }
 }
 
 const withConnect = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 );
 
