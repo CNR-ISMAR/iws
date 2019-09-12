@@ -9,7 +9,7 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -31,14 +31,14 @@ import InfoPage from '../Info/Loadable';
 import FavouritesPage from '../Favourites/Loadable';
 import StationChart from '../StationChart/Loadable';
 
-import { useInjectReducer } from 'utils/injectReducer';
-import { useInjectSaga } from 'utils/injectSaga';
+/* import { useInjectReducer } from 'utils/injectReducer'; */
+/* import { useInjectSaga } from 'utils/injectSaga'; */
 
-import makeSelectNotifications from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+/* import {makeSelectNotifications} from './selectors'; */
+/* import reducer from '../Notification/reducer'; */
 
-import {requestNotifications} from './actions'
+
+/* import {requestNotifications} from './actions' */
 
 import GlobalStyle from '../../global-styles';
 
@@ -48,24 +48,23 @@ import theme from 'theme';
 import useStyles from 'useStyles';
 
 function App(props) {
-  useInjectReducer({ key: 'appStates', reducer });
-  useInjectSaga({ key: 'appStates', saga });
+  
   const classes = useStyles();
   console.info("app");
   console.info(props);
 
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());
-    if(props.isLogged && !props.appStates.notifications.loading)
-      props.dispatch(requestNotifications()); 
+   // if(props.isLogged && !props.notifications.loading)
+    //  props.dispatch(requestNotifications()); 
   }, []);
 
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        { console.log('props.appStates.notifications') }
-        { console.log(props.appStates.notifications) }
+        { /*  console.log('props.notifications') */ }
+        { /*  console.log(props.notifications) */ }
         <CssBaseline />
         <Header isLogged={props.isLogged} />
         <Sidebar auth={props.auth}  isLogged={props.isLogged} />
@@ -79,11 +78,19 @@ function App(props) {
               <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
             )}
             <Route exact path="/" component={() => null} />
-            <Route exact path={"/notification"} component={({match}) => <NotificationPage auth={props.auth} />} />
+            <Route exact path={"/notification"} component={({match, history}) => { 
+              return props.isLogged ?  
+              <NotificationPage auth={props.auth} /> 
+              : <Redirect to='/' /> 
+            } } /> 
             <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
             <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
             <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
-            <Route path={"/favourites/:id?"} component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  
+            <Route path={"/favourites/:id?"} component={ ({match, history, location}) => {
+              return props.isLogged ? 
+              <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> 
+              : <Redirect to='/' /> 
+              }} />  
             <Route exact path={"/station/:id"} component={({match, history}) => <StationChart auth={props.auth} history={history} />} />
             <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
             <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
@@ -102,7 +109,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  appStates: makeSelectNotifications(),
+  // notifications: makeSelectNotifications(),
   //mapPage: makeSelectMapPage(),
   //wmsVisible: makeSelectVisibleWmsLayer()
 });
