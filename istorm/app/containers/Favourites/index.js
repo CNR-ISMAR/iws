@@ -40,7 +40,7 @@ const styles = (theme, style) => {
       position: "relative", 
       minHeight: "100%",
       height: "auto",
-      zIndex: 10, 
+      zIndex: 1600, 
       width: 300,
       maxWidth: 300,
       //flex: 1,
