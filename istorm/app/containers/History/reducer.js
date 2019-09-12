@@ -42,8 +42,7 @@ const timelineReducer = (state = initialState, action) =>
           draft.from = action.response.from;
           draft.to = action.response.to;
           draft.results = action.response.results;
-          //draft.current = action.response.current;
-          draft.current = "2019-09-01T06:00:00.000Z";
+          draft.current = action.response.current;
         break;
       case ERROR_TIMELINE:
           draft.loading = false;
