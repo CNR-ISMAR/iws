@@ -6,7 +6,7 @@ import { toggleDrawer } from 'containers/Sidebar/actions';
 import { syncAuth, requestRefresh } from "containers/AuthProvider/actions";
 import { setToken } from 'utils/api';
 import { isMobileOrTablet } from 'utils/mobileDetector';
-import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_REFRESH } from 'containers/AuthProvider/constants';
+import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_REFRESH, REQUEST_PROFILE_SUCCESS } from 'containers/AuthProvider/constants';
 
 const SKIP_REFRESH = [REQUEST_REFRESH, REQUEST_LOGIN, REQUEST_LOGOUT];
 const SYNC_PERSISTANCE_REQUEST = "persitance/SYNC_PERSISTANCE_REQUEST";
@@ -69,6 +69,7 @@ export const persitanceMiddleWare = store => next => action => {
   switch (action.type) {
     case REQUEST_LOGIN_SUCCESS:
     case REQUEST_REFRESH_SUCCESS:
+    case REQUEST_PROFILE_SUCCESS:
       const state = store.getState();
       if(state.auth) {
         persistore.set("auth", state.auth);
@@ -82,6 +83,8 @@ export const persitanceMiddleWare = store => next => action => {
 
 export function* refreshPersistance() {
   const authStore = persistore.get("auth");
+  console.log('authStore')
+  console.log(authStore)
   if(authStore) {
     setToken(authStore.oauth.token);
     yield put(syncAuth(authStore))

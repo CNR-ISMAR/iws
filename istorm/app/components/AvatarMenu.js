@@ -35,7 +35,7 @@ function AvatarMenu(props) {
   return (
     <>
         <Avatar className={props.classes.avatar}>L</Avatar> 
-        <Typography variant="subtitle1" className={props.classes.avatarText}>{props.auth.user.email}</Typography>
+        <Typography variant="subtitle1" className={props.classes.avatarText}>{props.auth.user.username}</Typography>
     </>
   );
 }
