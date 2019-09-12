@@ -51,13 +51,18 @@ class ImageLayerList(ListAPIView):
         now = datetime.datetime.now().replace(minute=0, second=0).isoformat()+'.000Z'
 
         keys = list(results.keys())
-        current = now if now in results else keys[0] if len(keys) > 0 else None
-
-        # current = now if
+        if now in results:
+            current = now
+        elif len(keys) > 0:
+            current = keys[0]
+        else:
+            current = None
+        # current = now if now in results else keys[0] if len(keys) > 0 else None
 
         return Response({
             'min': datetime.datetime.fromtimestamp(boundaries['min']).isoformat()+'.000Z',
             'max': datetime.datetime.fromtimestamp(boundaries['max']).isoformat()+'.000Z',
+            # 'max': boundaries['min'],
             'from': keys[0] if len(keys) > 0 else None,
             'to': keys[-1] if len(keys) > 0 else None,
             'current': current,

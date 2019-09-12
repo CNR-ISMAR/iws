@@ -13,7 +13,7 @@ const SYNC_PERSISTANCE_REQUEST = "persitance/SYNC_PERSISTANCE_REQUEST";
 const SYNC_PERSISTANCE_SUCCESS = "persitance/SYNC_PERSISTANCE_SUCCESS";
 
 const persistoreConfig = {
-  id: "nose",
+  id: "istorm",
   version: 1
 }
 export const persistore = {

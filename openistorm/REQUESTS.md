@@ -209,7 +209,7 @@ curl -X GET http://iws.inkode.it:4443/openistorm/favorites \
 ```
 
 
-### GET (geojson) /openistorm/favorites (NEEDS AUTH)
+### GET (geojson) /openistorm/favorites/geojson (NEEDS AUTH)
 ```
 curl -X GET http://iws.inkode.it:4443/openistorm/favorites/geojson \
   -H 'Accept: application/json, text/plain, */*' \
@@ -220,27 +220,27 @@ curl -X GET http://iws.inkode.it:4443/openistorm/favorites/geojson \
 ##### RESPONSE
 ```json
 {
-    "count": 2,
-    "next": null,
-    "previous": null,
-    "results": [
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "EPSG:4326"
+        }
+    },
+    "type": "FeatureCollection",
+    "features": [
         {
-            "id": 2,
-            "title": "myplace",
-            "latitude": 44.52224,
-            "longitude": 11.33845,
-            "address": "via piero gobetti 101, 40129 Bologna (BO)",
-            "position": "SRID=3857;POINT (11.3384499999999999 44.5222399999999965)",
-            "user": 1001
-        },
-        {
-            "id": 1,
-            "title": "myplace",
-            "latitude": 44.52224,
-            "longitude": 11.33845,
-            "address": "via piero gobetti 101, 40129 Bologna (BO)",
-            "position": "SRID=3857;POINT (11.3384499999999999 44.5222399999999965)",
-            "user": 1001
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0.000101855029332,
+                    0.000399950086745
+                ]
+            },
+            "type": "Feature",
+            "properties": {
+                "title": "myplace",
+                "address": "via piero gobetti 101, 40129 Bologna (BO)"
+            }
         }
     ]
 }
