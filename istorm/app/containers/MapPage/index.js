@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleNewWindGLLayer } from '../App/selectors';
+import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleWindGLLayer } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
 import { setCurrentDate, togglePlay } from '../History/actions';
 import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean } from '../App/actions';
@@ -184,7 +184,7 @@ function MapPage(props) {
           layers={props.mapPage.layers} 
           mean={props.mapPage.mean}
           seaLevel={props.mapPage.seaLevel}
-          newWindGLLayer={props.mapPage.newWindGLLayer} 
+          WindGLLayer={props.mapPage.WindGLLayer}
           />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>
@@ -200,8 +200,8 @@ function MapPage(props) {
           <div item className={props.classes.overlayLayersMap}>
             <div className={props.classes.overlayLayerMapHeader}></div>
             <List className={props.classes.overlayLayerMapList}>
-                <ListItem button selected={props.mapPage.newWindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-sea-level"}>
-                  <ListItemText primary={props.mapPage.newWindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
+                <ListItem button selected={props.mapPage.WindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-sea-level"}>
+                  <ListItemText primary={props.mapPage.WindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
                     <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
                 </ListItem>
                 <ListItem button selected={props.mapPage.seaLevel.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
@@ -226,7 +226,7 @@ function MapPage(props) {
             </Typography>
           </div>
         </div>
-        {(props.mapPage.newWindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
+        {(props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
           <div className={props.classes.overlayMapTimelineScroll}>
             <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
           </div>

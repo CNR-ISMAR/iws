@@ -21,7 +21,8 @@ class LayerSeaLevel extends BaseControl {
     componentWillReceiveProps(newProps) {
         const map = this._context.map;
         const { layer, layerInfo } = newProps;
-        const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
+        // const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
+        const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
         if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
             const newLayer = Object.assign(layer, {
                 //tiles: [layerInfo.sea_level_mean],
@@ -35,7 +36,8 @@ class LayerSeaLevel extends BaseControl {
     componentWillUnmount() {
         const map = this._context.map;
         const { layer } = this.props;
-        const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
+        // const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
+        const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
         if(source) {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);

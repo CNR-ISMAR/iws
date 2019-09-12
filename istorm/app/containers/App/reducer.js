@@ -52,7 +52,7 @@ export const initialState = {
       maxzoom: 22
     }]
   },
-  newWindGLLayer: {
+  WindGLLayer: {
     name: "Wave mean period",
     id: "wmpMean",
     isVisible: true,
@@ -136,7 +136,7 @@ const mapPageReducer = (state = initialState, action) =>
         break;
       case TOGGLE_LAYER_VISIBILITY:
         if(action.layer === "wmpMean") {
-          draft.newWindGLLayer.isVisible = !draft.newWindGLLayer.isVisible;
+          draft.WindGLLayer.isVisible = !draft.WindGLLayer.isVisible;
         } else if(action.layer === "seaLevel") {
           draft.seaLevel.isVisible = !draft.seaLevel.isVisible;
         } else {
