@@ -9,7 +9,7 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -48,7 +48,6 @@ import theme from 'theme';
 import useStyles from 'useStyles';
 
 function App(props) {
-  
   const classes = useStyles();
   console.info("app");
   console.info(props);
@@ -63,7 +62,6 @@ function App(props) {
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        { /*  console.log('props.notifications') */ }
         { /*  console.log(props.notifications) */ }
         <CssBaseline />
         <Header isLogged={props.isLogged} />
@@ -78,19 +76,11 @@ function App(props) {
               <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
             )}
             <Route exact path="/" component={() => null} />
-            <Route exact path={"/notification"} component={({match, history}) => { 
-              return props.isLogged ?  
-              <NotificationPage auth={props.auth} /> 
-              : <Redirect to='/' /> 
-            } } /> 
+            {  props.isLogged && <Route exact path={"/notification"} component={({match, history}) => <NotificationPage auth={props.auth} />  } /> }
             <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
             <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
             <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
-            <Route path={"/favourites/:id?"} component={ ({match, history, location}) => {
-              return props.isLogged ? 
-              <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> 
-              : <Redirect to='/' /> 
-              }} />  
+            { props.isLogged && <Route path={"/favourites/:id?"} component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  }
             <Route exact path={"/station/:id"} component={({match, history}) => <StationChart auth={props.auth} history={history} />} />
             <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
             <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />

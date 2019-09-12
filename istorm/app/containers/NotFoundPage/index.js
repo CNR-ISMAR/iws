@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import messages from './messages';
@@ -28,6 +29,9 @@ function NotFound(props) {
   return (
     <main className={props.classes.content}>
       <FormattedMessage {...messages.header} />
+      <Route>
+        <Redirect to='/' />
+      </Route>
     </main>
   );
 }
