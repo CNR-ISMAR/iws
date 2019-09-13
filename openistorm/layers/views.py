@@ -27,7 +27,7 @@ class ImageLayerList(ListAPIView):
         fromdate = self.request.query_params.get('from', '')
         todate = self.request.query_params.get('to', '')
 
-        fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now()
+        fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now() - datetime.timedelta(days=1)
         todate = parser.parse(todate) if todate != '' else datetime.datetime.now() + datetime.timedelta(days=2)
 
         fromdate = datetime.datetime.combine(fromdate, datetime.time.min).strftime('%s')
