@@ -42,7 +42,9 @@ class NCToImg:
 
         self.nc_filename = "TMES_" + self.dataset + "_" + self.source_date + ".nc"
         self.nc_filepath = os.path.join(settings.LAYERDATA_ROOT,"TMES_" + self.dataset + "_" + self.source_date + ".nc")
-        print(self.nc_filepath)
+
+        if os.path.isfile(self.nc_filepath):
+            os.remove(self.nc_filepath)
 
         self.url = settings.THREDDS_URL \
                    + self.nc_filename \
@@ -211,6 +213,9 @@ class NCToImg:
 
         pngData = []
         pngDataBackground = []
+
+        p = (255, 255, 255, 0)
+        # opa = 0
         for y in range(0, height):
             for x in range(0, width):
                 k = (y * width) + x
@@ -230,29 +235,24 @@ class NCToImg:
                         255,
                     )
                     pngDataBackground.append(p)
+                    if k > 0 and v['data'][k-1] is None:
+                        pngDataBackground[k-1] = p
+                    # opa = 0
+                # else:
+                #     pngData.append((255, 255, 255, 0))
+                #
+                #     if x % width not in (0,1) and opa < 1:
+                #         pngDataBackground.append(p)
+                #         opa = 1
+                #     else:
+                #         pngDataBackground.append((255, 255, 255, 0))
                 else:
                     pngData.append((255, 255, 255, 0))
-                    pngDataBackground.append((255, 255, 255, 0))
 
-
-                #     # Generate a list of 5000 int between 1200,5500
-                #     M = 5000
-                #     myList = [random.randrange(1200, 5500) for i in xrange(0, M)]
-                #
-                #     # Convert to 50 x 100 list
-                #     n = 50
-                #     newList = [myList[i:i + n] for i in range(0, len(myList), n)]
-                #
-                #     # Convert to 50 x 100 numpy array
-                #     nArray = array(newList)
-                #     print nArray
-                #
-                #     a11 = nArray.reshape(50, 100)
-                #     plt.imshow(a11, cmap='hot')
-                #     plt.colorbar()
-                #     plt.show()
-
-        # pngData = tuple(pngData)
+                    if x % width not in (0,1):
+                        pngDataBackground.append(p)
+                    else:
+                        pngDataBackground.append((255, 255, 255, 0))
 
         image = Image.new('RGBA', (width, height))
         image.putdata(pngData)
