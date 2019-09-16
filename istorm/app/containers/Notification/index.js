@@ -115,7 +115,7 @@ const styles = (theme, style) => {
 function NotificationPage(props) {
  // useInjectReducer({ key: 'notification', reducer }); 
   console.log('Notification page')
-  /* console.log(props) */
+  console.log(props)
   return (
     <div className={props.classes.subNav}>
       <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={"Notifications"} icon={NotificationIcon} />
@@ -129,7 +129,7 @@ function NotificationPage(props) {
               key={"nav-notification-"+result.id}>
               <div to={`/notification/${result.id}`}>
                 <ListItemText primary={`${result.title} ${result.id}`} />
-                <Typography variant="subtitle" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                 {`${result.description}`}
                 </Typography>
               </div>
