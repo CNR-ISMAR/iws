@@ -1,14 +1,18 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT, REQUEST_PROFILE, REQUEST_NOTIFICATION } from 'containers/AuthProvider/constants';
+import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT, 
+        REQUEST_PROFILE, REQUEST_NOTIFICATION, DELETE_NOTIFICATION, UPDATE_NOTIFICATION } from 'containers/AuthProvider/constants';
 import { requestError, 
   requestLoginSuccess, 
   requestLogoutSuccess, 
   requestProfileSuccess,
   requestNotificationSuccess,
+  deleteNotificationSuccess,
   stopLoading } from '../../containers/AuthProvider/actions';
 import makeSelectAuth, { tokensExistsExpired  } from '../../containers/AuthProvider/selectors';
 import { push } from 'connected-react-router';
-import { login, loginRefresh, oauthOption, setToken, oauthOptionRefreshToken, getProfile, notification } from 'utils/api';
+import {  login, loginRefresh, oauthOption, 
+          setToken, oauthOptionRefreshToken, getProfile, 
+          notification, deleteNotification, updateNotification } from 'utils/api';
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
@@ -60,6 +64,29 @@ export function* notificationSaga() {
   }
 }
 
+export function* deleteNotificationSaga(action) {
+   try {
+    const request = yield call(deleteNotification, action.id);
+    // yield put(deleteNotificationSuccess(request));
+    yield call(notificationSaga)
+  } catch(e) {
+    yield put(requestError(e.message));
+
+  }
+}
+
+export function* updateNotificationSaga(action) {
+  try {
+   const request = yield call(updateNotification, action.id);
+   console.log('updateNotificationSaga')
+   // yield put(deleteNotificationSuccess(request));
+   yield call(notificationSaga)
+ } catch(e) {
+   yield put(requestError(e.message));
+
+ }
+}
+
 export function* logoutAuthSaga() {
   yield put(requestLogoutSuccess());
 }
@@ -104,4 +131,6 @@ export default function* authSaga() {
   yield takeLatest(REQUEST_REFRESH, refreshAuthSaga);
   yield takeLatest(REQUEST_PROFILE, userProfileSaga);
   yield takeLatest(REQUEST_NOTIFICATION, notificationSaga);
+  yield takeLatest(DELETE_NOTIFICATION, deleteNotificationSaga);
+  yield takeLatest(UPDATE_NOTIFICATION, updateNotificationSaga);
 }

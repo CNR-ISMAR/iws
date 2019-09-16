@@ -39,7 +39,8 @@ const styles = (theme) => {
     headerTop: {
       width: "100%",
       backgroundColor: theme.palette.custom.darkBackground,
-      textAlign: "right"
+      textAlign: "right",
+      height: 20,
     },
     
     divider: {

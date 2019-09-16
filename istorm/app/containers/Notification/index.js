@@ -24,6 +24,8 @@ import reducer from './reducer'; */
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import {deleteNotification, updateNotification} from '../AuthProvider/actions';
+
 /* import { useInjectReducer } from 'utils/injectReducer';
 import { REQUEST_NOTIFICATION } from './constants'; */
 
@@ -32,12 +34,13 @@ const styles = (theme, style) => {
   console.info(theme, style);
   return {
     subNav: {
-      position: "relative", 
-      minHeight: "100%",
+      position: "absolute", 
+      maxHeight: "100vh",
       height: "auto",
       zIndex: 1600, 
       width: 300,
       maxWidth: 300,
+      overflowY: "auto",
       //flex: 1,
       backgroundColor: theme.palette.custom.panelLightBk,
     },
@@ -45,7 +48,7 @@ const styles = (theme, style) => {
       fontSize: 20,
       lineHeight: 0.1,
       padding: 7,
-      margin: '5px 25px 5px 5px',
+      margin: '2px 25px 5px 5px',
       minWidth: "auto",
       borderRadius: 15,
       height: 15,
@@ -76,6 +79,12 @@ const styles = (theme, style) => {
         fontSize: theme.typography.fontSmall,
         lineHeight: 1,
       },
+      "& *[class^='MuiTypography']":{
+        fontWeight: 700,
+      },
+      "&.read": {
+        "& *[class^='MuiTypography']":{ fontWeight: 400 }
+      },
       "&:nth-child(odd)":{
           background: theme.palette.custom.panelLightAlternative,
       },
@@ -104,6 +113,9 @@ const styles = (theme, style) => {
           color: theme.palette.primary.light,
           border: "1px solid "+theme.palette.primary.light
         },
+        "& *[class^='MuiTypography']":{
+          color: theme.palette.primary.light,
+        },
         "& >a": {
           color: theme.palette.primary.light,
         },
@@ -125,15 +137,19 @@ function NotificationPage(props) {
           return (
             <ListItem 
               button 
-              className={props.classes.listItem} 
+              className={`${props.classes.listItem} ${result.read ? "read" : ""}`} 
               key={"nav-notification-"+result.id}>
-              <div to={`/notification/${result.id}`}>
+              <div /* to={`/notification/${result.id}`} */ onClick={ () => props.dispatch(updateNotification(result.id)) }>
                 <ListItemText primary={`${result.title} ${result.id}`} />
-                <Typography variant="subtitle1" gutterBottom>
+                <Typography>
                 {`${result.description}`}
                 </Typography>
               </div>
-              <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
+              <Button 
+                  size={"small"} 
+                  className={props.classes.headerTopClose} 
+                  onClick={() => props.dispatch(deleteNotification(result.id))} >&times;
+              </Button>
             </ListItem>
               )
             })
