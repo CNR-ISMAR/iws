@@ -8,10 +8,12 @@ from .serializers import NotificationSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.core.serializers import serialize
 import json
+from django.contrib.gis.geos import Point
 
 
-# class NotificationList(ListCreateAPIView):
-class NotificationList(ListAPIView):
+# TODO: SOLO TEST, DA ELIMINARE IL CREATE
+class NotificationList(ListCreateAPIView):
+# class NotificationList(ListAPIView):
     pagination_class = None
     serializer_class =  NotificationSerializer
     permission_classes = (IsAuthenticated,)
@@ -21,6 +23,17 @@ class NotificationList(ListAPIView):
         qs = super(NotificationList, self).get_queryset()
         user = self.request.user
         return qs.filter(user=user)
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data['user'] = self.request.user.pk
+        data['position'] = Point(data['longitude'], data['latitude'])
+        # print(data)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     # def create(self, request, *args, **kwargs):
     #     data = request.data

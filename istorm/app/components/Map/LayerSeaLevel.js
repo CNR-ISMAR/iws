@@ -12,9 +12,15 @@ class LayerSeaLevel extends BaseControl {
     componentDidMount() {
         const map = this._context.map;
         const { layer, layerInfo } = this.props;
-        const newLayer = Object.assign(layer, {
-            //tiles: [layerInfo.sea_level_mean],
-        });
+      let override = {
+          source: {
+            height: 256,
+            tiles: [layerInfo.sea_level_mean],
+            type: "raster"
+        }
+        }
+        const newLayer = Object.assign(layer, override);
+        // const newLayer = Object.assign(layer, {});
         map.addLayer(newLayer);
     }
 
