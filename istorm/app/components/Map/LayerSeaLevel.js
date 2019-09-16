@@ -37,10 +37,10 @@ class LayerSeaLevel extends BaseControl {
               type: "raster"
             }
           }
-          const newLayer = Object.assign(layer, override);
-          map.removeLayer(layer.id);
-          map.removeSource(layer.id);
-          map.addLayer(newLayer);
+            const newLayer = Object.assign(layer, override);
+            map.removeLayer(layer.id);
+            map.removeSource(layer.id);
+            map.addLayer(newLayer);
         }
       }
 
