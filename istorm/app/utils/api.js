@@ -96,3 +96,18 @@ export const notification = () => {
   const options = getOption({})
   return request(`${BASE_URL}/openistorm/notifications/`, options)
 };
+
+export const deleteNotification = (id) => {
+  const options = getOption({
+    method: 'delete'
+  });
+  return request(`${BASE_URL}/openistorm/notifications/${id}/`, options)
+}
+
+export const updateNotification = (id) => {
+  const options = getOption({
+    method: 'put'
+  });
+  return request(`${BASE_URL}/openistorm/notifications/${id}/markasread/`, options)
+}
+

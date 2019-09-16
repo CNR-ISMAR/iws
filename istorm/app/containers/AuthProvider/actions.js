@@ -5,6 +5,7 @@
  */
 
 import { SYNC_AUTH, REQUEST_NOTIFICATION, REQUEST_NOTIFICATION_SUCCESS, 
+        DELETE_NOTIFICATION, DELETE_NOTIFICATION_SUCCESS, UPDATE_NOTIFICATION,
         REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS ,STOP_LOADING, 
         REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, 
         REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, 
@@ -75,6 +76,28 @@ export function requestNotificationSuccess(result) {
   return {
     type: REQUEST_NOTIFICATION_SUCCESS,
     result: result
+  };
+}
+
+export function deleteNotification(id) {
+  console.log('Delete Notification '+id)
+  return {
+    type: DELETE_NOTIFICATION,
+    id: id
+  };
+}
+
+export function deleteNotificationSuccess() {
+  return {
+    type: DELETE_NOTIFICATION_SUCCESS
+  };
+}
+
+export function updateNotification(id) {
+  console.log('Update Notification '+id)
+  return {
+    type: UPDATE_NOTIFICATION,
+    id: id
   };
 }
 

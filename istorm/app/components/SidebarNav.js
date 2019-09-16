@@ -7,7 +7,7 @@
  *
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link as RouterLink, withRouter } from "react-router-dom";
 
 import List from '@material-ui/core/List';
@@ -82,7 +82,8 @@ const styles = (theme) => {
 function SidebarNav(props) {
   console.info("SidebarNav")
   console.info(props);
-
+  const [notify, countNotifyRead] = useState(0)
+  
   const linkTo = (path) => {
     if(isCurrentPage(path)) { 
       props.history.push("/") 
@@ -95,6 +96,18 @@ function SidebarNav(props) {
     return new RegExp(`^\/${pagePath.replace("/", "\/")}(.*?)`).test(props.location.pathname);
   };
 
+  useEffect(() => {
+    if( props.notifications.results.length > 0 &&  !props.notifications.loading){
+      countNotifyRead(0)
+      props.notifications.results.map(notify => { if(!notify.read) countNotifyRead(prevState => prevState+=1) } )
+    }else if(!props.notifications.loading){
+      countNotifyRead(0)
+    }
+    /* console.log('props.notifications')
+    console.log(props.notifications) */
+  }, [props.notifications] )
+
+
   return (
     <List>
         <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("notification")} onClick={() => linkTo("notification")} key={"nav-notification"}>
@@ -103,7 +116,7 @@ function SidebarNav(props) {
           </ListItemIcon>
           <ListItemText primary={"Notification"} />
             { props.isLogged &&
-              <Badge badgeContent={ props.notifications.results.length > 0 && props.notifications.results.length } color="secondary">
+              <Badge badgeContent={notify} color="secondary">
               </Badge>
             }
             { isCurrentPage("notification") ?

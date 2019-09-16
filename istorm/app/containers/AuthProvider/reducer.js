@@ -9,7 +9,7 @@ import { STOP_LOADING, SYNC_AUTH, REQUEST_LOGIN,
       REQUEST_LOGOUT, REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS, 
       REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, 
       REQUEST_ERROR, REQUEST_REFRESH_SUCCESS, REQUEST_NOTIFICATION,
-      REQUEST_NOTIFICATION_SUCCESS } from './constants';
+      REQUEST_NOTIFICATION_SUCCESS, DELETE_NOTIFICATION, UPDATE_NOTIFICATION } from './constants';
 
 export const initialState = {
   loading: false,
@@ -83,7 +83,17 @@ const authReducer = (state = initialState, action) =>
           draft.notifications.loading = false;
           draft.notifications.error = initialState.notifications.error;
           draft.notifications.results = action.result;
-          break;  
+          break;
+      case DELETE_NOTIFICATION:
+          draft.notifications.loading = true;
+          draft.notifications.error = initialState.notifications.error;
+         // draft.notifications.results = []
+          break;
+      case UPDATE_NOTIFICATION:
+          draft.notifications.loading = true;
+          draft.notifications.error = initialState.notifications.error;
+          // draft.notifications.results = []
+          break;        
       case REQUEST_ERROR:
           draft.loading = false;
           draft.error = action.error;

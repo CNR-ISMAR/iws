@@ -56,10 +56,18 @@ class LoginForm extends React.Component {
       },
       defaultFormData: {
         password: "",
+      },
+      errors: {
+        text: "",
       }
     }
     this.handleChange = this.handleChange.bind(this);
   }
+
+  /* validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  } */
 
   handleChange(event, name) {
     this.setState({ formData: { ...this.state.formData, [name]: event.target.value }});
@@ -67,12 +75,28 @@ class LoginForm extends React.Component {
 
   submitChange(event) {
     event.preventDefault();
-    this.props.login(this.state.formData, this.props.history.push)
+    const email = this.state.formData.email
+    const password = this.state.formData.password
+    if(email === ''){
+      this.setState({ errors: { error: true, text: "Please provide a valid Username/Email" }})
+    }else if(password === ''){
+      this.setState({ errors: { error: true, text: "Please provide a valid Password" }})
+    }else{
+      this.setState({ errors: { error: false, text: "" }})
+      this.props.login(this.state.formData, this.props.history.push)
+    }
+    
   };
+
+  componentDidMount(){
+    // Check if Auth Errors
+    if(this.props.auth.error)
+      this.setState({ errors: { error: true, text: this.props.auth.error }})
+  }
 
   resetForm() {
     this.setState({formData: this.state.defaultFormData});
-  }
+  } 
 
 
   render () {
@@ -92,6 +116,7 @@ class LoginForm extends React.Component {
             margin="normal"
             required
             fullWidth
+            error={this.state.formData.email === "" || this.props.auth.error ? true : false}
             id="email"
             label="Email Address"
             name="email"
@@ -105,6 +130,7 @@ class LoginForm extends React.Component {
             margin="normal"
             required
             fullWidth
+            error={this.state.formData.password === '' || this.props.auth.error ? true : false}
             name="password"
             value={this.state.formData.password}
             onChange={(e) => this.handleChange(e, 'password')}
@@ -113,11 +139,11 @@ class LoginForm extends React.Component {
             id="password"
             autoComplete="current-password"
           />
-          {this.props.auth.error && (
-            <Typography variant="body2" gutterBottom className={this.props.classes.errorBox}>
-              {this.props.auth.error}
-            </Typography>
-          )}
+         { this.state.errors.error   && 
+          <Typography variant="body2" gutterBottom className={this.props.classes.errorBox}>
+              {  this.state.errors.text }
+          </Typography>
+          }
           <Button
             type="submit"
             fullWidth
