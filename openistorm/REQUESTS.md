@@ -128,11 +128,11 @@ cache-control: no-cache
 
 
 
-### DELETE (destroy) /openistorm/favorites/{id}/ (NEEDS AUTH)
+### DELETE (destroy) /openistorm/notifications/{id}/ (NEEDS AUTH)
 
 ```
 curl -X DELETE \
-  http://iws.inkode.it:4443/openistorm/favorites/14/ \
+  http://iws.inkode.it:4443/openistorm/notifications/14/ \
   -H 'Accept: application/json, text/plain, */*' \
   -H 'Authorization: Bearer kytmgKOtyapCuIkj997jzc9A2rsXNS' \
   -H 'Cache-Control: no-cache' \
@@ -141,10 +141,10 @@ curl -X DELETE \
 
 
 
-### PUT (mark as read) /openistorm/favorites/{id}/markasread/ (NEEDS AUTH)
+### PUT (mark as read) /openistorm/notifications/{id}/markasread/ (NEEDS AUTH)
 
 ```
-PUT /openistorm/notifications/5/markasread/ HTTP/1.1
+PUT /openistorm/notifications/5/notifications/ HTTP/1.1
 Host: localhost
 Authorization: Bearer IrEx4uSopFJ4CHjAPrjLihMlRjQc2w
 Accept: application/json, text/plain, */*
