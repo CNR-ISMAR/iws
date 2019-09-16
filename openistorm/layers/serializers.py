@@ -59,8 +59,8 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         return self.sea_level_url(instance.timestamp, {
             'LAYERS': 'sea_level-mean',
             'STYLES': 'boxfill/rainbow',
-            'COLORSCALERANGE': '-0.5,0.5',
-            'NUMCOLORBANDS': '20',
+            'COLORSCALERANGE': '-0.8,0.8',
+            'NUMCOLORBANDS': '80',
         })
 
     def get_sea_level_std(self, instance):
