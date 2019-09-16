@@ -52,7 +52,8 @@ class ImageLayerSerializer(serializers.ModelSerializer):
             "HEIGHT": "256",
         }
         options.update(layerOptions)
-        return settings.THREDDS_TO_PROXY + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
+        # return settings.THREDDS_TO_PROXY + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
+        return settings.PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
 
     def get_sea_level_mean(self, instance):
         return self.sea_level_url(instance.timestamp, {
