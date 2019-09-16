@@ -102,13 +102,15 @@ function SidebarNav(props) {
             <NotificationIcon iconcolor={props.theme.palette.custom.contrastText} />
           </ListItemIcon>
           <ListItemText primary={"Notification"} />
-          <Badge badgeContent={ props.notifications.results.length > 0 && props.notifications.results.length } color="secondary">
-          </Badge>
-          { isCurrentPage("notification") ?
-            <ArrowLeftIcon className={props.classes.arrow}/>
-            :
-            <ArrowRightIcon className={props.classes.arrow}/>
-          }
+            { props.isLogged &&
+              <Badge badgeContent={ props.notifications.results.length > 0 && props.notifications.results.length } color="secondary">
+              </Badge>
+            }
+            { isCurrentPage("notification") ?
+              <ArrowLeftIcon className={props.classes.arrow}/>
+              :
+              <ArrowRightIcon className={props.classes.arrow}/>
+            }
         </ListItem>
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("storm-events")} onClick={() => linkTo("storm-events")} key={"nav-storm-events"}>
           <ListItemIcon className={props.classes.listItemIcon}><StormEventsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>

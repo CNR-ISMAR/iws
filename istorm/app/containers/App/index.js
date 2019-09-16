@@ -50,19 +50,20 @@ import useStyles from 'useStyles';
 function App(props) {
   const classes = useStyles();
   console.info("app");
-  //console.info(props);
+  console.info(props);
 
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());
-    //if(props.isLogged && props.auth.notifications.results.length == 0 )
-    props.dispatch(requestNotification()); 
   }, []);
 
+  useEffect(() => {
+    if(props.isLogged && props.auth.notifications.results.length == 0)
+      props.dispatch(requestNotification()); 
+  }, [props.isLogged]);
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        {   /* console.log(props.auth.notifications) */ }
         <CssBaseline />
         <Header isLogged={props.isLogged} />
         <Sidebar auth={props.auth}  isLogged={props.isLogged} />

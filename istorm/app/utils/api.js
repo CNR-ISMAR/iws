@@ -88,6 +88,9 @@ export const deleteFavourite = (id) => {
   return request(`${BASE_URL}/openistorm/favorites/${id}/`, options)
 };
 
+export const postFavourite = (options) => {
+  return request(`${BASE_URL}/openistorm/favorites/`,  getOption(options))
+};
 
 export const notification = () => {
   const options = getOption({})

@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest  } from 'redux-saga/effects';
-import { REQUEST_FAVOURITES, DELETE_FAVOURITE} from 'containers/Favourites/constants';
-import { requestFavouritesSuccess, requestError, deleteFavouriteSuccess } from '../../containers/Favourites/actions';
-import { favourites, deleteFavourite } from 'utils/api';
+import { REQUEST_FAVOURITES, DELETE_FAVOURITE, POST_FAVOURITE} from 'containers/Favourites/constants';
+import { requestFavouritesSuccess, requestError, deleteFavouriteSuccess, /* postFavouriteSuccess */ } from '../../containers/Favourites/actions';
+import { favourites, postFavourite, deleteFavourite } from 'utils/api';
 
 export function* FavouritesSaga(action) {
   /* const options = {
@@ -15,7 +15,6 @@ export function* FavouritesSaga(action) {
     yield put(requestError(e.message));
     
   }
-
 }
 
 export function* deleteFavouriteSaga(action) {
@@ -31,8 +30,24 @@ export function* deleteFavouriteSaga(action) {
 
   }
 }
+
+export function* postFavouriteSaga(action) {
+  const options = {
+    method: 'post',
+    body: {...action.Params}
+  };
+  try {
+    const request = yield call(postFavourite, options);
+    // yield put(postFavouriteSuccess(request));
+    yield call(FavouritesSaga)
+  } catch(e) {
+    yield put(requestError(e.message));
+
+  }
+}
  
 export default function* favSaga() {
     yield takeLatest(REQUEST_FAVOURITES, FavouritesSaga);
     yield takeLatest(DELETE_FAVOURITE, deleteFavouriteSaga);
+    yield takeLatest(POST_FAVOURITE, postFavouriteSaga);
 }
