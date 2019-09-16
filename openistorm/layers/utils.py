@@ -24,7 +24,7 @@ class NCToImg:
 
         print(settings.LAYERDATA_ROOT)
 
-        now = datetime.now() - timedelta(days=0)
+        now = datetime.utcnow() - timedelta(days=0)
 
         self.parameters = parameters;
         self.dataset = dataset;
@@ -369,7 +369,7 @@ class NCQuery:
 
         print(settings.LAYERDATA_ROOT)
 
-        now = datetime.now() - timedelta(days=1)
+        now = datetime.utcnow() - timedelta(days=1)
 
         self.parameters = parameters;
         self.dataset = dataset;
