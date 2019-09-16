@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { BaseControl } from 'react-map-gl';
 import WindGL from '../../utils/wind-gl';
 import request from '../../utils/request';
-import blu from './tmp/blu.png'
+// import blu from './tmp/blu.png'
+import blu from './tmp/blu_large.png'
+// import blu from './tmp/blu_tutto.png'
 
 class BackgroundWindLayer {
 
@@ -150,13 +152,13 @@ class WindGLLayer extends BaseControl {
         },
         "paint": {
             // "raster-opacity": 0.5,
-            "raster-opacity": 0.8,
+            "raster-opacity": 0.7,
             // 'raster-hue-rotate': 0,
             'raster-hue-rotate': 0.2,
             // "raster-resampling": "nearest"
         }
       }
-      map.addLayer(bgLayer);
+      // map.addLayer(bgLayer);
       if (this._ctx && this._ctx instanceof WebGLRenderingContext) {
         map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
       } else {

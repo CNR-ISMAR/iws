@@ -53,7 +53,7 @@ export const initialState = {
     }]
   },
   WindGLLayer: {
-    name: "Wave mean period",
+    name: "Wave",
     id: "wmpMean",
     isVisible: true,
     isTimeseries: true,
@@ -73,7 +73,11 @@ export const initialState = {
       height: 256
     },
     paint: {
-
+        // "raster-opacity": 0.5,
+        "raster-opacity": 0.8,
+        // 'raster-hue-rotate': 0,
+        'raster-hue-rotate': 0.2,
+        // "raster-resampling": "nearest"
     }
   },
   layers: {

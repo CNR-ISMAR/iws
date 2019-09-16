@@ -22,12 +22,17 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     def get_wave_image(self, instance):
         return instance.image
 
-    def sea_level_url(self, layerOptions):
+    def sea_level_url(self, timestamp, layerOptions):
         #TODO: manage missing current data!!!!!
         #TODO: quando si avra' una logica integrarla
-        layerFileName = 'TMES_sea_level_20190902.nc'
+        wmsdate = datetime.datetime.fromtimestamp(timestamp)
+        formatted_date = wmsdate.strftime("%Y%m%d")
+        layerFileName =  'TMES_sea_level_'+formatted_date+'.nc'
+        if wmsdate >= datetime.datetime.combine(datetime.datetime.now(), datetime.time.min):
+            layerFileName = 'history/'+layerFileName
         #TODO: questo tempo va sostituito col timestamp formatato a modino
-        time = '2019-02-02T00:00:00.000Z'
+        # time = '2019-02-02T00:00:00.000Z'
+        time = wmsdate.isoformat()+'.000Z'
         options = {
             'ELEVATION': '0',
             'TIME': time,
@@ -46,7 +51,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         return settings.THREDDS_TO_PROXY + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
 
     def get_sea_level_mean(self, instance):
-        return self.sea_level_url({
+        return self.sea_level_url(instance.timestamp, {
             'LAYERS': 'sea_level-mean',
             'STYLES': 'boxfill/rainbow',
             'COLORSCALERANGE': '0.5,-0.5',
@@ -54,7 +59,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         })
 
     def get_sea_level_std(self, instance):
-        return self.sea_level_url({
+        return self.sea_level_url(instance.timestamp, {
         'LAYERS': 'sea_level-std',
         'STYLES': 'boxfill/rainbow',
         'COLORSCALERANGE': '0,0.4',
