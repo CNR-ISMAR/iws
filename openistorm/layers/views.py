@@ -39,13 +39,17 @@ class ImageLayerList(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
+        boundaries = ImageLayer.objects.aggregate(max=Max('timestamp'), min=Min('timestamp'))
+        if queryset.count() == 0:
+            queryset = ImageLayer.objects.filter(timestamp__range=((boundaries['max']-(3600*40)), boundaries['max']))
+
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        boundaries = ImageLayer.objects.aggregate(max=Max('timestamp'), min=Min('timestamp'))
         results = OrderedDict((x['date'], x) for x in serializer.data)
 
         now = datetime.datetime.now().replace(minute=0, second=0).isoformat()+'.000Z'

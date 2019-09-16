@@ -14,12 +14,6 @@ from dateutil import parser
 from django.conf import settings
 from .models import ImageLayer
 
-# import numpy as np
-# from numpy import array
-# import matplotlib.pyplot as plt
-# import random
-# # matplotlib-2.2.4
-
 
 class NCToImg:
 
@@ -54,20 +48,21 @@ class NCToImg:
                    + self.time_to \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
-        self.transform()
+        if self.dataset == 'waves':
+            self.transform_waves()
 
-    def transform(self):
+    def transform_waves(self):
         wget.download(self.url, out=self.nc_filepath, bar=None)
 
         if os.path.isfile(self.nc_filepath):
             # logging.info("File " + self.nc_filename+ " scaricato...")
 
             tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
-            tif2filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
-
             os.system(
                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
                 self.parameters[0] + ' ' + tif1filename)
+
+            tif2filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
             os.system(
                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
                 self.parameters[1] + ' ' + tif2filename)
@@ -175,7 +170,7 @@ class NCToImg:
                         json.dump(data, outfile, indent=2)
 
                     output_prefix = self.dataset + '_' + ts
-                    self.generate_image_and_meta_from_json(tsfile_path, os.path.join(settings.LAYERDATA_ROOT,output_prefix))
+                    self.generate_wave_image_and_meta_from_json(tsfile_path, os.path.join(settings.LAYERDATA_ROOT,output_prefix))
                     # TODO: save in database
                     image_layer, result = ImageLayer.objects.update_or_create(dataset=self.dataset, timestamp=ts,)
                     # print(image_layer.__dict__)
@@ -191,10 +186,78 @@ class NCToImg:
                 os.system("rm " + tif2filename)
                 os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
 
-    def gaussian(self, x, a, b, c, d=0):
-        return a * math.exp(-(x - b) ** 2 / (2 * c ** 2)) + d
+    def transform_sealevel(self):
+        wget.download(self.url, out=self.nc_filepath, bar=None)
 
-    def generate_image_and_meta_from_json(self, input_file, output_name):
+        if os.path.isfile(self.nc_filepath):
+            # logging.info("File " + self.nc_filename+ " scaricato...")
+
+            tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
+            os.system(
+                'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
+                self.parameters[0] + ' ' + tif1filename)
+
+            if os.path.isfile(tif1filename):
+                ds1 = gdal.Open(tif1filename)
+                since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
+                nx = ds1.RasterXSize
+                ny = ds1.RasterYSize
+                compParams = [10, 3]
+                ncfile = netCDF4.Dataset(self.nc_filepath, 'r')
+                lon = ncfile.variables["lon"][:]
+                lat = ncfile.variables["lat"][:]
+                xmin, xres, xskew, ymin, yskew, yres = ds1.GetGeoTransform()
+                xmin, ymin, xmax, ymax = [lon.min(), lat.min(), lon.max(), lat.max()]
+
+                lo1 = str(xmin)
+                la1 = str(ymax)
+                lo2 = str(xmax)
+                la2 = str(ymin)
+                dx = str(xres)
+                dy = str(-yres)
+
+                n_bande = ds1.RasterCount
+                # print("BANDE TOTALI "+str(n_bande))
+
+                for banda in range(1, n_bande):
+                    print("BANDA "+str(banda))
+                    band1 = ds1.GetRasterBand(banda)
+                    array1 = band1.ReadAsArray()
+                    arrays = [array1]
+                    m = band1.GetMetadata()
+
+                    # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
+                    ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
+                    json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
+
+                    data = []
+
+                    p = 0
+                    for var in self.parameters:
+                        data.append({
+                            "header": {
+                                "discipline": 10,
+                                "gribEdition": 2,
+                                "refTime": json_time,
+                                "parameterCategory": 0,
+                                "parameterNumber": compParams[p],
+                                "numberPoints": nx * ny,
+                                "gridUnits": "meters",
+                                "nx": nx,
+                                "ny": ny,
+                                "lo1": lo1,
+                                "la1": la1,
+                                "lo2": lo2,
+                                "la2": la2,
+                                "dx": dx,
+                                "dy": dy,
+                                "rotationAngle": 0.0
+                            },
+                            "data": []
+                        })
+                os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
+
+    def generate_wave_image_and_meta_from_json(self, input_file, output_name):
 
         with open(input_file) as json_file:
             data = json.load(json_file)
@@ -215,7 +278,7 @@ class NCToImg:
         pngDataBackground = []
 
         p = (255, 255, 255, 0)
-        # opa = 0
+        opa = 0
         for y in range(0, height):
             for x in range(0, width):
                 k = (y * width) + x
@@ -237,22 +300,22 @@ class NCToImg:
                     pngDataBackground.append(p)
                     if k > 0 and v['data'][k-1] is None:
                         pngDataBackground[k-1] = p
-                    # opa = 0
-                # else:
-                #     pngData.append((255, 255, 255, 0))
-                #
-                #     if x % width not in (0,1) and opa < 1:
-                #         pngDataBackground.append(p)
-                #         opa = 1
-                #     else:
-                #         pngDataBackground.append((255, 255, 255, 0))
+                    opa = 0
                 else:
                     pngData.append((255, 255, 255, 0))
 
-                    if x % width not in (0,1):
+                    if x % width not in (0,1) and opa < 1:
                         pngDataBackground.append(p)
+                        opa = 1
                     else:
                         pngDataBackground.append((255, 255, 255, 0))
+                # else:
+                #     pngData.append((255, 255, 255, 0))
+                #
+                #     if x % width not in (0,1):
+                #         pngDataBackground.append(p)
+                #     else:
+                #         pngDataBackground.append((255, 255, 255, 0))
 
         image = Image.new('RGBA', (width, height))
         image.putdata(pngData)
