@@ -31,94 +31,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { requestFavourites, deleteFavourite, postFavourite } from "./actions";
 import { setViewport } from '../App/actions';
-import theme from "../../theme"
-
-const styles = (theme, style) => {
-  console.info("themeeeeeeeeeeeeeeeee");
-  console.info(theme, style);
-  return {
-    subNav: {
-      position: "relative", 
-      minHeight: "100%",
-      height: "auto",
-      zIndex: 1600, 
-      width: 300,
-      maxWidth: 300,
-      overflowY: "auto",
-      //flex: 1,
-      backgroundColor: theme.palette.custom.panelLightBk,
-    },
-    headerTopClose: {
-      fontSize: 20,
-      lineHeight: 0.1,
-      padding: 7,
-      margin: '2px 25px 5px 5px',
-      minWidth: "auto",
-      borderRadius: 15,
-      height: 15,
-      width: 15,
-      color: theme.palette.primary.light,
-      /* borderWidth: 1,
-      borderColor: theme.palette.primary.light,
-      borderStyle: "solid", */
-      border: "1px solid "+theme.palette.primary.light
-
-    },
-    listItem: {
-      color: theme.palette.primary.dark,
-      backgroundColor: theme.palette.custom.panelLightBk,
-      maxHeight: 50,
-      display: "flex",
-      justifyContent: 'space-between',
-      paddingLeft: theme.palette.custom.paddingSide,
-      paddingRight: theme.palette.custom.paddingSide,
-      "& >a": {
-        textDecoration: "none",
-        color: theme.palette.primary.dark,
-      },
-      "& div[class^='MuiListItemText']": {
-        lineHeight: 0.2,
-      },
-      "& span[class^='MuiTypography']":{
-        fontSize: theme.typography.fontSmall,
-        lineHeight: 1,
-      },
-      "&:nth-child(odd)":{
-          background: theme.palette.custom.panelLightAlternative,
-      },
-      "&.Mui-selected": {
-        color: "white",
-        background: theme.palette.custom.selectBk,
-        "& button[class*='headerTopClose']": {
-          color: theme.palette.primary.light,
-          border: "1px solid "+theme.palette.primary.light
-        },
-        "& >a": {
-          color: theme.palette.primary.light,
-        },
-        "&:hover":{
-          background: theme.palette.custom.selectBk,
-        },
-      },
-      "& button[class*='headerTopClose']": {
-        color: theme.palette.primary.dark,
-        border: "1px solid "+theme.palette.primary.dark,
-        margin: 0,
-      },
-      "&:hover":{
-        background: theme.palette.custom.selectBk,
-        "& button[class*='headerTopClose']": {
-          color: theme.palette.primary.light,
-          border: "1px solid "+theme.palette.primary.light
-        },
-        "& >a": {
-          color: theme.palette.primary.light,
-        },
-      },
-    },
-  }
-};
-
+import SidebarSubNav from 'components/SidebarSubNav';
 
 function FavouritesPage(props) {
   useInjectReducer({ key: 'favourites', reducer });
@@ -161,35 +74,23 @@ function FavouritesPage(props) {
    
   })
 
-  
   return (
-    <div className={props.classes.subNav}>
-      { /* console.log(props.location.pathname) */ }
-      <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={"Favourites List"} icon={ListIcon}  />
-      <button onClick={ () => props.dispatch(postFavourite({ title: "myplaceNEW",
-                                                            address: "via piero gobetti 101, 40129 Bologna (BO)",
-                                                            latitude: 44.522240,
-                                                            longitude: 11.338450 })) }>Add Fav
-      </button>
-      <List>
-      {
-      props.favourites.results.map((result) => {
-        return (
-          <ListItem 
-            button 
-            className={props.classes.listItem} 
-            key={"nav-stormtestents-"+result.id} 
-            selected={isCurrentPage(`/favourites/${result.id}`)}>
-            <Link to={`/favourites/${result.id}`}>
-              <ListItemText primary={`${result.title} ${result.id}`} /> 
-            </Link>
-            <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
-          </ListItem>
-            )
-          })
-        }
-      </List>
-    </div>
+    <>
+      <SidebarSubNav 
+        Category="favourites"
+        location={props.location}
+        deleteFunc={(id) => props.dispatch(deleteFavourite(id))}
+        Title="Favourites List" 
+        Icon={ListIcon} 
+        Results={props.favourites.results} 
+        additionalPart={
+          <button onClick={ () => props.dispatch(postFavourite({ title: "myplaceNEW",
+                                                          address: "via piero gobetti 101, 40129 Bologna (BO)",
+                                                          latitude: 44.522240,
+                                                          longitude: 11.338450 })) }>Add Fav
+          </button>
+        } />
+    </>
   );
 }  
  
@@ -210,4 +111,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(withStyles(styles, {withTheme: true})(FavouritesPage));
+export default compose(withConnect)(FavouritesPage);
