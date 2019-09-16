@@ -4,7 +4,8 @@
  *
  */
 import produce from 'immer';
-import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR } from './constants';
+import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
+  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, POST_FAVOURITE, /* POST_FAVOURITE_SUCCESS */ } from './constants';
 
 export const initialState = {
   loading: false,
@@ -26,6 +27,16 @@ const favouritesReducer = (state = initialState, action) =>
           draft.error = initialState.error;
           draft.results = action.result;
         break;
+      case POST_FAVOURITE:
+          draft.loading = true;
+          draft.error = initialState.error;
+          // draft.results = []
+        break;/* 
+      case POST_FAVOURITE_SUCCESS:
+            draft.loading = false;
+            draft.error = initialState.error;
+            draft.results = action.result;
+        break;  */ 
       case DELETE_FAVOURITE:
           draft.loading = true;
           draft.error = initialState.error;
@@ -38,24 +49,6 @@ const favouritesReducer = (state = initialState, action) =>
           draft.loading = false;
           draft.error = action.error;
       break;
-     /*  case TOGGLE_DRAWER:
-        draft.drawer.open = !draft.drawer.open;
-        break;
-      case OPEN_DRAWER:
-        draft.drawer.open = true;
-        break;
-      case CLOSE_DRAWER:
-        draft.drawer.open = false;
-        break;
-      case TOGGLE_DRAWER_MINI:
-        draft.drawer.minimal = !draft.drawer.minimal;
-        break;
-      case OPEN_DRAWER_MINI:
-        draft.drawer.minimal = true;
-        break;
-      case CLOSE_DRAWER_MINI:
-        draft.drawer.minimal = false;
-        break; */
     };
   });
 

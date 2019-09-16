@@ -29,7 +29,7 @@ import HeaderBar from "../../components/HeaderBar";
 import { FavoriteIcon, ListIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { requestFavourites, deleteFavourite } from "./actions";
+import { requestFavourites, deleteFavourite, postFavourite } from "./actions";
 import { setViewport } from '../App/actions';
 import theme from "../../theme"
 
@@ -145,7 +145,7 @@ function FavouritesPage(props) {
   };
 
   useEffect(() => {
-    if(props.favourites.loading == false)
+    if(props.favourites.loading == false && props.favourites.results.length == 0 )
       props.dispatch(requestFavourites())
   }, [])
 
@@ -165,27 +165,29 @@ function FavouritesPage(props) {
     <div className={props.classes.subNav}>
       { /* console.log(props.location.pathname) */ }
       <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={"Favourites List"} icon={ListIcon}  />
+      <button onClick={ () => props.dispatch(postFavourite({ title: "myplaceNEW",
+                                                            address: "via piero gobetti 101, 40129 Bologna (BO)",
+                                                            latitude: 44.522240,
+                                                            longitude: 11.338450 })) }>Add Fav
+      </button>
+      <List>
       {
-        <List>
-        {
-        props.favourites.results.map((result) => {
-          return (
-            <ListItem 
-              button 
-              className={props.classes.listItem} 
-              key={"nav-stormtestents-"+result.id} 
-              selected={isCurrentPage(`/favourites/${result.id}`)}>
-              <Link to={`/favourites/${result.id}`}>
-                <ListItemText primary={`${result.title} ${result.id}`} /> 
-              </Link>
-              <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
-            </ListItem>
-              )
-            })
-          }
-        </List>
-      }
-      {/* <div onClick={() => props.dispatch(setViewport({longitude: 13.33265, latitude: 45.43713})) }>Set Viewport</div> */}
+      props.favourites.results.map((result) => {
+        return (
+          <ListItem 
+            button 
+            className={props.classes.listItem} 
+            key={"nav-stormtestents-"+result.id} 
+            selected={isCurrentPage(`/favourites/${result.id}`)}>
+            <Link to={`/favourites/${result.id}`}>
+              <ListItemText primary={`${result.title} ${result.id}`} /> 
+            </Link>
+            <Button size={"small"} className={props.classes.headerTopClose} onClick={() => _delete(result.id)} >&times;</Button>
+          </ListItem>
+            )
+          })
+        }
+      </List>
     </div>
   );
 }  
