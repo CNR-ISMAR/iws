@@ -28,24 +28,28 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         wmsdate = datetime.datetime.fromtimestamp(timestamp)
         formatted_date = wmsdate.strftime("%Y%m%d")
         layerFileName =  'TMES_sea_level_'+formatted_date+'.nc'
-        if wmsdate < datetime.datetime.combine(datetime.datetime.now(), datetime.time.min):
+        if wmsdate < datetime.datetime.now().replace(hour=0, minute=0, second=0):
             layerFileName = 'history/'+layerFileName
         #TODO: questo tempo va sostituito col timestamp formatato a modino
         # time = '2019-02-02T00:00:00.000Z'
         time = wmsdate.isoformat()+'.000Z'
         options = {
-            'ELEVATION': '0',
-            'TIME': time,
-            'TRANSPARENT': 'true',
-            'LOGSCALE': 'false',
-            'SERVICE': 'WMS',
-            'VERSION': '1.1.1',
-            'REQUEST': 'GetMap',
-            'FORMAT': 'image/png',
-            'SRS': 'EPSG:4326',
-            # 'BBOX': '{bbox-epsg-3857}',
-            'WIDTH': '256',
-            'HEIGHT': '256',
+            # "LAYERS": "sea_level-mean",
+            "ELEVATION": "0",
+            "TIME": time,
+            "TRANSPARENT": "true",
+            # "STYLES": "boxfill%2Frainbow",
+            # "COLORSCALERANGE": "-0.6372%2C-0.0154",
+            # "NUMCOLORBANDS": "20",
+            "LOGSCALE": "false",
+            "SERVICE": "WMS",
+            "VERSION": "1.1.1",
+            "REQUEST": "GetMap",
+            "FORMAT": "image%2Fpng",
+            "SRS": "EPSG%3A3857",
+            # "BBOX": "{bbox-epsg-3857}",
+            "WIDTH": "256",
+            "HEIGHT": "256",
         }
         options.update(layerOptions)
         return settings.THREDDS_TO_PROXY + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'

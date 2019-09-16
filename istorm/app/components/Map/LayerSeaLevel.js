@@ -30,12 +30,17 @@ class LayerSeaLevel extends BaseControl {
         // const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
         const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
         if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
-            const newLayer = Object.assign(layer, {
-                //tiles: [layerInfo.sea_level_mean],
-            });
-            map.removeLayer(layer.id);
-            map.removeSource(layer.id);
-            map.addLayer(newLayer);
+          let override = {
+            source: {
+              height: 256,
+              tiles: [layerInfo.sea_level_mean],
+              type: "raster"
+            }
+          }
+          const newLayer = Object.assign(layer, override);
+          map.removeLayer(layer.id);
+          map.removeSource(layer.id);
+          map.addLayer(newLayer);
         }
       }
 
