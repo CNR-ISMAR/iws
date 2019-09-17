@@ -18,7 +18,8 @@ import { easeCubic } from 'd3-ease';
 import Layer from "./Layer";
 import { setViewport } from "../../containers/App/actions";
 
-import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
+  import { LngLat, Point, MercatorCoordinate } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
 
@@ -33,25 +34,38 @@ const styles = (theme) => {
   }
 };
 
+class MyController extends MapController{
+
+    _onDoubleTap(event) {
+      console.log(event)
+      // console.log(this.mapState.popups = [])
+    }
+
+}
+
+
 class Map extends React.Component {
   constructor(props) {
     super(props);
-    // this.map = React.createRef();
     this.state = {
+      controller: new MyController(),
       mapboxIsLoading: true,
       viewport: {
         width: window.document.body.offsetWidth,
         height: window.document.body.offsetHeight,
         transitionDuration: 1000,
         transitionInterpolator: new FlyToInterpolator(),
-        transitionEasing: easeCubic
-      }
+        transitionEasing: easeCubic,
+      },
+      showPopup: true,
+      popups: [],
     };
     
     this.flyTo = this.flyTo.bind(this);
     this.flyToBbox = this.flyToBbox.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -87,21 +101,43 @@ class Map extends React.Component {
     this.setState({...this.state, mapboxIsLoading: true});
   }
 
+  onClick(event) {
+    console.log(event)
+    console.log(event.offsetCenter)
+    const pos = this.refs.map.getMap().unproject(event.offsetCenter)
+    console.log(pos)
+    const lol = new LngLat(pos.lng,pos.lat)
+    console.log(lol.toBounds())
+    const popups = [
+      {
+        latitude: pos.lat,
+        longitude: pos.lng,
+        closeButton: true,
+        closeOnClick: true,
+        onClose: () => this.setState({...this.state, showPopup: false}),
+        anchor: 'top'
+      }
+    ]
+    this.setState({...this.state, popups: popups});
+  }
+
 
   render () {
     return (
-      <ReactMapGL 
+      <ReactMapGL
         disableTokenWarning={true}
-        width={this.state.viewport.width} 
-        height={this.state.viewport.height} 
-        id="gis-map" 
-        // ref={this.map}
+        controller={this.state.controller}
+        width={this.state.viewport.width}
+        height={this.state.viewport.height}
+        id="gis-map"
         ref="map"
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}
         viewState={this.props.viewport} 
         mapboxApiAccessToken={mapboxToken} 
         onViewportChange={this.updateViewport}
         onLoad={this.onMapLoad}
+        onClick={this.onClick}
+        onTap={this.onClick}
         mapStyle={this.props.mapStyle}
         >
         {!this.state.mapboxIsLoading && (
@@ -111,6 +147,20 @@ class Map extends React.Component {
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
           </>
         )}
+        {this.state.showPopup && (this.state.popups.map((popup) =>
+            // console.log('popup') && console.log(popup) &&
+            <Popup
+                key={popup.latitude+popup.longitude}
+                latitude={popup.latitude}
+                longitude={popup.longitude}
+                closeButton={popup.closeButton}
+                closeOnClick={popup.closeOnClick}
+                onClose={popup.onClose}
+                // anchor={popup.anchor}
+              >
+              <div>You are here</div>
+            </Popup>
+        ))}
       </ReactMapGL>
     )
   }

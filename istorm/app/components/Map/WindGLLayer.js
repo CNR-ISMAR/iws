@@ -159,6 +159,10 @@ class WindGLLayer extends BaseControl {
         }
       }
       // map.addLayer(bgLayer);
+      const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
+      if(source) {
+        map.removeLayer(layer.id);
+      }
       if (this._ctx && this._ctx instanceof WebGLRenderingContext) {
         map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
       } else {

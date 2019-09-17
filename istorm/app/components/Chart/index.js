@@ -33,7 +33,7 @@ function Chart(props) {
   useEffect(updateWidthHeight, [wrapper]);
   return (
     <div ref={wrapper} className={props.classes.subNav}>
-      <iframe src="https://iws.ismar.cnr.it/grafana/d-solo/_7Z2Rhlmk/sea-level?from=1542853716846&to=1549428315726&orgId=1&theme=dark&panelId=6" width="450" height="200" frameborder="0"></iframe>
+      {/*<iframe src="https://iws.ismar.cnr.it/grafana/d-solo/_7Z2Rhlmk/sea-level?from=1542853716846&to=1549428315726&orgId=1&theme=dark&panelId=6" width="450" height="200" frameborder="0"></iframe>*/}
       <XYPlot height={chart.height} width={chart.width}>
         <XAxis />
         <YAxis />
