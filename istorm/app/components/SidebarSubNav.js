@@ -1,4 +1,4 @@
-import React, {useEffect, useState}  from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Link  } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ import Drawer from '@material-ui/core/Drawer';
 
 
 const styles = (theme, style) => {
-    console.info("themeeeeeeeeeeeeeeeee SidebarSubNav");
+    console.info("Styles SidebarSubNav");
     console.info(theme, style);
     return {
       subNav: {
@@ -83,7 +83,7 @@ const styles = (theme, style) => {
         "& button[class*='headerTopClose']": {
           color: theme.palette.primary.dark,
           border: "1px solid "+theme.palette.primary.dark,
-          margin: 0,
+          margin: "0 25px 0 0",
         },
         "&:hover":{
           background: theme.palette.custom.selectBk,
@@ -117,7 +117,7 @@ const styles = (theme, style) => {
   
 
     return (
-        <div className={`${props.classes.subNav} ${props.Category}`}>
+        <div className={`${props.classes.subNav} ${props.mainClass}`}>
             {props.additionalPart && props.additionalPart}
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.Title} icon={props.Icon}  />
             <List>
@@ -126,16 +126,12 @@ const styles = (theme, style) => {
                 return (
                     <ListItem 
                         button 
-                        className={`${props.classes.listItem} ${props.ItemClassName}`} 
+                        className={`${props.classes.listItem} ${result.read ? 'read' : '' }`} 
                         key={"nav-stormtestents-"+result.id} 
                         selected={isCurrentPage(`/${props.Category}/${result.id}`)}>
-                        <Link to={`/${props.Category}/${result.id}`}>
+                        <Link to={`/${props.Category}/${result.id}`} onClick={() => props.clickEvent ? props.clickEvent(result.id) : null} >
                             <ListItemText primary={`${result.title} ${result.id}`} /> 
-                            { props.Typo && 
-                                <Typography>
-                                    {`${props.Typo}`}
-                                </Typography>
-                            }
+                            { props.Content && props.Content(`${result.description}`) }
                         </Link>
                         <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} >&times;</Button>
                     </ListItem>

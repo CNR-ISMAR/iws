@@ -77,11 +77,14 @@ function App(props) {
               <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
             )}
             <Route exact path="/" component={() => null} />
-            {  props.isLogged && <Route exact path={"/notification"} component={({match, history}) => <NotificationPage auth={props.auth} />  } /> }
+            {  props.isLogged && 
+              <Route exact path={"/notification/:id?"} component={({match, history}) => <NotificationPage auth={props.auth} location={location} />  } /> }
             <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
             <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
             <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
-            { props.isLogged && <Route path={"/favourites/:id?"} component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  }
+            { props.isLogged && 
+              <Route path={"/favourites/:id?"} 
+                     component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  }
             <Route exact path={"/station/:id"} component={({match, history}) => <StationChart auth={props.auth} history={history} />} />
             <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
             <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />

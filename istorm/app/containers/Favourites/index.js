@@ -8,7 +8,7 @@
 import React, {useEffect}  from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import { BrowserRouter as Router, Route, Link  } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -53,10 +53,9 @@ function FavouritesPage(props) {
     return check
   };
 
-  const _delete = (id) => {
-    /* console.log('delete Fav '+id) */
+  /* const _delete = (id) => {
     props.dispatch(deleteFavourite(id))
-  };
+  }; */
 
   useEffect(() => {
     if(props.favourites.loading == false && props.favourites.results.length == 0 )
@@ -65,19 +64,22 @@ function FavouritesPage(props) {
 
   useEffect(() => {
     if(props.match.params.id && props.favourites.results.length > 0){
-      const selectedFav = props.favourites.results.filter(function(result) {
-        return result.id == props.match.params.id;
-      });
-      props.dispatch(setViewport({longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8})) 
-      console.log('dispatch set viewport fav')
+      const FavouritesResults = props.favourites.results;
+      if(FavouritesResults.some(result => result.id == props.match.params.id )){
+        const selectedFav = FavouritesResults.filter(function(result) {
+          return result.id == props.match.params.id;
+        });
+        props.dispatch(setViewport({longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8})) 
+        console.log('dispatch set viewport fav')
+      }else{
+        props.history.push(`/favourites`) 
+      }
     }
-   
   })
 
   return (
     <>
       <SidebarSubNav 
-        Category="favourites"
         location={props.location}
         deleteFunc={(id) => props.dispatch(deleteFavourite(id))}
         Title="Favourites List" 
