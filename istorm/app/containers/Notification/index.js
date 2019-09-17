@@ -24,155 +24,55 @@ import reducer from './reducer'; */
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import SidebarSubNav from 'components/SidebarSubNav';
+
 import {deleteNotification, updateNotification} from '../AuthProvider/actions';
 
 /* import { useInjectReducer } from 'utils/injectReducer';
 import { REQUEST_NOTIFICATION } from './constants'; */
 
 const styles = (theme, style) => {
-  console.info("themeeeeeeeeeeeeeeeee");
+  console.info("custom style Notification");
   console.info(theme, style);
   return {
-    subNav: {
-      position: "absolute", 
-      maxHeight: "100vh",
-      height: "auto",
-      zIndex: 1600, 
-      width: 300,
-      maxWidth: 300,
-      overflowY: "auto",
-      //flex: 1,
-      backgroundColor: theme.palette.custom.panelLightBk,
-    },
-    headerTopClose: {
-      fontSize: 20,
-      lineHeight: 0.1,
-      padding: 7,
-      margin: '2px 25px 5px 5px',
-      minWidth: "auto",
-      borderRadius: 15,
-      height: 15,
-      width: 15,
-      color: theme.palette.primary.light,
-      /* borderWidth: 1,
-      borderColor: theme.palette.primary.light,
-      borderStyle: "solid", */
-      border: "1px solid "+theme.palette.primary.light
-
-    },
-    listItem: {
-      color: theme.palette.primary.dark,
-      backgroundColor: theme.palette.custom.panelLightBk,
-      maxHeight: 50,
-      display: "flex",
-      justifyContent: 'space-between',
-      paddingLeft: theme.palette.custom.paddingSide,
-      paddingRight: theme.palette.custom.paddingSide,
-      "& >a": {
-        textDecoration: "none",
-        color: theme.palette.primary.dark,
-      },
-      "& div[class^='MuiListItemText']": {
-        lineHeight: 0.2,
-      },
-      "& span[class^='MuiTypography']":{
-        fontSize: theme.typography.fontSmall,
-        lineHeight: 1,
-      },
+    notification:{
       "& *[class^='MuiTypography']":{
         fontWeight: 700,
       },
-      "&.read": {
-        "& *[class^='MuiTypography']":{ fontWeight: 400 }
+      "& .read": {
+        "& *[class^='MuiTypography']":{ 
+          fontWeight: 400 
+        }
       },
-      "&:nth-child(odd)":{
-          background: theme.palette.custom.panelLightAlternative,
+      "& *[class*='MuiListItem']":{
+        maxHeight: 200,
       },
-      "&.Mui-selected": {
-        color: "white",
-        background: theme.palette.custom.selectBk,
-        "& button[class*='headerTopClose']": {
-          color: theme.palette.primary.light,
-          border: "1px solid "+theme.palette.primary.light
-        },
-        "& >a": {
-          color: theme.palette.primary.light,
-        },
-        "&:hover":{
-          background: theme.palette.custom.selectBk,
-        },
-      },
-      "& button[class*='headerTopClose']": {
-        color: theme.palette.primary.dark,
-        border: "1px solid "+theme.palette.primary.dark,
-        margin: 0,
-      },
-      "&:hover":{
-        background: theme.palette.custom.selectBk,
-        "& button[class*='headerTopClose']": {
-          color: theme.palette.primary.light,
-          border: "1px solid "+theme.palette.primary.light
-        },
-        "& *[class^='MuiTypography']":{
-          color: theme.palette.primary.light,
-        },
-        "& >a": {
-          color: theme.palette.primary.light,
-        },
-      },
-    },
+    }
   }
-};
+}; 
 
 function NotificationPage(props) {
- // useInjectReducer({ key: 'notification', reducer }); 
   console.log('Notification page')
   console.log(props)
   return (
-    <div className={props.classes.subNav}>
-      <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={"Notifications"} icon={NotificationIcon} />
-      <List>
-        { props.auth.notifications.results.length > 0 &&
-        props.auth.notifications.results.map((result) => {
-          return (
-            <ListItem 
-              button 
-              className={`${props.classes.listItem} ${result.read ? "read" : ""}`} 
-              key={"nav-notification-"+result.id}>
-              <div /* to={`/notification/${result.id}`} */ onClick={ () => props.dispatch(updateNotification(result.id)) }>
-                <ListItemText primary={`${result.title} ${result.id}`} />
-                <Typography>
-                {`${result.description}`}
-                </Typography>
-              </div>
-              <Button 
-                  size={"small"} 
-                  className={props.classes.headerTopClose} 
-                  onClick={() => props.dispatch(deleteNotification(result.id))} >&times;
-              </Button>
-            </ListItem>
-              )
-            })
-          }
-        </List>
-    </div>
+    <>
+      <SidebarSubNav
+        mainClass={props.classes.notification}
+        location={props.location}
+        deleteFunc={(id) => props.dispatch(deleteNotification(id))}
+        Title="Notifications" 
+        Icon={NotificationIcon} 
+        Results={props.auth.notifications.results}
+        clickEvent={(id) => props.dispatch(updateNotification(id))} 
+        Content={ (bodytext) => <Typography>{bodytext}</Typography> }
+        />
+    </>
   );
 }
 
 /* NotificationPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 }; */
-
-/* const mapStateToProps = (state) => {
-  return {
-    notification: { loading: false }
-  }  
-}
-  */
-/* const mapStateToProps = createStructuredSelector({
-  notification: makeSelectNotification(),
-
-}) */
 
 const mapDispatchToProps = (dispatch) => {
   return {

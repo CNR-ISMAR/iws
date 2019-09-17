@@ -78,7 +78,7 @@ function App(props) {
             )}
             <Route exact path="/" component={() => null} />
             {  props.isLogged && 
-              <Route exact path={"/notification"} component={({match, history}) => <NotificationPage auth={props.auth} />  } /> }
+              <Route exact path={"/notification/:id?"} component={({match, history}) => <NotificationPage auth={props.auth} location={location} />  } /> }
             <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
             <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
             <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />

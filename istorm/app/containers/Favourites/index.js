@@ -80,7 +80,6 @@ function FavouritesPage(props) {
   return (
     <>
       <SidebarSubNav 
-        Category="favourites"
         location={props.location}
         deleteFunc={(id) => props.dispatch(deleteFavourite(id))}
         Title="Favourites List" 
