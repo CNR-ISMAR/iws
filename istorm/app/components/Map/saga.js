@@ -5,7 +5,6 @@ import { popup } from 'utils/api';
  
 
 export function* popupSaga() {
-  // console.log('notificationSaga')
   try {
     const request = yield call(popup);
     console.log('saga popup')

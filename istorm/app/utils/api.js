@@ -113,5 +113,5 @@ export const updateNotification = (id) => {
 
 export const popup = () => {
   const options = getOption({})
-  return request(`${BASE_URL}/openistorm/notifications/`, options)
+  return request(`http://localhost/openistorm/layers/info/?bbox=18.562486834444055,40.60442396407557,18.56721978760456,40.608017225183865&x=1&y=1&time=2019-09-16T00:00:00.000Z&width=2&height=2/`, options)
 };
