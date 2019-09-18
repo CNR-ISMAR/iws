@@ -31,15 +31,33 @@ function Chart(props) {
     setChartState({width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
   };
 
+  const fixFormat = (ts) => {
+    return ts.map(function (x) {
+      return {
+        x: new Date(x.x),
+        y: x.y
+      }
+    })
+  }
+
   useEffect(updateWidthHeight, [wrapper]);
   return (
     <div ref={wrapper} className={props.classes.subNav}>
       {/*<iframe src="https://iws.ismar.cnr.it/grafana/d-solo/_7Z2Rhlmk/sea-level?from=1542853716846&to=1549428315726&orgId=1&theme=dark&panelId=6" width="450" height="200" frameborder="0"></iframe>*/}
-      <XYPlot height={chart.height} width={chart.width}>
-        <XAxis title='XAxis'/>
-        <YAxis title='YAxis'/>
-        <LineSeries data={props.data} color={'red'} curve={'curveMonotoneX'} strokeStyle={'dashed'}/>
-      </XYPlot>
+          {/*<XYPlot height={chart.height} width={chart.width}>*/}
+          <XYPlot height={400} width={chart.width}>
+            <XAxis title='XAxis'/>
+            <YAxis title='YAxis'/>
+            {typeof props.data == 'object' && Object.keys(props.data).map(name =>
+                <LineSeries key={name} data={fixFormat(props.data[name])} color={'red'} curve={'curveMonotoneX'} strokeStyle={'dashed'}/>
+            )}
+          </XYPlot>
+
+      {/*<XYPlot height={chart.height} width={chart.width}>*/}
+        {/*<XAxis title='XAxis'/>*/}
+        {/*<YAxis title='YAxis'/>*/}
+        {/*<LineSeries data={props.data} color={'red'} curve={'curveMonotoneX'} strokeStyle={'dashed'}/>*/}
+      {/*</XYPlot>*/}
       <h6></h6>
       {/* <XYPlot height={chart.height} width={chart.width}>
         <LineSeries data={props.data} />

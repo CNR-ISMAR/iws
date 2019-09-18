@@ -112,7 +112,7 @@ function StationChart(props) {
       </div>
       <div className={props.classes.wrapper}>
         <h1>Chart</h1>
-        <Chart data={data} />
+        <Chart data={props.chart.results.results} />
       </div>
       { console.log(props.chart)
         /* <Button onClick={ () => props.dispatch(requestChart()) }>REQ CHART</Button> */}
