@@ -78,4 +78,4 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ImageLayer
-        fields = ('dataset','timestamp','date','wave_metadata','wave_image','sea_level_mean','sea_level_std')
+        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std')
