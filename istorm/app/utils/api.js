@@ -120,11 +120,12 @@ export const popups = (action) => {
 
 export const chart = (action) => {
   const bbox = action.params.bbox
-  const time = action.params.time
-  const options = getOption({}) 
+  const from = action.params.from
+  const to = action.params.to
+  const options = getOption({})
   console.log(action)
   
   //return request(`${BASE_URL}/openistorm/layers/timeseries/?bbox=18.562486834444055,40.60442396407557,18.56721978760456,40.608017225183865&x=1&y=1&from=2019-09-16T00:00:00.000Z&width=2&height=2&to=2019-09-16T23:00:00.000Z`, options)
-  return request(`${BASE_URL}/openistorm/layers/timeseries/?bbox=${bbox}&x=1&y=1&from=${time}&width=2&height=2&to=${time}`, options)
+  return request(`${BASE_URL}/openistorm/layers/timeseries/?bbox=${bbox}&x=1&y=1&from=${from}&width=2&height=2&to=${to}`, options)
 };
 

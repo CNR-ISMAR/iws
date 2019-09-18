@@ -93,11 +93,14 @@ function StationChart(props) {
   const chartParams = queryString.parse(props.history.location.search)
 
   useEffect(() => {
+    console.log('chartParams')
     console.log(chartParams)
+    console.log(props)
       if(props.chart.results.length == 0 && !props.chart.loading){
         props.dispatch(requestChart({
           bbox: chartParams.bbox,
-          time: chartParams.from
+          from: chartParams.from,
+          to: chartParams.to,
         }))
       }
   }, [])
