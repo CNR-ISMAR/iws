@@ -1,7 +1,8 @@
 # encoding: utf-8
 
 from osgeo import gdal
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time as timed
+# import datetime
 import time, urllib, wget, math, os, netCDF4, json, requests, pytz, xmltodict
 # import logging
 from PIL import Image
@@ -514,9 +515,14 @@ class WmsQuery:
                 'sea_level-std',
             ]
         }
-        result = {}
+        result = {
+            'results': {}
+        }
         options = self.default_options
-        time_from = self.time_from.isoformat()[0:19] + '.000Z'
+        # time_from = self.time_from.isoformat()[0:19] + '.000Z'
+        # time_to = self.time_to.isoformat()[0:19] + '.000Z'
+        # TODO: ODIO TUTTI
+        time_from = datetime.combine(self.time_to, timed.min).isoformat()[0:19] + '.000Z'
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
 
         for dataset in datasets.keys():
@@ -534,9 +540,11 @@ class WmsQuery:
                 url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
                 r = requests.get(url=url)
                 layerdata = xmltodict.parse(r.content)
-                result[layer] = list({"x": x['time'], "y": float(x['value'])} for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
+                result['results'][layer] = list({"x": x['time'], "y": float(x['value'])} for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
 
         result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
         result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
+        result['from'] = time_from
+        result['to'] = time_to
         # print(json.dumps(result))
         return result
