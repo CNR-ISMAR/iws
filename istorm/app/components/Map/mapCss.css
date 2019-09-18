@@ -4,12 +4,9 @@
 
 .mapboxgl-popup-content{
     padding: 0;
-    width: 50px;
-    height: 50px;
-    background: rgb(219, 221, 222);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 500px;
+    height: auto;
+    background: transparent;
 }
 
 .mapboxgl-popup-content .btn{
