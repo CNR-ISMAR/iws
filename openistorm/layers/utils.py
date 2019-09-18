@@ -519,7 +519,7 @@ class WmsQuery:
         # time_from = self.time_from.isoformat()[0:19] + '.000Z'
         # time_to = self.time_to.isoformat()[0:19] + '.000Z'
         # TODO: ODIO TUTTI
-        time_from = datetime.combine(self.time_to, datetime.time.min).isoformat()[0:19] + '.000Z'
+        time_from = datetime.combine(self.time_to, time.min).isoformat()[0:19] + '.000Z'
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
 
         for dataset in datasets.keys():
