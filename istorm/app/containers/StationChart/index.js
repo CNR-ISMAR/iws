@@ -12,6 +12,7 @@ import messages from './messages';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+import makeSelectHistoryPage from '../History/selectors';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -119,6 +120,7 @@ function StationChart(props) {
 
 const mapStateToProps = createStructuredSelector({
   chart: makeSelectChart(),
+  timeline: makeSelectHistoryPage(),
 })
 
 const mapDispatchToProps = (dispatch) => {
