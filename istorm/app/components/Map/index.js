@@ -24,8 +24,8 @@ import { easeCubic } from 'd3-ease';
 import Layer from "./Layer";
 import { setViewport, requestPopUp } from "../../containers/App/actions";
 
-import ReactMapGL, { FlyToInterpolator, Popup } from 'react-map-gl';
-  import { LngLat, Point, MercatorCoordinate } from 'mapbox-gl';
+import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
+  import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
 import mapCss from './mapCss.css'
@@ -62,7 +62,7 @@ class Map extends React.Component {
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
-    
+
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -109,6 +109,12 @@ class Map extends React.Component {
     /* console.log(pos) */
     const lol = new LngLat(pos.lng,pos.lat)
     console.log('Map Page PopUp Click Evt')
+    /*
+    GIORGIO
+     */
+    console.log(this.refs.map.getMap())
+    const bb200 = lol.toBounds(200)
+    console.log(bb200)
     const popups = [
       {
         latitude: pos.lat,
@@ -165,8 +171,9 @@ class Map extends React.Component {
             { !this.props.popup.loading && this.props.popup.results.length > 0 &&
               
               JSON.stringify(this.props.popup.results) } 
+
             </Popup>
-            
+
         ))}
       </ReactMapGL>
     )

@@ -8,7 +8,63 @@ import blu from './tmp/blu_large.png'
 // import blu from './tmp/blu_tutto.png'
 
 class BackgroundWindLayer {
+  constructor(id, ctx, windImageSrc, windImageMeta) {
+    this.id = id;
+    this.loading = false;
+    this.type = 'raster';
+    this.source = {
+          type: 'image',
+          url: windImageSrc,
+          coordinates: [
+            [
+              12.21,
+              45.85
+            ],
+            [
+              22.37,
+              45.85
+            ],
+            [
+              22.37,
+              36.67,
+            ],
+            [
+              12.21,
+              36.67,
+            ]
+          ]
+        }
+    this.paint = {
+            "raster-opacity": 0.7,
+            'raster-hue-rotate': 0.2,
+        }
+    this.windImageMeta =  windImageMeta;
+  }
 
+  onAdd(map, gl) {
+    this.loading = true;
+    request(this.windImageMeta)
+     .then(windJson => {
+       this.source.coordinates = [
+            [
+              windJson.lo1,
+              windJson.la1,
+            ],
+            [
+              windJson.lo2,
+              windJson.la1,
+            ],
+            [
+              windJson.lo2,
+              windJson.la2,
+            ],
+            [
+              windJson.lo1,
+              windJson.la2,
+            ]
+          ]
+      })
+  }
 }
 
 class WindLayer {
@@ -125,47 +181,20 @@ class WindGLLayer extends BaseControl {
       this._canvas = canvas;
       this._ctx = canvas.getContext('webgl', {antialiasing: false});
     }
-    const bgLayer = {
-        'id': 'bgwaves',
-        'type': 'raster',
-        'source': {
-          type: 'image',
-          url: blu,
-          coordinates: [
-            [
-              12.21,
-              45.85
-            ],
-            [
-              22.37,
-              45.85
-            ],
-            [
-              22.37,
-              36.67,
-            ],
-            [
-              12.21,
-              36.67,
-            ]
-          ]
-        },
-        "paint": {
-            // "raster-opacity": 0.5,
-            "raster-opacity": 0.7,
-            // 'raster-hue-rotate': 0,
-            'raster-hue-rotate': 0.2,
-            // "raster-resampling": "nearest"
-        }
-      }
-      // map.addLayer(bgLayer);
       const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
       if(source) {
+        map.removeLayer(layer.id+'Bg');
+        map.removeSource(layer.id+'Bg');
         map.removeLayer(layer.id);
       }
       if (this._ctx && this._ctx instanceof WebGLRenderingContext) {
+        map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata));
         map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
       } else {
+        console.log("WEBGL NON ATTIVO");
+        console.log("WEBGL NON ATTIVO");
+        console.log("WEBGL NON ATTIVO");
+        console.log("WEBGL NON ATTIVO");
         console.log("WEBGL NON ATTIVO");
       }
   }
@@ -175,7 +204,15 @@ class WindGLLayer extends BaseControl {
     const { layer, layerInfo } = newProps;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
     if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
+      map.removeLayer(layer.id+'Bg');
+      map.removeSource(layer.id+'Bg');
       map.removeLayer(layer.id);
+      // const layers = map.getStyle().layers
+      // let afterLayer = layers.map(x=>x.id).filter(x=>x.includes("station") || x.includes("seaLevel"))
+      // console.log(afterLayer)
+      // afterLayer = (afterLayer.length > 0) ? afterLayer[0] : null
+      const afterLayer = null
+      map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata), afterLayer);
       map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
     }
   }
@@ -185,6 +222,8 @@ class WindGLLayer extends BaseControl {
     const { layer } = this.props;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
     if(source) {
+      map.removeLayer(layer.id+'Bg');
+      map.removeSource(layer.id+'Bg');
       map.removeLayer(layer.id);
     }
   }

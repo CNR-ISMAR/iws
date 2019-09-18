@@ -19,17 +19,13 @@ class LayerSeaLevel extends BaseControl {
         type: "raster"
       }
     }
-    console.log(layer, override)
-    let newLayer = Object.assign(layer, override);
-    console.log(newLayer)
-    // const newLayer = Object.assign(layer, {});
+    const newLayer = {...layer, ...override};
     map.addLayer(newLayer);
   }
 
   componentWillReceiveProps(newProps) {
     const map = this._context.map;
     const {layer, layerInfo} = newProps;
-    // const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
     if (source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
       let override = {
@@ -39,7 +35,7 @@ class LayerSeaLevel extends BaseControl {
           type: "raster"
         }
       }
-      let newLayer = Object.assign(layer, override);
+      const newLayer = {...layer, ...override};
       map.removeLayer(layer.id);
       map.removeSource(layer.id);
       map.addLayer(newLayer);
