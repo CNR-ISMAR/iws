@@ -1,6 +1,16 @@
 version: '2.2'
 services:
 
+  istorm:
+    container_name: frontend4${COMPOSE_PROJECT_NAME}
+    #    image: 'repositories.inkode.it:4567/inkode/iws:latest'
+    build: ./istorm
+    restart: always
+    ports:
+    - 3000:3000
+    expose:
+    - 3000
+
   db:
 #    image: geonode/postgis:9.6
     build: ./postgis
@@ -94,6 +104,10 @@ services:
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
     # tty: true
+    ports:
+    - 8000:8000
+    expose:
+      - 8000
     labels:
       org.geonode.component: django
       org.geonode.instance.name: geonode

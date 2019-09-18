@@ -25,6 +25,7 @@ try:
     from iws.local_settings import *
 except ImportError:
     from geonode.settings import *
+# from iws.local_settings import *
 
 #
 # General Django development settings
