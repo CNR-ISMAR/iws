@@ -17,3 +17,4 @@ netCDF4==1.5.1.2
 wget==3.2
 numpy==1.16.4
 fcm-django==0.2.21
+#pydap==3.2.2

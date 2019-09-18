@@ -9,6 +9,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     date = serializers.SerializerMethodField()
     wave_metadata = serializers.SerializerMethodField()
     wave_image = serializers.SerializerMethodField()
+    wave_image_background = serializers.SerializerMethodField()
     sea_level_mean = serializers.SerializerMethodField()
     sea_level_std = serializers.SerializerMethodField()
 
@@ -22,13 +23,16 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     def get_wave_image(self, instance):
         return instance.image
 
+    def get_wave_image_background(self, instance):
+        return instance.image_background
+
     def sea_level_url(self, timestamp, layerOptions):
         #TODO: manage missing current data!!!!!
         #TODO: quando si avra' una logica integrarla
         wmsdate = datetime.datetime.fromtimestamp(timestamp)
         formatted_date = wmsdate.strftime("%Y%m%d")
         layerFileName =  'TMES_sea_level_'+formatted_date+'.nc'
-        if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0):
+        if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
             layerFileName = 'history/'+layerFileName
         #TODO: questo tempo va sostituito col timestamp formatato a modino
         # time = '2019-02-02T00:00:00.000Z'
@@ -74,4 +78,4 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ImageLayer
-        fields = ('dataset','timestamp','date','wave_metadata','wave_image','sea_level_mean','sea_level_std')
+        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std')

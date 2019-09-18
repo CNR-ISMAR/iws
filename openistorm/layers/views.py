@@ -11,6 +11,7 @@ import json
 import datetime
 from dateutil import parser
 from collections import OrderedDict
+from .utils import WmsQuery
 
 
 class ImageLayerList(ListAPIView):
@@ -52,7 +53,7 @@ class ImageLayerList(ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         results = OrderedDict((x['date'], x) for x in serializer.data)
 
-        now = datetime.datetime.now().replace(minute=0, second=0).isoformat()+'.000Z'
+        now = datetime.datetime.now().replace(minute=0, second=0, microsecond=0).isoformat()+'.000Z'
 
         keys = list(results.keys())
         if now in results:
@@ -83,3 +84,35 @@ class ImageLayerBoundaries(views.APIView):
             'max': datetime.datetime.fromtimestamp(boundaries['max']).isoformat()+'.000Z',
         }
         return Response(boundaries)
+
+
+class Info(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        # print(request.query_params)
+        # print(request.query_params)
+        # print(request.query_params)
+        # print(request.query_params)
+        # print(request.query_params)
+        BBOX = request.query_params.get('bbox')
+        X = request.query_params.get('x')
+        Y = request.query_params.get('y')
+        WIDTH = request.query_params.get('width')
+        HEIGHT = request.query_params.get('height')
+        TIME = request.query_params.get('time')
+        # print((BBOX, X, Y, WIDTH, HEIGHT, TIME))
+        wms = WmsQuery(BBOX, X, Y, WIDTH, HEIGHT, TIME)
+        return Response(wms.get_values())
+
+class TimeSeries(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        BBOX = request.query_params.get('bbox')
+        X = request.query_params.get('x')
+        Y = request.query_params.get('y')
+        WIDTH = request.query_params.get('width')
+        HEIGHT = request.query_params.get('height')
+        TIME_FROM = request.query_params.get('from')
+        TIME_TO = request.query_params.get('to')
+        wms = WmsQuery(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
+        return Response(wms.get_timeseries())
