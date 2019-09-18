@@ -2,7 +2,7 @@
 
 from osgeo import gdal
 from datetime import datetime, timedelta, time as timed
-import datetime
+# import datetime
 import time, urllib, wget, math, os, netCDF4, json, requests, pytz, xmltodict
 # import logging
 from PIL import Image
