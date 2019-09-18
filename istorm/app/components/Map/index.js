@@ -12,6 +12,8 @@ import messages from './messages';
 import { withStyles } from '@material-ui/core/styles';
 import moment from "moment";
 
+import { withRouter } from "react-router-dom";
+
 import { connect } from 'react-redux';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -108,8 +110,8 @@ class Map extends React.Component {
     const pos = this.refs.map.getMap().unproject(event.offsetCenter)
     const latlon = new LngLat(pos.lng,pos.lat)
     const bb200 = latlon.toBounds(200)
-    console.log(this.refs.map.getMap())
-    console.log(bb200)
+    /* console.log(this.refs.map.getMap())
+    console.log(bb200) */
     this.props.dispatch(requestInfoLayer({
       time: this.props.layerInfo.date,
       bounds: bb200,
@@ -119,6 +121,8 @@ class Map extends React.Component {
 
 
   render () {
+    console.log('React Map')
+    console.log(this.props)
     return (
       <ReactMapGL
         disableTokenWarning={true}
@@ -154,7 +158,9 @@ class Map extends React.Component {
               
               <Paper key={'popup'+index}>
                 <Box fontWeight="fontWeightLight" p={1}>
-                  Time: {moment(popup.time).format( 'DD/MM/YYYY')}, Longitude: {popup.longitude}, Latitude: {popup.latitude}
+                  Time: {moment(popup.time).format( 'DD/MM/YYYY')}<br></br>
+                  Longitude: {popup.longitude}<br></br>
+                  Latitude: {popup.latitude}
                 </Box>
                 <Table>
                   <TableHead>
@@ -175,7 +181,13 @@ class Map extends React.Component {
                   </TableBody>
                 </Table>
                 <Box textAlign="center" p={1}>
-                  <Button className="buttonChart" color="primary" onClick={ () => console.log('click load Chart')/* this.props.dispatch() */ }>
+                  <Button className="buttonChart" color="primary" onClick={ () => { 
+                      const latlon = new LngLat(popup.longitude, popup.latitude)
+                      const bb200 = latlon.toBounds(200)
+                      console.log(bb200)
+                      this.props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${popup.time.toString()}&width=2&height=2&to=${popup.time}`) 
+                    } 
+                  }>
                     Open Chart
                     <BarChartIcon></BarChartIcon>
                   </Button>
@@ -200,4 +212,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(Map));
+export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(Map)));

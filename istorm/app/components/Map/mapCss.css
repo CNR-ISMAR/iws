@@ -4,7 +4,7 @@
 
 .mapboxgl-popup-content{
     padding: 0;
-    width: 500px;
+    width: 300px;
     height: auto;
     background: transparent;
 }
@@ -17,10 +17,14 @@
     padding: 0;
     width: 20px;
     height: 20px;
-    bottom: -20px;
-    left: 0;
-    top: auto;
+    bottom: auto;
+    right: 0;
+    top: 0;
     background: #0B303A;
     color: white;
-    font-size: 1rem
+    font-size: 1rem;
+}
+
+*[class *='MuiTableCell']{
+    padding: 10px
 }

@@ -12,7 +12,19 @@ import messages from './messages';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import makeSelectChart from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+import { requestChart } from "./actions";
+
 import Chart from '../../components/Chart';
+
+import queryString from 'query-string'
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -46,6 +58,8 @@ const styles = (theme, style) => {
 };
 
 function StationChart(props) {
+  useInjectReducer({ key: 'chart', reducer });
+  useInjectSaga({ key: 'chart', saga });
   console.info("Station Chart");
   console.info(props);
 
@@ -75,6 +89,18 @@ function StationChart(props) {
     }
   };
 
+  const chartParams = queryString.parse(props.history.location.search)
+
+  useEffect(() => {
+    console.log(chartParams)
+      if(props.chart.results.length == 0 && !props.chart.loading){
+        props.dispatch(requestChart({
+          bbox: chartParams.bbox,
+          time: chartParams.from
+        }))
+      }
+  }, [])
+
   return (
     <div className={props.classes.subNav}>
       <div className={props.classes.headerTop}>
@@ -84,8 +110,22 @@ function StationChart(props) {
         <h1>Chart</h1>
         <Chart data={data} />
       </div>
+      { console.log(props.chart)
+        /* <Button onClick={ () => props.dispatch(requestChart()) }>REQ CHART</Button> */}
+      
     </div>
   );
 }
 
-export default withStyles(styles, {withTheme: true})(StationChart);
+const mapStateToProps = createStructuredSelector({
+  chart: makeSelectChart(),
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(StationChart));

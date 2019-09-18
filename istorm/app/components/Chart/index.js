@@ -25,7 +25,8 @@ const styles = (theme) => {
 function Chart(props) {
   const [chart, setChartState] = useState({width: 0, height: 0});
   const wrapper = useRef(null);
-
+  console.log('Chart')
+  console.log(props.data)
   const updateWidthHeight = () => {
     setChartState({width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
   };
@@ -35,18 +36,20 @@ function Chart(props) {
     <div ref={wrapper} className={props.classes.subNav}>
       {/*<iframe src="https://iws.ismar.cnr.it/grafana/d-solo/_7Z2Rhlmk/sea-level?from=1542853716846&to=1549428315726&orgId=1&theme=dark&panelId=6" width="450" height="200" frameborder="0"></iframe>*/}
       <XYPlot height={chart.height} width={chart.width}>
-        <XAxis />
-        <YAxis />
-        <LineSeries data={props.data} />
+        <XAxis title='XAxis'/>
+        <YAxis title='YAxis'/>
+        <LineSeries data={props.data} color={'red'} curve={'curveMonotoneX'} strokeStyle={'dashed'}/>
       </XYPlot>
       <h6></h6>
-      <XYPlot height={chart.height} width={chart.width}>
+      {/* <XYPlot height={chart.height} width={chart.width}>
         <LineSeries data={props.data} />
-      </XYPlot>
+      </XYPlot> */}
     </div>
   )
 }
+
 Map.childContextTypes = {
   map: PropTypes.object
 };
+
 export default withStyles(styles, {withTheme: true})(Chart);

@@ -88,7 +88,7 @@ function App(props) {
             { props.isLogged && 
               <Route path={"/favourites/:id?"} 
                      component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  }
-            <Route exact path={"/station/:id"} component={({match, history}) => <StationChart auth={props.auth} history={history} />} />
+            <Route exact path={"/station/"} component={({match, history}) => <StationChart auth={props.auth} history={history} />} />
             <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
             <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
             <Route component={NotFoundPage} />

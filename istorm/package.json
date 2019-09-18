@@ -105,6 +105,7 @@
     "outdated-browser-rework": "^2.9.0",
     "pngjs": "^3.4.0",
     "prop-types": "15.7.2",
+    "query-string": "^6.8.3",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-flexbox-grid": "^2.1.2",
