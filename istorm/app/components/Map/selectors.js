@@ -5,7 +5,7 @@ import { initialState } from 'containers/App/reducer';
  * Direct selector to the mapPage state domain
  */
 
-const selectFavourites = state => state.popup || initialState.popup;
+const selectPopUp = state => state.popup || initialState.popup;
 
 /**
  * Other specific selectors
@@ -17,7 +17,7 @@ const selectFavourites = state => state.popup || initialState.popup;
 
 const makeSelectPopup = () =>
   createSelector(
-    selectFavourites,
+    selectPopUp,
     substate => substate,
   );
 
@@ -28,4 +28,4 @@ const makeSelectPopup = () =>
   ); */
 
 export default makeSelectPopup;
-export { selectFavourites };
+export { selectPopUp };

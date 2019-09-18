@@ -100,8 +100,6 @@ class Map extends React.Component {
 
   componentDidUpdate(){
     console.log('componentDidUpdate')   
-    if(!this.props.popup.loading && this.props.popup.results.length > 0)
-      console.log(this.props.popup.results)
   }
 
   onClick(event) {
@@ -124,12 +122,14 @@ class Map extends React.Component {
       //this.props.dispatch(requestPopUp());
       //console.log(this.props)
     this.setState({...this.state, popups: popups}, () => {
-       this.props.dispatch(requestPopUp());
+      console.log('dispatch request Pop Up') 
+      this.props.dispatch(requestPopUp());
     });
   }
 
 
   render () {
+    console.log('component Render')
     return (
       <ReactMapGL
         disableTokenWarning={true}
@@ -153,7 +153,7 @@ class Map extends React.Component {
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
           </>
         )}
-        {this.state.showPopup && (this.state.popups.map((popup) =>
+        {this.state.showPopup &&  (this.state.popups.map((popup) =>
             <Popup
                 key={popup.latitude+popup.longitude}
                 latitude={popup.latitude}
@@ -162,7 +162,9 @@ class Map extends React.Component {
                 closeOnClick={popup.closeOnClick}
                 onClose={popup.onClose}
             >
-            {JSON.stringify(this.props.popup.results)} 
+            { !this.props.popup.loading && this.props.popup.results.length > 0 &&
+              
+              JSON.stringify(this.props.popup.results) } 
             </Popup>
             
         ))}
@@ -171,11 +173,14 @@ class Map extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  }
+  
+}
 
-const mapStateToProps = createStructuredSelector({
-  popup: makeSelectPopup(),
-})
 
 
 
-export default connect(mapStateToProps, null)(withStyles(styles, {withTheme: true})(Map));
+export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(Map));

@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_POPUP } from 'containers/App/constants';
-import { requestPopUpSuccess } from 'containers/App/actions';
+import { requestPopUpSuccess, requestError } from 'containers/App/actions';
 import { popup } from 'utils/api';
  
 

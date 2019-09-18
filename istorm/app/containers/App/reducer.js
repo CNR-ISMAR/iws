@@ -170,8 +170,8 @@ const mapPageReducer = (state = initialState, action) =>
         draft.popup.results = action.result;
       break;
       case REQUEST_ERROR:
-          draft.popup.loading = false;
-          draft.popup.error = action.error;
+        draft.popup.loading = false;
+        draft.popup.error = action.error;
       break;
     }
   });
