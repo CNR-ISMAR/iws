@@ -1,9 +1,9 @@
 version: '2.2'
 services:
 
-   istorm:
+  istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}
-#    image: 'repositories.inkode.it:4567/inkode/iws:latest'
+    #    image: 'repositories.inkode.it:4567/inkode/iws:latest'
     build: ./istorm
     restart: always
     ports:
