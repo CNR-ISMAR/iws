@@ -19,7 +19,7 @@ import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
-import { setViewport, requestInfoLayer } from "../../containers/App/actions";
+import { setViewport, requestInfoLayer, closeInfoLayer } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
   import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
@@ -149,15 +149,13 @@ class Map extends React.Component {
                 longitude={popup.longitude}
                 closeButton={true}
                 closeOnClick={true}
-                // onClose={() => this.setState({...this.state, showPopups: false})}
+                onClose={() => this.props.dispatch(closeInfoLayer()) }
             >
               
-              <Paper>
-                <Typography id="tableTitle">
-                  <Box fontWeight="fontWeightLight" p={1}>
-                      Longitude: {popup.longitude}, Latitude: {popup.latitude}, Time: {moment(popup.time).format( 'DD/MM/YYYY')} 
-                  </Box>
-                </Typography>
+              <Paper key={'popup'+index}>
+                <Box fontWeight="fontWeightLight" p={1}>
+                  Time: {moment(popup.time).format( 'DD/MM/YYYY')}, Longitude: {popup.longitude}, Latitude: {popup.latitude}
+                </Box>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -167,8 +165,8 @@ class Map extends React.Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {Object.keys(popup.results).map((name) => 
-                      <TableRow>
+                    {Object.keys(popup.results).map((name, index) => 
+                      <TableRow key={name+'-index'}>
                         <TableCell>{name}</TableCell>
                         <TableCell>{popup.results[name].mean}</TableCell>
                         <TableCell>{popup.results[name].std}</TableCell>
@@ -177,7 +175,7 @@ class Map extends React.Component {
                   </TableBody>
                 </Table>
                 <Box textAlign="center" p={1}>
-                  <Button className="buttonChart" color="primary" onClick={ () => console.log('click load HCart')/* this.props.dispatch() */ }>
+                  <Button className="buttonChart" color="primary" onClick={ () => console.log('click load Chart')/* this.props.dispatch() */ }>
                     Open Chart
                     <BarChartIcon></BarChartIcon>
                   </Button>

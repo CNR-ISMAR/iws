@@ -6,7 +6,7 @@
 import produce from 'immer';
 import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR } from './constants';
+  TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -179,11 +179,13 @@ const mapPageReducer = (state = initialState, action) =>
         console.log(action.error)
         console.log(action.error)
         console.log(action.error)
-        console.log(action.error)
-        console.log(action.error)
-        console.log(action.error)
         draft.popups.loading = false;
         draft.popups.error = action.error;
+      break;
+      case CLOSE_INFO_LAYER:
+        draft.popups.loading = false;
+        draft.popups.error = initialState.popups.error;
+        draft.popups.results = []
       break;
     }
   });

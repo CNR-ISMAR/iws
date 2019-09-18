@@ -5,7 +5,7 @@
  */
 
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR } from './constants';
+  TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
 
 export function toggleLayerMean() {
   return {
@@ -60,3 +60,10 @@ export function requestError(errorMessage) {
     error: errorMessage
   };
 }
+
+export function closeInfoLayer() {
+  return {
+    type: CLOSE_INFO_LAYER
+  };
+}
+

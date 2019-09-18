@@ -16,6 +16,8 @@ export const SET_VIEWPORT = 'app/App/SET_VIEWPORT';
 export const REQUEST_INFO_LAYER = 'app/App/REQUEST_INFO_LAYER';
 export const REQUEST_INFO_LAYER_SUCCESS = 'app/App/REQUEST_INFO_LAYER_SUCCESS';
 export const REQUEST_ERROR = 'app/App/REQUEST_ERROR';
+export const CLOSE_INFO_LAYER = 'app/App/CLOSE_INFO_LAYER';
+
 
 
 
