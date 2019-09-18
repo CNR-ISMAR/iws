@@ -5,7 +5,7 @@ import { initialState } from 'containers/App/reducer';
  * Direct selector to the mapPage state domain
  */
 
-const selectPopUp = state => state.popup || initialState.popup;
+const selectPopUps = state => state.popups || initialState.popups;
 
 /**
  * Other specific selectors
@@ -15,9 +15,9 @@ const selectPopUp = state => state.popup || initialState.popup;
  * Default selector used by MapPage
  */
 
-const makeSelectPopup = () =>
+const makeLayerInfo = () =>
   createSelector(
-    selectPopUp,
+    selectPopUps,
     substate => substate,
   );
 
@@ -27,5 +27,5 @@ const makeSelectPopup = () =>
     substate => substate.drawer.open,
   ); */
 
-export default makeSelectPopup;
-export { selectPopUp };
+export default makeLayerInfo;
+export { selectPopUps };

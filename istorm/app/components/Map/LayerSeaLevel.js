@@ -11,11 +11,11 @@ class LayerSeaLevel extends BaseControl {
 
   componentDidMount() {
     const map = this._context.map;
-    const {layer, layerInfo} = this.props;
+    const {layer, layerInfo, mean} = this.props;
     let override = {
       source: {
         height: 256,
-        tiles: [layerInfo.sea_level_mean],
+        tiles: [mean ? layerInfo.sea_level_mean : layerInfo.sea_level_std],
         type: "raster"
       }
     }
@@ -24,14 +24,17 @@ class LayerSeaLevel extends BaseControl {
   }
 
   componentWillReceiveProps(newProps) {
+      console.log('componentWillReceiveProps')
+      console.log('componentWillReceiveProps')
+      console.log('componentWillReceiveProps')
     const map = this._context.map;
-    const {layer, layerInfo} = newProps;
+    const {layer, layerInfo, mean} = newProps;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
-    if (source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
+    if (source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo) && mean == this.props.mean) {
       let override = {
         source: {
           height: 256,
-          tiles: [layerInfo.sea_level_mean],
+          tiles: [mean ? layerInfo.sea_level_mean : layerInfo.sea_level_std],
           type: "raster"
         }
       }

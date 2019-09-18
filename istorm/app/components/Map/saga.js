@@ -1,14 +1,14 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_POPUP } from 'containers/App/constants';
-import { requestPopUpSuccess, requestError } from 'containers/App/actions';
-import { popup } from 'utils/api';
+import { REQUEST_INFO_LAYER } from 'containers/App/constants';
+import { requestInfoLayerSuccess, requestError } from 'containers/App/actions';
+import { popups } from 'utils/api';
  
 
-export function* popupSaga() {
+export function* infoLayerSaga(options) {
   try {
-    const request = yield call(popup);
-    console.log('saga popup')
-    yield put(requestPopUpSuccess(request));
+    const request = yield call(popups, options);
+    console.log('saga popups')
+    yield put(requestInfoLayerSuccess(request));
   } catch(e) {
     yield put(requestError(e.message));
   }
@@ -23,5 +23,5 @@ export default function* mapPageSaga() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
-  yield takeLatest(REQUEST_POPUP, popupSaga);
+  yield takeLatest(REQUEST_INFO_LAYER, infoLayerSaga);
 }

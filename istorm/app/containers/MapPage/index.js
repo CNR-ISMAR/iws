@@ -166,7 +166,7 @@ const styles = (theme) => {
 function MapPage(props) {
   console.info("mapPage");
   console.info(props);
-  useInjectSaga({ key: 'popup', saga });
+  useInjectSaga({ key: 'popups', saga });
   
   let layerInfo = null;
   if(props.timeline.current && typeof props.timeline.results[props.timeline.current] !== "undefined") {
@@ -190,7 +190,7 @@ function MapPage(props) {
           mean={props.mapPage.mean}
           seaLevel={props.mapPage.seaLevel}
           WindGLLayer={props.mapPage.WindGLLayer}
-          popup={props.mapPage.popup}
+          popups={props.mapPage.popups}
           />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>

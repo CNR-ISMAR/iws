@@ -12,7 +12,7 @@ import messages from './messages';
 import { withStyles } from '@material-ui/core/styles';
 
 import { createStructuredSelector } from 'reselect';
-import makeSelectPopup from './selectors';
+import makeLayerInfo from './selectors';
 
 
 import { connect } from 'react-redux';
@@ -22,7 +22,7 @@ import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
-import { setViewport, requestPopUp } from "../../containers/App/actions";
+import { setViewport, requestInfoLayer } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
   import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
@@ -52,9 +52,7 @@ class Map extends React.Component {
         transitionDuration: 1000,
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic,
-      },
-      showPopup: true,
-      popups: [],
+      }
     };
     
     this.flyTo = this.flyTo.bind(this);
@@ -103,35 +101,20 @@ class Map extends React.Component {
   }
 
   onClick(event) {
-    /* console.log(event)
-    console.log(event.offsetCenter) */
+    console.log('this.props')
+    console.log()
     const pos = this.refs.map.getMap().unproject(event.offsetCenter)
-    /* console.log(pos) */
-    const lol = new LngLat(pos.lng,pos.lat)
+    const latlon = new LngLat(pos.lng,pos.lat)
+    const bb200 = latlon.toBounds(200)
     console.log('Map Page PopUp Click Evt')
-    /*
-    GIORGIO
-     */
     console.log(this.refs.map.getMap())
-    const bb200 = lol.toBounds(200)
     console.log(bb200)
-    const popups = [
-      {
-        latitude: pos.lat,
-        longitude: pos.lng,
-        closeButton: true,
-        closeOnClick: true,
-        onClose: () => this.setState({...this.state, showPopup: false}),
-        anchor: 'top'
-      }
-    ]
-      //this.props.dispatch(requestPopUp());
-      //console.log(this.props)
-    this.setState({...this.state, popups: popups}, () => {
-      console.log('dispatch request Pop Up') 
-      this.props.dispatch(requestPopUp());
-    });
+    this.props.dispatch(requestInfoLayer({
+      time: this.props.layerInfo.date,
+      bounds: bb200,
+    }));
   }
+
 
 
   render () {
@@ -154,23 +137,21 @@ class Map extends React.Component {
         >
         {!this.state.mapboxIsLoading && (
           <>
-            {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel}/>)}
+            {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel} mean={this.props.mean}/>)}
             {this.props.WindGLLayer.isVisible && (<WindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.WindGLLayer}/>)}
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
           </>
         )}
-        {this.state.showPopup &&  (this.state.popups.map((popup) =>
+        {this.props.popups.results.length > 0 &&  (this.props.popups.results.filter(x=>x.show).map((popup, index) =>
             <Popup
-                key={popup.latitude+popup.longitude}
+                key={'popup'+index}
                 latitude={popup.latitude}
                 longitude={popup.longitude}
-                closeButton={popup.closeButton}
-                closeOnClick={popup.closeOnClick}
-                onClose={popup.onClose}
+                closeButton={true}
+                closeOnClick={true}
+                // onClose={() => this.setState({...this.state, showPopups: false})}
             >
-            { !this.props.popup.loading && this.props.popup.results.length > 0 &&
-              
-              JSON.stringify(this.props.popup.results) } 
+              { JSON.stringify(popup) }
 
             </Popup>
 

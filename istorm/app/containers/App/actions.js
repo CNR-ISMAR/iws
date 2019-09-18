@@ -5,7 +5,7 @@
  */
 
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN,REQUEST_POPUP, REQUEST_POPUP_SUCCESS, REQUEST_ERROR } from './constants';
+  TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR } from './constants';
 
 export function toggleLayerMean() {
   return {
@@ -39,16 +39,17 @@ export function zoomOut() {
   };
 }
 
-export function requestPopUp() {
+export function requestInfoLayer(options) {
   return {
-    type: REQUEST_POPUP
+    type: REQUEST_INFO_LAYER,
+    parameters: options,
   };
 }
 
-export function requestPopUpSuccess(result) {
-  console.log('REQUEST_POPUP_SUCCESS')
+export function requestInfoLayerSuccess(result) {
+  console.log('REQUEST_INFO_LAYER_SUCCESS')
   return {
-    type: REQUEST_POPUP_SUCCESS,
+    type: REQUEST_INFO_LAYER_SUCCESS,
     result: result
   };
 }

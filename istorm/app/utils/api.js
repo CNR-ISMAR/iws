@@ -111,7 +111,8 @@ export const updateNotification = (id) => {
   return request(`${BASE_URL}/openistorm/notifications/${id}/markasread/`, options)
 }
 
-export const popup = () => {
+export const popups = (action) => {
+  const bounds = action.parameters.bounds
   const options = getOption({})
-  return request(`http://localhost/openistorm/layers/info/?bbox=18.562486834444055,40.60442396407557,18.56721978760456,40.608017225183865&x=1&y=1&time=2019-09-16T00:00:00.000Z&width=2&height=2/`, options)
+  return request(`${BASE_URL}/openistorm/layers/info/?bbox=${bounds._sw.lng},${bounds._sw.lat},${bounds._ne.lng},${bounds._ne.lat}&x=1&y=1&time=${action.parameters.time}&width=2&height=2`, options)
 };

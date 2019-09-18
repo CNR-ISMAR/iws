@@ -6,7 +6,7 @@
 import produce from 'immer';
 import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN, REQUEST_POPUP, REQUEST_POPUP_SUCCESS, REQUEST_ERROR } from './constants';
+  TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -131,7 +131,7 @@ export const initialState = {
       }
     }
   },
-  popup: {
+  popups: {
     loading: false,
     error: null,
     results: []
@@ -165,19 +165,25 @@ const mapPageReducer = (state = initialState, action) =>
       case SET_VIEWPORT:
         draft.viewport = action.viewport;
       break;
-      case REQUEST_POPUP:
-        draft.popup.loading = true;
-        draft.popup.error = initialState.popup.error;
-        draft.popup.results = []
+      case REQUEST_INFO_LAYER:
+        draft.popups.loading = true;
+        draft.popups.error = initialState.popups.error;
+        draft.popups.results = []
       break;
-      case REQUEST_POPUP_SUCCESS:
-        draft.popup.loading = false;
-        draft.popup.error = initialState.popup.error;
-        draft.popup.results = action.result;
+      case REQUEST_INFO_LAYER_SUCCESS:
+        draft.popups.loading = false;
+        draft.popups.error = initialState.popups.error;
+        draft.popups.results = [{...action.result, show: true}];
       break;
       case REQUEST_ERROR:
-        draft.popup.loading = false;
-        draft.popup.error = action.error;
+        console.log(action.error)
+        console.log(action.error)
+        console.log(action.error)
+        console.log(action.error)
+        console.log(action.error)
+        console.log(action.error)
+        draft.popups.loading = false;
+        draft.popups.error = action.error;
       break;
     }
   });
