@@ -134,7 +134,7 @@ services:
 
   django:
     restart: unless-stopped
-    image: iws_django:latest
+    #image: iws_django:latest
     build: .
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -243,7 +243,7 @@ services:
       #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       - ./volumes/tds/thredds/directory:/usr/local/tomcat/content/thredds
       #- /usr3/tds/data/:/usr/local/tomcat/content/data
-      #- ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
+      - ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
       #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
     env_file:
       - "tds.env"
