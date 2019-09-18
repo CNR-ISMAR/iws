@@ -9,6 +9,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     date = serializers.SerializerMethodField()
     wave_metadata = serializers.SerializerMethodField()
     wave_image = serializers.SerializerMethodField()
+    wave_image_background = serializers.SerializerMethodField()
     sea_level_mean = serializers.SerializerMethodField()
     sea_level_std = serializers.SerializerMethodField()
 
@@ -21,6 +22,9 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     def get_wave_image(self, instance):
         return instance.image
+
+    def get_wave_image_background(self, instance):
+        return instance.image_background
 
     def sea_level_url(self, timestamp, layerOptions):
         #TODO: manage missing current data!!!!!
