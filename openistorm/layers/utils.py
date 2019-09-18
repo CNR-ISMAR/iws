@@ -1,7 +1,8 @@
 # encoding: utf-8
 
 from osgeo import gdal
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
+import datetime
 import time, urllib, wget, math, os, netCDF4, json, requests, pytz, xmltodict
 # import logging
 from PIL import Image
@@ -519,7 +520,7 @@ class WmsQuery:
         # time_from = self.time_from.isoformat()[0:19] + '.000Z'
         # time_to = self.time_to.isoformat()[0:19] + '.000Z'
         # TODO: ODIO TUTTI
-        time_from = datetime.combine(self.time_to, time.min).isoformat()[0:19] + '.000Z'
+        time_from = datetime.combine(self.time_to, datetime.time.min).isoformat()[0:19] + '.000Z'
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
 
         for dataset in datasets.keys():
