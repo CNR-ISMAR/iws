@@ -59,6 +59,12 @@ export const initialState = {
     isVisible: true,
     isTimeseries: true,
   },
+  BackgroundWindLayer: {
+    name: "Wave background",
+    id: "wmpMeanBg",
+    isVisible: true,
+    isTimeseries: true,
+  },
   seaLevel: {
     name: "Sea Level",
     id: "seaLevel",
