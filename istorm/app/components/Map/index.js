@@ -11,18 +11,24 @@ import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { createStructuredSelector } from 'reselect';
+import makeSelectPopup from './selectors';
+
+
+import { connect } from 'react-redux';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
-import { setViewport } from "../../containers/App/actions";
+import { setViewport, requestPopUp } from "../../containers/App/actions";
 
-import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, Popup } from 'react-map-gl';
   import { LngLat, Point, MercatorCoordinate } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
-
+import mapCss from './mapCss.css'
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
 
@@ -34,21 +40,11 @@ const styles = (theme) => {
   }
 };
 
-class MyController extends MapController{
-
-    _onDoubleTap(event) {
-      console.log(event)
-      // console.log(this.mapState.popups = [])
-    }
-
-}
-
 
 class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      controller: new MyController(),
       mapboxIsLoading: true,
       viewport: {
         width: window.document.body.offsetWidth,
@@ -66,6 +62,7 @@ class Map extends React.Component {
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
+    
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -101,13 +98,19 @@ class Map extends React.Component {
     this.setState({...this.state, mapboxIsLoading: true});
   }
 
+  componentDidUpdate(){
+    console.log('componentDidUpdate')   
+    if(!this.props.popup.loading && this.props.popup.results.length > 0)
+      console.log(this.props.popup.results)
+  }
+
   onClick(event) {
-    console.log(event)
-    console.log(event.offsetCenter)
+    /* console.log(event)
+    console.log(event.offsetCenter) */
     const pos = this.refs.map.getMap().unproject(event.offsetCenter)
-    console.log(pos)
+    /* console.log(pos) */
     const lol = new LngLat(pos.lng,pos.lat)
-    console.log(lol.toBounds())
+    console.log('Map Page PopUp Click Evt')
     const popups = [
       {
         latitude: pos.lat,
@@ -118,7 +121,11 @@ class Map extends React.Component {
         anchor: 'top'
       }
     ]
-    this.setState({...this.state, popups: popups});
+      //this.props.dispatch(requestPopUp());
+      //console.log(this.props)
+    this.setState({...this.state, popups: popups}, () => {
+       this.props.dispatch(requestPopUp());
+    });
   }
 
 
@@ -126,7 +133,6 @@ class Map extends React.Component {
     return (
       <ReactMapGL
         disableTokenWarning={true}
-        controller={this.state.controller}
         width={this.state.viewport.width}
         height={this.state.viewport.height}
         id="gis-map"
@@ -148,7 +154,6 @@ class Map extends React.Component {
           </>
         )}
         {this.state.showPopup && (this.state.popups.map((popup) =>
-            // console.log('popup') && console.log(popup) &&
             <Popup
                 key={popup.latitude+popup.longitude}
                 latitude={popup.latitude}
@@ -156,14 +161,21 @@ class Map extends React.Component {
                 closeButton={popup.closeButton}
                 closeOnClick={popup.closeOnClick}
                 onClose={popup.onClose}
-                // anchor={popup.anchor}
-              >
-              <div>You are here</div>
+            >
+            {JSON.stringify(this.props.popup.results)} 
             </Popup>
+            
         ))}
       </ReactMapGL>
     )
   }
 }
 
-export default withStyles(styles, {withTheme: true})(Map);
+
+const mapStateToProps = createStructuredSelector({
+  popup: makeSelectPopup(),
+})
+
+
+
+export default connect(mapStateToProps, null)(withStyles(styles, {withTheme: true})(Map));

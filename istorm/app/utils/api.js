@@ -111,3 +111,7 @@ export const updateNotification = (id) => {
   return request(`${BASE_URL}/openistorm/notifications/${id}/markasread/`, options)
 }
 
+export const popup = () => {
+  const options = getOption({})
+  return request(`${BASE_URL}/openistorm/notifications/`, options)
+};

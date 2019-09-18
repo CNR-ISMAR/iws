@@ -5,7 +5,8 @@
  */
 import produce from 'immer';
 import moment from 'moment';
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, TOGGLE_LAYER_MEAN } from './constants';
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
+  TOGGLE_LAYER_MEAN, REQUEST_POPUP, REQUEST_POPUP_SUCCESS, REQUEST_ERROR } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -123,6 +124,11 @@ export const initialState = {
         ]
       }
     }
+  },
+  popup: {
+    loading: false,
+    error: null,
+    results: []
   }
 };
 
@@ -153,7 +159,20 @@ const mapPageReducer = (state = initialState, action) =>
       case SET_VIEWPORT:
         draft.viewport = action.viewport;
       break;
-     
+      case REQUEST_POPUP:
+        draft.popup.loading = true;
+        draft.popup.error = initialState.popup.error;
+        draft.popup.results = []
+      break;
+      case REQUEST_POPUP_SUCCESS:
+        draft.popup.loading = false;
+        draft.popup.error = initialState.popup.error;
+        draft.popup.results = action.result;
+      break;
+      case REQUEST_ERROR:
+          draft.popup.loading = false;
+          draft.popup.error = action.error;
+      break;
     }
   });
 

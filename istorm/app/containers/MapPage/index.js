@@ -39,6 +39,9 @@ import Remove from '@material-ui/icons/Remove';
 import { WaveIcon, SeaLevelIcon } from '../../utils/icons';
 import { Hidden } from '@material-ui/core';
 
+import { useInjectSaga } from 'utils/injectSaga';
+import saga from 'components/Map/saga';
+
 const AntSwitch = withStyles(theme => ({
   root: {
     width: 28,
@@ -163,6 +166,8 @@ const styles = (theme) => {
 function MapPage(props) {
   console.info("mapPage");
   console.info(props);
+  useInjectSaga({ key: 'popup', saga });
+  
   let layerInfo = null;
   if(props.timeline.current && typeof props.timeline.results[props.timeline.current] !== "undefined") {
     layerInfo = props.timeline.results[props.timeline.current];

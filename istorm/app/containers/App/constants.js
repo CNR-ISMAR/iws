@@ -13,3 +13,11 @@ export const TOGGLE_LAYER_MEAN = 'app/App/TOGGLE_LAYER_MEAN';
 export const ZOOM_IN = 'app/App/ZOOM_IN';
 export const ZOOM_OUT = 'app/App/ZOOM_OUT';
 export const SET_VIEWPORT = 'app/App/SET_VIEWPORT';
+export const REQUEST_POPUP = 'app/App/REQUEST_POPUP';
+export const REQUEST_POPUP_SUCCESS = 'app/App/REQUEST_POPUP_SUCCESS';
+export const REQUEST_ERROR = 'app/App/REQUEST_ERROR';
+
+
+
+
+

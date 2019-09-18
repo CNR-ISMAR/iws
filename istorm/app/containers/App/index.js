@@ -47,11 +47,14 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from 'theme';
 import useStyles from 'useStyles';
 
+
 function App(props) {
   const classes = useStyles();
   console.info("app");
   console.info(props);
 
+  
+  
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());
   }, []);

@@ -4,7 +4,8 @@
  *
  */
 
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, TOGGLE_LAYER_MEAN } from './constants';
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
+  TOGGLE_LAYER_MEAN,REQUEST_POPUP, REQUEST_POPUP_SUCCESS, REQUEST_ERROR } from './constants';
 
 export function toggleLayerMean() {
   return {
@@ -38,4 +39,23 @@ export function zoomOut() {
   };
 }
 
+export function requestPopUp() {
+  return {
+    type: REQUEST_POPUP
+  };
+}
 
+export function requestPopUpSuccess(result) {
+  console.log('REQUEST_POPUP_SUCCESS')
+  return {
+    type: REQUEST_POPUP_SUCCESS,
+    result: result
+  };
+}
+
+export function requestError(errorMessage) {
+  return {
+    type: REQUEST_ERROR,
+    error: errorMessage
+  };
+}

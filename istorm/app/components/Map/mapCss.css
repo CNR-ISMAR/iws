@@ -1,0 +1,29 @@
+.mapboxgl-popup-tip{
+    display: none
+}
+
+.mapboxgl-popup-content{
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    background: rgb(219, 221, 222);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mapboxgl-popup-content .btn{
+    font-size: 2rem;
+}
+
+.mapboxgl-popup-close-button{
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    bottom: -20px;
+    left: 0;
+    top: auto;
+    background: #0B303A;
+    color: white;
+    font-size: 1rem
+}
