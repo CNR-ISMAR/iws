@@ -10,10 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
-
-import { createStructuredSelector } from 'reselect';
-import makeLayerInfo from './selectors';
-
+import moment from "moment";
 
 import { connect } from 'react-redux';
 
@@ -28,7 +25,15 @@ import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-g
   import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
-import mapCss from './mapCss.css'
+import mapCss from './mapCss.css';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
 
@@ -151,7 +156,32 @@ class Map extends React.Component {
                 closeOnClick={true}
                 // onClose={() => this.setState({...this.state, showPopups: false})}
             >
-              { JSON.stringify(popup) }
+              
+              <Paper>
+                <Typography id="tableTitle">
+                  <Box fontWeight="fontWeightLight" p={1}>
+                      Longitude: {popup.longitude}, Latitude: {popup.latitude}, Time: {moment(popup.time).format( 'DD/MM/YYYY')} 
+                  </Box>
+                </Typography>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell></TableCell>
+                      <TableCell align="left">mean</TableCell>
+                      <TableCell align="left">std</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {Object.keys(popup.results).map((name) => 
+                      <TableRow>
+                        <TableCell>{name}</TableCell>
+                        <TableCell>{popup.results[name].mean}</TableCell>
+                        <TableCell>{popup.results[name].std}</TableCell>
+                      </TableRow>
+                    ) }
+                  </TableBody>
+                </Table>
+              </Paper>
 
             </Popup>
 
