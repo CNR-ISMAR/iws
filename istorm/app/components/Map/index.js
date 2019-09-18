@@ -101,17 +101,11 @@ class Map extends React.Component {
     this.setState({...this.state, mapboxIsLoading: true});
   }
 
-  componentDidUpdate(){
-    console.log('componentDidUpdate')   
-  }
 
   onClick(event) {
-    console.log('this.props')
-    console.log()
     const pos = this.refs.map.getMap().unproject(event.offsetCenter)
     const latlon = new LngLat(pos.lng,pos.lat)
     const bb200 = latlon.toBounds(200)
-    console.log('Map Page PopUp Click Evt')
     console.log(this.refs.map.getMap())
     console.log(bb200)
     this.props.dispatch(requestInfoLayer({
@@ -123,7 +117,6 @@ class Map extends React.Component {
 
 
   render () {
-    console.log('component Render')
     return (
       <ReactMapGL
         disableTokenWarning={true}
