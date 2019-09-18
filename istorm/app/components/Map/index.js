@@ -34,6 +34,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import BarChartIcon from '@material-ui/icons/BarChart';
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
 
@@ -174,6 +176,12 @@ class Map extends React.Component {
                     ) }
                   </TableBody>
                 </Table>
+                <Box textAlign="center" p={1}>
+                  <Button className="buttonChart" color="primary" onClick={ () => console.log('click load HCart')/* this.props.dispatch() */ }>
+                    Open Chart
+                    <BarChartIcon></BarChartIcon>
+                  </Button>
+                </Box>
               </Paper>
 
             </Popup>
