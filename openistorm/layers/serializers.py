@@ -28,7 +28,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         wmsdate = datetime.datetime.fromtimestamp(timestamp)
         formatted_date = wmsdate.strftime("%Y%m%d")
         layerFileName =  'TMES_sea_level_'+formatted_date+'.nc'
-        if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0):
+        if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
             layerFileName = 'history/'+layerFileName
         #TODO: questo tempo va sostituito col timestamp formatato a modino
         # time = '2019-02-02T00:00:00.000Z'

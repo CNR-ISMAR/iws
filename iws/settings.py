@@ -502,7 +502,7 @@ OAUTH2_PROVIDER = {
     # 'APPLICATION_MODEL': 'djcore.djcore.oauth.models.Application'
 }
 
-THREDDS_URL = "https://iws.ismar.cnr.it/thredds/ncss/tmes/"
+THREDDS_URL = "https://iws.ismar.cnr.it/"
 LAYERDATA_ROOT = os.path.join(PROJECT_ROOT, 'storage', 'layerdata')
 SITE_URL = os.getenv('SITE_URL', 'https://iws.ismar.cnr.it')
 SITE_HOST = os.getenv('SITE_HOST', 'iws.ismar.cnr.it')
