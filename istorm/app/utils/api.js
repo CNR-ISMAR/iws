@@ -122,6 +122,8 @@ export const chart = (action) => {
   const bbox = action.params.bbox
   const from = action.params.from
   const to = action.params.to
+ /*  const from = "2019-09-16T00:00:00.000Z"
+  const to = "2019-09-16T23:00:00.000Z" */
   const options = getOption({})
   console.log(action)
   

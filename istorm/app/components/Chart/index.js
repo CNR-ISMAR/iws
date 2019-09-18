@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import 'react-vis/dist/style.css';
 import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis } from 'react-vis';
+// import {DiscreteColorLegend} from 'react-vis/dist/legends/discrete-color-legend';
 
 const styles = (theme) => {
   return {
@@ -21,6 +22,16 @@ const styles = (theme) => {
     }
   }
 };
+
+/* const ITEMS = [
+  {title: 'Dashed', color: "#45aeb1", strokeStyle: "dashed"},
+  {title: 'Dasharray', color: '#f93', strokeDasharray: "1 2 3 4 5 6 7"},
+  {title: 'Dots', color: 'url(#circles)', strokeWidth: 9},
+  {title: 'Stripes', color: 'url(#stripes)'},
+  {title: 'Wide stripes', color: 'url(#stripes)', strokeWidth: 13},
+  {title: 'Normal', color: 'purple'},
+  {title: 'Wide', color: 'powderblue', strokeWidth: 6},
+]; */
 
 function Chart(props) {
   const [chart, setChartState] = useState({width: 0, height: 0});
