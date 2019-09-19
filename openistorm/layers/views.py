@@ -31,9 +31,9 @@ class ImageLayerList(ListAPIView):
         fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now() - datetime.timedelta(days=1)
         todate = parser.parse(todate) if todate != '' else datetime.datetime.now() + datetime.timedelta(days=2)
 
-        print("\n\n")
-        print(fromdate)
-        print("\n\n")
+        # print("\n\n")
+        # print(fromdate)
+        # print("\n\n")
 
         fromdate = datetime.datetime.combine(fromdate, datetime.time.min).strftime('%s')
         todate = datetime.datetime.combine(todate, datetime.time.max).strftime('%s')
@@ -45,8 +45,8 @@ class ImageLayerList(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
 
         boundaries = ImageLayer.objects.aggregate(max=Max('timestamp'), min=Min('timestamp'))
-        # if queryset.count() == 0:
-        #     queryset = ImageLayer.objects.filter(timestamp__range=((boundaries['max']-(3600*40)), boundaries['max']))
+        if queryset.count() == 0:
+            queryset = ImageLayer.objects.filter(timestamp__range=((boundaries['max']-(3600*40)), boundaries['max']))
 
 
         page = self.paginate_queryset(queryset)
