@@ -45,8 +45,8 @@ class ImageLayerList(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
 
         boundaries = ImageLayer.objects.aggregate(max=Max('timestamp'), min=Min('timestamp'))
-        if queryset.count() == 0:
-            queryset = ImageLayer.objects.filter(timestamp__range=((boundaries['max']-(3600*40)), boundaries['max']))
+        # if queryset.count() == 0:
+        #     queryset = ImageLayer.objects.filter(timestamp__range=((boundaries['max']-(3600*40)), boundaries['max']))
 
 
         page = self.paginate_queryset(queryset)
