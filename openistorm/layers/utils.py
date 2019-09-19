@@ -112,7 +112,8 @@ class NCToImg:
                     # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
                     ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
                     json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
-                    print("\n\n"+since+"\n\n")
+                    print("\n\n")
+                    print(since)
                     print("\n\n"+m['NETCDF_DIM_time']+"\n\n")
                     print("\n\n"+json_time+"\n\n")
 
