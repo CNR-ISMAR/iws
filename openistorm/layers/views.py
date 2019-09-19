@@ -31,6 +31,10 @@ class ImageLayerList(ListAPIView):
         fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now() - datetime.timedelta(days=1)
         todate = parser.parse(todate) if todate != '' else datetime.datetime.now() + datetime.timedelta(days=2)
 
+        print("\n\n")
+        print(fromdate)
+        print("\n\n")
+
         fromdate = datetime.datetime.combine(fromdate, datetime.time.min).strftime('%s')
         todate = datetime.datetime.combine(todate, datetime.time.max).strftime('%s')
 
