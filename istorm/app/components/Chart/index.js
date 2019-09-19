@@ -12,8 +12,9 @@ import messages from './messages';
 import { withStyles } from '@material-ui/core/styles';
 
 import 'react-vis/dist/style.css';
-import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis } from 'react-vis';
-// import {DiscreteColorLegend} from 'react-vis/dist/legends/discrete-color-legend';
+import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis, Crosshair } from 'react-vis';
+import {DiscreteColorLegend} from 'react-vis/dist/legends/discrete-color-legend';
+import {timeFormatDefaultLocale} from 'd3-time-format';
 
 const styles = (theme) => {
   return {
@@ -34,7 +35,7 @@ const styles = (theme) => {
 ]; */
 
 function Chart(props) {
-  const [chart, setChartState] = useState({width: 0, height: 0});
+  const [chart, setChartState] = useState({width: 0, height: 0, crosshairValues: []});
   const wrapper = useRef(null);
   console.log('Chart')
   console.log(props.data)
@@ -51,18 +52,24 @@ function Chart(props) {
     })
   }
 
+  const labels = typeof props.data == 'object' ? Object.keys(props.data) : []
+  const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
+
   useEffect(updateWidthHeight, [wrapper]);
   return (
     <div ref={wrapper} className={props.classes.subNav}>
-      {/*<iframe src="https://iws.ismar.cnr.it/grafana/d-solo/_7Z2Rhlmk/sea-level?from=1542853716846&to=1549428315726&orgId=1&theme=dark&panelId=6" width="450" height="200" frameborder="0"></iframe>*/}
-          {/*<XYPlot height={chart.height} width={chart.width}>*/}
-          <XYPlot height={400} width={chart.width}>
-            <XAxis title='XAxis'/>
-            <YAxis title='YAxis'/>
+          <XYPlot height={400} width={chart.width} xType="time" yType="linear"
+          onMouseLeave={() => setChartState({...chart, crosshairValues: []})}>
+            <XAxis title='time' />
+            <YAxis title='value'/>
             {typeof props.data == 'object' && Object.keys(props.data).map(name =>
-                <LineSeries key={name} data={fixFormat(props.data[name])} color={'red'} curve={'curveMonotoneX'} strokeStyle={'dashed'}/>
+                <LineSeries key={name} data={fixFormat(props.data[name])} curve={'curveMonotoneX'} strokeStyle={name.includes('std') ? 'dashed' : 'solid'}
+                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})}/>
             )}
+          <Crosshair values={chart.crosshairValues} itemsFormat={x => x.map(function (value, index) { console.log(x, "CIAOCIAO"); return {title: labels[index], value: value.y}})}/>
           </XYPlot>
+      {/*{JSON.stringify(chart.crosshairValues)}*/}
+          {/*{typeof props.data == 'object' && <DiscreteColorLegend height={200} width={300} items={Object.keys(props.data)} />}*/}
 
       {/*<XYPlot height={chart.height} width={chart.width}>*/}
         {/*<XAxis title='XAxis'/>*/}
