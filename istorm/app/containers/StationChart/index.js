@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
@@ -23,6 +23,8 @@ import makeSelectChart from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { requestChart } from "./actions";
+
+import Fade from '@material-ui/core/Fade';
 
 import Chart from '../../components/Chart';
 
@@ -64,6 +66,7 @@ const styles = (theme, style) => {
 function StationChart(props) {
   useInjectReducer({ key: 'chart', reducer });
   useInjectSaga({ key: 'chart', saga });
+  const [fadeIn, setFadeIn] = useState(false);
   console.info("Station Chart");
   console.info(props);
 
@@ -84,13 +87,17 @@ function StationChart(props) {
     {x: 8, y: 2},
     {x: 9, y: 0}
   ]; */
-
+  const fadeTime = 500
   const close = () => {
+   setFadeIn(false)
+   setTimeout(() => {
     if(typeof props.goTo !== "undefined") {
-      props.history.push(props.goTo) 
-    } else {
-      props.history.push("/") 
-    }
+        props.history.push(props.goTo) 
+      } else {
+        props.history.push("/") 
+      }
+    }, fadeTime)
+   
   };
 
   const chartParams = queryString.parse(props.history.location.search)
@@ -99,23 +106,25 @@ function StationChart(props) {
     /* console.log('chartParams')
     console.log(chartParams)
     console.log(props) */
-      if(props.chart.results.length == 0 && !props.chart.loading){
-        props.dispatch(requestChart({
-          bbox: chartParams.bbox,
-          from: chartParams.from,
-          to: chartParams.to,
-        }))
-      }
+    !fadeIn ? setFadeIn(true) : null
+    if(props.chart.results.length == 0 && !props.chart.loading){
+      props.dispatch(requestChart({
+        bbox: chartParams.bbox,
+        from: chartParams.from,
+        to: chartParams.to,
+      }))
+    }
   }, [])
 
   return (
+    <Fade in={fadeIn} out={!fadeIn} timeout={fadeTime}>
     <div className={props.classes.subNav}>
       <div className={props.classes.headerTop}>
         <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} >&times;</Button>
       </div>
       <div className={props.classes.wrapper}>
         <Chart 
-          data={props.chart.results.results} 
+          data={props.chart.results.results}
           latitude={props.chart.results.latitude}
           longitude={props.chart.results.longitude}
           timeFrom={moment(props.timeline.from).format( 'DD/MM/YYYY')}
@@ -126,6 +135,7 @@ function StationChart(props) {
         /* <Button onClick={ () => props.dispatch(requestChart()) }>REQ CHART</Button> */}
       
     </div>
+    </Fade>
   );
 }
 

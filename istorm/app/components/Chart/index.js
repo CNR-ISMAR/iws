@@ -33,25 +33,23 @@ const LegendsColors = {
 }
 
 const LegendsItems = [
-  {title: 'Sea Level Std', color: LegendsColors.sea_level, strokeStyle: "dashed" },
-  {title: 'Sea Level Mean', color: LegendsColors.sea_level, strokeStyle: "solid"},
-  {title: 'Wmd Std', color: LegendsColors.wmd, strokeStyle: "dashed"},
-  {title: 'Wmd Mean', color: LegendsColors.wmd, strokeStyle: "solid"},
-  {title: 'Wmp Std', color: LegendsColors.wmp, strokeStyle: "dashed"},
-  {title: 'Wmp Mean', color: LegendsColors.wmp, strokeStyle: "solid"},
-  {title: 'Wsh Std', color: LegendsColors.wsh, strokeStyle: "dashed"},
-  {title: 'Wsh Mean', color: LegendsColors.wsh, strokeStyle: "solid"},
+  {id: 'sea_level-std', title: 'Sea Level Std', color: LegendsColors.sea_level, strokeStyle: "dashed" },
+  { id: 'sea_level-mean', title: 'Sea Level Mean', color: LegendsColors.sea_level, strokeStyle: "solid"},
+  { id: 'wmd-std', title: 'Wmd Std', color: LegendsColors.wmd, strokeStyle: "dashed"},
+  { id: 'wmd-mean', title: 'Wmd Mean', color: LegendsColors.wmd, strokeStyle: "solid"},
+  { id: 'wmp-std', title: 'Wmp Std', color: LegendsColors.wmp, strokeStyle: "dashed"},
+  { id: 'wmp-mean', title: 'Wmp Mean', color: LegendsColors.wmp, strokeStyle: "solid"},
+  { id: 'wsh-std', title: 'Wsh Std', color: LegendsColors.wsh, strokeStyle: "dashed"},
+  { id: 'wsh-mean', title: 'Wsh Mean', color: LegendsColors.wsh, strokeStyle: "solid"},
 ]; 
-
-const colors = []
-
+let obj = {}
 function Chart(props) {
-  const [chart, setChartState] = useState({width: 0, height: 0, crosshairValues: []});
+  const [chart, setChartState] = useState({ width: 0, height: 0, itemClickID: '', crosshairValues: [] });
   const wrapper = useRef(null);
   console.log('Chart')
   /* console.log(props.data) */
   const updateWidthHeight = () => {
-    setChartState({width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
+    setChartState({...chart, width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
   };
 
   const fixFormat = (ts) => {
@@ -65,65 +63,77 @@ function Chart(props) {
 
   const labels = typeof props.data == 'object' ? Object.keys(props.data) : []
   const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
-
+  
   useEffect(updateWidthHeight, [wrapper]);
+  
   return (
     <div ref={wrapper} className={props.classes.subNav}>
-          
-          { typeof props.data == 'object' && Object.keys(props.data).length > 0 && 
+        {/* console.log(chart.itemClickID) */}  
+        { typeof props.data == 'object' && Object.keys(props.data).length > 0 && 
           <>
-          <div className='chart_subtitle'>
-            <div><h2>Latitude:</h2><h3>{props.latitude}</h3></div>
-            <div><h2>Longitude:</h2><h3>{props.longitude}</h3></div>
-            <div><h2>Time: </h2><h3>from: {props.timeFrom}<br></br> to: {props.timeTo}</h3></div>
-          </div>
-          <XYPlot 
-            height={400} 
-            width={chart.width} 
-            xType="time" 
-            yType="linear"
-            onMouseLeave={() => setChartState({...chart, crosshairValues: []})}>
-            <XAxis title='time' />
-            <YAxis title='value'/>
-            {typeof props.data == 'object' && Object.keys(props.data).map(name => {
-              return (   
-                <LineSeries 
-                    key={name}
-                    className={name}
-                    color={
-                      name.includes('sea_level') && LegendsColors.sea_level ||
-                      name.includes('wmd') && LegendsColors.wmd ||
-                      name.includes('wmp') && LegendsColors.wmp ||
-                      name.includes('wsh') && LegendsColors.wsh
-                    } 
-                    data={fixFormat(props.data[name])} 
-                    curve={'curveMonotoneX'} 
-                    strokeStyle={name.includes('std') ? 'dashed' : 'solid'}
-                    onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} /> 
-                )
-            })}
-            <Crosshair 
-              values={chart.crosshairValues} 
-              itemsFormat={x => x.map(function (value, index) { 
-              /*  console.log(x, "CIAOCIAO"); */ return {title: labels[index], value: value.y}
-                })
-              }/>
-              <DiscreteColorLegend items={LegendsItems} orientation='horizontal'></DiscreteColorLegend>
-          </XYPlot>
-        </> ||  <CircularProgress />
-          }
-      {/*{JSON.stringify(chart.crosshairValues)}*/}
-          {/*{typeof props.data == 'object' && <DiscreteColorLegend height={200} width={300} items={Object.keys(props.data)} />}*/}
-
-      {/*<XYPlot height={chart.height} width={chart.width}>*/}
-        {/*<XAxis title='XAxis'/>*/}
-        {/*<YAxis title='YAxis'/>*/}
-        {/*<LineSeries data={props.data} color={'red'} curve={'curveMonotoneX'} strokeStyle={'dashed'}/>*/}
-      {/*</XYPlot>*/}
-      <h6></h6>
-      {/* <XYPlot height={chart.height} width={chart.width}>
-        <LineSeries data={props.data} />
-      </XYPlot> */}
+              <div className='chart_subtitle'>
+                <div><h2>Latitude:</h2><h3>{props.latitude}</h3></div>
+                <div><h2>Longitude:</h2><h3>{props.longitude}</h3></div>
+                <div><h2>Time: </h2><h3>from: {props.timeFrom}<br></br> to: {props.timeTo}</h3></div>
+              </div>
+              <XYPlot 
+                height={400} 
+                width={chart.width} 
+                xType="time" 
+                yType="linear"
+                onMouseLeave={() => setChartState({...chart, crosshairValues: []})}>
+                <XAxis title='time' />
+                <YAxis title='value'/>
+                
+                { Object.keys(props.data)
+                          .filter(name => {
+                            if(obj[name] === undefined || obj[name]){
+                              return true
+                            }else{
+                              return false
+                            } 
+                          })
+                          .map(name => {
+                            return (   
+                              <LineSeries 
+                                  key={name}
+                                  className={name}
+                                  color={
+                                    name.includes('sea_level') && LegendsColors.sea_level ||
+                                    name.includes('wmd') && LegendsColors.wmd ||
+                                    name.includes('wmp') && LegendsColors.wmp ||
+                                    name.includes('wsh') && LegendsColors.wsh
+                                  }
+                                  opacity={ 1 /* obj[name] === undefined || obj[name] ? 1 : 0 */ }
+                                  data={fixFormat(props.data[name])}
+                                  curve={'curveMonotoneX'} 
+                                  strokeStyle={name.includes('std') ? 'dashed' : 'solid'}
+                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} /> 
+                              )
+                          })
+                }
+                <Crosshair 
+                  values={chart.crosshairValues} 
+                  itemsFormat={x => x.map((value, index) => { 
+                      /*console.log(x, "CIAOCIAO"); */ return {title: labels[index], value: value.y}
+                    })
+                  }/>
+                <DiscreteColorLegend 
+                  items={LegendsItems} 
+                  orientation='horizontal'
+                  onItemClick={item => { 
+                    setChartState({ ...chart, itemClickID: item.id }); 
+                    if(obj[item.id] === undefined)
+                    obj[item.id] = false
+                    else
+                    obj[item.id] = !obj[item.id]
+                    
+                  }}   
+                  >
+                </DiscreteColorLegend>
+              </XYPlot>
+          </> ||  <CircularProgress />
+        }
     </div>
   )
 }
