@@ -39,13 +39,20 @@ class NCToImg:
         if os.path.isfile(self.nc_filepath):
             os.remove(self.nc_filepath)
 
-        self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/history/' \
+        # self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/history/' \
+        #            + self.nc_filename \
+        #            + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
+        #            + self.time_from \
+        #            + "T00%3A00%3A00Z&time_end=" \
+        #            + self.time_to \
+        #            + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
+
+        history = 'history/' if parser.parse(time_from) < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) else ''
+        self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/' + history \
                    + self.nc_filename \
                    + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
-                   + self.time_from \
-                   + "T00%3A00%3A00Z&time_end=" \
-                   + self.time_to \
-                   + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
+                   + "2015-02-05T00:00:00Z&time_end=" \
+                   + "2015-02-06T23:00:00Z&timeStride=1&accept=netcdf"
 
         print("\n\n"+self.url+"\n\n")
 
