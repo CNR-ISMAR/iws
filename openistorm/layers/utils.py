@@ -499,7 +499,8 @@ class WmsQuery:
 
     def get_timeseries(self):
 
-        formatted_date = self.time_from.strftime("%Y%m%d")
+        # formatted_date = self.time_from.strftime("%Y%m%d")
+        formatted_date = self.time_to.strftime("%Y%m%d")
 
         datasets = {
             'waves': [
