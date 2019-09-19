@@ -529,7 +529,11 @@ class WmsQuery:
 
         for dataset in datasets.keys():
             layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'
-            if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
+            # if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
+            #                                               tzinfo=pytz.timezone('utc')):
+            #     layerFileName = 'history/' + layerFileName
+            # TODO: TO FIX
+            if self.time_to < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
                                                           tzinfo=pytz.timezone('utc')):
                 layerFileName = 'history/' + layerFileName
 
