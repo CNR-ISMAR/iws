@@ -9,7 +9,6 @@ from PIL import Image
 from dateutil import parser
 from django.conf import settings
 from .models import ImageLayer
-import pytz
 # import pydap.client
 # import xml.etree.ElementTree as ET
 
@@ -40,20 +39,20 @@ class NCToImg:
         if os.path.isfile(self.nc_filepath):
             os.remove(self.nc_filepath)
 
-        # self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/history/' \
-        #            + self.nc_filename \
-        #            + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
-        #            + self.time_from \
-        #            + "T00%3A00%3A00Z&time_end=" \
-        #            + self.time_to \
-        #            + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
-
-        history = 'history/' if parser.parse(time_from) < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) else ''
-        self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/' + history \
+        self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/history/' \
                    + self.nc_filename \
                    + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
-                   + "2015-02-05T00:00:00Z&time_end=" \
-                   + "2015-02-06T23:00:00Z&timeStride=1&accept=netcdf"
+                   + self.time_from \
+                   + "T00%3A00%3A00Z&time_end=" \
+                   + self.time_to \
+                   + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
+
+        # history = 'history/' if parser.parse(time_from) < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) else ''
+        # self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/' + history \
+        #            + self.nc_filename \
+        #            + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
+        #            + "2015-02-05T00:00:00Z&time_end=" \
+        #            + "2015-02-06T23:00:00Z&timeStride=1&accept=netcdf"
 
         print("\n\n"+self.url+"\n\n")
 
@@ -83,8 +82,8 @@ class NCToImg:
                 ds2 = gdal.Open(tif2filename)
 
 
-                since = time.mktime(time.strptime('2015-02-04 15', "%Y-%m-%d %H"))
-                # since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
+                # since = time.mktime(time.strptime('2015-02-04 15', "%Y-%m-%d %H"))
+                since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
 
                 nx = ds1.RasterXSize
                 ny = ds1.RasterYSize
@@ -119,14 +118,12 @@ class NCToImg:
                     m = band1.GetMetadata()
 
                     # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
-                    # ts = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
-                    # json_time = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%Y-%m-%dT%H:%M.000Z')
-                    ts = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
-                    json_time = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%Y-%m-%dT%H:%M.000Z')
-                    print("\n\n")
-                    print(since)
-                    print("\n\n"+m['NETCDF_DIM_time']+"\n\n")
-                    print("\n\n"+json_time+"\n\n")
+                    ts = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
+                    json_time = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
+
+
+                    # ts = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
+                    # json_time = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%Y-%m-%dT%H:%M.000Z')
 
                     data = []
 
