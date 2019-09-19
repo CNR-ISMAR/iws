@@ -31,7 +31,8 @@ import { toggleDrawer } from '../Sidebar/actions';
 const styles = (theme) => {
   return {
     appBar: {
-      zIndex: theme.zIndex.drawer + 1,
+      zIndex: '1650',
+      /* zIndex: theme.zIndex.drawer + 1, */
       backgroundColor: theme.palette.common.white
     },
     menuButton: {

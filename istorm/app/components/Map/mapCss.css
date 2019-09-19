@@ -20,11 +20,40 @@
     bottom: auto;
     right: 0;
     top: 0;
-    background: #0B303A;
+    background: #0b303a;
     color: white;
     font-size: 1rem;
 }
 
 *[class *='MuiTableCell']{
     padding: 10px
+}
+
+span[class *='legend-item__title']{
+    color: white
+}
+
+div[class *='color-legend']{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart_subtitle{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart_subtitle h2, .chart_subtitle h3{
+    margin: 0
+}
+
+.ChartContent{
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    position: absolute;
+    /* height: 100vh; */
+    top: 40%;
+    right: 0;
+    left: 0;
 }

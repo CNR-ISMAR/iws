@@ -9,6 +9,7 @@ import React, { useRef, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
+import moment from "moment";
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -33,10 +34,12 @@ const styles = (theme, style) => {
 
   return {
     subNav: {
-      position: "relative", 
-      zIndex: 10,
+      position: "absolute",
+      height: '100vh',
+      width: '100%', 
+      zIndex: 1600,
       flexGrow: 1,
-      backgroundColor: theme.palette.custom.darkBackground,
+      backgroundColor: 'rgba(0,0,0, 0.95)',
       color: theme.palette.common.white,
     },
     headerTop: {
@@ -69,7 +72,7 @@ function StationChart(props) {
     return true; 
   };
 
-  const data = [
+ /*  const data = [
     {x: 0, y: 8},
     {x: 1, y: 5},
     {x: 2, y: 4},
@@ -80,7 +83,7 @@ function StationChart(props) {
     {x: 7, y: 3},
     {x: 8, y: 2},
     {x: 9, y: 0}
-  ];
+  ]; */
 
   const close = () => {
     if(typeof props.goTo !== "undefined") {
@@ -93,9 +96,9 @@ function StationChart(props) {
   const chartParams = queryString.parse(props.history.location.search)
 
   useEffect(() => {
-    console.log('chartParams')
+    /* console.log('chartParams')
     console.log(chartParams)
-    console.log(props)
+    console.log(props) */
       if(props.chart.results.length == 0 && !props.chart.loading){
         props.dispatch(requestChart({
           bbox: chartParams.bbox,
@@ -111,8 +114,13 @@ function StationChart(props) {
         <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} >&times;</Button>
       </div>
       <div className={props.classes.wrapper}>
-        <h1>Chart</h1>
-        <Chart data={props.chart.results.results} />
+        <Chart 
+          data={props.chart.results.results} 
+          latitude={props.chart.results.latitude}
+          longitude={props.chart.results.longitude}
+          timeFrom={moment(props.timeline.from).format( 'DD/MM/YYYY')}
+          timeTo={moment(props.timeline.max).format( 'DD/MM/YYYY')}
+        />
       </div>
       { console.log(props.chart)
         /* <Button onClick={ () => props.dispatch(requestChart()) }>REQ CHART</Button> */}
