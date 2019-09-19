@@ -538,6 +538,9 @@ class WmsQuery:
                     "QUERY_LAYERS": layer,
                 })
                 url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
+                print("\n")
+                print(url)
+                print("\n")
                 r = requests.get(url=url)
                 layerdata = xmltodict.parse(r.content)
                 result['results'][layer] = list({"x": x['time'], "y": float(x['value'])} for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
