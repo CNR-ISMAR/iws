@@ -543,6 +543,9 @@ class WmsQuery:
                 print("\n")
                 r = requests.get(url=url)
                 layerdata = xmltodict.parse(r.content)
+                print("\n")
+                print(layerdata)
+                print("\n")
                 result['results'][layer] = list({"x": x['time'], "y": float(x['value'])} for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
 
         result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
