@@ -42,7 +42,7 @@ const LegendsItems = [
   { id: 'wsh-std', title: 'Wsh Std', color: LegendsColors.wsh, strokeStyle: "dashed"},
   { id: 'wsh-mean', title: 'Wsh Mean', color: LegendsColors.wsh, strokeStyle: "solid"},
 ]; 
-let obj = {}
+let recordclick = {}
 function Chart(props) {
   const [chart, setChartState] = useState({ width: 0, height: 0, itemClickID: '', crosshairValues: [] });
   const wrapper = useRef(null);
@@ -87,7 +87,7 @@ function Chart(props) {
                 
                 { Object.keys(props.data)
                           .filter(name => {
-                            if(obj[name] === undefined || obj[name]){
+                            if(recordclick[name] === undefined || recordclick[name]){
                               return true
                             }else{
                               return false
@@ -104,7 +104,7 @@ function Chart(props) {
                                     name.includes('wmp') && LegendsColors.wmp ||
                                     name.includes('wsh') && LegendsColors.wsh
                                   }
-                                  opacity={ 1 /* obj[name] === undefined || obj[name] ? 1 : 0 */ }
+                                  opacity={ 1 /* recordclick[name] === undefined || recordclick[name] ? 1 : 0 */ }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'} 
                                   strokeStyle={name.includes('std') ? 'dashed' : 'solid'}
@@ -123,10 +123,10 @@ function Chart(props) {
                   orientation='horizontal'
                   onItemClick={item => { 
                     setChartState({ ...chart, itemClickID: item.id }); 
-                    if(obj[item.id] === undefined)
-                    obj[item.id] = false
+                    if(recordclick[item.id] === undefined)
+                    recordclick[item.id] = false
                     else
-                    obj[item.id] = !obj[item.id]
+                    recordclick[item.id] = !recordclick[item.id]
                     
                   }}   
                   >
