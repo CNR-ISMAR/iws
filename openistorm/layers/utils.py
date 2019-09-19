@@ -75,7 +75,8 @@ class NCToImg:
                 ds2 = gdal.Open(tif2filename)
 
 
-                since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
+                since = time.mktime(time.strptime('2015-02-04T15:00:00', "%Y-%m-%d"))
+                # since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
 
                 nx = ds1.RasterXSize
                 ny = ds1.RasterYSize
@@ -110,8 +111,8 @@ class NCToImg:
                     m = band1.GetMetadata()
 
                     # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
-                    ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
-                    json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
+                    ts = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
+                    json_time = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%Y-%m-%dT%H:%M.000Z')
                     print("\n\n")
                     print(since)
                     print("\n\n"+m['NETCDF_DIM_time']+"\n\n")
