@@ -119,8 +119,10 @@ class NCToImg:
                     m = band1.GetMetadata()
 
                     # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
-                    ts = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since, pytz.utc).strftime('%s')
-                    json_time = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since, pytz.utc).strftime('%Y-%m-%dT%H:%M.000Z')
+                    # ts = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
+                    # json_time = datetime.utcfromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%Y-%m-%dT%H:%M.000Z')
+                    ts = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
+                    json_time = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%Y-%m-%dT%H:%M.000Z')
                     print("\n\n")
                     print(since)
                     print("\n\n"+m['NETCDF_DIM_time']+"\n\n")
