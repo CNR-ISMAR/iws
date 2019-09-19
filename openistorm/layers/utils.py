@@ -500,6 +500,7 @@ class WmsQuery:
     def get_timeseries(self):
 
         # formatted_date = self.time_from.strftime("%Y%m%d")
+        # TODO: TO FIX
         formatted_date = self.time_to.strftime("%Y%m%d")
 
         datasets = {
@@ -522,8 +523,7 @@ class WmsQuery:
         options = self.default_options
         # time_from = self.time_from.isoformat()[0:19] + '.000Z'
         # time_to = self.time_to.isoformat()[0:19] + '.000Z'
-        # TODO: ODIO TUTTI
-
+        # TODO: TO FIX
         time_from = datetime.combine(self.time_to, timed.min).replace(hour=1).isoformat()[0:19] + '.000Z'
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
 
