@@ -47,6 +47,8 @@ class NCToImg:
                    + self.time_to \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
+        print("\n\n"+self.url+"\n\n")
+
         if self.dataset == 'waves':
             self.transform_waves()
 
