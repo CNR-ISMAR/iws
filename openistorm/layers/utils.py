@@ -75,7 +75,7 @@ class NCToImg:
                 ds2 = gdal.Open(tif2filename)
 
 
-                since = time.mktime(time.strptime('2015-02-04T15:00:00', "%Y-%m-%d"))
+                since = time.mktime(time.strptime('2015-02-04 15', "%Y-%m-%d %H"))
                 # since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
 
                 nx = ds1.RasterXSize
