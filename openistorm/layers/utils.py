@@ -504,7 +504,7 @@ class WmsQuery:
                 layerdata = xmltodict.parse(r.content)
                 try:
                     result["results"][ layer] = {
-                        "mean": float(layerdata['FeatureInfoResponse']['FeatureInfo']['value'])
+                        "mean": float(layerdata['FeatureInfoResponse']['FeatureInfo']['value']) * 100 if dataset=='sea_level' else 1
                     }
                 except:
                     print(layerdata)
