@@ -67,6 +67,7 @@ function StationChart(props) {
   useInjectReducer({ key: 'chart', reducer });
   useInjectSaga({ key: 'chart', saga });
   const [fadeIn, setFadeIn] = useState(false);
+  const [chart, setChart] = useState({results:[]});
   console.info("Station Chart");
   console.info(props);
 
@@ -92,7 +93,7 @@ function StationChart(props) {
    setFadeIn(false)
    setTimeout(() => {
     if(typeof props.goTo !== "undefined") {
-        props.history.push(props.goTo) 
+        props.history.push(props.goTo)
       } else {
         props.history.push("/") 
       }
@@ -107,7 +108,7 @@ function StationChart(props) {
     console.log(chartParams)
     console.log(props) */
     !fadeIn ? setFadeIn(true) : null
-    if(props.chart.results.length == 0 && !props.chart.loading){
+    if(!props.chart.loading){
       props.dispatch(requestChart({
         bbox: chartParams.bbox,
         from: chartParams.from,
