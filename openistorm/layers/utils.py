@@ -9,6 +9,7 @@ from PIL import Image
 from dateutil import parser
 from django.conf import settings
 from .models import ImageLayer
+import pytz
 # import pydap.client
 # import xml.etree.ElementTree as ET
 
@@ -426,8 +427,8 @@ class WmsQuery:
         self.tmp = True if "2015-02" in time_from else False
 
 
-        self.time_from = parser.parse(time_from, ignoretz=True) if time_from is not None else False
-        self.time_to = parser.parse(time_to, ignoretz=True) if time_to is not None else False
+        self.time_from = parser.parse(time_from, pytz.utc) if time_from is not None else False
+        self.time_to = parser.parse(time_to, pytz.utc) if time_to is not None else False
 
         self.default_options = {
             "REQUEST": "GetFeatureInfo",
@@ -471,8 +472,8 @@ class WmsQuery:
         options = self.default_options
         time = self.time_from.isoformat()[0:19] + '.000Z'
 
-        if self.tmp and self.time_from <= parser.parse('2015-02-05T00:00:00Z', ignoretz=True):
-            self.time_from = parser.parse('2015-02-05T00:00:00Z', ignoretz=True)
+        if self.tmp and self.time_from <= parser.parse('2015-02-05T00:00:00Z', pytz.utc):
+            self.time_from = parser.parse('2015-02-05T00:00:00Z', pytz.utc)
 
         datasets = {
             'waves': [
@@ -486,7 +487,8 @@ class WmsQuery:
         }
         for dataset in datasets.keys():
             layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'
-            if self.time_from < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0):
+            if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
+                                                          tzinfo=pytz.timezone('utc')):
                 layerFileName = 'history/' + layerFileName
             for layer in datasets[dataset]:
                 # print("\n\n=======\n\n")
@@ -557,9 +559,9 @@ class WmsQuery:
         time_from = datetime.combine(self.time_to, timed.min).replace(hour=1).isoformat()[0:19] + '.000Z'
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
 
-        if self.tmp and time_from < parser.parse('2015-02-05T00:00:00Z', ignoretz=True):
+        if self.tmp and time_from < parser.parse('2015-02-05T00:00:00Z', pytz.utc):
             time_from = "2015-02-05T00:00:00Z"
-        if self.tmp and time_to > parser.parse('2015-02-06T23:00:00Z', ignoretz=True):
+        if self.tmp and time_to > parser.parse('2015-02-06T23:00:00Z', pytz.utc):
             time_from = "2015-02-06T23:00:00Z"
 
         for dataset in datasets.keys():
@@ -568,7 +570,8 @@ class WmsQuery:
             #                                               tzinfo=pytz.timezone('utc')):
             #     layerFileName = 'history/' + layerFileName
             # TODO: TO FIX
-            if self.time_to < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0):
+            if self.time_to < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
+                                                          tzinfo=pytz.timezone('utc')):
                 layerFileName = 'history/' + layerFileName
 
             for layer in datasets[dataset]:
