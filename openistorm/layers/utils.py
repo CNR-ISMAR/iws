@@ -423,6 +423,9 @@ class NCToImg:
 class WmsQuery:
     def __init__(self, BBOX, X, Y, WIDTH, HEIGHT, time_from=None, time_to=None):
 
+        self.tmp = True if "2015-02" in time_from else False
+
+
         self.time_from = parser.parse(time_from) if time_from is not None else False
         self.time_to = parser.parse(time_to) if time_to is not None else False
 
@@ -458,6 +461,9 @@ class WmsQuery:
     def get_values(self):
 
         formatted_date = self.time_from.strftime("%Y%m%d")
+
+        if self.tmp:
+            formatted_date = "20150205"
 
         result = {
             "results": {}
@@ -517,6 +523,9 @@ class WmsQuery:
         # TODO: TO FIX
         formatted_date = self.time_to.strftime("%Y%m%d")
 
+        if self.tmp:
+            formatted_date = "20150205"
+
         datasets = {
             'waves': [
                 'wmd-mean',
@@ -540,6 +549,11 @@ class WmsQuery:
         # TODO: TO FIX
         time_from = datetime.combine(self.time_to, timed.min).replace(hour=1).isoformat()[0:19] + '.000Z'
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
+
+        if self.tmp and time_from < parser.parse('2015-02-05T00:00:00Z'):
+            time_from = "2015-02-05T00:00:00Z"
+        if self.tmp and time_to > parser.parse('2015-02-06T23:00:00Z'):
+            time_from = "2015-02-06T23:00:00Z"
 
         for dataset in datasets.keys():
             layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'

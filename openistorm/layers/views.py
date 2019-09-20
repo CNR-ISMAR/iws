@@ -93,18 +93,12 @@ class ImageLayerBoundaries(views.APIView):
 class Info(views.APIView):
     permission_classes = (AllowAny,)
     def get(self, request):
-        # print(request.query_params)
-        # print(request.query_params)
-        # print(request.query_params)
-        # print(request.query_params)
-        # print(request.query_params)
         BBOX = request.query_params.get('bbox')
         X = request.query_params.get('x')
         Y = request.query_params.get('y')
         WIDTH = request.query_params.get('width')
         HEIGHT = request.query_params.get('height')
         TIME = request.query_params.get('time')
-        # print((BBOX, X, Y, WIDTH, HEIGHT, TIME))
         wms = WmsQuery(BBOX, X, Y, WIDTH, HEIGHT, TIME)
         return Response(wms.get_values())
 
