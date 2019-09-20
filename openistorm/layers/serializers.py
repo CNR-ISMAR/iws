@@ -29,7 +29,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     def sea_level_url(self, timestamp, layerOptions):
         #TODO: manage missing current data!!!!!
         #TODO: quando si avra' una logica integrarla
-        wmsdate = datetime.datetime.fromtimestamp(timestamp)
+        wmsdate = datetime.datetime.fromtimestamp(timestamp) + datetime.timedelta(hours=1)
         formatted_date = wmsdate.strftime("%Y%m%d")
         layerFileName =  'TMES_sea_level_'+formatted_date+'.nc'
         if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
