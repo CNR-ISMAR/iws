@@ -24,13 +24,11 @@ class LayerSeaLevel extends BaseControl {
   }
 
   componentWillReceiveProps(newProps) {
-      console.log('componentWillReceiveProps')
-      console.log('componentWillReceiveProps')
-      console.log('componentWillReceiveProps')
     const map = this._context.map;
     const {layer, layerInfo, mean} = newProps;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
-    if (source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo) && mean == this.props.mean) {
+    console.log(newProps.mean == this.props.mean)
+    if (source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo) || newProps.mean !== this.props.mean) {
       let override = {
         source: {
           height: 256,
