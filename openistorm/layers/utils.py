@@ -426,8 +426,8 @@ class WmsQuery:
         self.tmp = True if "2015-02" in time_from else False
 
 
-        self.time_from = parser.parse(time_from) if time_from is not None else False
-        self.time_to = parser.parse(time_to) if time_to is not None else False
+        self.time_from = parser.parse(time_from, ignoretz=True) if time_from is not None else False
+        self.time_to = parser.parse(time_to, ignoretz=True) if time_to is not None else False
 
         self.default_options = {
             "REQUEST": "GetFeatureInfo",
