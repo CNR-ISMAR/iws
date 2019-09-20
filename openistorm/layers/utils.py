@@ -496,9 +496,13 @@ class WmsQuery:
                 url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
                 r = requests.get(url=url)
                 layerdata = xmltodict.parse(r.content)
-                result["results"][ layer] = {
-                    "mean": float(layerdata['FeatureInfoResponse']['FeatureInfo']['value'])
-                }
+                try:
+                    result["results"][ layer] = {
+                        "mean": float(layerdata['FeatureInfoResponse']['FeatureInfo']['value'])
+                    }
+                except:
+                    print(layerdata)
+                    raise Exception(json.dumps(layerdata))
 
                 options.update({
                     "TIME": time,
