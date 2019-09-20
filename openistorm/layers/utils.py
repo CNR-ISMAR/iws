@@ -53,7 +53,7 @@ class NCToImg:
         #            + self.nc_filename \
         #            + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
         #            + "2015-02-05T00:00:00Z&time_end=" \
-        #            + "2015-02-06T23:00:00Z&timeStride=1&accept=netcdf"
+        #            + "2015-02-07T00:00:00Z&timeStride=1&accept=netcdf"
 
         print("\n\n"+self.url+"\n\n")
 
@@ -472,8 +472,8 @@ class WmsQuery:
         options = self.default_options
         time = self.time_from.isoformat()[0:19] + '.000Z'
 
-        if self.tmp and self.time_from <= parser.parse('2015-02-05T00:00:00Z'):
-            self.time_from = parser.parse('2015-02-05T00:00:00Z')
+        if self.tmp and self.time_from <= parser.parse('2015-02-05T01:00:00Z'):
+            self.time_from = parser.parse('2015-02-05T01:00:00Z')
 
         datasets = {
             'waves': [
@@ -559,10 +559,10 @@ class WmsQuery:
         time_from = datetime.combine(self.time_to, timed.min).replace(hour=1).isoformat()[0:19] + '.000Z'
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
 
-        if self.tmp and time_from < parser.parse('2015-02-05T00:00:00Z'):
-            time_from = "2015-02-05T00:00:00Z"
-        if self.tmp and time_to > parser.parse('2015-02-06T23:00:00Z'):
-            time_from = "2015-02-06T23:00:00Z"
+        if self.tmp and time_from < parser.parse('2015-02-05T01:00:00Z'):
+            time_from = "2015-02-05T01:00:00Z"
+        if self.tmp and time_to > parser.parse('2015-02-07T00:00:00Z'):
+            time_from = "2015-02-07T00:00:00Z"
 
         for dataset in datasets.keys():
             layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'
