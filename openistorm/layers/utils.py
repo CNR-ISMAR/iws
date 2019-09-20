@@ -471,8 +471,8 @@ class WmsQuery:
         options = self.default_options
         time = self.time_from.isoformat()[0:19] + '.000Z'
 
-        if self.tmp and self.time_from < parser.parse('2015-02-05T00:00:00Z'):
-            self.time_from = parser.parse('2015-02-05T00:00:00Z')
+        if self.tmp and self.time_from <= parser.parse('2015-02-05T00:00:00Z'):
+            self.time_from = parser.parse('2015-02-05T00:00:00Z') + timedelta(hours=1)
 
         datasets = {
             'waves': [
