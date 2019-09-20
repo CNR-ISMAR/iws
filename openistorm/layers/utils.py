@@ -474,6 +474,7 @@ class WmsQuery:
 
         if self.tmp and self.time_from <= parser.parse('2015-02-05T01:00:00Z'):
             self.time_from = parser.parse('2015-02-05T01:00:00Z')
+        raise Exception(self.time_from)
 
         datasets = {
             'waves': [
