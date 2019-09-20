@@ -561,8 +561,8 @@ class WmsQuery:
         time_to = self.time_to.isoformat()[0:19] + '.000Z'
 
         if self.tmp:
-            time_from = "2015-02-05T01:00:00Z"
-            time_to = "2015-02-07T00:00:00Z"
+            time_from = "2015-02-05T00:00:00Z"
+            time_to = "2015-02-06T23:00:00Z"
 
         for dataset in datasets.keys():
             layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'
