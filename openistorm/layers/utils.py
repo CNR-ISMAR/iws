@@ -502,7 +502,7 @@ class WmsQuery:
                     }
                 except:
                     print(layerdata)
-                    raise Exception(json.dumps(layerdata))
+                    raise Exception(json.dumps(layerdata)+"\n"+url)
 
                 options.update({
                     "TIME": time,
