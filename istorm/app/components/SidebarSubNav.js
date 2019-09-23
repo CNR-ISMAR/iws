@@ -130,7 +130,7 @@ const styles = (theme, style) => {
                         key={"nav-stormtestents-"+result.id} 
                         selected={isCurrentPage(`/${props.Category}/${result.id}`)}>
                         <Link to={`/${props.Category}/${result.id}`} onClick={() => props.clickEvent ? props.clickEvent(result.id) : null} >
-                            <ListItemText primary={`${result.title} ${result.id}`} /> 
+                            <ListItemText primary={`${result.title}`} /> 
                             { props.Content && props.Content(`${result.description}`) }
                         </Link>
                         <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} >&times;</Button>
