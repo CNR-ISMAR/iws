@@ -32,6 +32,7 @@ import { compose } from 'redux';
 import { requestFavourites, deleteFavourite, postFavourite } from "./actions";
 import { setViewport } from '../App/actions';
 import SidebarSubNav from 'components/SidebarSubNav';
+import continuousColorLegend from 'react-vis/dist/legends/continuous-color-legend';
 
 function FavouritesPage(props) {
   useInjectReducer({ key: 'favourites', reducer });
@@ -58,8 +59,13 @@ function FavouritesPage(props) {
   }; */
 
   useEffect(() => {
+    console.log('Favourite Page Mount')  
     if(props.favourites.loading == false && props.favourites.results.length == 0 )
       props.dispatch(requestFavourites())
+
+   return () => {
+     console.log('Favourite Page Unmount')
+   }   
   }, [])
 
   useEffect(() => {
@@ -85,13 +91,7 @@ function FavouritesPage(props) {
         Title="Favourites List" 
         Icon={ListIcon} 
         Results={props.favourites.results} 
-        additionalPart={
-          <button onClick={ () => props.dispatch(postFavourite({ title: "myplaceNEW",
-                                                          address: "via piero gobetti 101, 40129 Bologna (BO)",
-                                                          latitude: 44.522240,
-                                                          longitude: 11.338450 })) }>Add Fav
-          </button>
-        } />
+        />
     </>
   );
 }  

@@ -7,7 +7,8 @@ import produce from 'immer';
 import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
   TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
-  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
+  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, DELETE_FAVOURITE, 
+  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -190,6 +191,15 @@ const mapPageReducer = (state = initialState, action) =>
             draft.popups.postfavourites.loading = false;
             draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
             draft.popups.postfavourites.results = action.results
+        break;
+      case DELETE_FAVOURITE:
+          draft.loading = true;
+          draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
+          draft.popups.postfavourites.results = []
+        break;
+      case DELETE_FAVOURITE_SUCCESS:
+          draft.loading = false;
+          draft.popups.postfavourites.results = []
         break;  
       case REQUEST_ERROR:
         console.log(action.error)
@@ -201,7 +211,10 @@ const mapPageReducer = (state = initialState, action) =>
       case CLOSE_INFO_LAYER:
         draft.popups.loading = false;
         draft.popups.error = initialState.popups.error;
-        draft.popups.results = []
+        draft.popups.results = [];
+        draft.popups.postfavourites.loading = false;
+        draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
+        draft.popups.postfavourites.results = []
       break;
     }
   });

@@ -21,7 +21,8 @@ import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
-import { setViewport, requestInfoLayer, closeInfoLayer, postFavourite } from "../../containers/App/actions";
+import { setViewport, requestInfoLayer, 
+        closeInfoLayer, postFavourite, deleteFavourite } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
 import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
@@ -62,7 +63,8 @@ class Map extends React.Component {
         transitionDuration: 1000,
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic,
-      }
+      },
+      
     };
     
     this.flyTo = this.flyTo.bind(this);
@@ -94,6 +96,10 @@ class Map extends React.Component {
     this.props.dispatch(setViewport(viewport));
   }
 
+  componentDidUpdate(){
+    console.log('React Map Update')
+  }
+
   onMapLoad(data) {
     const viewport = this.flyToBbox(this.props.bbox);
     this.setState({...this.state, mapboxIsLoading: false}, () => {
@@ -123,7 +129,9 @@ class Map extends React.Component {
   render () {
     console.log('React Map')
     console.log(this.props)
-    const postfavourites = this.props.popups.postfavourites
+    const postfavourites = this.props.popups.postfavourites;
+    let addFavourite = false;
+    !postfavourites.loading && Object.keys(postfavourites.results).length > 0 ? addFavourite = true : addFavourite = false
     return (
       <ReactMapGL
         disableTokenWarning={true}
@@ -195,15 +203,21 @@ class Map extends React.Component {
                  { this.props.isLogged &&
                    <Button className="buttonAddFav" 
                            color="primary" 
-                           onClick={ () => 
-                                    this.props.dispatch(postFavourite({ 
-                                          title: "myplaceNEW",
-                                          address: "via piero gobetti 101, 40129 Bologna (BO)",
-                                          latitude: popup.latitude,
-                                          longitude: popup.longitude }
-                                    ))
+                           onClick={ (e) => {
+                                    e.preventDefault()
+                                    if(!addFavourite){
+                                      this.props.dispatch(postFavourite({ 
+                                        title: "myplaceNEW",
+                                        address: "via piero gobetti 101, 40129 Bologna (BO)",
+                                        latitude: popup.latitude,
+                                        longitude: popup.longitude }
+                                      ))
+                                    }else{
+                                      this.props.dispatch(deleteFavourite(postfavourites.results.id))
+                                    }
+                                  }
                     }>
-                    { !postfavourites.loading && Object.keys(postfavourites.results).length > 0 &&
+                    { addFavourite &&
                       <><GradeIcon></GradeIcon><span>Remove Favourite</span></> || <><GradeOutlinedIcon></GradeOutlinedIcon><span>Add Favourite</span></>
                     }
                     
