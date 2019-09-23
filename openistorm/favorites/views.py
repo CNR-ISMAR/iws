@@ -25,6 +25,7 @@ class FavoriteList(ListCreateAPIView):
         data = request.data
         data['user'] = self.request.user.pk
         data['position'] = ''
+        data['title'] = data['title'] if data.get('title') else "Fav "+str(self.get_queryset().count()+1)
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

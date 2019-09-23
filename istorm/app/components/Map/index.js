@@ -153,6 +153,7 @@ class Map extends React.Component {
             {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel} mean={this.props.mean}/>)}
             {this.props.WindGLLayer.isVisible && (<WindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.WindGLLayer}/>)}
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
+            {this.props.isLogged && console.log(this.props)}
           </>
         )}
         {this.props.popups.results.length > 0 &&  (this.props.popups.results.filter(x=>x.show).map((popup, index) =>
@@ -207,8 +208,8 @@ class Map extends React.Component {
                                     e.preventDefault()
                                     if(!addFavourite){
                                       this.props.dispatch(postFavourite({ 
-                                        title: "myplaceNEW",
-                                        address: "via piero gobetti 101, 40129 Bologna (BO)",
+                                        title: "",
+                                        address: "",
                                         latitude: popup.latitude,
                                         longitude: popup.longitude }
                                       ))

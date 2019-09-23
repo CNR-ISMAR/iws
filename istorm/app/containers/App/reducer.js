@@ -89,6 +89,27 @@ export const initialState = {
         // "raster-resampling": "nearest"
     }
   },
+  favorites: {
+    name: "Favorites",
+    id: "favorites",
+    isVisible: true,
+    isTimeseries: false,
+    type: 'circle',
+    source: {
+      type: 'geojson',
+      data: 'http://iws.inkode.it:4443/openistorm/favorites/geojson',
+    },
+    paint: {
+      'circle-color': '#d10000',
+      // 'circle-radius': 4,
+      "circle-radius": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        8,
+        5
+      ]
+    }
+  },
   layers: {
     stationsWave: {
       name: "Station Wave",
