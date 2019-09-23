@@ -58,14 +58,10 @@ function FavouritesPage(props) {
     props.dispatch(deleteFavourite(id))
   }; */
 
-  useEffect(() => {
-    console.log('Favourite Page Mount')  
+  useEffect(() => {  
     if(props.favourites.loading == false && props.favourites.results.length == 0 )
       props.dispatch(requestFavourites())
-
-   return () => {
-     console.log('Favourite Page Unmount')
-   }   
+ 
   }, [])
 
   useEffect(() => {
