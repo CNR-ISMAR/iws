@@ -24,7 +24,7 @@ export function* deleteFavouriteSaga(action) {
   try {
     const request = yield call(deleteFavourite, action.id);
     yield put(deleteFavouriteSuccess(request));
-    yield call(FavouritesSaga)
+    yield call(FavouritesSaga);
   } catch(e) {
     yield put(requestError(e.message));
 
