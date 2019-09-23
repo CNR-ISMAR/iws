@@ -97,7 +97,7 @@ export const initialState = {
     type: 'circle',
     source: {
       type: 'geojson',
-      data: 'http://iws.inkode.it:4443/openistorm/favorites/geojson',
+      // data: 'http://iws.inkode.it:4443/openistorm/favorites/geojson',
     },
     paint: {
       'circle-color': '#d10000',

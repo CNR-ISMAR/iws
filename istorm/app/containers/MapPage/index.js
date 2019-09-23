@@ -192,6 +192,7 @@ function MapPage(props) {
           WindGLLayer={props.mapPage.WindGLLayer}
           popups={props.mapPage.popups}
           isLogged={props.isLogged}
+          favorites={props.mapPage.favorites}
           />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>

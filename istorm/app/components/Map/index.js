@@ -28,6 +28,7 @@ import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-g
 import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
+import LayerFavorites from "./LayerFavorites";
 import mapCss from './mapCss.css';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -153,7 +154,7 @@ class Map extends React.Component {
             {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel} mean={this.props.mean}/>)}
             {this.props.WindGLLayer.isVisible && (<WindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.WindGLLayer}/>)}
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
-            {this.props.isLogged && console.log(this.props)}
+            {this.props.isLogged && this.props.favorites && this.props.favorites.isVisible && <LayerFavorites layerInfo={this.props.favorites}/>}
           </>
         )}
         {this.props.popups.results.length > 0 &&  (this.props.popups.results.filter(x=>x.show).map((popup, index) =>

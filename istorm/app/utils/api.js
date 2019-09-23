@@ -81,6 +81,11 @@ export const favourites = () => {
   return request(`${BASE_URL}/openistorm/favorites/`, options)
 };
 
+export const geoJsonFavourites = () => {
+  const options = getOption({})
+  return request(`${BASE_URL}/openistorm/favorites/geojson/`, options)
+};
+
 export const deleteFavourite = (id) => {
   const options = getOption({
     method: 'delete'
