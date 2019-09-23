@@ -154,7 +154,7 @@ class Map extends React.Component {
             {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel} mean={this.props.mean}/>)}
             {this.props.WindGLLayer.isVisible && (<WindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.WindGLLayer}/>)}
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
-            {this.props.isLogged && this.props.favorites && this.props.favorites.isVisible && <LayerFavorites layerInfo={this.props.favorites}/>}
+            {this.props.isLogged && this.props.favorites && Object.keys(this.props.favorites.source.data).length > 0  && this.props.favorites.isVisible && <LayerFavorites layerInfo={this.props.favorites}/> }
           </>
         )}
         {this.props.popups.results.length > 0 &&  (this.props.popups.results.filter(x=>x.show).map((popup, index) =>

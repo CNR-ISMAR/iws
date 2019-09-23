@@ -59,8 +59,9 @@ function FavouritesPage(props) {
   }; */
 
   useEffect(() => {  
-    if(props.favourites.loading == false && props.favourites.results.length == 0 )
+    if(props.favourites.loading == false ){
       props.dispatch(requestFavourites())
+    }
  
   }, [])
 

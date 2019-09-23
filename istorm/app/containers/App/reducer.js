@@ -8,7 +8,8 @@ import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
   TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
   POST_FAVOURITE, POST_FAVOURITE_SUCCESS, DELETE_FAVOURITE, 
-  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
+  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER,
+  REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -89,28 +90,31 @@ export const initialState = {
         // "raster-resampling": "nearest"
     }
   },
-  favorites: {
-    name: "Favorites",
-    id: "favorites",
-    isVisible: true,
-    isTimeseries: false,
-    type: 'circle',
-    source: {
-      type: 'geojson',
-      // data: 'http://iws.inkode.it:4443/openistorm/favorites/geojson',
-    },
-    paint: {
-      'circle-color': '#d10000',
-      // 'circle-radius': 4,
-      "circle-radius": [
-        "case",
-        ["boolean", ["feature-state", "hover"], false],
-        8,
-        5
-      ]
-    }
-  },
   layers: {
+    favorites: {
+      name: "Favorites",
+      id: "favorites",
+      isVisible: true,
+      isTimeseries: false,
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: []
+        // data: 'http://iws.inkode.it:4443/openistorm/favorites/geojson',
+      },
+      paint: {
+        'circle-color': '#d10000',
+        // 'circle-radius': 4,
+        "circle-radius": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          8,
+          5
+        ]
+      },
+      loading: false,
+      error: null
+    },
     stationsWave: {
       name: "Station Wave",
       id: "stations-wave",
@@ -221,7 +225,17 @@ const mapPageReducer = (state = initialState, action) =>
       case DELETE_FAVOURITE_SUCCESS:
           draft.loading = false;
           draft.popups.postfavourites.results = []
-        break;  
+        break;
+      case REQUEST_FAVOURITES_LAYER:
+          draft.layers.favorites.loading = true;
+          draft.layers.favorites.error = initialState.layers.favorites.error;
+          draft.layers.favorites.source.data = []
+      break;
+      case REQUEST_FAVOURITES_LAYER_SUCCESS:
+          draft.layers.favorites.loading = false;
+          draft.layers.favorites.error = initialState.layers.favorites.error;
+          draft.layers.favorites.source.data = action.result;
+        break; 
       case REQUEST_ERROR:
         console.log(action.error)
         console.log(action.error)
