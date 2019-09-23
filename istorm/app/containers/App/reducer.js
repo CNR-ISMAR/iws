@@ -6,7 +6,8 @@
 import produce from 'immer';
 import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
+  TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
+  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -134,7 +135,12 @@ export const initialState = {
   popups: {
     loading: false,
     error: null,
-    results: []
+    results: [],
+    postfavourites: {
+      loading: false,
+      error: null,
+      results: []
+    }
   }
 };
 
@@ -175,6 +181,16 @@ const mapPageReducer = (state = initialState, action) =>
         draft.popups.error = initialState.popups.error;
         draft.popups.results = [{...action.result, show: true}];
       break;
+      case POST_FAVOURITE:
+          draft.popups.postfavourites.loading = true;
+          draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
+          draft.popups.postfavourites.results = []
+        break;
+      case POST_FAVOURITE_SUCCESS:
+            draft.popups.postfavourites.loading = false;
+            draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
+            draft.popups.postfavourites.results = action.results
+        break;  
       case REQUEST_ERROR:
         console.log(action.error)
         console.log(action.error)

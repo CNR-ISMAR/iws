@@ -21,10 +21,10 @@ import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
-import { setViewport, requestInfoLayer, closeInfoLayer } from "../../containers/App/actions";
+import { setViewport, requestInfoLayer, closeInfoLayer, postFavourite } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
-  import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
+import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
 import mapCss from './mapCss.css';
@@ -38,8 +38,9 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import GradeIcon from '@material-ui/icons/Grade';
+import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
 const mapboxToken = process.env.MAPBOX_TOKEN;
-
 
 const styles = (theme) => {
   return {
@@ -69,7 +70,6 @@ class Map extends React.Component {
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
-
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -123,6 +123,7 @@ class Map extends React.Component {
   render () {
     console.log('React Map')
     console.log(this.props)
+    const postfavourites = this.props.popups.postfavourites
     return (
       <ReactMapGL
         disableTokenWarning={true}
@@ -152,7 +153,7 @@ class Map extends React.Component {
                 latitude={popup.latitude}
                 longitude={popup.longitude}
                 closeButton={true}
-                closeOnClick={true}
+                closeOnClick={ false }
                 onClose={() => this.props.dispatch(closeInfoLayer()) }
             >
               
@@ -180,7 +181,7 @@ class Map extends React.Component {
                     ) }
                   </TableBody>
                 </Table>
-                <Box textAlign="center" p={1}>
+                <Box textAlign="center" className="buttons" display="flex"  justifyContent="center" p={1}>
                   <Button className="buttonChart" color="primary" onClick={ () => { 
                       const latlon = new LngLat(popup.longitude, popup.latitude)
                       const bb200 = latlon.toBounds(200)
@@ -188,9 +189,26 @@ class Map extends React.Component {
                       this.props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${this.props.timeline.from}&width=2&height=2&to=${this.props.timeline.to}`)
                     } 
                   }>
-                    Open Chart
                     <BarChartIcon></BarChartIcon>
+                    Open Chart
                   </Button>
+                 { this.props.isLogged &&
+                   <Button className="buttonAddFav" 
+                           color="primary" 
+                           onClick={ () => 
+                                    this.props.dispatch(postFavourite({ 
+                                          title: "myplaceNEW",
+                                          address: "via piero gobetti 101, 40129 Bologna (BO)",
+                                          latitude: popup.latitude,
+                                          longitude: popup.longitude }
+                                    ))
+                    }>
+                    { !postfavourites.loading && Object.keys(postfavourites.results).length > 0 &&
+                      <><GradeIcon></GradeIcon><span>Remove Favourite</span></> || <><GradeOutlinedIcon></GradeOutlinedIcon><span>Add Favourite</span></>
+                    }
+                    
+                    </Button> 
+                  }
                 </Box>
               </Paper>
 

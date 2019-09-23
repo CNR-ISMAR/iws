@@ -5,8 +5,7 @@
  */
 
 import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
-  REQUEST_ERROR, DELETE_FAVOURITE_SUCCESS, 
-  POST_FAVOURITE, /* POST_FAVOURITE_SUCCESS */} from './constants';
+  REQUEST_ERROR, DELETE_FAVOURITE_SUCCESS } from './constants';
 
 export function requestFavourites(request) {
   return {
@@ -22,19 +21,6 @@ export function requestFavouritesSuccess(result) {
   };
 }
 
-export function postFavourite(Params) {
-  return {
-    type: POST_FAVOURITE,
-    Params: Params
-  };
-}
-
-/* export function postFavouriteSuccess(result) {
-  return {
-    type: POST_FAVOURITE_SUCCESS,
-    result: result
-  };
-} */
 
 export function deleteFavourite(id) {
   return {

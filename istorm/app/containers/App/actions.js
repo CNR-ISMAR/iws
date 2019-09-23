@@ -5,7 +5,8 @@
  */
 
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
+  TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
+  POST_FAVOURITE,  POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
 
 export function toggleLayerMean() {
   return {
@@ -53,6 +54,23 @@ export function requestInfoLayerSuccess(result) {
     result: result
   };
 }
+
+
+export function postFavourite(Params) {
+  console.log('Post / Add Favourite')
+  console.log(Params)
+  return {
+    type: POST_FAVOURITE,
+    Params: Params
+  };
+}
+
+export function postFavouriteSuccess(results) {
+  return {
+    type: POST_FAVOURITE_SUCCESS,
+    results: results,
+  };
+} 
 
 export function requestError(errorMessage) {
   return {

@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_INFO_LAYER } from 'containers/App/constants';
-import { requestInfoLayerSuccess, requestError } from 'containers/App/actions';
-import { popups } from 'utils/api';
+import { REQUEST_INFO_LAYER, POST_FAVOURITE } from 'containers/App/constants';
+import { requestInfoLayerSuccess, requestError , postFavouriteSuccess  } from 'containers/App/actions';
+import { popups, postFavourite } from 'utils/api';
  
 
 export function* infoLayerSaga(options) {
@@ -14,6 +14,21 @@ export function* infoLayerSaga(options) {
   }
 } 
 
+export function* postFavouriteSaga(action) {
+  const options = {
+    method: 'post',
+    body: {...action.Params}
+  };
+  try {
+    const request = yield call(postFavourite, options);
+    console.log('postFavouriteSaga')
+    yield put(postFavouriteSuccess(request));
+    // yield call(FavouritesSaga)
+  } catch(e) {
+    yield put(requestError(e.message));
+
+  }
+}
 
 /**
  * Root saga manages watcher lifecycle
@@ -24,4 +39,5 @@ export default function* mapPageSaga() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(REQUEST_INFO_LAYER, infoLayerSaga);
+  yield takeLatest(POST_FAVOURITE, postFavouriteSaga);
 }

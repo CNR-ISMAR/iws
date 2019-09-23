@@ -71,7 +71,7 @@ function App(props) {
         <Header isLogged={props.isLogged} />
         <Sidebar auth={props.auth}  isLogged={props.isLogged} />
         <main className={classes.content}>
-          <MapPage />
+          <MapPage isLogged={props.isLogged} />
           <Switch>
             {/*props.isLogged && (
               <Route exact path="/" component={() => <HomePage auth={props.auth} />} />

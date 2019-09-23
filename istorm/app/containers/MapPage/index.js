@@ -191,6 +191,7 @@ function MapPage(props) {
           seaLevel={props.mapPage.seaLevel}
           WindGLLayer={props.mapPage.WindGLLayer}
           popups={props.mapPage.popups}
+          isLogged={props.isLogged}
           />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>

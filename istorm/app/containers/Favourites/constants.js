@@ -15,7 +15,5 @@ export const REQUEST_FAVOURITES = 'app/Favourites/REQUEST_FAVOURITES';
 export const REQUEST_FAVOURITES_SUCCESS = 'app/Favourites/REQUEST_FAVOURITES_SUCCESS';
 export const DELETE_FAVOURITE = 'app/Favourites/DELETE_FAVOURITE';
 export const DELETE_FAVOURITE_SUCCESS = 'app/Favourites/DELETE_FAVOURITE_SUCCESS';
-export const POST_FAVOURITE = 'app/Favourites/POST_FAVOURITE';
-export const POST_FAVOURITE_SUCCESS = 'app/Favourites/POST_FAVOURITE_SUCCESS';
 export const REQUEST_ERROR = 'app/Favourites/REQUEST_ERROR';
 

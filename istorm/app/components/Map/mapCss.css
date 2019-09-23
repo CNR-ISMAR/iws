@@ -9,6 +9,11 @@
     background: transparent;
 }
 
+.mapboxgl-popup-content .buttons button{
+    line-height: 14px
+}
+
+
 .mapboxgl-popup-content .btn{
     font-size: 2rem;
 }
