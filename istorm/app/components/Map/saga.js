@@ -2,7 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_INFO_LAYER, POST_FAVOURITE, DELETE_FAVOURITE } from 'containers/App/constants';
 import { requestInfoLayerSuccess, requestError , postFavouriteSuccess, deleteFavouriteSuccess  } from 'containers/App/actions';
 import { popups, postFavourite, deleteFavourite } from 'utils/api';
-import {FavouritesSaga} from 'containers/Favourites/saga';
+import {FavouritesSaga, deleteFavouriteSaga} from 'containers/Favourites/saga';
  
 
 export function* infoLayerSaga(options) {
@@ -13,7 +13,7 @@ export function* infoLayerSaga(options) {
   } catch(e) {
     yield put(requestError(e.message));
   }
-} 
+}
 
 export function* postFavouriteSaga(action) {
   const options = {
@@ -31,16 +31,16 @@ export function* postFavouriteSaga(action) {
   }
 }
 
-export function* deleteFavouriteSaga(action) {
-  try {
-    const request = yield call(deleteFavourite, action.id);
-    yield put(deleteFavouriteSuccess(request));
-    yield call(FavouritesSaga);
-  } catch(e) {
-    yield put(requestError(e.message));
-
-  }
-}
+// export function* deleteFavouriteSaga(action) {
+//   try {
+//     const request = yield call(deleteFavourite, action.id);
+//     yield put(deleteFavouriteSuccess(request));
+//     yield call(FavouritesSaga);
+//   } catch(e) {
+//     yield put(requestError(e.message));
+//
+//   }
+// }
 
 /**
  * Root saga manages watcher lifecycle
