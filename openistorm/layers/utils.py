@@ -40,7 +40,8 @@ class NCToImg:
         if os.path.isfile(self.nc_filepath):
             os.remove(self.nc_filepath)
 
-        self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/history/' \
+        history = 'history/' if datetime.combine(parser.parse(self.time_from), timed.min) < datetime.combine(datetime.today(), timed.min) else ''
+        self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/' + history \
                    + self.nc_filename \
                    + "?var=wmd-mean&var=wsh-mean&disableLLSubset=on&disableProjSubset=on&horizStride=1&time_start=" \
                    + self.time_from \
