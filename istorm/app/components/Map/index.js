@@ -56,7 +56,7 @@ const styles = (theme) => {
       width: theme.sizing.paperWrapperWidth,
       position: "absolute",
       left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
-      top: -100,
+      top: -80,
       transition: theme.transitions.create('top', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,

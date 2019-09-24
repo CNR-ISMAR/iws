@@ -31,6 +31,8 @@ import InfoPage from '../Info/Loadable';
 import FavouritesPage from '../Favourites/Loadable';
 import StationChart from '../StationChart/Loadable';
 
+import NotificationSnake from "../NotificationSnake";
+
 /* import { useInjectReducer } from 'utils/injectReducer'; */
 /* import { useInjectSaga } from 'utils/injectSaga'; */
 
@@ -68,6 +70,7 @@ function App(props) {
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
+        <NotificationSnake />
         <Header isLogged={props.isLogged} />
         <Sidebar auth={props.auth}  isLogged={props.isLogged} />
         <main className={classes.content}>
@@ -81,14 +84,17 @@ function App(props) {
             )}
             <Route exact path="/" component={() => null} />
             {  props.isLogged && 
-              <Route exact path={"/notification/:id?"} component={({match, history}) => <NotificationPage auth={props.auth} location={location} />  } /> }
+              <Route exact path={"/notification/:id?"} component={({match, history}) => <NotificationPage auth={props.auth} location={location} />  } /> 
+            }
             <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
             <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
             <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
             { props.isLogged && 
               <Route path={"/favourites/:id?"} 
-                     component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  }
-            <Route exact path={"/station/"} component={({match, history}) => <StationChart timeline={props.timeline} auth={props.auth} history={history} />} />
+                     component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  
+            }
+            <Route exact path={"/station/"} 
+                    component={({match, history}) => <StationChart timeline={props.timeline} auth={props.auth} history={history} />} />
             <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
             <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
             <Route component={NotFoundPage} />
