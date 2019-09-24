@@ -161,7 +161,7 @@ function SidebarNav(props) {
             <ArrowRightIcon className={props.classes.arrow}/>
           }
         </ListItem>
-        <ListItem button className={props.classes.listItem} selected={ props.layers["favorites"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("favorites"))} key={"nav-favourite-places"}>
+        <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={props.isLogged && props.layers["favorites"].isVisible } onClick={(e) => props.dispatch(toggleLayerVisibility("favorites"))} key={"nav-favourite-places"}>
           <ListItemIcon className={props.classes.listItemIcon}><FavoriteIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
           <ListItemText primary={props.layers["favorites"].name} />
         </ListItem>

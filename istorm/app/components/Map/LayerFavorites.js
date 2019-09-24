@@ -34,7 +34,9 @@ class LayerFavorites extends BaseControl {
     console.log(override)
     console.log(override) */
     // const newLayer = {...favoritesLayer, ...override};
-    map.addLayer(layerInfo); 
+    if(!map.style._layers.favorites){
+      map.addLayer(layerInfo)
+    } 
   }
 
   // componentWillReceiveProps(newProps) {
