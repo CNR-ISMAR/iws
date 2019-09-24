@@ -25,6 +25,7 @@ export function* postFavouriteSaga(action) {
     console.log('postFavouriteSaga')
     yield put(postFavouriteSuccess(request));
     yield call(FavouritesSaga);
+    yield call(requestFavouritesLayerSaga)
   } catch(e) {
     yield put(requestError(e.message));
 

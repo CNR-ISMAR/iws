@@ -11,6 +11,9 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS } from './constants';
 
+import theme from 'theme'
+import { elementType } from 'prop-types';
+
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
 
@@ -103,7 +106,7 @@ export const initialState = {
         // data: 'http://iws.inkode.it:4443/openistorm/favorites/geojson',
       },
       paint: {
-        'circle-color': '#d10000',
+        'circle-color': theme.palette.custom.favoriteIcon,
         // 'circle-radius': 4,
         "circle-radius": [
           "case",
@@ -232,6 +235,7 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.source.data = []
       break;
       case REQUEST_FAVOURITES_LAYER_SUCCESS:
+          console.log('REQUEST_FAVOURITES_LAYER_SUCCESS')
           draft.layers.favorites.loading = false;
           draft.layers.favorites.error = initialState.layers.favorites.error;
           draft.layers.favorites.source.data = action.result;
