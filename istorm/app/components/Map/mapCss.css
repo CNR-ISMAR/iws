@@ -31,7 +31,12 @@
 }
 
 *[class *='MuiTableCell']{
-    padding: 10px
+    padding: 2px 10px;
+    font-size: 0.75rem;
+}
+
+tr td:nth-child(1){
+    color:rgba(0, 0, 0, 0.54)
 }
 
 span[class *='legend-item__title']{
@@ -69,3 +74,4 @@ div[class *='color-legend']{
     background: transparent;
     border: 1px solid #0b303a;
 }
+

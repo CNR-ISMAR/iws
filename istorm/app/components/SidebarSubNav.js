@@ -20,7 +20,7 @@ const styles = (theme, style) => {
         minHeight: "100%",
         height: "auto",
         zIndex: 1600, 
-        width: 300,
+        width: 250,
         maxWidth: 300,
         overflowY: "auto",
         //flex: 1,

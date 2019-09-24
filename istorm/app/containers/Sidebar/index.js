@@ -29,13 +29,13 @@ import reducer from './reducer';
 import AvatarMenu from 'components/AvatarMenu';
 import SidebarNav from 'components/SidebarNav';
 
-const drawerWidth = 240;
+/* const theme.sizing.drawerWidth = 240; */
 
 const styles = (theme) => {
   return {
     drawer: {
       position: "relative",
-      width: drawerWidth,
+      width: theme.sizing.drawerWidth,
       flexShrink: 0,
       whiteSpace: 'nowrap',
     },
@@ -51,7 +51,7 @@ const styles = (theme) => {
       position: "relative",
     },
     drawerPaper: {
-      width: drawerWidth,
+      width: theme.sizing.drawerWidth,
       marginTop: 64,
       backgroundColor: theme.palette.custom.darkBackground
     },
@@ -68,7 +68,7 @@ const styles = (theme) => {
       flexDirection: "row"
     },
     drawerOpen: {
-      width: drawerWidth,
+      width: theme.sizing.drawerWidth,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,

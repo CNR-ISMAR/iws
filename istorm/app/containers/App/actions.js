@@ -6,9 +6,16 @@
 
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
   TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
-  POST_FAVOURITE,  POST_FAVOURITE_SUCCESS, DELETE_FAVOURITE, 
+  POST_FAVOURITE,  POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_FAVOURITE, 
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS,
-  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER } from './constants';
+  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER, TOGGLE_PAPER } from './constants';
+
+export function togglePaper(open) {
+    return {
+      type: TOGGLE_PAPER,
+      open: open
+    };
+}
 
 export function toggleLayerMean() {
   return {
@@ -78,6 +85,14 @@ export function postFavourite(Params) {
   return {
     type: POST_FAVOURITE,
     Params: Params
+  };
+}
+
+export function postFavouriteEmpty() {
+  console.log('Empty Post Favourite')
+  return {
+    type: POST_FAVOURITE_EMPTY,
+    
   };
 }
 

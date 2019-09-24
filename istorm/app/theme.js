@@ -58,6 +58,10 @@ const theme = createMuiTheme({
       paper: "#FFFFFF",
     },
   },
+  sizing: {
+    drawerWidth: 250,
+    paperWrapperWidth: 500, 
+  },
   typography: {
     useNextVariants: true,
     fontFamily: [

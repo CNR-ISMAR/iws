@@ -7,9 +7,9 @@ import produce from 'immer';
 import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
   TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
-  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, DELETE_FAVOURITE, 
+  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_FAVOURITE, 
   DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER,
-  REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS } from './constants';
+  REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER } from './constants';
 
 import theme from 'theme'
 import { elementType } from 'prop-types';
@@ -95,7 +95,7 @@ export const initialState = {
   },
   layers: {
     favorites: {
-      name: "Favorites",
+      name: "Favourites",
       id: "favorites",
       isVisible: true,
       isTimeseries: false,
@@ -169,7 +169,8 @@ export const initialState = {
       loading: false,
       error: null,
       results: []
-    }
+    },
+    open: false
   }
 };
 
@@ -179,6 +180,9 @@ export const initialState = {
 const mapPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case TOGGLE_PAPER:
+        draft.popups.open = action.open;
+        break;
       case TOGGLE_LAYER_MEAN:
         draft.mean = !draft.mean;
         break;
@@ -215,6 +219,9 @@ const mapPageReducer = (state = initialState, action) =>
           draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
           draft.popups.postfavourites.results = []
         break;
+      case POST_FAVOURITE_EMPTY:
+            draft.popups.postfavourites.results = []
+          break;  
       case POST_FAVOURITE_SUCCESS:
             draft.popups.postfavourites.loading = false;
             draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
@@ -235,7 +242,6 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.source.data = []
       break;
       case REQUEST_FAVOURITES_LAYER_SUCCESS:
-          console.log('REQUEST_FAVOURITES_LAYER_SUCCESS')
           draft.layers.favorites.loading = false;
           draft.layers.favorites.error = initialState.layers.favorites.error;
           draft.layers.favorites.source.data = action.result;

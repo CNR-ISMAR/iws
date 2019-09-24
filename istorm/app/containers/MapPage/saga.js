@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_INFO_LAYER, POST_FAVOURITE, DELETE_FAVOURITE, REQUEST_FAVOURITES_LAYER } from 'containers/App/constants';
-import { requestInfoLayerSuccess, requestError , postFavouriteSuccess, deleteFavouriteSuccess, requestFavouritesLayerSuccess  } from 'containers/App/actions';
+import { requestInfoLayerSuccess, requestError , postFavouriteSuccess, deleteFavouriteSuccess, requestFavouritesLayerSuccess, togglePaper, postFavouriteEmpty  } from 'containers/App/actions';
 import { popups, postFavourite, deleteFavourite, geoJsonFavourites } from 'utils/api';
 import {FavouritesSaga, deleteFavouriteSaga} from 'containers/Favourites/saga';
  
@@ -10,6 +10,8 @@ export function* infoLayerSaga(options) {
     const request = yield call(popups, options);
     console.log('infoLayerSaga')
     yield put(requestInfoLayerSuccess(request));
+    yield put(postFavouriteEmpty())
+    yield put(togglePaper(true))
   } catch(e) {
     yield put(requestError(e.message));
   }
@@ -62,7 +64,6 @@ export default function* mapPageSaga() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
-  yield takeLatest(REQUEST_INFO_LAYER, infoLayerSaga);
   yield takeLatest(REQUEST_INFO_LAYER, infoLayerSaga);
   yield takeLatest(POST_FAVOURITE, postFavouriteSaga);
   yield takeLatest(DELETE_FAVOURITE, deleteFavouriteSaga);
