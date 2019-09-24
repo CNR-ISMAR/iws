@@ -16,8 +16,7 @@ const styles = (theme, style) => {
     console.info(theme, style);
     return {
       subNav: {
-        position: "relative", 
-        minHeight: "100%",
+        position: "absolute", 
         height: "auto",
         zIndex: 1600, 
         width: 250,
@@ -116,28 +115,27 @@ const styles = (theme, style) => {
     }; */
     return (
         <div className={`${props.classes.subNav} ${props.mainClass}`}>
-            {props.additionalPart && props.additionalPart}
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.Title} icon={props.Icon}  />
-            <List>
-                {
-                  
-                props.Results.sort((a, b) => {return b.id - a.id } ).map((result) => {
-                return (
-                    <ListItem 
-                        button 
-                        className={`${props.classes.listItem} ${result.read ? 'read' : '' }`} 
-                        key={"nav-stormtestents-"+result.id} 
-                        selected={isCurrentPage(`/${props.Category}/${result.id}`)}>
-                        <Link to={`/${props.Category}/${result.id}`} onClick={() => props.clickEvent ? props.clickEvent(result.id) : null} >
-                            <ListItemText primary={`${result.title}`} /> 
-                            { props.Content && props.Content(`${result.description}`) }
-                        </Link>
-                        <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} >&times;</Button>
-                    </ListItem>
-                        )
-                    })
-                }
-            </List>
+            { props.Results.length > 0 && 
+              <List>
+                  {props.Results.sort((a, b) => {return b.id - a.id } ).map((result) => {
+                  return (
+                      <ListItem 
+                          button 
+                          className={`${props.classes.listItem} ${result.read ? 'read' : '' }`} 
+                          key={"nav-stormtestents-"+result.id} 
+                          selected={isCurrentPage(`/${props.Category}/${result.id}`)}>
+                          <Link to={`/${props.Category}/${result.id}`} onClick={() => props.clickEvent ? props.clickEvent(result.id) : null} >
+                              <ListItemText primary={`${result.title}`} /> 
+                              { props.Content && props.Content(`${result.description}`) }
+                          </Link>
+                          <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} >&times;</Button>
+                      </ListItem>
+                          )
+                      })
+                  }
+              </List>
+            }
         </div>
         
     );
