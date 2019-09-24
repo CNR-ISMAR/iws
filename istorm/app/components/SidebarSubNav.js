@@ -114,15 +114,14 @@ const styles = (theme, style) => {
         
         setState(prevState => !prevState);
     }; */
-  
-
     return (
         <div className={`${props.classes.subNav} ${props.mainClass}`}>
             {props.additionalPart && props.additionalPart}
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.Title} icon={props.Icon}  />
             <List>
                 {
-                props.Results.map((result) => {
+                  
+                props.Results.sort((a, b) => {return b.id - a.id } ).map((result) => {
                 return (
                     <ListItem 
                         button 
