@@ -234,7 +234,7 @@ class Map extends React.Component {
                     </TableBody>
                   </Table>
                   <Box textAlign="center" className="buttons" p={1} display="flex">
-                    <Button className="buttonChart" color="dark" onClick={ () => { 
+                    <Button className="buttonChart" color="secondary" onClick={ () => { 
                         const latlon = new LngLat(popup.longitude, popup.latitude)
                         const bb200 = latlon.toBounds(200)
                         console.log(bb200)
@@ -245,7 +245,7 @@ class Map extends React.Component {
                     </Button>
                   { this.props.isLogged &&
                     <Button className="buttonAddFav" 
-                            color="dark" 
+                            color="secondary" 
                             onClick={ (e) => {
                                       e.preventDefault()
                                       if(!addFavourite){

@@ -1,11 +1,6 @@
-
-import React from "react";
-import Button from '@material-ui/core/Button';
-
-export const ENQUEUE_SNACKBAR = '@NOTISTACK/ENQUEUE_SNACKBAR';
-export const CLOSE_SNACKBAR = '@NOTISTACK/CLOSE_SNACKBAR';
-export const REMOVE_SNACKBAR = '@NOTISTACK/REMOVE_SNACKBAR';
-export const FILL_NOTIFICATIONS = '@NOTISTACK/FILL_NOTIFICATIONS';
+export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';
 
 export const enqueueSnackbar = notification => {
     const key = notification.options && notification.options.key;
@@ -16,16 +11,6 @@ export const enqueueSnackbar = notification => {
             ...notification,
             key: key || new Date().getTime() + Math.random(),
         },
-    };
-};
-
-
-export const fillNotifications = notification => {
-    const key = notification.options && notification.options.key;
-
-    return {
-        type: FILL_NOTIFICATIONS,
-        notification: ['test notfica'],
     };
 };
 

@@ -12,22 +12,33 @@ class Notifier extends Component {
         this.displayed = [...this.displayed, id];
     };
 
-    componentDidMount() {
-        console.log('Notification Snake')
-        console.log('Notification Snake')
-        console.log('Notification Snake')
-        console.log('Notification Snake')
+    /* componentDidMount(){
+        console.log('COMPONENT DID MOUNT')
         console.log(this.props)
-       // this.props.fillNotifications()
-    }
+    } */
 
-   /*  shouldComponentUpdate({ notifications: newSnacks = [] }) {
+    shouldComponentUpdate({ notifications: newSnacks = [] }) {
+        /* console.log('shouldComponentUpdate')
+        console.log('shouldComponentUpdate')
+        console.log('shouldComponentUpdate')
+        console.log('shouldComponentUpdate')
+        console.log('newSnacks')
+        console.log('newSnacks')
+        console.log('newSnacks')
+        console.log('newSnacks')
+        console.log(newSnacks) */
         if (!newSnacks.length) {
             this.displayed = [];
             return false;
         }
-
         const { notifications: currentSnacks } = this.props;
+        /* console.log('currentSnacks')
+        console.log('currentSnacks')
+        console.log('currentSnacks')
+        console.log('currentSnacks')
+        console.log(currentSnacks) */
+
+       
         let notExists = false;
         for (let i = 0; i < newSnacks.length; i += 1) {
             const newSnack = newSnacks[i];
@@ -39,13 +50,18 @@ class Notifier extends Component {
             if (notExists) continue;
             notExists = notExists || !currentSnacks.filter(({ key }) => newSnack.key === key).length;
         }
-        return notExists;
-    }
-*/
+        return notExists; 
+    } 
+
     componentDidUpdate() {
         const { notifications = [] } = this.props;
+        /* console.log('COMPONENT DID UPDATE')
+        console.log('COMPONENT DID UPDATE')
+        console.log('COMPONENT DID UPDATE')
+        console.log('COMPONENT DID UPDATE') */
 
-        notifications.forEach(({ key, message, options = {} }) => {
+        console.log(notifications)
+        notifications.forEach(({ key, message, options = { } }) => {
             // Do nothing if snackbar is already displayed
             if (this.displayed.includes(key)) return;
             // Display snackbar using notistack
@@ -63,7 +79,7 @@ class Notifier extends Component {
             this.storeDisplayed(key);
         });
     }
- 
+
     render() {
         return null;
     }

@@ -1,4 +1,4 @@
-import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR, FILL_NOTIFICATIONS } from './actions';
+import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from './actions';
 
 const defaultState = {
     notifications: [],
@@ -6,15 +6,6 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
     switch (action.type) {
-        case FILL_NOTIFICATIONS:
-            return {
-                ...state,
-                notifications: [
-                    ...state.notifications,
-                    action.notifications
-                ],
-            };
-
         case ENQUEUE_SNACKBAR:
             return {
                 ...state,
@@ -48,4 +39,4 @@ export default (state = defaultState, action) => {
         default:
             return state;
     }
-}
+};
