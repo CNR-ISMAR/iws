@@ -37,7 +37,7 @@ const styles = (theme, style) => {
   return {
     subNav: {
       position: "absolute",
-      height: '100vh',
+      height: '60vh',
       width: '100%', 
       zIndex: 1600,
       flexGrow: 1,

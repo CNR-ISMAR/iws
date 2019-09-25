@@ -22,6 +22,9 @@ const styles = (theme) => {
   return {
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
+    },
+    xyPlot: {
+      height: '40vh'
     }
   }
 };
@@ -77,8 +80,8 @@ function Chart(props) {
                 <div><h2>Longitude:</h2><h3>{props.longitude.toFixed(4)}</h3></div>
                 <div><h2>Time: </h2><h3>from: {props.timeFrom}<br></br> to: {props.timeTo}</h3></div>
               </div>
-              <XYPlot 
-                height={400} 
+              <XYPlot  
+                height={chart.height}
                 width={chart.width} 
                 xType="time" 
                 yType="linear"

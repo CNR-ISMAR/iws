@@ -51,6 +51,7 @@ div[class *='color-legend']{
 .chart_subtitle{
     display: flex;
     justify-content: space-between;
+    padding-bottom: 30px
 }
 
 .chart_subtitle h2, .chart_subtitle h3{
