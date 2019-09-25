@@ -62,7 +62,7 @@ export const initialState = {
   WindGLLayer: {
     name: "Wave",
     id: "wmpMean",
-    isVisible: true,
+    isVisible: false,
     isTimeseries: true,
   },
   BackgroundWindLayer: {
@@ -188,9 +188,11 @@ const mapPageReducer = (state = initialState, action) =>
         break;
       case TOGGLE_LAYER_VISIBILITY:
         if(action.layer === "wmpMean") {
-          draft.WindGLLayer.isVisible = !draft.WindGLLayer.isVisible;
+          draft.WindGLLayer.isVisible = true;
+          draft.seaLevel.isVisible = false;
         } else if(action.layer === "seaLevel") {
-          draft.seaLevel.isVisible = !draft.seaLevel.isVisible;
+          draft.seaLevel.isVisible = true;
+          draft.WindGLLayer.isVisible = false;
         } else {
           draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
         }

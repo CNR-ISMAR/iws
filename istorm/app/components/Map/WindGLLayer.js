@@ -173,6 +173,16 @@ class WindGLLayer extends BaseControl {
     super(props);
   }
 
+  getLayerBefore(map) {
+    if(map.getLayer('favorites'))
+      return 'favorites';
+    if(map.getLayer('stations-sea-level'))
+      return 'stations-sea-level';
+    if(map.getLayer('stations-wave'))
+      return 'stations-wave';
+    return null
+  }
+
   componentDidMount() {
     const map = this._context.map;
     const { layer, layerInfo } = this.props;
@@ -188,8 +198,9 @@ class WindGLLayer extends BaseControl {
         map.removeLayer(layer.id);
       }
       if (this._ctx && this._ctx instanceof WebGLRenderingContext) {
-        map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata));
-        map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
+      const afterLayer = this.getLayerBefore(map);
+        map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata), afterLayer);
+        map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata), afterLayer);
       } else {
         console.log("WEBGL NON ATTIVO");
         console.log("WEBGL NON ATTIVO");
@@ -211,9 +222,9 @@ class WindGLLayer extends BaseControl {
       // let afterLayer = layers.map(x=>x.id).filter(x=>x.includes("station") || x.includes("seaLevel"))
       // console.log(afterLayer)
       // afterLayer = (afterLayer.length > 0) ? afterLayer[0] : null
-      const afterLayer = null
+      const afterLayer = this.getLayerBefore(map);
       map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata), afterLayer);
-      map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata));
+      map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata), afterLayer);
     }
   }
 
