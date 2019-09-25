@@ -33,24 +33,21 @@ const LegendsColors = {
   wsh: 'rgb(200, 200, 30)'
 }
 
-const LegendsItems = [
-  {id: 'sea_level-std', title: 'Sea Level Std', color: LegendsColors.sea_level, strokeStyle: "dashed" },
-  { id: 'sea_level-mean', title: 'Sea Level Mean', color: LegendsColors.sea_level, strokeStyle: "solid"},
-  { id: 'wmd-std', title: 'Wmd Std', color: LegendsColors.wmd, strokeStyle: "dashed"},
-  { id: 'wmd-mean', title: 'Wmd Mean', color: LegendsColors.wmd, strokeStyle: "solid"},
-  { id: 'wmp-std', title: 'Wmp Std', color: LegendsColors.wmp, strokeStyle: "dashed"},
-  { id: 'wmp-mean', title: 'Wmp Mean', color: LegendsColors.wmp, strokeStyle: "solid"},
-  { id: 'wsh-std', title: 'Wsh Std', color: LegendsColors.wsh, strokeStyle: "dashed"},
-  { id: 'wsh-mean', title: 'Wsh Mean', color: LegendsColors.wsh, strokeStyle: "solid"},
-]; 
+const LegendsItems = Object.keys(labels.lines).sort().map((item) => {return {
+  'id': item,
+  'title': labels.lines[item],
+  'color': LegendsColors[item.split('-')[0]],
+  'strokeStyle': item.includes('mean') ? 'solid' : 'dashed'
+}})
+
 let recordclick = {}
 function Chart(props) {
   const [chart, setChartState] = useState({ width: 0, height: 0, itemClickID: '', crosshairValues: [] });
   const wrapper = useRef(null);
-  console.log('Chart')
+  // console.log('Chart')
   /* console.log(props.data) */
   const updateWidthHeight = () => {
-    setChartState({...chart, width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
+    setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 18   })
   };
 
   const fixFormat = (ts) => {
@@ -65,7 +62,7 @@ function Chart(props) {
   const labels = typeof props.data == 'object' ? Object.keys(props.data) : []
   const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
   
-  useEffect(updateWidthHeight, [wrapper]);
+  useEffect(updateWidthHeight, [props.data]);
   
   return (
     <div ref={wrapper} className={props.classes.subNav}>
@@ -77,8 +74,8 @@ function Chart(props) {
                 <div><h2>Longitude:</h2><h3>{props.longitude.toFixed(4)}</h3></div>
                 <div><h2>Time: </h2><h3>from: {props.timeFrom}<br></br> to: {props.timeTo}</h3></div>
               </div>
-              <XYPlot 
-                height={400} 
+              <XYPlot  
+                height={chart.height}
                 width={chart.width} 
                 xType="time" 
                 yType="linear"
@@ -95,7 +92,7 @@ function Chart(props) {
                             } 
                           })
                           .map(name => {
-                            return (   
+                            return (
                               <LineSeries 
                                   key={name}
                                   className={name}
@@ -108,7 +105,7 @@ function Chart(props) {
                                   opacity={ 1 /* recordclick[name] === undefined || recordclick[name] ? 1 : 0 */ }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'} 
-                                  strokeStyle={name.includes('std') ? 'dashed' : 'solid'}
+                                  strokeStyle={name.includes('mean') ? 'solid' : 'dashed'}
                                   onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} /> 
                               )
                           })
