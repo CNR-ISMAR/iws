@@ -145,6 +145,11 @@ class Map extends React.Component {
 
 
   onClick(event) {
+    console.log('onClick(event)')
+    console.log('onClick(event)')
+    console.log('onClick(event)')
+    console.log('onClick(event)')
+    console.log(event)
     const pos = this.refs.map.getMap().unproject(event.offsetCenter)
     const latlon = new LngLat(pos.lng,pos.lat)
     const bb200 = latlon.toBounds(200)

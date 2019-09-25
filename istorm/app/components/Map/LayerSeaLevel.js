@@ -20,7 +20,18 @@ class LayerSeaLevel extends BaseControl {
       }
     }
     const newLayer = {...layer, ...override};
-    map.addLayer(newLayer);
+    const afterLayer = this.getLayerBefore(map);
+    map.addLayer(newLayer, afterLayer);
+  }
+
+  getLayerBefore(map) {
+    if(map.getLayer('favorites'))
+      return 'favorites';
+    if(map.getLayer('stations-sea-level'))
+      return 'stations-sea-level';
+    if(map.getLayer('stations-wave'))
+      return 'stations-wave';
+    return null
   }
 
   componentWillReceiveProps(newProps) {
@@ -39,7 +50,8 @@ class LayerSeaLevel extends BaseControl {
       const newLayer = {...layer, ...override};
       map.removeLayer(layer.id);
       map.removeSource(layer.id);
-      map.addLayer(newLayer);
+      const afterLayer = this.getLayerBefore(map);
+      map.addLayer(newLayer, afterLayer);
     }
   }
 
