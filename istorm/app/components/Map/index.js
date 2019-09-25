@@ -56,7 +56,7 @@ const styles = (theme) => {
       width: theme.sizing.paperWrapperWidth,
       position: "absolute",
       left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
-      top: -100,
+      top: -80,
       transition: theme.transitions.create('top', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -234,7 +234,7 @@ class Map extends React.Component {
                     </TableBody>
                   </Table>
                   <Box textAlign="center" className="buttons" p={1} display="flex">
-                    <Button className="buttonChart" color="primary" onClick={ () => { 
+                    <Button className="buttonChart" color="dark" onClick={ () => { 
                         const latlon = new LngLat(popup.longitude, popup.latitude)
                         const bb200 = latlon.toBounds(200)
                         console.log(bb200)
@@ -245,7 +245,7 @@ class Map extends React.Component {
                     </Button>
                   { this.props.isLogged &&
                     <Button className="buttonAddFav" 
-                            color="primary" 
+                            color="dark" 
                             onClick={ (e) => {
                                       e.preventDefault()
                                       if(!addFavourite){

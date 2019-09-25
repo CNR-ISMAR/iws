@@ -79,6 +79,8 @@ import App from 'containers/App';
 import LanguageProvider from 'containers/LanguageProvider';
 import AuthProvider from 'containers/AuthProvider';
 
+import { SnackbarProvider } from 'notistack';
+
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
@@ -103,15 +105,17 @@ const render = messages => {
   ReactDOM.render(
     <Provider store={store.store}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <LanguageProvider messages={messages}>
-          <ConnectedRouter history={history}>
-          {/*<ThemeProvider theme={theme}>*/}
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          {/*</ThemeProvider>*/}
-          </ConnectedRouter>
-        </LanguageProvider> 
+	  	<SnackbarProvider maxSnack={3}>
+			<LanguageProvider messages={messages}>
+			<ConnectedRouter history={history}>
+			{/*<ThemeProvider theme={theme}>*/}
+				<AuthProvider>
+				<App />
+				</AuthProvider>
+			{/*</ThemeProvider>*/}
+			</ConnectedRouter>
+			</LanguageProvider>
+		</SnackbarProvider> 
       </MuiPickersUtilsProvider>
     </Provider>,
     MOUNT_NODE,
