@@ -45,6 +45,8 @@ import GradeIcon from '@material-ui/icons/Grade';
 import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
 import labels from '../../utils/labels.js'
 
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
 const styles = (theme) => {
@@ -69,19 +71,22 @@ const styles = (theme) => {
       top: 0,
     },
     headerTopClose: {
-      fontSize: 20,
-      lineHeight: 0.1,
-      padding: 7,
-      margin: '2px 2px 5px 5px',
+      // fontSize: 20,
+      // lineHeight: 0.1,
+      // padding: 7,
+      // margin: '2px 2px 5px 5px',
       minWidth: "auto",
-      borderRadius: 15,
-      height: 15,
-      width: 15,
-      color: theme.palette.primary.dark,
-      border: "1px solid "+theme.palette.primary.dark,
+      // borderRadius: 15,
+      // height: 15,
+      // width: 15,
+      // color: theme.palette.secondary.dark,
+      // border: "1px solid "+theme.palette.primary.dark,
       position: "absolute",
       right: 0,
-      top: 0
+      top: 0,
+      "&:hover": {
+        background: "transparent",
+      }
     }
   }
 };
@@ -282,7 +287,7 @@ class Map extends React.Component {
                     }
                   </Box>
                 </Box>
-                <Button size={"small"} className={this.props.classes.headerTopClose} onClick={() => { this.props.dispatch(togglePaper(false)); } } >&times;</Button>
+                <Button size={"small"} className={this.props.classes.headerTopClose} onClick={() => { this.props.dispatch(togglePaper(false)); } } ><HighlightOffIcon/></Button>
               </Paper>
         ))}
       </>
