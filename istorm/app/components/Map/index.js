@@ -153,10 +153,32 @@ class Map extends React.Component {
       console.log('onClick(event)')
       console.log('onClick(event)')
       console.log('onClick(event)')
+      console.log('onClick(event)')
       console.log(event)
       const pos = this.refs.map.getMap().unproject(event.offsetCenter)
       const latlon = new LngLat(pos.lng,pos.lat)
       const bb200 = latlon.toBounds(200)
+      let fav = null
+      if(event.features.length > 0) {
+        if(event.features.filter((feature) => {return feature.source == 'favorites'}).length > 0) {
+          console.log('PREFERITI')
+          console.log('PREFERITI')
+          console.log('PREFERITI')
+          console.log('PREFERITI')
+          console.log('PREFERITI')
+          let favIndex = this.props.favorites.findIndex(favorite => favorite.title === feature.properties.title)
+          fav = this.props.favorites[favIndex]
+          console.log(fav)
+          console.log(fav)
+          console.log(fav)
+          console.log(fav)
+          console.log(fav)
+          console.log(fav)
+          console.log(fav)
+          console.log(fav)
+          console.log(fav)
+        }
+      }
       /* console.log(this.refs.map.getMap())
       console.log(bb200) */
       this.props.popups.open ? this.props.dispatch(togglePaper(false)) : this.props.dispatch(togglePaper(true))
@@ -165,7 +187,7 @@ class Map extends React.Component {
         bounds: bb200,
       }));
     }
-    
+
   }
 
 
@@ -191,7 +213,7 @@ class Map extends React.Component {
         onLoad={this.onMapLoad}
         onClick={this.onClick}
         onTap={this.onClick}
-        disable={true}
+        // disable={true}
         mapStyle={this.props.mapStyle}
         >
           
