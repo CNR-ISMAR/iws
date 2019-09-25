@@ -47,7 +47,7 @@ function Chart(props) {
   // console.log('Chart')
   /* console.log(props.data) */
   const updateWidthHeight = () => {
-    setChartState({...chart, width: wrapper.current.offsetWidth, height: (wrapper.current.offsetWidth/100) * 18})
+    setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 18   })
   };
 
   const fixFormat = (ts) => {
@@ -62,7 +62,7 @@ function Chart(props) {
   const labels = typeof props.data == 'object' ? Object.keys(props.data) : []
   const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
   
-  useEffect(updateWidthHeight, [wrapper]);
+  useEffect(updateWidthHeight, [props.data]);
   
   return (
     <div ref={wrapper} className={props.classes.subNav}>

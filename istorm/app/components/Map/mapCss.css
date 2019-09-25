@@ -72,8 +72,19 @@ div[class *='color-legend']{
 .rv-discrete-color-legend-item.clickable{
     border: 1px solid transparent;
 }
-.rv-discrete-color-legend-item.clickable:hover{
+
+.rv-discrete-color-legend .rv-discrete-color-legend-item{
+    width: 16%;
+}
+
+
+.rv-discrete-color-legend .rv-discrete-color-legend-item.clickable:hover{
     background: transparent;
     border: 1px solid #0b303a;
 }
 
+div[class *='color-legend'] {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
