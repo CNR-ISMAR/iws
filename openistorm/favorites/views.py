@@ -64,7 +64,7 @@ class FavoriteListGeoJson(ListAPIView):
         # print(queryset.__dict__)
         serialized = serialize('geojson', queryset,
                   geometry_field='position',
-                  fields=('id','title','address', 'position'),
+                  fields=('id','title','address'),
                   srid= 'EPSG:3857')
         return Response(json.loads(serialized))
 
