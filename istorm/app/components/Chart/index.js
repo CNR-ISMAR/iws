@@ -22,9 +22,6 @@ const styles = (theme) => {
   return {
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
-    },
-    xyPlot: {
-      height: '40vh'
     }
   }
 };
