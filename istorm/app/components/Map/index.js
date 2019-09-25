@@ -82,7 +82,7 @@ const styles = (theme) => {
       position: "absolute",
       right: 0,
       top: 0
-    },
+    }
   }
 };
 
@@ -148,21 +148,24 @@ class Map extends React.Component {
 
 
   onClick(event) {
-    console.log('onClick(event)')
-    console.log('onClick(event)')
-    console.log('onClick(event)')
-    console.log('onClick(event)')
-    console.log(event)
-    const pos = this.refs.map.getMap().unproject(event.offsetCenter)
-    const latlon = new LngLat(pos.lng,pos.lat)
-    const bb200 = latlon.toBounds(200)
-    /* console.log(this.refs.map.getMap())
-    console.log(bb200) */
-    this.props.popups.open ? this.props.dispatch(togglePaper(false)) : this.props.dispatch(togglePaper(true))
-    this.props.dispatch(requestInfoLayer({
-      time: this.props.layerInfo.date,
-      bounds: bb200,
-    }));
+    if(!this.props.history.location.pathname.includes('station')){
+      console.log('onClick(event)')
+      console.log('onClick(event)')
+      console.log('onClick(event)')
+      console.log('onClick(event)')
+      console.log(event)
+      const pos = this.refs.map.getMap().unproject(event.offsetCenter)
+      const latlon = new LngLat(pos.lng,pos.lat)
+      const bb200 = latlon.toBounds(200)
+      /* console.log(this.refs.map.getMap())
+      console.log(bb200) */
+      this.props.popups.open ? this.props.dispatch(togglePaper(false)) : this.props.dispatch(togglePaper(true))
+      this.props.dispatch(requestInfoLayer({
+        time: this.props.layerInfo.date,
+        bounds: bb200,
+      }));
+    }
+    
   }
 
 
@@ -188,6 +191,7 @@ class Map extends React.Component {
         onLoad={this.onMapLoad}
         onClick={this.onClick}
         onTap={this.onClick}
+        disable={true}
         mapStyle={this.props.mapStyle}
         >
           
