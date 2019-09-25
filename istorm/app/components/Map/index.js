@@ -154,11 +154,18 @@ class Map extends React.Component {
       console.log('onClick(event)')
       console.log('onClick(event)')
       console.log('onClick(event)')
-      console.log(event)
+      console.log(event.features)
       const pos = this.refs.map.getMap().unproject(event.offsetCenter)
       const latlon = new LngLat(pos.lng,pos.lat)
       const bb200 = latlon.toBounds(200)
-      let fav = null
+     // let intersection = arrA.filter(x => arrB.includes(x));
+     console.log(event)
+      if(event.features.length > 0) {
+        Object.keys(this.props.favourites).map(fav => { 
+          console.log(event.features.some(feature => fav.title.includes(feature.properties.title) ))
+        })
+      }
+      /* let fav = null
       if(event.features.length > 0) {
         if(event.features.filter((feature) => {return feature.source == 'favorites'}).length > 0) {
           console.log('PREFERITI')
@@ -166,8 +173,8 @@ class Map extends React.Component {
           console.log('PREFERITI')
           console.log('PREFERITI')
           console.log('PREFERITI')
-          let favIndex = this.props.favorites.findIndex(favorite => favorite.title === feature.properties.title)
-          fav = this.props.favorites[favIndex]
+          let favIndex = this.props.favoritesLayer.findIndex(favorite => favorite.title === feature.properties.title)
+          fav = this.props.favoritesLayer[favIndex]
           console.log(fav)
           console.log(fav)
           console.log(fav)
@@ -178,7 +185,7 @@ class Map extends React.Component {
           console.log(fav)
           console.log(fav)
         }
-      }
+      } */
       /* console.log(this.refs.map.getMap())
       console.log(bb200) */
       this.props.popups.open ? this.props.dispatch(togglePaper(false)) : this.props.dispatch(togglePaper(true))
@@ -190,14 +197,12 @@ class Map extends React.Component {
 
   }
 
-
-
   render () {
     console.log('React Map')
     console.log(this.props)
-    const postfavourites = this.props.popups.postfavourites;
+    // const postfavourites = this.props.popups.postfavourites;
     let addFavourite = false;
-    !postfavourites.loading && Object.keys(postfavourites.results).length > 0 ? addFavourite = true : addFavourite = false
+    Object.keys(this.props.favourites.selected).length > 0 ? addFavourite = true : addFavourite = false 
     return (
       <>
       <ReactMapGL
@@ -222,7 +227,7 @@ class Map extends React.Component {
             {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel} mean={this.props.mean}/>)}
             {this.props.WindGLLayer.isVisible && (<WindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.WindGLLayer}/>)}
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
-            {this.props.isLogged && this.props.favorites && Object.keys(this.props.favorites.source.data).length > 0  && this.props.favorites.isVisible && <LayerFavorites layerInfo={this.props.favorites}/> }
+            {this.props.isLogged && this.props.favoritesLayer && Object.keys(this.props.favoritesLayer.source.data).length > 0  && this.props.favoritesLayer.isVisible && <LayerFavorites layerInfo={this.props.favoritesLayer}/> }
           </>
         )}
 
@@ -292,13 +297,14 @@ class Map extends React.Component {
                                           latitude: popup.latitude,
                                           longitude: popup.longitude }
                                         ))
-                                      }else{
-                                        this.props.dispatch(deleteFavourite(postfavourites.results.id))
-                                      }
+                                       }
+                                       else{
+                                        this.props.dispatch(deleteFavourite(this.props.favourites.selected.id))
+                                      } 
                                     }
                       }>
-                      { addFavourite &&
-                        <GradeIcon></GradeIcon> || <GradeOutlinedIcon></GradeOutlinedIcon>
+                      {  addFavourite && 
+                        <GradeIcon></GradeIcon> || <GradeOutlinedIcon></GradeOutlinedIcon> 
                       }
                       </Button> 
                     }

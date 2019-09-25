@@ -15,7 +15,7 @@ import { compose } from 'redux';
 import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleWindGLLayer } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
 import { setCurrentDate, togglePlay } from '../History/actions';
-import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean, requestFavouritesLayer } from '../App/actions';
+import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean, requestFavouritesLayer, requestFavourites } from '../App/actions';
 import { requestTimeline } from '../History/actions';
 import messages from './messages';
 import Map from '../../components/Map';
@@ -41,6 +41,7 @@ import { Hidden } from '@material-ui/core';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import saga from './saga';
+
 
 const AntSwitch = withStyles(theme => ({
   root: {
@@ -178,8 +179,15 @@ function MapPage(props) {
     if(props.isLogged){
       props.dispatch(requestFavouritesLayer())
     }
-    
   }, [])
+
+  useEffect(() => {
+    /* console.log('props.mapPage.favourites')
+    console.log(props.mapPage.favourites) */
+     if(props.isLogged && props.mapPage.favourites.results.length == 0){
+      props.dispatch(requestFavourites());
+    } 
+  }, [props.isLogged]);
 
   return !props.timeline.loading && layerInfo != null ? (
       <>
@@ -196,7 +204,8 @@ function MapPage(props) {
           WindGLLayer={props.mapPage.WindGLLayer}
           popups={props.mapPage.popups}
           isLogged={props.isLogged}
-          favorites={props.mapPage.layers.favorites}
+          favoritesLayer={props.mapPage.layers.favorites}
+          favourites={props.mapPage.favourites}
           />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>
