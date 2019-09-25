@@ -74,7 +74,7 @@ function HistoryForm(props) {
             />
           </Box>
           <Box>
-            <Button type="submit" onClick={submit} variant="contained" color="primary">Save</Button>
+            <Button type="submit" onClick={submit} variant="contained" color="secondary">Save</Button>
           </Box>
         </Box>
     </form>

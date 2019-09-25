@@ -74,7 +74,8 @@ div[class *='color-legend']{
 }
 
 .rv-discrete-color-legend .rv-discrete-color-legend-item{
-    width: 16%;
+    /* width: calc(100vw / 8); */
+    flex-basis: 22% 
 }
 
 
@@ -87,4 +88,5 @@ div[class *='color-legend'] {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    overflow: hidden;
 }
