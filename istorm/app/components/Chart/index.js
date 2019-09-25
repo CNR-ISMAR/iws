@@ -16,6 +16,7 @@ import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis
 import DiscreteColorLegend from 'react-vis/dist/legends/discrete-color-legend';
 import {timeFormatDefaultLocale} from 'd3-time-format';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import labels from '../../utils/labels.js'
 
 const styles = (theme) => {
   return {
@@ -72,8 +73,8 @@ function Chart(props) {
         { typeof props.data == 'object' && Object.keys(props.data).length > 0 && 
           <>
               <div className='chart_subtitle'>
-                <div><h2>Latitude:</h2><h3>{props.latitude}</h3></div>
-                <div><h2>Longitude:</h2><h3>{props.longitude}</h3></div>
+                <div><h2>Latitude:</h2><h3>{props.latitude.toFixed(4)}</h3></div>
+                <div><h2>Longitude:</h2><h3>{props.longitude.toFixed(4)}</h3></div>
                 <div><h2>Time: </h2><h3>from: {props.timeFrom}<br></br> to: {props.timeTo}</h3></div>
               </div>
               <XYPlot 

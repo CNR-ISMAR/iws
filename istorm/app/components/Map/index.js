@@ -43,6 +43,8 @@ import Button from '@material-ui/core/Button';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import GradeIcon from '@material-ui/icons/Grade';
 import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
+import labels from '../../utils/labels.js'
+
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
 const styles = (theme) => {
@@ -57,6 +59,7 @@ const styles = (theme) => {
       position: "absolute",
       left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
       top: -80,
+      paddingTop: 5,
       transition: theme.transitions.create('top', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -213,27 +216,30 @@ class Map extends React.Component {
               <Paper key={'popup'+index} className={ clsx(this.props.classes.paperWrapper, {
                 [this.props.classes.paperOpen]: this.props.popups.open,
                 }) } display="flex">
+                <Typography align="center" width="100%">
+                  {moment(popup.time).utc().format('DD/MM/YYYY HH:mm')} - lat {popup.latitude.toFixed(4)}  lon {popup.longitude.toFixed(4)}
+                </Typography>
                 <Box display="flex"  justifyContent="center" width="100%">
                   <Table>
                     <TableHead>
                       <TableRow >
                       <TableCell></TableCell>
-                      {Object.keys(popup.results).map((name, index) => 
-                        <TableCell key={name+'-'+index}>{name}</TableCell>
+                      {Object.keys(popup.results).sort().map((name, index) =>
+                        <TableCell key={name+'-'+index}>{labels[name]}</TableCell>
                       )}
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <TableRow>
                         <TableCell>mean</TableCell>
-                        {Object.keys(popup.results).map((name, index) => 
-                          <TableCell key={name+'-mean-'+index}>{ Math.ceil(popup.results[name].mean * 1000)/1000 }</TableCell>
+                        {Object.keys(popup.results).map((name, index) =>
+                          <TableCell key={name+'-mean-'+index}>{ parseInt(popup.results[name].mean) }</TableCell>
                         )}
                       </TableRow>
                       <TableRow>
                         <TableCell>std</TableCell>
-                        {Object.keys(popup.results).map((name, index) => 
-                          <TableCell key={name+'-std-'+index}>{ Math.ceil(popup.results[name].std * 1000)/1000 }</TableCell>
+                        {Object.keys(popup.results).map((name, index) =>
+                          <TableCell key={name+'-std-'+index}>{ parseInt(popup.results[name].std) }</TableCell>
                         )}
                       </TableRow>
                     </TableBody>
