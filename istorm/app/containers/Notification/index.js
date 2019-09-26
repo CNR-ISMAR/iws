@@ -64,7 +64,7 @@ function NotificationPage(props) {
         Icon={NotificationIcon} 
         Results={props.auth.notifications.results}
         clickEvent={(id) => props.dispatch(updateNotification(id))} 
-        Content={ (bodytext) => <Typography>{bodytext}</Typography> }
+        ResultContent={ (bodytext) => <Typography>{bodytext}</Typography> }
         />
     </>
   );

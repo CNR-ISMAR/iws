@@ -10,8 +10,8 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
-import HeaderBar from "../../components/HeaderBar";
 import { LayersIcon } from '../../utils/icons';
+import SidebarSubNav from 'components/SidebarSubNav';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -31,9 +31,14 @@ const styles = (theme, style) => {
 
 function LayersPage(props) {
   return (
-    <div className={props.classes.subNav}>
-      <HeaderBar title={"Layers"} icon={LayersIcon} />
-    </div>
+    <>
+      <SidebarSubNav 
+        Category="layers"
+        location={props.location}
+        Title="Layers" 
+        Icon={LayersIcon} 
+        />
+    </>
   );
 }
 

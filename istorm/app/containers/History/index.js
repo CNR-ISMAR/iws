@@ -19,6 +19,8 @@ import HeaderBar from "../../components/HeaderBar";
 import HistoryForm from "../../components/HistoryForm";
 import { HistoryIcon } from '../../utils/icons';
 
+import SidebarSubNav from 'components/SidebarSubNav';
+
 import makeSelectHistory from './selectors';
 import { updateHistory, requestTimeline } from './actions';
 import reducer from './reducer';
@@ -47,10 +49,20 @@ function HistoryPage(props) {
   }
 
   return (
-    <div className={props.classes.subNav}>
-      <HeaderBar title={"History"} icon={HistoryIcon} />
-      <HistoryForm max={props.timeline.max} min={props.timeline.min} from={props.timeline.from} to={props.timeline.to} updateHistory={(date) => upHist(date)} />
-    </div>
+    <>
+      <SidebarSubNav 
+        Category="history"
+        location={props.location}
+        Title="History" 
+        Icon={HistoryIcon}
+        Content={ () => <HistoryForm 
+                        max={props.timeline.max} 
+                        min={props.timeline.min} 
+                        from={props.timeline.from} 
+                        to={props.timeline.to} 
+                        updateHistory={(date) => upHist(date)} />  }  
+        />
+    </>
   );
 }
 
