@@ -277,7 +277,7 @@ class Map extends React.Component {
                     <TableHead>
                       <TableRow >
                       <TableCell></TableCell>
-                      {Object.keys(popup.results).sort().map((name, index) =>
+                      {Object.keys(popup.results).map((name, index) =>
                         <TableCell key={name+'-'+index}>{labels[name]}</TableCell>
                       )}
                       </TableRow>

@@ -16,6 +16,9 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
 
 import theme from 'theme'
 import { elementType } from 'prop-types';
+import labels from "../../utils/labels";
+import TableRow from "@material-ui/core/TableRow/TableRow";
+import React from "react";
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -227,7 +230,12 @@ const mapPageReducer = (state = initialState, action) =>
       case REQUEST_INFO_LAYER_SUCCESS:
         draft.popups.loading = false;
         draft.popups.error = initialState.popups.error;
-        draft.popups.results = [{...action.result, show: true}];
+        const results = Object.keys(action.result.results)
+          .sort()
+          .reduce((acc, key) => ({
+              ...acc, [key]: action.result.results[key]
+          }), {})
+        draft.popups.results = [{...action.result, show: true, results: results}];
       break;
 
 
