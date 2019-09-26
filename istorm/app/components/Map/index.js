@@ -23,7 +23,9 @@ import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
 import { setViewport, requestInfoLayer, 
-        closeInfoLayer, postFavourite, deleteFavourite, togglePaper, postFavouriteEmpty } from "../../containers/App/actions";
+        closeInfoLayer, postFavourite,
+        deleteFavourite, togglePaper,
+        postFavouriteEmpty, fillIfIsFavourite, getLatLon } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
 import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
@@ -44,6 +46,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import GradeIcon from '@material-ui/icons/Grade';
 import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
 import labels from '../../utils/labels.js'
+
 
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
@@ -84,6 +87,7 @@ const styles = (theme) => {
 
 
 class Map extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -103,6 +107,7 @@ class Map extends React.Component {
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.openingTime = this.props.theme.transitions.duration.enteringScreen
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -145,33 +150,70 @@ class Map extends React.Component {
 
   onClick(event) {
     if(!this.props.history.location.pathname.includes('station')){
-      console.log('onClick(event)')
-      console.log('onClick(event)')
-      console.log('onClick(event)')
-      console.log('onClick(event)')
-      console.log(event)
+      console.log('REACT MAP GL onClick(event)')
+      console.log('REACT MAP GL onClick(event)')
+      console.log('REACT MAP GL onClick(event)')
       const pos = this.refs.map.getMap().unproject(event.offsetCenter)
       const latlon = new LngLat(pos.lng,pos.lat)
       const bb200 = latlon.toBounds(200)
-      /* console.log(this.refs.map.getMap())
-      console.log(bb200) */
-      this.props.popups.open ? this.props.dispatch(togglePaper(false)) : this.props.dispatch(togglePaper(true))
-      this.props.dispatch(requestInfoLayer({
-        time: this.props.layerInfo.date,
-        bounds: bb200,
-      }));
+      // console.log(event)
+
+      const favouritesContainer = this.props.favourites.results;
+      let selectedFav = [];
+      let field_Station = null;
+      if(event.features.length > 0) {
+        if(event.features[0].source === 'favorites'){
+          selectedFav = favouritesContainer.filter(fav => fav.title.includes(event.features[0].properties.title));
+          // console.log(selectedFav[0])
+        }else if( event.features.findIndex(station =>  station.source.includes('station')) !== -1 ) {
+          const Index = event.features.findIndex(station =>  station.source.includes('station'))
+          field_Station =  event.features[Index].properties.field_1
+        }
+      }
+      // ANIMATION OPEN/CLOSE + REQUEST/CLOSE InfoLayer
+      if(this.props.popups.open){
+        this.props.dispatch(togglePaper(false))
+        setTimeout(() => {
+          this.props.dispatch(closeInfoLayer());
+          this.props.dispatch(requestInfoLayer({
+            time: this.props.layerInfo.date,
+            bounds: bb200,
+            field: field_Station
+          }));
+          selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
+        }, this.openingTime)
+      }else{
+        this.props.dispatch(requestInfoLayer({
+          time: this.props.layerInfo.date,
+          bounds: bb200,
+          field: field_Station
+        }));
+        selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
+      }
+
     }
-    
   }
 
-
+  onMouseMove(event, refs) {
+   // console.log(refs)
+    const pos = refs.map.getMap().unproject(event.offsetCenter)
+    const latlon = new LngLat(pos.lng,pos.lat)
+    //const bb200 = latlon.toBounds(200)
+    this.props.dispatch(getLatLon(latlon.lat, latlon.lng))
+  }
 
   render () {
     console.log('React Map')
     console.log(this.props)
-    const postfavourites = this.props.popups.postfavourites;
+
+    console.log( 'SELECTED POINT' )
+    console.log( 'SELECTED POINT' )
+    console.log( this.props.favourites.selected)
     let addFavourite = false;
-    !postfavourites.loading && Object.keys(postfavourites.results).length > 0 ? addFavourite = true : addFavourite = false
+    Object.keys(this.props.favourites.selected).length > 0 ? addFavourite = true : addFavourite = false
+    /* console.log('addFavourite')
+    console.log('addFavourite')
+    console.log(addFavourite) */
     return (
       <>
       <ReactMapGL
@@ -187,7 +229,8 @@ class Map extends React.Component {
         onLoad={this.onMapLoad}
         onClick={this.onClick}
         onTap={this.onClick}
-        disable={true}
+        onMouseMove={(event) => this.onMouseMove(event, this.refs) }
+        // disable={true}
         mapStyle={this.props.mapStyle}
         >
           
@@ -196,7 +239,7 @@ class Map extends React.Component {
             {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel} mean={this.props.mean}/>)}
             {this.props.WindGLLayer.isVisible && (<WindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.WindGLLayer}/>)}
             {Object.keys(this.props.layers).map((layer) => this.props.layers[layer].isVisible && (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
-            {this.props.isLogged && this.props.favorites && Object.keys(this.props.favorites.source.data).length > 0  && this.props.favorites.isVisible && <LayerFavorites layerInfo={this.props.favorites}/> }
+            {this.props.isLogged && this.props.favoritesLayer && Object.keys(this.props.favoritesLayer.source.data).length > 0  && this.props.favoritesLayer.isVisible && <LayerFavorites layerInfo={this.props.favoritesLayer}/> }
           </>
         )}
 
@@ -266,19 +309,28 @@ class Map extends React.Component {
                                           latitude: popup.latitude,
                                           longitude: popup.longitude }
                                         ))
-                                      }else{
-                                        this.props.dispatch(deleteFavourite(postfavourites.results.id))
+                                       }
+                                       else{
+                                        this.props.dispatch(deleteFavourite(this.props.favourites.selected.id))
                                       }
                                     }
                       }>
-                      { addFavourite &&
+                      {  addFavourite &&
                         <GradeIcon></GradeIcon> || <GradeOutlinedIcon></GradeOutlinedIcon>
                       }
                       </Button> 
                     }
                   </Box>
                 </Box>
-                <Button size={"small"} className={this.props.classes.headerTopClose} onClick={() => { this.props.dispatch(togglePaper(false)); } } ><HighlightOffIcon/></Button>
+                <Button size={"small"}
+                        className={this.props.classes.headerTopClose}
+                        onClick={() => {
+                          this.props.dispatch(togglePaper(false))
+                          setTimeout(() => {
+                            this.props.dispatch(closeInfoLayer());
+                          }, this.openingTime)
+
+                        } } >&times;</Button>
               </Paper>
         ))}
       </>

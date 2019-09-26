@@ -6,9 +6,11 @@
 
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
   TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
-  POST_FAVOURITE,  POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_FAVOURITE, 
+  POST_FAVOURITE,  POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_POST_FAVOURITE, 
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS,
-  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER, TOGGLE_PAPER } from './constants';
+  DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER, TOGGLE_PAPER,
+  REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
+   DELETE_FAVOURITE_SUCCESS, FILL_IF_IS_FAVOURITE, GET_LAT_LON } from './constants';
 
 export function togglePaper(open) {
     return {
@@ -88,6 +90,14 @@ export function postFavourite(Params) {
   };
 }
 
+export function postFavouriteSuccess(results) {
+  return {
+    type: POST_FAVOURITE_SUCCESS,
+    results: results,
+  };
+} 
+
+
 export function postFavouriteEmpty() {
   console.log('Empty Post Favourite')
   return {
@@ -104,18 +114,36 @@ export function deleteFavourite(id) {
   };
 }
 
+
+export function requestFavourites(request) {
+
+  return {
+    type: REQUEST_FAVOURITES,
+    request: request
+  };
+}
+
+export function requestFavouritesSuccess(result) {
+  return {
+    type: REQUEST_FAVOURITES_SUCCESS,
+    result: result
+  };
+}
+
 export function deleteFavouriteSuccess() {
   return {
     type: DELETE_FAVOURITE_SUCCESS
   };
 }
 
-export function postFavouriteSuccess(results) {
+
+export function fillIfIsFavourite(item) {
   return {
-    type: POST_FAVOURITE_SUCCESS,
-    results: results,
+    type: FILL_IF_IS_FAVOURITE,
+    item: item
   };
-} 
+}
+
 
 export function requestError(errorMessage) {
   return {
@@ -124,9 +152,18 @@ export function requestError(errorMessage) {
   };
 }
 
+
+
 export function closeInfoLayer() {
   return {
     type: CLOSE_INFO_LAYER
   };
 }
 
+export function getLatLon(latitude, longitude) {
+  return {
+    type: GET_LAT_LON,
+    latitude: latitude, 
+    longitude: longitude
+  };
+}

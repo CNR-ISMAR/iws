@@ -15,11 +15,12 @@ import { compose } from 'redux';
 import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleWindGLLayer } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
 import { setCurrentDate, togglePlay } from '../History/actions';
-import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean, requestFavouritesLayer } from '../App/actions';
+import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean, requestFavouritesLayer, requestFavourites } from '../App/actions';
 import { requestTimeline } from '../History/actions';
 import messages from './messages';
 import Map from '../../components/Map';
 import Timeline from '../../components/Timeline';
+import Legend from 'components/Legend';
 //import TileLayers from '../../components/Map/TileLayer';
 //import WmsLayers from '../../components/Map/WmsLayers';
 
@@ -37,10 +38,11 @@ import Mail from '@material-ui/icons/Mail';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { WaveIcon, SeaLevelIcon } from '../../utils/icons';
-import { Hidden } from '@material-ui/core';
+import { Hidden, Divider } from '@material-ui/core';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import saga from './saga';
+
 
 const AntSwitch = withStyles(theme => ({
   root: {
@@ -112,6 +114,22 @@ const styles = (theme) => {
       maxWidth: 140,
       backgroundColor: theme.palette.custom.mapOverlayBackground
     },
+    overlayLayersLatLon:{
+      position: "absolute",
+      top: "70vh",
+      width: 220,
+      right: theme.spacing(2),
+      maxWidth: 'none',
+      padding: 12,
+      height: 40,
+      backgroundColor: theme.palette.custom.mapOverlayBackground,
+      "& .MuiGrid-item":{
+        fontSize: "0.75rem"
+      },
+      "& .MuiGrid-container": {
+        justifyContent: "flex-end"
+      }
+    },
     overlayLayerMapHeader: {
       width: "100%",
       backgroundColor: theme.palette.custom.darkBackground,
@@ -178,8 +196,15 @@ function MapPage(props) {
     if(props.isLogged){
       props.dispatch(requestFavouritesLayer())
     }
-    
   }, [])
+
+  useEffect(() => {
+    /* console.log('props.mapPage.favourites')
+    console.log(props.mapPage.favourites) */
+     if(props.isLogged && props.mapPage.favourites.results.length == 0){
+      props.dispatch(requestFavourites());
+    } 
+  }, [props.isLogged]);
 
   return !props.timeline.loading && layerInfo != null ? (
       <>
@@ -196,7 +221,8 @@ function MapPage(props) {
           WindGLLayer={props.mapPage.WindGLLayer}
           popups={props.mapPage.popups}
           isLogged={props.isLogged}
-          favorites={props.mapPage.layers.favorites}
+          favoritesLayer={props.mapPage.layers.favorites}
+          favourites={props.mapPage.favourites}
           />
         <div className={props.classes.mapControl}>
           <div item className={props.classes.overlayZoom}>
@@ -236,6 +262,15 @@ function MapPage(props) {
                 <Grid item>MEAN</Grid>
               </Grid>
             </Typography>
+          </div>
+          { props.mapPage.seaLevel.isVisible && <Legend type="Sea Level" /> /* || <Legend type="Wind GL Layer" /> */ }
+          <div item className={props.classes.overlayLayersLatLon}>
+            <Grid component="label" container spacing={1}>
+              <Grid item>Lat</Grid>
+              <Grid item m-r={2}>{props.mapPage.LatLon.latitude.toFixed(4)}</Grid>
+              <Grid item>Lon</Grid>
+              <Grid item>{props.mapPage.LatLon.longitude.toFixed(4)}</Grid>
+            </Grid>
           </div>
         </div>
         {(props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>

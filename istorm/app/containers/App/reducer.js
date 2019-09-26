@@ -7,9 +7,12 @@ import produce from 'immer';
 import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
   TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
-  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_FAVOURITE, 
-  DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER,
-  REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER } from './constants';
+  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_POST_FAVOURITE, 
+  DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER,
+  REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER,
+  REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
+  FILL_IF_IS_FAVOURITE,
+  DELETE_FAVOURITE_SUCCESS, GET_LAT_LON  } from './constants';
 
 import theme from 'theme'
 import { elementType } from 'prop-types';
@@ -171,6 +174,16 @@ export const initialState = {
       results: []
     },
     open: false
+  },
+  favourites:{
+    loading: false,
+    error: null,
+    results: [],
+    selected: {}
+  },
+  LatLon: {
+    longitude: 12.33265,
+    latitude: 45.43713
   }
 };
 
@@ -216,28 +229,8 @@ const mapPageReducer = (state = initialState, action) =>
         draft.popups.error = initialState.popups.error;
         draft.popups.results = [{...action.result, show: true}];
       break;
-      case POST_FAVOURITE:
-          draft.popups.postfavourites.loading = true;
-          draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
-          draft.popups.postfavourites.results = []
-        break;
-      case POST_FAVOURITE_EMPTY:
-            draft.popups.postfavourites.results = []
-          break;  
-      case POST_FAVOURITE_SUCCESS:
-            draft.popups.postfavourites.loading = false;
-            draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
-            draft.popups.postfavourites.results = action.results
-        break;
-      case DELETE_FAVOURITE:
-          draft.loading = true;
-          draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
-          draft.popups.postfavourites.results = []
-        break;
-      case DELETE_FAVOURITE_SUCCESS:
-          draft.loading = false;
-          draft.popups.postfavourites.results = []
-        break;
+
+
       case REQUEST_FAVOURITES_LAYER:
           draft.layers.favorites.loading = true;
           draft.layers.favorites.error = initialState.layers.favorites.error;
@@ -248,20 +241,72 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.error = initialState.layers.favorites.error;
           draft.layers.favorites.source.data = action.result;
         break; 
+
+      
+      case POST_FAVOURITE:
+          draft.favourites.loading = true;
+          draft.favourites.error = initialState.favourites.error;
+          /* draft.popups.postfavourites.results = [] */
+        break;
+     /*  case POST_FAVOURITE_EMPTY:
+            draft.popups.postfavourites.results = []
+          break;   */
+      case POST_FAVOURITE_SUCCESS:
+            draft.favourites.loading = false;
+            draft.favourites.error = initialState.favourites.error;
+            draft.favourites.selected = action.results;
+            draft.favourites.results = [...initialState.favourites.results, action.results]
+        break;
+      case POST_FAVOURITE_EMPTY:
+          draft.favourites.selected = {};
+      break;
+      case DELETE_POST_FAVOURITE_SUCCESS:
+          draft.loading = false;
+          draft.popups.postfavourites.results = []
+        break;
+      /* case DELETE_FAVOURITE:
+          draft.favourites.loading = false;
+          draft.favourites.error = initialState.favourites.error;
+          draft.favourites.results = []
+      break; */
+
+
+      case REQUEST_FAVOURITES:
+        draft.favourites.loading = true;
+        draft.favourites.error = initialState.favourites.error;
+        draft.favourites.results = []
+      break;
+      case REQUEST_FAVOURITES_SUCCESS:
+          draft.favourites.loading = false;
+          draft.favourites.error = initialState.favourites.error;
+          draft.favourites.results = action.result;
+        break;
+      case DELETE_FAVOURITE:
+          draft.favourites.loading = true;
+          draft.favourites.error = initialState.favourites.error;
+          /*  draft.results = [] */
+        break;
+      
+      case FILL_IF_IS_FAVOURITE:
+          draft.favourites.selected = action.item
+          /*  draft.results = [] */
+        break;  
+
+      /* case DELETE_FAVOURITE_SUCCESS:
+          draft.loading = false;
+        break;   */
       case REQUEST_ERROR:
-        console.log(action.error)
-        console.log(action.error)
-        console.log(action.error)
         draft.popups.loading = false;
         draft.popups.error = action.error;
       break;
       case CLOSE_INFO_LAYER:
-        draft.popups.loading = false;
-        draft.popups.error = initialState.popups.error;
         draft.popups.results = [];
-        draft.popups.postfavourites.loading = false;
-        draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
-        draft.popups.postfavourites.results = []
+        draft.favourites.selected = {};
+      break;
+
+      case GET_LAT_LON:
+        draft.LatLon.latitude = action.latitude;
+        draft.LatLon.longitude = action.longitude;
       break;
     }
   });
