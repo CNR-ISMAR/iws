@@ -11,6 +11,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
+  FILL_IF_IS_FAVOURITE,
   DELETE_FAVOURITE_SUCCESS  } from './constants';
 
 import theme from 'theme'
@@ -178,7 +179,7 @@ export const initialState = {
     loading: false,
     error: null,
     results: [],
-    selected: []
+    selected: {}
   }
 };
 
@@ -253,18 +254,18 @@ const mapPageReducer = (state = initialState, action) =>
             draft.favourites.results = [...initialState.favourites.results, action.results]
         break;
       case POST_FAVOURITE_EMPTY:
-          draft.favourites.selected = [];
-      break;
-      case DELETE_FAVOURITE:
-          draft.favourites.loading = false;
-          draft.favourites.error = initialState.favourites.error;
-          draft.favourites.results = []
+          draft.favourites.selected = {};
       break;
       case DELETE_POST_FAVOURITE_SUCCESS:
           draft.loading = false;
           draft.popups.postfavourites.results = []
         break;
-      
+      /* case DELETE_FAVOURITE:
+          draft.favourites.loading = false;
+          draft.favourites.error = initialState.favourites.error;
+          draft.favourites.results = []
+      break; */
+
 
       case REQUEST_FAVOURITES:
         draft.favourites.loading = true;
@@ -281,6 +282,11 @@ const mapPageReducer = (state = initialState, action) =>
           draft.favourites.error = initialState.favourites.error;
           /*  draft.results = [] */
         break;
+      
+      case FILL_IF_IS_FAVOURITE:
+          draft.favourites.selected = action.item
+          /*  draft.results = [] */
+        break;  
 
       /* case DELETE_FAVOURITE_SUCCESS:
           draft.loading = false;
@@ -290,12 +296,8 @@ const mapPageReducer = (state = initialState, action) =>
         draft.popups.error = action.error;
       break;
       case CLOSE_INFO_LAYER:
-        draft.popups.loading = false;
-        draft.popups.error = initialState.popups.error;
         draft.popups.results = [];
-        draft.popups.postfavourites.loading = false;
-        draft.popups.postfavourites.error = initialState.popups.postfavourites.error;
-        draft.popups.postfavourites.results = []
+        draft.favourites.selected = {};
       break;
     }
   });

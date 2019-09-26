@@ -13,7 +13,7 @@ export function* infoLayerSaga(options) {
     const request = yield call(popups, options);
     console.log('infoLayerSaga')
     yield put(requestInfoLayerSuccess(request));
-    yield put(postFavouriteEmpty())
+   // yield put(postFavouriteEmpty())
     yield put(togglePaper(true))
   } catch(e) {
     yield put(requestError(e.message));

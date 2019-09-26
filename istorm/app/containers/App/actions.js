@@ -10,7 +10,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER, TOGGLE_PAPER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
-   DELETE_FAVOURITE_SUCCESS } from './constants';
+   DELETE_FAVOURITE_SUCCESS, FILL_IF_IS_FAVOURITE } from './constants';
 
 export function togglePaper(open) {
     return {
@@ -135,6 +135,15 @@ export function deleteFavouriteSuccess() {
     type: DELETE_FAVOURITE_SUCCESS
   };
 }
+
+
+export function fillIfIsFavourite(item) {
+  return {
+    type: FILL_IF_IS_FAVOURITE,
+    item: item
+  };
+}
+
 
 export function requestError(errorMessage) {
   return {
