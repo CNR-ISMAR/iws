@@ -55,7 +55,7 @@ const styles = (theme, style) => {
           lineHeight: 1.3,
         },
         "& *[class^='MuiTypography']":{
-          fontFamily: "Roboto"
+          // fontFamily: "Roboto"
         },
         "&:nth-child(odd)":{
             background: theme.palette.custom.panelLightAlternative,
