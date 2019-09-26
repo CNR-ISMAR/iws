@@ -20,6 +20,7 @@ import { requestTimeline } from '../History/actions';
 import messages from './messages';
 import Map from '../../components/Map';
 import Timeline from '../../components/Timeline';
+import Legend from 'components/Legend';
 //import TileLayers from '../../components/Map/TileLayer';
 //import WmsLayers from '../../components/Map/WmsLayers';
 
@@ -262,16 +263,15 @@ function MapPage(props) {
               </Grid>
             </Typography>
           </div>
-          { props.mapPage.LatLon.latitude !== null && 
-            <div item className={props.classes.overlayLayersLatLon}>
-              <Grid component="label" container spacing={1}>
-                <Grid item>Lat</Grid>
-                <Grid item m-r={2}>{props.mapPage.LatLon.latitude.toFixed(4)}</Grid>
-                <Grid item>Lon</Grid>
-                <Grid item>{props.mapPage.LatLon.longitude.toFixed(4)}</Grid>
-              </Grid>
-            </div>
-          }
+          { props.mapPage.seaLevel.isVisible && <Legend type="Sea Level" /> /* || <Legend type="Wind GL Layer" /> */ }
+          <div item className={props.classes.overlayLayersLatLon}>
+            <Grid component="label" container spacing={1}>
+              <Grid item>Lat</Grid>
+              <Grid item m-r={2}>{props.mapPage.LatLon.latitude.toFixed(4)}</Grid>
+              <Grid item>Lon</Grid>
+              <Grid item>{props.mapPage.LatLon.longitude.toFixed(4)}</Grid>
+            </Grid>
+          </div>
         </div>
         {(props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
           <div className={props.classes.overlayMapTimelineScroll}>

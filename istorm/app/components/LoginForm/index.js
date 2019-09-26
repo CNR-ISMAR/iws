@@ -51,8 +51,8 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       formData: {
-        email: "",
-        password: ""
+        email: "demo@domain.com",
+        password: "xxxx"
       },
       defaultFormData: {
         password: "",
