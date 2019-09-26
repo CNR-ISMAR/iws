@@ -118,9 +118,10 @@ export const updateNotification = (id) => {
 
 export const popups = (action) => {
   const bounds = action.parameters.bounds
+  const field = action.parameters.field
   const options = getOption({})
   console.log(action)
-  return request(`${BASE_URL}/openistorm/layers/info/?bbox=${bounds._sw.lng},${bounds._sw.lat},${bounds._ne.lng},${bounds._ne.lat}&x=1&y=1&time=${action.parameters.time}&width=2&height=2`, options)
+  return request(`${BASE_URL}/openistorm/layers/info/?bbox=${bounds._sw.lng},${bounds._sw.lat},${bounds._ne.lng},${bounds._ne.lat}&x=1&y=1&time=${action.parameters.time}&width=2&height=2&field=${field}`, options)
 };
 
 export const chart = (action) => {
