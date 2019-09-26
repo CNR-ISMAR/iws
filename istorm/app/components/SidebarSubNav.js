@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import HeaderBar from "components/HeaderBar";
 import Drawer from '@material-ui/core/Drawer';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { inherits } from 'util';
 
 
 const styles = (theme, style) => {
@@ -52,6 +53,9 @@ const styles = (theme, style) => {
         "& span[class^='MuiTypography']":{
           fontSize:"0.75rem",
           lineHeight: 1.3,
+        },
+        "& *[class^='MuiTypography']":{
+          fontFamily: "Roboto"
         },
         "&:nth-child(odd)":{
             background: theme.palette.custom.panelLightAlternative,

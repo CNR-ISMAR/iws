@@ -22,6 +22,8 @@ const theme = createMuiTheme({
   /* typography: {
     useNextVariants: true,
   }, */
+
+
   palette: {
     custom: {
       headerText: "#455414",

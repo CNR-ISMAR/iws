@@ -56,19 +56,29 @@ const styles = (theme) => {
       zIndex: theme.zIndex.drawer + 1,
     },
     paperWrapper:{
-      backgroundColor: "rgba(255,255,255, 0.8)",
+      "& *[class^='MuiTableCell']":{
+        fontFamily: "Roboto",
+        color: "white"
+      },
+      "& *[class^='MuiTypography']":{
+        fontFamily: "Roboto",
+        color: "white"
+      },
+      backgroundColor: "rgba(11, 48, 58, 0.8)",
       width: theme.sizing.paperWrapperWidth,
       position: "absolute",
       left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
       top: -200,
-      paddingTop: 5,
+      border:0,
+      borderRadius: 0,
+      padding: 10,
       transition: theme.transitions.create('top', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
     paperOpen: {
-      top: 0,
+      top: 10,
     },
     headerTopClose: {
       minWidth: "auto",
@@ -216,7 +226,7 @@ class Map extends React.Component {
               <Paper key={'popup'+index} className={ clsx(this.props.classes.paperWrapper, {
                 [this.props.classes.paperOpen]: this.props.popups.open,
                 }) } display="flex">
-                <Typography align="center" width="100%">
+                <Typography align="center" width="100%" pb={6}>
                   {moment(popup.time).utc().format('DD/MM/YYYY HH:mm')} - lat {popup.latitude.toFixed(4)}  lon {popup.longitude.toFixed(4)}
                 </Typography>
                 <Box display="flex"  justifyContent="center" width="100%">
