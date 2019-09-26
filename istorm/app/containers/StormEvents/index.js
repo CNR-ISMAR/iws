@@ -10,8 +10,9 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
-import HeaderBar from "../../components/HeaderBar";
+
 import { StormEventsIcon } from '../../utils/icons';
+import SidebarSubNav from 'components/SidebarSubNav';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -31,9 +32,13 @@ const styles = (theme, style) => {
 
 function StormEventsPage(props) {
   return (
-    <div className={props.classes.subNav}>
-      <HeaderBar title={"Sea storm events"} icon={StormEventsIcon} />
-    </div>
+    <>
+      <SidebarSubNav
+        location={props.location}
+        Title="Sea storm events" 
+        Icon={StormEventsIcon} 
+        />
+    </>
   );
 }
 

@@ -10,8 +10,9 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
-import HeaderBar from "../../components/HeaderBar";
+
 import { InfoIcon } from '../../utils/icons';
+import SidebarSubNav from 'components/SidebarSubNav';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -31,9 +32,13 @@ const styles = (theme, style) => {
 
 function InfoPage(props) {
   return (
-    <div className={props.classes.subNav}>
-      <HeaderBar title={"Info"} icon={InfoIcon} />
-    </div>
+    <>
+      <SidebarSubNav
+        location={props.location}
+        Title="Info" 
+        Icon={InfoIcon} 
+        />
+    </>
   );
 }
 

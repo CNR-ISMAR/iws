@@ -103,7 +103,10 @@ const styles = (theme, style) => {
     return (
         <div className={`${props.classes.subNav} ${props.mainClass}`}>
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.Title} icon={props.Icon}  />
-            { props.Results.length > 0 && 
+            { 
+              props.Content && props.Content()
+            }
+            { props.Results && props.Results.length > 0 && 
               <List>
                   {props.Results.sort((a, b) => {return b.id - a.id } ).map((result) => {
                   return (
@@ -114,7 +117,7 @@ const styles = (theme, style) => {
                           selected={isCurrentPage(`/${props.Category}/${result.id}`)}>
                           <Link to={`/${props.Category}/${result.id}`} onClick={() => props.clickEvent ? props.clickEvent(result.id) : null} >
                               <ListItemText primary={`${result.title}`} /> 
-                              { props.Content && props.Content(`${result.description}`) }
+                              { props.ResultContent && props.ResultContent(`${result.description}`) }
                           </Link>
                           <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} ><HighlightOffIcon/></Button>
                       </ListItem>
