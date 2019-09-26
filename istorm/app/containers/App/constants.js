@@ -32,6 +32,8 @@ export const REQUEST_FAVOURITES_SUCCESS = 'app/App/REQUEST_FAVOURITES_SUCCESS';
 export const DELETE_FAVOURITE = 'app/App/DELETE_FAVOURITE';
 export const DELETE_FAVOURITE_SUCCESS = 'app/App/DELETE_FAVOURITE_SUCCESS';
 
+export const GET_LAT_LON = 'app/App/GET_LAT_LON';
+
 export const REQUEST_ERROR = 'app/App/REQUEST_ERROR';
 export const TOGGLE_PAPER = 'app/App/TOGGLE_PAPER';
 export const CLOSE_INFO_LAYER = 'app/App/CLOSE_INFO_LAYER';

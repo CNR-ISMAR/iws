@@ -37,7 +37,7 @@ import Mail from '@material-ui/icons/Mail';
 import Add from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { WaveIcon, SeaLevelIcon } from '../../utils/icons';
-import { Hidden } from '@material-ui/core';
+import { Hidden, Divider } from '@material-ui/core';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import saga from './saga';
@@ -112,6 +112,22 @@ const styles = (theme) => {
       padding: 0,
       maxWidth: 140,
       backgroundColor: theme.palette.custom.mapOverlayBackground
+    },
+    overlayLayersLatLon:{
+      position: "absolute",
+      top: "70vh",
+      width: 220,
+      right: theme.spacing(2),
+      maxWidth: 'none',
+      padding: 12,
+      height: 40,
+      backgroundColor: theme.palette.custom.mapOverlayBackground,
+      "& .MuiGrid-item":{
+        fontSize: "0.75rem"
+      },
+      "& .MuiGrid-container": {
+        justifyContent: "flex-end"
+      }
     },
     overlayLayerMapHeader: {
       width: "100%",
@@ -246,6 +262,16 @@ function MapPage(props) {
               </Grid>
             </Typography>
           </div>
+          { props.mapPage.LatLon.latitude !== null && 
+            <div item className={props.classes.overlayLayersLatLon}>
+              <Grid component="label" container spacing={1}>
+                <Grid item>Lat</Grid>
+                <Grid item m-r={2}>{props.mapPage.LatLon.latitude.toFixed(4)}</Grid>
+                <Grid item>Lon</Grid>
+                <Grid item>{props.mapPage.LatLon.longitude.toFixed(4)}</Grid>
+              </Grid>
+            </div>
+          }
         </div>
         {(props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
           <div className={props.classes.overlayMapTimelineScroll}>

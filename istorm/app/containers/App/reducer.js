@@ -12,7 +12,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
   FILL_IF_IS_FAVOURITE,
-  DELETE_FAVOURITE_SUCCESS  } from './constants';
+  DELETE_FAVOURITE_SUCCESS, GET_LAT_LON  } from './constants';
 
 import theme from 'theme'
 import { elementType } from 'prop-types';
@@ -180,6 +180,10 @@ export const initialState = {
     error: null,
     results: [],
     selected: {}
+  },
+  LatLon: {
+    longitude: 12.33265,
+    latitude: 45.43713
   }
 };
 
@@ -298,6 +302,11 @@ const mapPageReducer = (state = initialState, action) =>
       case CLOSE_INFO_LAYER:
         draft.popups.results = [];
         draft.favourites.selected = {};
+      break;
+
+      case GET_LAT_LON:
+        draft.LatLon.latitude = action.latitude;
+        draft.LatLon.longitude = action.longitude;
       break;
     }
   });

@@ -25,7 +25,7 @@ import Layer from "./Layer";
 import { setViewport, requestInfoLayer, 
         closeInfoLayer, postFavourite, 
         deleteFavourite, togglePaper, 
-        postFavouriteEmpty, fillIfIsFavourite } from "../../containers/App/actions";
+        postFavouriteEmpty, fillIfIsFavourite, getLatLon } from "../../containers/App/actions";
 
 import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
 import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
@@ -160,35 +160,8 @@ class Map extends React.Component {
       const pos = this.refs.map.getMap().unproject(event.offsetCenter)
       const latlon = new LngLat(pos.lng,pos.lat)
       const bb200 = latlon.toBounds(200)
-      // let intersection = arrA.filter(x => arrB.includes(x));
-      console.log(event)
-     
-
-      /* let fav = null
-      if(event.features.length > 0) {
-        if(event.features.filter((feature) => {return feature.source == 'favorites'}).length > 0) {
-          console.log('PREFERITI')
-          console.log('PREFERITI')
-          console.log('PREFERITI')
-          console.log('PREFERITI')
-          console.log('PREFERITI')
-          let favIndex = this.props.favoritesLayer.findIndex(favorite => favorite.title === feature.properties.title)
-          fav = this.props.favoritesLayer[favIndex]
-          console.log(fav)
-          console.log(fav)
-          console.log(fav)
-          console.log(fav)
-          console.log(fav)
-          console.log(fav)
-          console.log(fav)
-          console.log(fav)
-          console.log(fav)
-        }
-      } */
-      /* console.log(this.refs.map.getMap())
-      console.log(bb200) */
-     // this.props.popups.open ? this.props.dispatch(togglePaper(false)) : this.props.dispatch(togglePaper(true))
-
+      // console.log(event)
+      
       const favouritesContainer = this.props.favourites.results;
       let selectedFav = [];
       let field_Station = null;
@@ -225,6 +198,14 @@ class Map extends React.Component {
     }
   }
 
+  onMouseMove(event, refs) {
+   // console.log(refs)
+    const pos = refs.map.getMap().unproject(event.offsetCenter)
+    const latlon = new LngLat(pos.lng,pos.lat)
+    //const bb200 = latlon.toBounds(200)
+    this.props.dispatch(getLatLon(latlon.lat, latlon.lng))
+  }
+
   render () {
     console.log('React Map')
     console.log(this.props)
@@ -252,6 +233,7 @@ class Map extends React.Component {
         onLoad={this.onMapLoad}
         onClick={this.onClick}
         onTap={this.onClick}
+        onMouseMove={(event) => this.onMouseMove(event, this.refs) } 
         // disable={true}
         mapStyle={this.props.mapStyle}
         >
