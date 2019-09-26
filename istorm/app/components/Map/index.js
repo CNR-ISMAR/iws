@@ -60,11 +60,11 @@ const styles = (theme) => {
     },
     paperWrapper:{
       "& *[class^='MuiTableCell']":{
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         color: "white"
       },
       "& *[class^='MuiTypography']":{
-        fontFamily: "Roboto",
+        // fontFamily: "Roboto",
         color: "white"
       },
       backgroundColor: "rgba(11, 48, 58, 0.8)",
@@ -269,7 +269,7 @@ class Map extends React.Component {
               <Paper key={'popup'+index} className={ clsx(this.props.classes.paperWrapper, {
                 [this.props.classes.paperOpen]: this.props.popups.open,
                 }) } display="flex">
-                <Typography align="center" width="100%" pb={6}>
+                <Typography align="center" width="100%" >
                   {moment(popup.time).utc().format('DD/MM/YYYY HH:mm')} - lat {popup.latitude.toFixed(4)}  lon {popup.longitude.toFixed(4)}
                 </Typography>
                 <Box display="flex"  justifyContent="center" width="100%">
