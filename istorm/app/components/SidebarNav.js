@@ -31,8 +31,7 @@ const styles = (theme) => {
   return {
     listItem: {
       color: theme.palette.custom.contrastText,
-      paddingTop: 6,
-      paddingBottom: 6,
+      padding: "10px 0px 10px 17px",
       flex: 2,
       "&.Mui-selected": {
         color: theme.palette.custom.contrastTextSelected,
@@ -66,7 +65,7 @@ const styles = (theme) => {
     listItemIcon: {
       minWidth: 40,
       "& .MuiSvgIcon-root": {
-        fontSize: "1.3rem"
+        fontSize: "25px"
       }
     },
     divider: {
