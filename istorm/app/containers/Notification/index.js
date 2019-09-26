@@ -36,12 +36,14 @@ const styles = (theme, style) => {
   console.info(theme, style);
   return {
     notification:{
-      "& *[class^='MuiTypography']":{
+      "& p[class^='MuiTypography']":{
         fontWeight: 700,
+        fontSize: "0.75rem" 
       },
       "& .read": {
         "& *[class^='MuiTypography']":{ 
-          fontWeight: 400 
+          fontWeight: 400,
+          fontSize: "0.75rem" 
         }
       },
       "& *[class*='MuiListItem']":{
@@ -64,7 +66,7 @@ function NotificationPage(props) {
         Icon={NotificationIcon} 
         Results={props.auth.notifications.results}
         clickEvent={(id) => props.dispatch(updateNotification(id))} 
-        ResultContent={ (bodytext) => <Typography>{bodytext}</Typography> }
+        ResultContent={ (bodytext) => <Typography className={props}>{bodytext}</Typography> }
         />
     </>
   );

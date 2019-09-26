@@ -49,7 +49,9 @@ const styles = (theme) => {
       minWidth: 40,
     },
     title: {
-      color: theme.palette.custom.darkBackground
+      color: theme.palette.custom.darkBackground,
+      "font-weight": "700",
+      "font-size":"1.15rem"
     },
     toolBar:{
       paddingLeft: theme.palette.custom.paddingSide,
@@ -76,7 +78,7 @@ function HeaderBar(props) {
         <Button size={"small"} className={props.headerTopClose} onClick={() => close()} ><HighlightOffIcon></HighlightOffIcon></Button>
       </div>
       <Toolbar disableGutters={true} className={props.classes.toolBar}>
-        <div className={props.classes.titleIcon}><props.icon iconcolor={props.theme.palette.custom.contrastText} primarycolor={typeof props.primarycolor !== "undefined" ? props.primarycolor : null} /></div>
+        <div className={props.classes.titleIcon}><props.icon iconcolor={props.theme.palette.custom.darkBackground} primarycolor={typeof props.primarycolor !== "undefined" ? props.primarycolor : null} /></div>
         <Typography className={props.classes.title} variant="h6" noWrap>{props.title}</Typography>
       </Toolbar>
     </div>

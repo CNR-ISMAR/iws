@@ -44,14 +44,14 @@ const styles = (theme, style) => {
           width: '100%',
           height: '100%',
           color: theme.palette.primary.dark,
-          padding: '10px 0px 10px 25px',
+          padding: '10px 0px 10px 20px',
         },
         "& div[class^='MuiListItemText']": {
           lineHeight: 0.2,
         },
         "& span[class^='MuiTypography']":{
-          fontSize: theme.typography.fontSmall,
-          lineHeight: 1,
+          fontSize:"0.75rem",
+          lineHeight: 1.3,
         },
         "&:nth-child(odd)":{
             background: theme.palette.custom.panelLightAlternative,
