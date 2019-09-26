@@ -23,6 +23,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Link from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
 
 import { requestLogout } from '../AuthProvider/actions';
 import { makeSelectDrawerOpen } from '../Sidebar/selectors';
@@ -76,6 +77,9 @@ function Header(props) {
         <Typography variant="h6" noWrap>
           <Link to="/" component={LinkRouter}><img src={require('images/logo_scritta.svg')} className={props.classes.logoImage} /></Link>
         </Typography>
+        <Box pl={4}>
+          <Link href="http://iws.seastorms.eu/" target="_blank" variant="button">IWS</Link>
+        </Box>
         <div className={props.classes.spacer} />
         {!props.isLogged && (<Link to="/login" component={LinkRouter} className={props.classes.menuButton}>Login</Link>)}
         {props.isLogged && (<Button color={"secondary"} onClick={(e) => props.dispatch(requestLogout(e))}  className={props.classes.menuButton}>Logout</Button>)}
