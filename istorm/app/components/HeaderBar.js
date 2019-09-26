@@ -73,7 +73,7 @@ function HeaderBar(props) {
   return (
     <div className={props.classes.HeaderBar}>
       <div className={props.classes.headerTop}>
-        <Button size={"small"} className={props.headerTopClose} onClick={() => close()} ><HighlightOffIcon/></Button>
+        <Button size={"small"} className={props.headerTopClose} onClick={() => close()} ><HighlightOffIcon></HighlightOffIcon></Button>
       </div>
       <Toolbar disableGutters={true} className={props.classes.toolBar}>
         <div className={props.classes.titleIcon}><props.icon iconcolor={props.theme.palette.custom.contrastText} primarycolor={typeof props.primarycolor !== "undefined" ? props.primarycolor : null} /></div>

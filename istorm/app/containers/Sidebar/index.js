@@ -29,6 +29,8 @@ import reducer from './reducer';
 import AvatarMenu from 'components/AvatarMenu';
 import SidebarNav from 'components/SidebarNav';
 
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 /* const theme.sizing.drawerWidth = 240; */
 
 const styles = (theme) => {
@@ -43,9 +45,12 @@ const styles = (theme) => {
       color: theme.palette.common.white,
       fontSize: 20,
       lineHeight: 1.2,
-      padding: 0,
+      padding: "4px 3px",
       minWidth: 30,
-      height: 20
+      // height: 20
+      "&:hover": {
+        background: "transparent",
+      }
     },
     subMenuWrapper: {
       position: "relative",
@@ -53,17 +58,17 @@ const styles = (theme) => {
     drawerPaper: {
       width: theme.sizing.drawerWidth,
       marginTop: 64,
-      backgroundColor: theme.palette.custom.darkBackground
+      backgroundColor: theme.palette.custom.darkBackground,
+      border: 0
     },
     toolbar: {
-      height: 20,
+      // height: 20,
       width: "100%",
       textAlign: "right",
       backgroundColor: theme.palette.custom.listSelected
     },
     toolbarAvatar: {
-      paddingTop: theme.spacing(1),
-      paddingLeft: theme.spacing(1.5),
+      padding: "10px 0px 10px 14px",
       display: "flex",
       flexDirection: "row"
     },
@@ -127,7 +132,7 @@ function Sidebar(props) {
       }}
     >
       <div className={props.classes.toolbar}>
-        <Button onClick={(e) => props.dispatch(toggleDrawer(e))} className={props.classes.button}>&times;</Button>
+        <Button onClick={(e) => props.dispatch(toggleDrawer(e))} className={props.classes.button}><HighlightOffIcon/></Button>
         <Button onClick={(e) => props.dispatch(toggleDrawerMini(e))} className={props.classes.button} style={{fontSize: 16}}>{props.sidebar.drawer.minimal ? (<span>&gt;&gt;</span>) : (<span>&lt;&lt;</span>)}</Button>
       </div>
       {props.isLogged && <div className={props.classes.toolbarAvatar}>
