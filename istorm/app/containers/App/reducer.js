@@ -62,7 +62,7 @@ export const initialState = {
   WindGLLayer: {
     name: "Wave",
     id: "wmpMean",
-    isVisible: false,
+    isVisible: true,
     isTimeseries: true,
   },
   BackgroundWindLayer: {
@@ -74,7 +74,7 @@ export const initialState = {
   seaLevel: {
     name: "Sea Level",
     id: "seaLevel",
-    isVisible: true,
+    isVisible: false,
     isTimeseries: true,
     type: 'raster',
     source: {
