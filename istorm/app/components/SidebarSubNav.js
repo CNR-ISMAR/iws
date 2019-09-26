@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import HeaderBar from "components/HeaderBar";
 import Drawer from '@material-ui/core/Drawer';
-
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 
 const styles = (theme, style) => {
@@ -26,20 +26,11 @@ const styles = (theme, style) => {
         backgroundColor: theme.palette.custom.panelLightBk,
       },
       headerTopClose: {
-        fontSize: 20,
-        lineHeight: 0.1,
-        padding: 7,
-        margin: '2px 25px 5px 5px',
         minWidth: "auto",
-        borderRadius: 15,
-        height: 15,
-        width: 15,
         color: theme.palette.primary.light,
-        /* borderWidth: 1,
-        borderColor: theme.palette.primary.light,
-        borderStyle: "solid", */
-        border: "1px solid "+theme.palette.primary.light
-  
+        "&:hover": {
+          background: "transparent",
+        }
       },
       listItem: {
         color: theme.palette.primary.dark,
@@ -70,7 +61,6 @@ const styles = (theme, style) => {
           background: theme.palette.custom.selectBk,
           "& button[class*='headerTopClose']": {
             color: theme.palette.primary.light,
-            border: "1px solid "+theme.palette.primary.light
           },
           "& >a": {
             color: theme.palette.primary.light,
@@ -81,14 +71,11 @@ const styles = (theme, style) => {
         },
         "& button[class*='headerTopClose']": {
           color: theme.palette.primary.dark,
-          border: "1px solid "+theme.palette.primary.dark,
-          margin: "0 25px 0 0",
         },
         "&:hover":{
           background: theme.palette.custom.selectBk,
           "& button[class*='headerTopClose']": {
             color: theme.palette.primary.light,
-            border: "1px solid "+theme.palette.primary.light
           },
           "& >a": {
             color: theme.palette.primary.light,
@@ -129,7 +116,7 @@ const styles = (theme, style) => {
                               <ListItemText primary={`${result.title}`} /> 
                               { props.Content && props.Content(`${result.description}`) }
                           </Link>
-                          <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} >&times;</Button>
+                          <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} ><HighlightOffIcon/></Button>
                       </ListItem>
                           )
                       })

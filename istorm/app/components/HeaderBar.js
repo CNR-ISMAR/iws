@@ -23,7 +23,7 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
 import { toggleLayerVisibility  } from '../containers/App/actions';
-
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 const styles = (theme) => {
   return {
     /* listItem: {
@@ -40,7 +40,6 @@ const styles = (theme) => {
       width: "100%",
       backgroundColor: theme.palette.custom.darkBackground,
       textAlign: "right",
-      height: 20,
     },
     
     divider: {
@@ -74,7 +73,7 @@ function HeaderBar(props) {
   return (
     <div className={props.classes.HeaderBar}>
       <div className={props.classes.headerTop}>
-        <Button size={"small"} className={props.headerTopClose} onClick={() => close()} >&times;</Button>
+        <Button size={"small"} className={props.headerTopClose} onClick={() => close()} ><HighlightOffIcon/></Button>
       </div>
       <Toolbar disableGutters={true} className={props.classes.toolBar}>
         <div className={props.classes.titleIcon}><props.icon iconcolor={props.theme.palette.custom.contrastText} primarycolor={typeof props.primarycolor !== "undefined" ? props.primarycolor : null} /></div>
