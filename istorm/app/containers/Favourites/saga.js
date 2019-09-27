@@ -1,13 +1,11 @@
-import { call, put, select, takeLatest  } from 'redux-saga/effects';
+/* import { call, put, select, takeLatest  } from 'redux-saga/effects';
 import { REQUEST_FAVOURITES, DELETE_FAVOURITE } from 'containers/Favourites/constants';
-import { requestFavouritesSuccess, requestError, deleteFavouriteSuccess, /* postFavouriteSuccess */ } from '../../containers/Favourites/actions';
+import { requestFavouritesSuccess, requestError, deleteFavouriteSuccess,  } from '../../containers/Favourites/actions';
 import { favourites, deleteFavourite } from 'utils/api';
 import {requestFavouritesLayerSaga} from 'containers/MapPage/saga'
 
 export function* FavouritesSaga(action) {
-  /* const options = {
-    method: 'get'
-  }; */
+
   try {
     const request = yield call(favourites);
     yield put(requestFavouritesSuccess(request));
@@ -39,3 +37,4 @@ export default function* favSaga() {
     yield takeLatest(REQUEST_FAVOURITES, FavouritesSaga);
     yield takeLatest(DELETE_FAVOURITE, deleteFavouriteSaga);
 }
+ */

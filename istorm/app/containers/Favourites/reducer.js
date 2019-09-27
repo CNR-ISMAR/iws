@@ -2,7 +2,9 @@
  *
  * MapPage reducer
  *
- */
+ *//* 
+
+ 
 import produce from 'immer';
 import { REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
   DELETE_FAVOURITE_SUCCESS, REQUEST_ERROR } from './constants';
@@ -13,7 +15,7 @@ export const initialState = {
   results: []
 };
 
-/* eslint-disable default-case, no-param-reassign */
+
 const favouritesReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
@@ -30,7 +32,7 @@ const favouritesReducer = (state = initialState, action) =>
       case DELETE_FAVOURITE:
           draft.loading = true;
           draft.error = initialState.error;
-         /*  draft.results = [] */
+         
         break;
       case DELETE_FAVOURITE_SUCCESS:
           draft.loading = false;
@@ -42,4 +44,4 @@ const favouritesReducer = (state = initialState, action) =>
     };
   });
 
-export default favouritesReducer;
+export default favouritesReducer; */

@@ -63,8 +63,9 @@ function App(props) {
   }, []);
 
   useEffect(() => {
-    if(props.isLogged && props.auth.notifications.results.length == 0)
-      props.dispatch(requestNotification()); 
+    if(props.isLogged && props.auth.notifications.results.length == 0){
+      props.dispatch(requestNotification());
+    }
   }, [props.isLogged]);
 
   return (

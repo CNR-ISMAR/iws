@@ -1,16 +1,19 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_INFO_LAYER, POST_FAVOURITE, DELETE_FAVOURITE, REQUEST_FAVOURITES_LAYER } from 'containers/App/constants';
+import { REQUEST_INFO_LAYER, POST_FAVOURITE, DELETE_FAVOURITE, REQUEST_FAVOURITES_LAYER,REQUEST_FAVOURITES } from 'containers/App/constants';
 import { requestInfoLayerSuccess, requestError , postFavouriteSuccess, deleteFavouriteSuccess, requestFavouritesLayerSuccess, togglePaper, postFavouriteEmpty  } from 'containers/App/actions';
 import { popups, postFavourite, deleteFavourite, geoJsonFavourites } from 'utils/api';
-import {FavouritesSaga, deleteFavouriteSaga} from 'containers/Favourites/saga';
+
 import {enqueueSuccess} from "containers/NotificationSnake/actions";
+
+import { requestFavouritesSuccess, /* postFavouriteSuccess */ } from 'containers/App/actions';
+import { favourites } from 'utils/api';
 
 export function* infoLayerSaga(options) {
   try {
     const request = yield call(popups, options);
     console.log('infoLayerSaga')
     yield put(requestInfoLayerSuccess(request));
-    yield put(postFavouriteEmpty())
+   // yield put(postFavouriteEmpty())
     yield put(togglePaper(true))
   } catch(e) {
     yield put(requestError(e.message));
@@ -57,6 +60,38 @@ export function* requestFavouritesLayerSaga() {
 //   }
 // }
 
+
+export function* FavouritesSaga(action) {
+  /* const options = {
+    method: 'get'
+  }; */
+  
+  try {
+    const request = yield call(favourites);
+    yield put(requestFavouritesSuccess(request));
+    
+  } catch(e) {
+    yield put(requestError(e.message));
+    
+  }
+}
+
+export function* deleteFavouriteSaga(action) {
+  const options = {
+    method: 'delete'
+  }; 
+  try {
+    const request = yield call(deleteFavourite, action.id);
+    yield put(postFavouriteEmpty())
+    // yield put(deleteFavouritesSuccess(request));
+    yield call(FavouritesSaga);
+    yield call(requestFavouritesLayerSaga)
+  } catch(e) {
+    yield put(requestError(e.message));
+
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -69,4 +104,5 @@ export default function* mapPageSaga() {
   yield takeLatest(POST_FAVOURITE, postFavouriteSaga);
   yield takeLatest(DELETE_FAVOURITE, deleteFavouriteSaga);
   yield takeLatest(REQUEST_FAVOURITES_LAYER, requestFavouritesLayerSaga);
+  yield takeLatest(REQUEST_FAVOURITES, FavouritesSaga);
 }
