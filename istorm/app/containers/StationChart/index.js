@@ -29,6 +29,7 @@ import Fade from '@material-ui/core/Fade';
 import Chart from '../../components/Chart';
 
 import queryString from 'query-string'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const styles = (theme, style) => {
   console.info("themeeeeeeeeeeeeeeeee");
@@ -37,25 +38,26 @@ const styles = (theme, style) => {
   return {
     subNav: {
       position: "absolute",
-      paddingBottom: 150,
+      // paddingBottom: 150,
       width: '100%', 
       zIndex: 1600,
       flexGrow: 1,
-      backgroundColor: 'rgba(0,0,0, 0.95)',
+      backgroundColor: theme.palette.custom.backgroundOverlay,
       color: theme.palette.common.white,
+      border: "1px solid",
+      borderColor:theme.palette.custom.contrastText
     },
     headerTop: {
       width: "100%",
-      backgroundColor: theme.palette.custom.darkBackground,
       textAlign: "right"
     },
     headerTopClose: {
       color: theme.palette.common.white,
       fontSize: 20,
       lineHeight: 1.2,
-      padding: 0,
+      // padding: 0,
       minWidth: 30,
-      height: 20
+      // height: 20
     },
     wrapper: {
       padding: theme.spacing(2)
@@ -120,7 +122,7 @@ function StationChart(props) {
     <Fade in={fadeIn} out={!fadeIn} timeout={fadeTime}>
     <div className={props.classes.subNav}>
       <div className={props.classes.headerTop}>
-        <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} >&times;</Button>
+        <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} ><HighlightOffIcon/></Button>
       </div>
       <div className={props.classes.wrapper}>
         <Chart 

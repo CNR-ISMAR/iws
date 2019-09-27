@@ -62,34 +62,42 @@ const styles = (theme) => {
     paperWrapper:{
       "& *[class^='MuiTableCell']":{
         // fontFamily: "Roboto",
-        color: "white",
-        padding: 5,
+        color: theme.palette.common.white,
+        padding: "4px 0px",
         fontSize: "0.75rem",
         "line-height": "1.5em",
         textAlign: "center",
         borderColor: theme.palette.custom.contrastText,
+        width: 15,
+        [theme.breakpoints.down('md')]: {
+          padding: 4,
+        },
       },
       "& *[class^='MuiTypography']":{
         // fontFamily: "Roboto",
-        color: "white",
-        fontSize: "0.95rem"
+        color: theme.palette.common.white,
+        fontSize: "0.75rem"
       },
-      backgroundColor: "rgba(11, 48, 58, 0.9)",
+      borderColor: theme.palette.custom.contrastText,
+      backgroundColor: theme.palette.custom.backgroundOverlay,
       width: theme.sizing.paperWrapperWidth,
       position: "absolute",
       left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
       top: -200,
-      border:0,
+      border: "1px solid",
       borderRadius: 0,
-      width: 600,
-      padding: 10,
+      width: 460,
+      padding: 8,
       transition: theme.transitions.create('top', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
+      [theme.breakpoints.down('md')]: {
+        width: 360
+      },
     },
     paperOpen: {
-      top: 10,
+      top: 5,
     },
     headerTopClose: {
       minWidth: "auto",
@@ -103,6 +111,7 @@ const styles = (theme) => {
       }
     },
     buttonChart:{
+      width:"50%",
       color:theme.palette.custom.contrastText,
       "&:hover": {
         background: "transparent",
@@ -110,6 +119,7 @@ const styles = (theme) => {
       }
     },
     buttonAddFav:{
+      width:"50%",
       color:theme.palette.custom.contrastText,
       "&:hover": {
         background: "transparent",
@@ -296,7 +306,7 @@ class Map extends React.Component {
                 <Typography align="center" width="100%" >
                   {moment(popup.time).utc().format('DD/MM/YYYY HH:mm')} - lat {popup.latitude.toFixed(4)}  lon {popup.longitude.toFixed(4)}
                 </Typography>
-                <Box pt={2} display="flex"  justifyContent="center" width="100%">
+                <Box pt={2} display="flex" flexDirection="column" justifyContent="center" width="100%">
                   <Table>
                     <TableHead>
                       <TableRow >
@@ -321,7 +331,7 @@ class Map extends React.Component {
                       </TableRow>
                     </TableBody>
                   </Table>
-                  <Box textAlign="center" className="buttons" p={1} display="flex" flexDirection="column">
+                  <Box textAlign="center" className="buttons" p={1} display="flex" flexDirection="row">
                     <Button className={this.props.classes.buttonChart} onClick={ () => { 
                         const latlon = new LngLat(popup.longitude, popup.latitude)
                         const bb200 = latlon.toBounds(200)

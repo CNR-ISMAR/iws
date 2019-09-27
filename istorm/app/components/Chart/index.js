@@ -16,7 +16,9 @@ import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis
 import DiscreteColorLegend from 'react-vis/dist/legends/discrete-color-legend';
 import {timeFormatDefaultLocale} from 'd3-time-format';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import labels from '../../utils/labels.js'
+import labels from '../../utils/labels.js';
+import theme from '../../theme'
+
 
 const styles = (theme) => {
   return {
@@ -27,12 +29,12 @@ const styles = (theme) => {
 };
 
 const LegendsColors = {
-  sea_level: 'rgb(121, 199, 227)',
-  wmd: 'rgb(50, 20, 227)',
-  wmp: 'rgb(10, 200, 30)',
-  wsh: 'rgb(200, 200, 30)'
+  //verificare
+  sea_level: theme.palette.custom.seaIcon,
+  wmd: theme.palette.custom.waveIcon,
+  wmp: theme.palette.custom.waveDirection,
+  wsh: theme.palette.custom.wavePeriod
 }
-
 const LegendsItems = Object.keys(labels.lines).sort().map((item) => {return {
   'id': item,
   'title': labels.lines[item],
@@ -47,7 +49,7 @@ function Chart(props) {
   // console.log('Chart')
   /* console.log(props.data) */
   const updateWidthHeight = () => {
-    setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 18   })
+    setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 15   })
   };
 
   const fixFormat = (ts) => {
@@ -116,7 +118,8 @@ function Chart(props) {
                       /*console.log(x, "CIAOCIAO"); */ return {title: labels[index], value: value.y}
                     })
                   }/>
-                <DiscreteColorLegend 
+              </XYPlot>
+              <DiscreteColorLegend 
                   items={LegendsItems} 
                   orientation='horizontal'
                   onItemClick={item => { 
@@ -129,7 +132,6 @@ function Chart(props) {
                   }}   
                   >
                 </DiscreteColorLegend>
-              </XYPlot>
           </> ||  <CircularProgress />
         }
     </div>

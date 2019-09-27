@@ -75,7 +75,7 @@ div[class *='color-legend']{
 
 .rv-discrete-color-legend .rv-discrete-color-legend-item{
     /* width: calc(100vw / 8); */
-    flex-basis: 22% 
+    flex-basis: 33% 
 }
 
 
