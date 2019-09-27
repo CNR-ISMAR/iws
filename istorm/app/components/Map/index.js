@@ -49,6 +49,7 @@ import labels from '../../utils/labels.js'
 
 
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { fontSize } from '@material-ui/system';
 
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
@@ -61,19 +62,26 @@ const styles = (theme) => {
     paperWrapper:{
       "& *[class^='MuiTableCell']":{
         // fontFamily: "Roboto",
-        color: "white"
+        color: "white",
+        padding: 5,
+        fontSize: "0.75rem",
+        "line-height": "1.5em",
+        textAlign: "center",
+        borderColor: theme.palette.custom.contrastText,
       },
       "& *[class^='MuiTypography']":{
         // fontFamily: "Roboto",
-        color: "white"
+        color: "white",
+        fontSize: "0.95rem"
       },
-      backgroundColor: "rgba(11, 48, 58, 0.8)",
+      backgroundColor: "rgba(11, 48, 58, 0.9)",
       width: theme.sizing.paperWrapperWidth,
       position: "absolute",
       left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
       top: -200,
       border:0,
       borderRadius: 0,
+      width: 600,
       padding: 10,
       transition: theme.transitions.create('top', {
         easing: theme.transitions.easing.sharp,
@@ -88,8 +96,24 @@ const styles = (theme) => {
       position: "absolute",
       right: 0,
       top: 0,
+      color:theme.palette.custom.contrastText,
       "&:hover": {
         background: "transparent",
+        color:theme.palette.custom.contrastTextSelected,
+      }
+    },
+    buttonChart:{
+      color:theme.palette.custom.contrastText,
+      "&:hover": {
+        background: "transparent",
+        color:theme.palette.custom.contrastTextSelected,
+      }
+    },
+    buttonAddFav:{
+      color:theme.palette.custom.contrastText,
+      "&:hover": {
+        background: "transparent",
+        color:theme.palette.custom.contrastTextSelected,
       }
     }
   }
@@ -272,7 +296,7 @@ class Map extends React.Component {
                 <Typography align="center" width="100%" >
                   {moment(popup.time).utc().format('DD/MM/YYYY HH:mm')} - lat {popup.latitude.toFixed(4)}  lon {popup.longitude.toFixed(4)}
                 </Typography>
-                <Box display="flex"  justifyContent="center" width="100%">
+                <Box pt={2} display="flex"  justifyContent="center" width="100%">
                   <Table>
                     <TableHead>
                       <TableRow >
@@ -297,8 +321,8 @@ class Map extends React.Component {
                       </TableRow>
                     </TableBody>
                   </Table>
-                  <Box textAlign="center" className="buttons" p={1} display="flex">
-                    <Button className="buttonChart" color="secondary" onClick={ () => { 
+                  <Box textAlign="center" className="buttons" p={1} display="flex" flexDirection="column">
+                    <Button className={this.props.classes.buttonChart} onClick={ () => { 
                         const latlon = new LngLat(popup.longitude, popup.latitude)
                         const bb200 = latlon.toBounds(200)
                         console.log(bb200)
@@ -308,8 +332,8 @@ class Map extends React.Component {
                       <BarChartIcon></BarChartIcon>
                     </Button>
                   { this.props.isLogged &&
-                    <Button className="buttonAddFav" 
-                            color="secondary" 
+                    <Button className={this.props.classes.buttonAddFav}
+ 
                             onClick={ (e) => {
                                       e.preventDefault()
                                       if(!addFavourite){
