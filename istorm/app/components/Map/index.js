@@ -332,15 +332,13 @@ class Map extends React.Component {
                     }
                   </Box>
                 </Box>
-                <Button size={"small"}
-                        className={this.props.classes.headerTopClose}
-                        onClick={() => {
+                <Button size={"small"} className={this.props.classes.headerTopClose} onClick={() => {
                           this.props.dispatch(togglePaper(false))
                           setTimeout(() => {
                             this.props.dispatch(closeInfoLayer());
                           }, this.openingTime)
 
-                        } } >&times;</Button>
+                        } }><HighlightOffIcon/></Button>
               </Paper>
         ))}
       </>
