@@ -76,6 +76,8 @@ RUN pip install --no-binary psycopg2 psycopg2==2.7.3.1
 RUN pip uninstall -y djangorestframework
 RUN pip install djangorestframework==3.5.4
 
+RUN echo "check file wsgy.py for virtualenvironment"
+
 #ADD install/libgeos_patch.py /libgeos_patch.py
 #RUN patch /usr/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py /libgeos_patch.py
 

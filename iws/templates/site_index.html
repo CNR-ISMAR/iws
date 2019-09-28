@@ -25,10 +25,20 @@ This is where you can override the hero area block. You can simply modify the co
       </div>
      <div   class="row">
        <div class="col-md-8" id="home-content">
-       <p>{% blocktrans %}I-STORMS (Integrated Sea sTORm Management Strategies)  seeks  to  improve  the  early  warning  and  civil  protection procedures in sea storm emergencies.<br> 
-       I-STORMS aims through transnational cooperation to enhance innovative policies and develop joint strategies to safeguard ADRION 
-       area from sea emergencies. {% endblocktrans %}</p>
-       <p>{% blocktrans %}This site is devloped and mantained by CNR-ISMAR as part of I-STORMS project.{% endblocktrans %}</p>
+<p>The I-STORMS project seeks to improve the early warning and civil
+protection procedures in sea storm emergencies. I-STORMS aims through
+transnational cooperation to enhance innovative policies and develop
+joint strategies to safeguard the Adriatic-Ionian area from sea emergencies.
+</p><p>
+The I-STORMS Web System is a combination of a common data system for
+sharing ocean measurements and forecasts, a multi-model forecasting
+system, a geoportal and interactive geo-visualization tools to make
+results available to the general public (Open I-STORMS). More details on
+the I-STORMS Web system can be found in Ferrarin et al., 2019.
+</p><p>
+This project is supported by the Interreg ADRION programme funded under
+the European Regional Development Fund and IPA II fund
+</p>
        </div>
        <div class="col-md-4" id="home-spacer">
        &nbsp;
@@ -36,20 +46,6 @@ This is where you can override the hero area block. You can simply modify the co
      </div>
     </div>
   </div>
-      <div class="row" id="chooser">
-        <div class="col-md-4">
-	    <p><a href="/layers"><i class="fa fa-globe fa-4x"></i></a></p>
-            <p><a class="btn btn-default" href="/layers" role="button">{% trans "Explore layers" %}</a></p>
-        </div>
-        <div class="col-md-4">
-            <p><a href="/maps"><i class="fa fa-map-o fa-4x"></i></a></p>
-            <p><a class="btn btn-default" href="/maps" role="button">{% trans "Explore Maps" %}</a></p>
-        </div>
-        <div class="col-md-4">
-            <p><a href="/maps/165/view"><i class="fa fa-bolt fa-4x"></i></a></p>
-            <p><a class="btn btn-default" href="/sea_storm_atlas" role="button">{% trans "Storm Atlas" %}</a></p>
-        </div>
-      </div>
   {% endblock %}
 
 {% block mainbody %}  

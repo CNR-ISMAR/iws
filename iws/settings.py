@@ -63,6 +63,7 @@ INSTALLED_APPS += (PROJECT_NAME,
                    PROJECT_NAME + '.sea_storm_atlas',
                    #PROJECT_NAME + '.measurements',
                    PROJECT_NAME + '.tmes',
+                   PROJECT_NAME	+ '.dashboards',
                    # 'rest_framework',
                    'rest_framework_swagger',
                    'django_extensions',
@@ -122,7 +123,7 @@ SOCIALACCOUNT_AUTO_SIGNUP = False
 INSTALLED_APPS += (
 #     'allauth.socialaccount.providers.linkedin_oauth2',
 #     'allauth.socialaccount.providers.facebook',
-     'allauth.socialaccount.providers.google',
+#     'allauth.socialaccount.providers.google',
 )
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -412,6 +413,8 @@ if MONITORING_ENABLED:
     MONITORING_HOST_NAME = SITE_HOST_NAME
 
 #INSTALLED_APPS += ('geonode.contrib.ows_api',)
+
+X_FRAME_OPTIONS = 'allow-from https://iws.seastorms.eu'
 
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '..', 'GeoLiteCity.dat')
 
