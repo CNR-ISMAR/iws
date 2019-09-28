@@ -11,7 +11,7 @@ import json
 import datetime
 from dateutil import parser
 from collections import OrderedDict
-from .utils import WmsQuery
+from .utils import WmsQuery, WmsQueryNew
 
 
 class ImageLayerList(ListAPIView):
@@ -89,7 +89,6 @@ class ImageLayerBoundaries(views.APIView):
         }
         return Response(boundaries)
 
-
 class Info(views.APIView):
     permission_classes = (AllowAny,)
     def get(self, request):
@@ -114,3 +113,17 @@ class TimeSeries(views.APIView):
         TIME_TO = request.query_params.get('to')
         wms = WmsQuery(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
         return Response(wms.get_timeseries())
+
+class SeaLevelMixMax(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        BBOX = request.query_params.get('bbox')
+        X = request.query_params.get('x')
+        Y = request.query_params.get('y')
+        WIDTH = request.query_params.get('width')
+        HEIGHT = request.query_params.get('height')
+        TIME_FROM = request.query_params.get('from')
+        # TIME_TO = request.query_params.get('to')
+        wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM)
+        return Response(wms.getnextSeaLevelMinMax())
+        # return Response(wms.get_timeseries())

@@ -10,10 +10,104 @@ from dateutil import parser
 from django.conf import settings
 from .models import ImageLayer
 import pytz
+from collections import defaultdict
+# from operator import itemgetter
 # import pydap.client
 # import xml.etree.ElementTree as ET
 
+def setDateToUtc(date):
+    if not isinstance(date, datetime):
+        date = parser.parse(date)
+    return date.replace(tzinfo=pytz.timezone('utc'))
 
+
+class WmsQueryNew:
+    def __init__(self, BBOX, X, Y, WIDTH, HEIGHT, time_from=None, time_to=None, dataset=('waves', 'sea_level')):
+        self.time_from = parser.parse(time_from) if time_from is not None else datetime.combine(datetime.now(), timed.min)
+        self.time_from = setDateToUtc(self.time_from)
+        self.time_to = setDateToUtc(parser.parse(time_to)) if time_to is not None else False
+        self.history = 'history/' if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
+                                                      tzinfo=pytz.timezone('utc')) else ''
+        self.formatted_date = self.time_from.strftime("%Y%m%d")
+
+        self.default_options = {
+            "REQUEST": "GetFeatureInfo",
+            "ELEVATION": "0",
+            "TRANSPARENT": "true",
+            "STYLES": "boxfill/rainbow",
+            "COLORSCALERANGE": "-50,50",
+            "NUMCOLORBANDS": "20",
+            "LOGSCALE": "false",
+            "SERVICE": "WMS",
+            # "VERSION": "1.3.0",
+            "VERSION": "1.1.1",
+            "FORMAT": "image/png",
+            "SRS": "EPSG:4326",
+            "CRS": "EPSG:4326",
+            "INFO_FORMAT": "text/xml",
+            # "i": 1,
+            # "j": 1,
+            # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
+            "BBOX": BBOX,
+            "X": X,
+            "Y": Y,
+            "WIDTH": WIDTH,
+            "HEIGHT": HEIGHT,
+            # "TIME": "2019-09-17T00:00:00.000Z/2019-09-17T23:00:00.000Z",
+            # "QUERY_LAYERS": "sea_level-mean",
+            # "LAYERS": "sea_level-mean",
+        }
+
+    def setTimeRange(self, dataset):
+        capabilitiesOptions = {
+            "service": "WMS",
+            "version": "1.3.0",
+            "request": "GetCapabilities",
+        }
+        layerFileName = self.history + 'TMES_' + dataset + '_' + self.formatted_date + '.nc'
+        url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(capabilitiesOptions)
+        r = requests.get(url=url)
+        times = xmltodict.parse(r.content)['WMS_Capabilities']['Capability']['Layer']['Layer']['Layer'][0]['Dimension']['#text'].split(',')
+        self.time_from = setDateToUtc(parser.parse(min(times)))
+        self.time_to = setDateToUtc(parser.parse(max(times)))
+
+    def getnextSeaLevelMinMax(self):
+        self.setTimeRange('sea_level')
+        # starts from next hour
+        if self.time_to > (self.time_from + timedelta(hours=1)):
+            self.time_from = self.time_from + timedelta(hours=1)
+        # get max 13 hours
+        if self.time_to > (self.time_from + timedelta(hours=13)):
+            self.time_to = self.time_from + timedelta(hours=13)
+
+        queryResponse = self.query('sea_level', 'sea_level-mean', self.time_from, self.time_to)['FeatureInfo']
+
+        ### GET MAX MEASURE (MEAN + STD)
+        queryResponseStd = self.query('sea_level', 'sea_level-std', self.time_from, self.time_to)['FeatureInfo']
+        for key, value in enumerate(queryResponse):
+            queryResponse[key] = {
+                "time": value["time"],
+                "value": float(value["value"]) + float(queryResponseStd[key]["value"])
+            }
+
+        ordered = sorted(queryResponse, key=lambda i: (i['value']))
+        return {
+            'max': ordered[-1] if len(ordered) > 5 else None,
+            'min': ordered[0] if len(ordered) > 5 else None
+        }
+
+
+    def query(self, dataset, layer, time_from, time_to=None):
+        options = self.default_options
+        layerFileName = self.history + 'TMES_' + dataset + '_' + self.formatted_date + '.nc'
+        options.update({
+            "TIME": time_from.isoformat()[0:19] + '.000Z' if time_to is None else time_from.isoformat()[0:19] + '.000Z' + '/' + time_to.isoformat()[0:19] + '.000Z',
+            "QUERY_LAYERS": layer,
+        })
+        url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
+        r = requests.get(url=url)
+        queryData = xmltodict.parse(r.content)['FeatureInfoResponse']
+        return queryData
 
 class NCToImg:
 
@@ -303,123 +397,6 @@ class NCToImg:
     def max(self, data):
         return max(x for x in data if x is not None)
 
-#     def transform_sealevel(self):
-#         wget.download(self.url, out=self.nc_filepath, bar=None)
-#
-#         if os.path.isfile(self.nc_filepath):
-#             # logging.info("File " + self.nc_filename+ " scaricato...")
-#
-#             tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
-#             os.system(
-#                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
-#                 self.parameters[0] + ' ' + tif1filename)
-#
-#             if os.path.isfile(tif1filename):
-#                 ds1 = gdal.Open(tif1filename)
-#                 since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
-#                 nx = ds1.RasterXSize
-#                 ny = ds1.RasterYSize
-#                 compParams = [10, 3]
-#                 ncfile = netCDF4.Dataset(self.nc_filepath, 'r')
-#                 lon = ncfile.variables["lon"][:]
-#                 lat = ncfile.variables["lat"][:]
-#                 xmin, xres, xskew, ymin, yskew, yres = ds1.GetGeoTransform()
-#                 xmin, ymin, xmax, ymax = [lon.min(), lat.min(), lon.max(), lat.max()]
-#
-#                 lo1 = str(xmin)
-#                 la1 = str(ymax)
-#                 lo2 = str(xmax)
-#                 la2 = str(ymin)
-#                 dx = str(xres)
-#                 dy = str(-yres)
-#
-#                 n_bande = ds1.RasterCount
-#                 # print("BANDE TOTALI "+str(n_bande))
-#
-#                 for banda in range(1, n_bande):
-#                     print("BANDA "+str(banda))
-#                     band1 = ds1.GetRasterBand(banda)
-#                     array1 = band1.ReadAsArray()
-#                     arrays = [array1]
-#                     m = band1.GetMetadata()
-#
-#                     # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
-#                     ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
-#                     json_time = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
-#
-#                     data = []
-#
-#                     p = 0
-#                     for var in self.parameters:
-#                         data.append({
-#                             "header": {
-#                                 "discipline": 10,
-#                                 "gribEdition": 2,
-#                                 "refTime": json_time,
-#                                 "parameterCategory": 0,
-#                                 "parameterNumber": compParams[p],
-#                                 "numberPoints": nx * ny,
-#                                 "gridUnits": "meters",
-#                                 "nx": nx,
-#                                 "ny": ny,
-#                                 "lo1": lo1,
-#                                 "la1": la1,
-#                                 "lo2": lo2,
-#                                 "la2": la2,
-#                                 "dx": dx,
-#                                 "dy": dy,
-#                                 "rotationAngle": 0.0
-#                             },
-#                             "data": []
-#                         })
-#                 os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
-#
-#
-# class NCQuery:
-#     def __init__(self, lat, lon, dataset='waves', time_from=None, time_to=None):
-#
-#         self.lat = lat
-#         self.lon = lon
-#         self.dataset = dataset
-#
-#         now = datetime.utcnow() - timedelta(days=0)
-#
-#         self.dataset = dataset;
-#
-#         self.time_from = parser.parse(time_from) if time_from is not None else now
-#         self.time_to = parser.parse(time_to) if time_to is not None else now
-#
-#
-#         formatted_date = self.time_from.strftime("%Y%m%d")
-#         layerFileName =  'TMES_' + self.dataset + '_' +formatted_date+'.nc.ascii'
-#         if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0):
-#             layerFileName = 'history/'+layerFileName
-#
-#         self.url = settings.THREDDS_URL + 'thredds/dodsC/tmes/' + layerFileName
-#
-#         r = requests.get(url=self.url)
-#
-#         print(self.url)
-#         print(self.url)
-#         print(self.url)
-#
-#         self.url = 'https://iws.ismar.cnr.it/thredds/dodsC/tmes/TMES_waves_20190917.nc'
-#         # self.url = 'https://iws.ismar.cnr.it/thredds/dodsC/tmes/TMES_waves_20190917.nc.dods'
-#
-#     def get_values(self):
-#         # ds = xr.open_dataset(self.url, decode_cf=False)
-#         # lat_bnds, lon_bnds = [40, 43], [-96, -89]
-#         # ds.sel(lat=slice(*lat_bnds), lon=slice(*lon_bnds))
-#         dataset = pydap.client.open_url(self.url)
-#         print("PASSO")
-#         print("PASSO")
-#         print("PASSO")
-#         print("PASSO")
-#         # print(dataset)
-#         print(dataset.keys)
-#
-#         # lati = 42.394178
-#         # loni = 17.180859
 
 
 class WmsQuery:
