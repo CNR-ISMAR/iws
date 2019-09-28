@@ -83,7 +83,7 @@ class StormEvent(models.Model):
     evts_defence_damage = models.SmallIntegerField(default=0,blank=True, null=True)
     evts_infrastructure_damage = models.SmallIntegerField(default=0, blank=True, null=True)
     evts_businesses_damage = models.SmallIntegerField(default=0,blank=True, null=True)
-    evts_documents =  models.ManyToManyField(Document) 
+    evts_documents =  models.ManyToManyField(Document, blank=True, null=True) 
     lat = models.CharField(max_length=255, blank=True, null=True)
     lon = models.CharField(max_length=255, blank=True, null=True)
     geom = models.PointField(srid=3035, blank=True, null=True)

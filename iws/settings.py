@@ -30,8 +30,7 @@ except ImportError:
 # General Django development settings
 #
 PROJECT_NAME = 'iws'
-
-SITENAME = 'iws'
+SITENAME = os.getenv("SITENAME", '{{ project_name }}')
 
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
@@ -39,8 +38,9 @@ LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 
-ALLOWED_HOSTS = ['localhost', 'django', 'twister', '192.168.1.78','150.178.42.78', 'iws.ismar.cnr.it', 'pharos4mpas.tools4msp.eu'] if os.getenv('ALLOWED_HOSTS') is None \
-    else re.split(r' *[,|:|;] *', os.getenv('ALLOWED_HOSTS'))
+#ALLOWED_HOSTS = ['localhost', SITEURL] if os.getenv('ALLOWED_HOSTS') is None \
+#    else ast.literal_eval(os.getenv('ALLOWED_HOSTS'))
+
 
 PROXY_ALLOWED_HOSTS += ('nominatim.openstreetmap.org',)
 
@@ -61,10 +61,12 @@ USE_TZ = True
 
 INSTALLED_APPS += (PROJECT_NAME,
                    PROJECT_NAME + '.sea_storm_atlas',
-                   PROJECT_NAME + '.measurements',
+                   #PROJECT_NAME + '.measurements',
                    PROJECT_NAME + '.tmes',
+                   PROJECT_NAME	+ '.dashboards',
                    # 'rest_framework',
                    'rest_framework_swagger',
+                   'django_extensions',
 )
 
 # Location of url mappings
@@ -121,7 +123,7 @@ SOCIALACCOUNT_AUTO_SIGNUP = False
 INSTALLED_APPS += (
 #     'allauth.socialaccount.providers.linkedin_oauth2',
 #     'allauth.socialaccount.providers.facebook',
-     'allauth.socialaccount.providers.google',
+#     'allauth.socialaccount.providers.google',
 )
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -411,6 +413,8 @@ if MONITORING_ENABLED:
     MONITORING_HOST_NAME = SITE_HOST_NAME
 
 #INSTALLED_APPS += ('geonode.contrib.ows_api',)
+
+X_FRAME_OPTIONS = 'allow-from https://iws.seastorms.eu'
 
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '..', 'GeoLiteCity.dat')
 

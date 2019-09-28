@@ -23,11 +23,10 @@ from django.views.generic import TemplateView, RedirectView
 from geonode.urls import urlpatterns
 from iws.measurements.grafana_proxy import GraphanaProxyView
 
-
 urlpatterns += (
 ## include your urls here
-    # DSS pharos views
-    url(r'^dss_pharos/', include('dss_pharos.urls')),
+    #pinaxnotifications
+    url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
     # invitations
     url(r'invitations/', include ('invitations.urls')),
     #sea storm atlas
@@ -38,9 +37,9 @@ urlpatterns += (
     #measurements
     url(r'measurements/', include ('iws.measurements.urls')),
     # url(r'^grafana/(?P<path>.*)$', GraphanaProxyView.as_view(), name='graphana-dashboards'),
-
+    url(r'^dashboards/', include('iws.dashboards.urls')),
     #tmes
-    url(r'tmes/', include('iws.tmes.urls')),
+    url(r'^tmes/', include('iws.tmes.urls')),
 )
 
 urlpatterns = patterns('',
@@ -48,3 +47,4 @@ urlpatterns = patterns('',
        TemplateView.as_view(template_name='site_index.html'),
        name='home'),
  ) + urlpatterns
+

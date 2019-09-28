@@ -1,10 +1,14 @@
 
 # GeoNode
 -e git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode
+#/usr/src/geonode
 #aggiunti amedeo
 django-ckeditor==5.3.1
 django-bootstrap-breadcrumbs==0.9.1
+
 django-rest-swagger==2.1.2
+django-extensions
+
 
 pandas==0.24.2
 django-pandas==0.6.0
@@ -16,3 +20,5 @@ django-daterange-filter
 django-searchable-select
 
 
+#aggiunti per docker
+#docker
