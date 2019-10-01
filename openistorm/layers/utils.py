@@ -341,9 +341,9 @@ class NCToImg:
                     pngData.append(p)
 
                     p = (
-                        int( 255 * 0.39 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
+                        int( 255 * 0.5 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
                         0,
-                        255 - int( 255 * 1.2 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
+                        255 - int( 255 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
                         255,
                     )
                     pngDataBackground.append(p)
