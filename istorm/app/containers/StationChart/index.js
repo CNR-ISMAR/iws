@@ -58,6 +58,11 @@ const styles = (theme, style) => {
       // padding: 0,
       minWidth: 30,
       // height: 20
+      color:theme.palette.custom.contrastText,
+      "&:hover": {
+        background: "transparent",
+        color:theme.palette.custom.contrastTextSelected,
+      }
     },
     wrapper: {
       padding: theme.spacing(2)

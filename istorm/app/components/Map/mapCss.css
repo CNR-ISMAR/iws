@@ -69,9 +69,15 @@ div[class *='color-legend']{
     right: 0;
     left: 0;
 }
-.rv-discrete-color-legend-item.clickable{
-    border: 1px solid transparent;
+
+
+
+.rv-discrete-color-legend-item.clickable:hover{
+    border: none;
+    background:none;
 }
+
+
 
 .rv-discrete-color-legend .rv-discrete-color-legend-item{
     /* width: calc(100vw / 8); */
@@ -79,10 +85,6 @@ div[class *='color-legend']{
 }
 
 
-.rv-discrete-color-legend .rv-discrete-color-legend-item.clickable:hover{
-    background: transparent;
-    border: 1px solid #0b303a;
-}
 
 div[class *='color-legend'] {
     display: flex;
@@ -90,3 +92,27 @@ div[class *='color-legend'] {
     flex-wrap: wrap;
     overflow: hidden;
 }
+
+.rv-xy-plot__grid-lines__line {
+    stroke:#698397!important;
+    stroke-width: 0.5;
+    stroke-dasharray: 1,1
+}
+
+.rv-discrete-color-legend-item__title {
+    margin-left: 10px!important;
+    display: inline!important;
+}
+
+.rv-crosshair__line {
+    background: white;
+    width: 2px;
+}
+
+.rv-crosshair {
+    
+    background-color: white;
+    position: absolute;
+    font-size: 11px;
+    pointer-events: none;
+  }

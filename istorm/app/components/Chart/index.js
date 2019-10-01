@@ -18,18 +18,33 @@ import {timeFormatDefaultLocale} from 'd3-time-format';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import labels from '../../utils/labels.js';
 import theme from '../../theme'
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import { flexbox } from '@material-ui/system';
+import { Paper } from '@material-ui/core';
+
 
 
 const styles = (theme) => {
   return {
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
+    },
+    myGridContainer: {
+      margin: 0,
+      width: "100%",
+      padding: "0 10px"
     }
   }
 };
 
+<<<<<<< HEAD
 const legendsColors = {
   //verificare
+=======
+const LegendsColors = {
+>>>>>>> dd01589e2f28a6353d97971c82e93e7c58e7f129
   sea_level: theme.palette.custom.seaIcon,
   wmd: theme.palette.custom.waveIcon,
   wmp: theme.palette.custom.waveDirection,
@@ -50,7 +65,7 @@ function Chart(props) {
   // console.log('Chart')
   /* console.log(props.data) */
   const updateWidthHeight = () => {
-    setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 15   })
+    setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 25   })
   };
 
   const fixFormat = (ts) => {
@@ -64,6 +79,7 @@ function Chart(props) {
 
   const labels = typeof props.data == 'object' ? Object.keys(props.data) : []
   const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
+
   
   useEffect(updateWidthHeight, [props.data]);
   
@@ -72,20 +88,43 @@ function Chart(props) {
         {/* console.log(chart.itemClickID) */}  
         { typeof props.data == 'object' && Object.keys(props.data).length > 0 && 
           <>
-              <div className='chart_subtitle'>
-                <div><h2>Latitude:</h2><h3>{props.latitude.toFixed(4)}</h3></div>
-                <div><h2>Longitude:</h2><h3>{props.longitude.toFixed(4)}</h3></div>
-                <div><h2>Time: </h2><h3>from: {props.timeFrom}<br></br> to: {props.timeTo}</h3></div>
-              </div>
+              <Grid container spacing={2} className={props.classes.myGridContainer} direction="row" justify="flex-start" alignItems="baseline">
+                <Grid item >
+                  <Typography align="center" variant="body2">Latitude: <span>{props.latitude.toFixed(4)}</span></Typography>
+                </Grid>
+                <Grid item >
+                  <Typography align="center" variant="body2">Longitude: <span>{props.longitude.toFixed(4)}</span></Typography>
+                </Grid>
+                <Grid item >
+                  <Typography align="center" variant="body2">Time: <span>{props.timeFrom} to: {props.timeTo}</span></Typography>
+                </Grid>
+              </Grid>
+
+              {/* <div className='chart_subtitle'>
+                <div><h4>Latitude:<span>{props.latitude.toFixed(4)}</span></h4></div>
+                <div><h4>Longitude:</h4><h3>{props.longitude.toFixed(4)}</h3></div>
+                <div><h4>Time: </h4><h3>from: {props.timeFrom} to: {props.timeTo}</h3></div>
+              </div> */}
               <XYPlot  
                 height={chart.height}
-                width={chart.width} 
+                width={chart.width}
                 xType="time" 
-                yType="linear"
+                yType="linear" 
                 onMouseLeave={() => setChartState({...chart, crosshairValues: []})}>
-                <XAxis title='time' />
-                <YAxis title='value'/>
+                <VerticalGridLines />
+                <HorizontalGridLines />  
                 
+                <XAxis title='time' style={{
+                    line: { stroke: '#698397', strokeWidth: 1 }, 
+                    text: { stroke: 'none', fill: '#ffffff', fontSize: "0.5625rem" },
+                    title: {fill: '#698397'}
+                }}/>
+
+                <YAxis title='value' style={{
+                    line: { stroke: '#698397', strokeWidth: 1 }, 
+                    text: { stroke: 'none', fill: '#ffffff', fontSize: "0.5625rem" },
+                    title: {fill: '#698397'}
+                }}/>
                 { Object.keys(props.data)
                           .filter(name => {
                             if(recordclick[name] === undefined || recordclick[name]){
@@ -105,7 +144,7 @@ function Chart(props) {
                                     name.includes('wmp') && legendsColors.wmp ||
                                     name.includes('wsh') && legendsColors.wsh
                                   }
-                                  opacity={ 1 /* recordclick[name] === undefined || recordclick[name] ? 1 : 0 */ }
+                                  opacity={ 1 /*recordclick[name] === undefined || recordclick[name] ? 1 : 0*/  }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'} 
                                   strokeStyle={name.includes('mean') ? 'solid' : 'dashed'}
@@ -113,22 +152,37 @@ function Chart(props) {
                               )
                           })
                 }
-                <Crosshair 
+                <Crosshair
                   values={chart.crosshairValues} 
                   itemsFormat={x => x.map((value, index) => { 
-                      /*console.log(x, "CIAOCIAO"); */ return {title: labels[index], value: value.y}
+                      /*console.log(x, "CIAOCIAO"); */ return  {title: labels[index], value: value.y}
                     })
-                  }/>
+                  }>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <Paper style={{ color:"white", background:"rgba(105, 131, 151, 0.80)", padding:"10px", width:"200px"}}>
+                          <Typography variant="body2">Data: Mon Sep 30 2019</Typography>
+                            <Box p={0} my={1} width="100%">
+                              <Typography variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>Sea Level Mean: <span style={{fontSize:"0.825rem"}}>1234,00</span></Typography>
+                              <Typography variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>Sea Level Min: <span style={{fontSize:"0.825rem"}}>1234,00</span></Typography>
+                              <Typography variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>Sea Level Max: <span style={{fontSize:"0.825rem"}}>1234,00</span></Typography>
+                            </Box>
+                        </Paper>
+                      </Grid>
+                    </Grid>
+                  </Crosshair>
               </XYPlot>
               <DiscreteColorLegend 
                   items={legendsItems} 
                   orientation='horizontal'
                   onItemClick={item => { 
                     setChartState({ ...chart, itemClickID: item.id }); 
-                    if(recordclick[item.id] === undefined)
-                    recordclick[item.id] = false
-                    else
-                    recordclick[item.id] = !recordclick[item.id]
+                    if(recordclick[item.id] === undefined){
+                      recordclick[item.id] = false
+                    }
+                    else{
+                      recordclick[item.id] = !recordclick[item.id]
+                    }
                     legendsItems.map(legenditem => { 
                       if(item.id === legenditem.id){
                         if(legenditem.disabled){
@@ -139,6 +193,7 @@ function Chart(props) {
                         }
                       }
                     })
+
                   }}   
                   >
                 </DiscreteColorLegend>
