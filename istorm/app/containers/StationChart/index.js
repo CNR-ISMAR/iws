@@ -119,6 +119,7 @@ function StationChart(props) {
         bbox: chartParams.bbox,
         from: chartParams.from,
         to: chartParams.to,
+        station: chartParams.station,
       }))
     }
   }, [])
