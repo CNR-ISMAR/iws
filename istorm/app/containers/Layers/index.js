@@ -33,10 +33,10 @@ function LayersPage(props) {
   return (
     <>
       <SidebarSubNav 
-        Category="layers"
+        category="layers"
         location={props.location}
-        Title="Layers" 
-        Icon={LayersIcon} 
+        title="Layers" 
+        icon={LayersIcon} 
         />
     </>
   );

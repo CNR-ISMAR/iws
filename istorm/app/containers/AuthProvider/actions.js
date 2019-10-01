@@ -80,7 +80,6 @@ export function requestNotificationSuccess(result) {
 }
 
 export function deleteNotification(id) {
-  console.log('Delete Notification '+id)
   return {
     type: DELETE_NOTIFICATION,
     id: id
@@ -94,7 +93,6 @@ export function deleteNotificationSuccess() {
 }
 
 export function updateNotification(id) {
-  console.log('Update Notification '+id)
   return {
     type: UPDATE_NOTIFICATION,
     id: id

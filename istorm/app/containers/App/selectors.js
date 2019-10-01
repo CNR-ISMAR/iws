@@ -22,6 +22,7 @@ const makeSelectLocation = () =>
  * Default selector used by MapPage
  */
 
+
 const makeSelectMapPage = () =>
   createSelector(
     selectMapPageDomain,

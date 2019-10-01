@@ -35,8 +35,8 @@ function StormEventsPage(props) {
     <>
       <SidebarSubNav
         location={props.location}
-        Title="Sea storm events" 
-        Icon={StormEventsIcon} 
+        title="Sea storm events" 
+        icon={StormEventsIcon} 
         />
     </>
   );

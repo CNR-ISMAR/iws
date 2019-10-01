@@ -71,7 +71,7 @@ function ValueLabelComponent(props) {
       popperRef.current.update();
     }
   });
-
+  
   return (
     <CustomTooltip
       PopperProps={{

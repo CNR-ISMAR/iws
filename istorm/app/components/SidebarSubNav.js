@@ -7,7 +7,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import HeaderBar from "components/HeaderBar";
-import Drawer from '@material-ui/core/Drawer';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { inherits } from 'util';
 
@@ -106,24 +105,24 @@ const styles = (theme, style) => {
     }; */
     return (
         <div className={`${props.classes.subNav} ${props.mainClass}`}>
-            <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.Title} icon={props.Icon}  />
+            <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.title} icon={props.icon}  />
             { 
-              props.Content && props.Content()
+              props.content && props.content()
             }
-            { props.Results && props.Results.length > 0 && 
+            { props.listItems && props.listItems.length > 0 && 
               <List>
-                  {props.Results.sort((a, b) => {return b.id - a.id } ).map((result) => {
+                  {props.listItems.sort((a, b) => {return b.id - a.id } ).map((listItem) => {
                   return (
                       <ListItem 
                           button 
-                          className={`${props.classes.listItem} ${result.read ? 'read' : '' }`} 
-                          key={"nav-stormtestents-"+result.id} 
-                          selected={isCurrentPage(`/${props.Category}/${result.id}`)}>
-                          <Link to={`/${props.Category}/${result.id}`} onClick={() => props.clickEvent ? props.clickEvent(result.id) : null} >
-                              <ListItemText primary={`${result.title}`} /> 
-                              { props.ResultContent && props.ResultContent(`${result.description}`) }
+                          className={`${props.classes.listItem} ${listItem.read ? 'read' : '' }`} 
+                          key={"nav-stormtestents-"+listItem.id} 
+                          selected={isCurrentPage(`/${props.category}/${listItem.id}`)}>
+                          <Link to={`/${props.category}/${listItem.id}`} onClick={() => props.clickEvent ? props.clickEvent(listItem.id) : null} >
+                              <ListItemText primary={`${listItem.title}`} /> 
+                              { props.listItemContent && props.listItemContent(`${listItem.description}`) }
                           </Link>
-                          <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(result.id) : null} ><HighlightOffIcon/></Button>
+                          <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(listItem.id) : null} ><HighlightOffIcon/></Button>
                       </ListItem>
                           )
                       })

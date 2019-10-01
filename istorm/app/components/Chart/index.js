@@ -28,18 +28,19 @@ const styles = (theme) => {
   }
 };
 
-const LegendsColors = {
+const legendsColors = {
   //verificare
   sea_level: theme.palette.custom.seaIcon,
   wmd: theme.palette.custom.waveIcon,
   wmp: theme.palette.custom.waveDirection,
   wsh: theme.palette.custom.wavePeriod
 }
-const LegendsItems = Object.keys(labels.lines).sort().map((item) => {return {
+let legendsItems = Object.keys(labels.lines).sort().map((item) => {return {
   'id': item,
   'title': labels.lines[item],
-  'color': LegendsColors[item.split('-')[0]],
-  'strokeStyle': item.includes('mean') ? 'solid' : 'dashed'
+  'color': legendsColors[item.split('-')[0]],
+  'strokeStyle': item.includes('mean') ? 'solid' : 'dashed',
+  'disabled': false,
 }})
 
 let recordclick = {}
@@ -99,10 +100,10 @@ function Chart(props) {
                                   key={name}
                                   className={name}
                                   color={
-                                    name.includes('sea_level') && LegendsColors.sea_level ||
-                                    name.includes('wmd') && LegendsColors.wmd ||
-                                    name.includes('wmp') && LegendsColors.wmp ||
-                                    name.includes('wsh') && LegendsColors.wsh
+                                    name.includes('sea_level') && legendsColors.sea_level ||
+                                    name.includes('wmd') && legendsColors.wmd ||
+                                    name.includes('wmp') && legendsColors.wmp ||
+                                    name.includes('wsh') && legendsColors.wsh
                                   }
                                   opacity={ 1 /* recordclick[name] === undefined || recordclick[name] ? 1 : 0 */ }
                                   data={fixFormat(props.data[name])}
@@ -120,7 +121,7 @@ function Chart(props) {
                   }/>
               </XYPlot>
               <DiscreteColorLegend 
-                  items={LegendsItems} 
+                  items={legendsItems} 
                   orientation='horizontal'
                   onItemClick={item => { 
                     setChartState({ ...chart, itemClickID: item.id }); 
@@ -128,7 +129,16 @@ function Chart(props) {
                     recordclick[item.id] = false
                     else
                     recordclick[item.id] = !recordclick[item.id]
-                    
+                    legendsItems.map(legenditem => { 
+                      if(item.id === legenditem.id){
+                        if(legenditem.disabled){
+                          legenditem.disabled = false
+                        }
+                        else{
+                          legenditem.disabled = true
+                        }
+                      }
+                    })
                   }}   
                   >
                 </DiscreteColorLegend>

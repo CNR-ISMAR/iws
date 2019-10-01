@@ -35,8 +35,8 @@ function InfoPage(props) {
     <>
       <SidebarSubNav
         location={props.location}
-        Title="Info" 
-        Icon={InfoIcon} 
+        title="Info" 
+        icon={InfoIcon} 
         />
     </>
   );

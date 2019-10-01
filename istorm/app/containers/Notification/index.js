@@ -62,11 +62,11 @@ function NotificationPage(props) {
         mainClass={props.classes.notification}
         location={props.location}
         deleteFunc={(id) => props.dispatch(deleteNotification(id))}
-        Title="Notifications" 
-        Icon={NotificationIcon} 
-        Results={props.auth.notifications.results}
+        title="Notifications" 
+        icon={NotificationIcon} 
+        listItems={props.auth.notifications.results}
         clickEvent={(id) => props.dispatch(updateNotification(id))} 
-        ResultContent={ (bodytext) => <Typography className={props}>{bodytext}</Typography> }
+        listItemContent={ (bodytext) => <Typography>{bodytext}</Typography> }
         />
     </>
   );

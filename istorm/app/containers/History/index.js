@@ -51,11 +51,11 @@ function HistoryPage(props) {
   return (
     <>
       <SidebarSubNav 
-        Category="history"
+        category="history"
         location={props.location}
-        Title="History" 
-        Icon={HistoryIcon}
-        Content={ () => <HistoryForm 
+        title="History" 
+        icon={HistoryIcon}
+        content={ () => <HistoryForm 
                         max={props.timeline.max} 
                         min={props.timeline.min} 
                         from={props.timeline.from} 

@@ -57,7 +57,7 @@ const styles = (theme) => {
     },
     drawerPaper: {
       width: theme.sizing.drawerWidth,
-      marginTop: 64,
+      paddingTop: 64,
       backgroundColor: theme.palette.custom.darkBackground,
       border: 0
     },

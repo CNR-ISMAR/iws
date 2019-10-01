@@ -35,8 +35,8 @@ function SettingsPage(props) {
     <>
       <SidebarSubNav
         location={props.location}
-        Title="Settings" 
-        Icon={SettingsIcon} 
+        title="Settings" 
+        icon={SettingsIcon} 
         />
     </>
   );

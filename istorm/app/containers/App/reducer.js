@@ -12,7 +12,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
   FILL_IF_IS_FAVOURITE,
-  DELETE_FAVOURITE_SUCCESS, GET_LAT_LON  } from './constants';
+  DELETE_FAVOURITE_SUCCESS, SET_LAT_LON  } from './constants';
 
 import theme from 'theme'
 import { elementType } from 'prop-types';
@@ -256,9 +256,6 @@ const mapPageReducer = (state = initialState, action) =>
           draft.favourites.error = initialState.favourites.error;
           /* draft.popups.postfavourites.results = [] */
         break;
-     /*  case POST_FAVOURITE_EMPTY:
-            draft.popups.postfavourites.results = []
-          break;   */
       case POST_FAVOURITE_SUCCESS:
             draft.favourites.loading = false;
             draft.favourites.error = initialState.favourites.error;
@@ -272,11 +269,10 @@ const mapPageReducer = (state = initialState, action) =>
           draft.loading = false;
           draft.popups.postfavourites.results = []
         break;
-      /* case DELETE_FAVOURITE:
-          draft.favourites.loading = false;
-          draft.favourites.error = initialState.favourites.error;
-          draft.favourites.results = []
-      break; */
+      case FILL_IF_IS_FAVOURITE:
+          draft.favourites.selected = action.item
+          /*  draft.results = [] */
+        break;  
 
 
       case REQUEST_FAVOURITES:
@@ -295,14 +291,6 @@ const mapPageReducer = (state = initialState, action) =>
           /*  draft.results = [] */
         break;
       
-      case FILL_IF_IS_FAVOURITE:
-          draft.favourites.selected = action.item
-          /*  draft.results = [] */
-        break;  
-
-      /* case DELETE_FAVOURITE_SUCCESS:
-          draft.loading = false;
-        break;   */
       case REQUEST_ERROR:
         draft.popups.loading = false;
         draft.popups.error = action.error;
@@ -312,7 +300,7 @@ const mapPageReducer = (state = initialState, action) =>
         draft.favourites.selected = {};
       break;
 
-      case GET_LAT_LON:
+      case SET_LAT_LON:
         draft.LatLon.latitude = action.latitude;
         draft.LatLon.longitude = action.longitude;
       break;

@@ -184,7 +184,7 @@ const styles = (theme) => {
 function MapPage(props) {
   console.info("mapPage");
   console.info(props);
-  useInjectSaga({ key: 'popups', saga });
+  useInjectSaga({ key: 'infolayer_favourites', saga });
   
   let layerInfo = null;
   if(props.timeline.current && typeof props.timeline.results[props.timeline.current] !== "undefined") {
@@ -199,9 +199,7 @@ function MapPage(props) {
   }, [])
 
   useEffect(() => {
-    /* console.log('props.mapPage.favourites')
-    console.log(props.mapPage.favourites) */
-     if(props.isLogged && props.mapPage.favourites.results.length == 0){
+    if(props.isLogged && props.mapPage.favourites.results.length == 0){
       props.dispatch(requestFavourites());
     } 
   }, [props.isLogged]);

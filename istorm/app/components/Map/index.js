@@ -129,6 +129,7 @@ const styles = (theme) => {
   }
 };
 
+let addFavourite = false
 
 class Map extends React.Component {
 
@@ -143,7 +144,6 @@ class Map extends React.Component {
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic,
       },
-
     };
        
     this.flyTo = this.flyTo.bind(this);
@@ -151,7 +151,8 @@ class Map extends React.Component {
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
-    this.openingTime = this.props.theme.transitions.duration.enteringScreen
+    this.openingTime = this.props.theme.transitions.duration.enteringScreen;
+    
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -178,6 +179,8 @@ class Map extends React.Component {
 
   componentDidUpdate(){
     console.log('React Map Update')
+    Object.keys(this.props.favourites.selected).length > 0 ? addFavourite = true : addFavourite = false
+   
   }
 
   onMapLoad(data) {
@@ -253,8 +256,7 @@ class Map extends React.Component {
     console.log( 'SELECTED POINT' )
     console.log( 'SELECTED POINT' )
     console.log( this.props.favourites.selected)
-    let addFavourite = false;
-    Object.keys(this.props.favourites.selected).length > 0 ? addFavourite = true : addFavourite = false
+    
     /* console.log('addFavourite')
     console.log('addFavourite')
     console.log(addFavourite) */
