@@ -12,6 +12,7 @@ import datetime
 from dateutil import parser
 from collections import OrderedDict
 from .utils import WmsQuery, WmsQueryNew
+import pytz
 
 
 class ImageLayerList(ListAPIView):
@@ -28,8 +29,8 @@ class ImageLayerList(ListAPIView):
         fromdate = self.request.query_params.get('from', '')
         todate = self.request.query_params.get('to', '')
 
-        fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now() - datetime.timedelta(days=1)
-        todate = parser.parse(todate) if todate != '' else datetime.datetime.now() + datetime.timedelta(days=2)
+        fromdate = parser.parse(fromdate).replace(tzinfo=pytz.timezone('utc')) if fromdate != '' else datetime.datetime.now().replace(tzinfo=pytz.timezone('utc')) - datetime.timedelta(days=1)
+        todate = parser.parse(todate).replace(tzinfo=pytz.timezone('utc')) if todate != '' else datetime.datetime.now().replace(tzinfo=pytz.timezone('utc')) + datetime.timedelta(days=2)
 
         # print("\n\n")
         # print(fromdate)

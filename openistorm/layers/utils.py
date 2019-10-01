@@ -124,7 +124,9 @@ class NCToImg:
         self.dataset = dataset;
 
         self.time_from = parser.parse(time_from).strftime("%Y-%m-%d") if time_from is not None else now.strftime("%Y-%m-%d")
-        self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else (now + timedelta(days=3)).strftime("%Y-%m-%d")
+        self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else (now + timedelta(days=5)).strftime("%Y-%m-%d")
+
+        print("self.time_to "+str(self.time_to))
 
         self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime("%Y%m%d")
 
@@ -178,8 +180,7 @@ class NCToImg:
                 ds2 = gdal.Open(tif2filename)
 
 
-                # since = time.mktime(time.strptime('2015-02-04 15', "%Y-%m-%d %H"))
-                since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d"))
+                since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d")) - 3600
 
                 nx = ds1.RasterXSize
                 ny = ds1.RasterYSize
@@ -204,7 +205,7 @@ class NCToImg:
                 n_bande = ds1.RasterCount
                 # print("BANDE TOTALI "+str(n_bande))
 
-                for banda in range(1, n_bande):
+                for banda in range(1, n_bande+1):
                     print("BANDA "+str(banda))
                     band1 = ds1.GetRasterBand(banda)
                     array1 = band1.ReadAsArray()
@@ -213,9 +214,10 @@ class NCToImg:
                     arrays = [array1, array2]
                     m = band1.GetMetadata()
 
-                    # ts = datetime.utcfromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y%m%d-%H%M00')
                     ts = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
                     json_time = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
+                    print("json_time "+str(json_time))
+                    # print("m['NETCDF_DIM_time']) "+str(m['NETCDF_DIM_time']))
 
 
                     # ts = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
@@ -310,6 +312,14 @@ class NCToImg:
         v['min'] = self.min(v['data'])
         u['max'] = self.max(u['data'])
         v['max'] = self.max(v['data'])
+        
+        # print('min '+ str(v['min']))
+        # print('min '+ str(v['min']))
+        # print('max '+ str(v['max']))
+        # print('max '+ str(v['max']))
+
+        bgmin = -1
+        bgmax = 8
 
         width, height = u['header']['nx'], u['header']['ny']
 
@@ -331,9 +341,9 @@ class NCToImg:
                     pngData.append(p)
 
                     p = (
-                        int( 255 * 0.39 * (v['data'][k]**2 - v['min']**2) / (v['max']**2 - v['min']**2) ),
+                        int( 255 * 0.39 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
                         0,
-                        255 - int( 255 * 1.2 * (v['data'][k]**2 - v['min']**2) / (v['max']**2 - v['min']**2) ),
+                        255 - int( 255 * 1.2 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
                         255,
                     )
                     pngDataBackground.append(p)
