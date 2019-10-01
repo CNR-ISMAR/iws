@@ -56,5 +56,5 @@ else
     fi
 
 fi
-echo 'got command ${cmd}'
+echo "got command ${cmd}"
 exec $cmd
