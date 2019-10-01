@@ -62,20 +62,52 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         return settings.PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
 
     def get_sea_level_mean(self, instance):
-        return self.sea_level_url(instance.timestamp, {
-            'LAYERS': 'sea_level-mean',
-            'STYLES': 'boxfill/rainbow',
-            'COLORSCALERANGE': '-0.8,0.8',
-            'NUMCOLORBANDS': '80',
-        })
+        minmax = ('-1', '1')
+        return {
+            "url": self.sea_level_url(instance.timestamp, {
+                'LAYERS': 'sea_level-mean',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+            }),
+            "legend": self.sea_level_url(instance.timestamp, {
+                'LAYERS': 'sea_level-mean',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+                'REQUEST': 'GetLegendGraphic',
+                'COLORBARONLY': 'false',
+                "WIDTH": "10",
+                "HEIGHT": "200",
+                "PALETTE": "sst_36",
+            }),
+            'min': minmax[0],
+            'max': minmax[1],
+        }
 
     def get_sea_level_std(self, instance):
-        return self.sea_level_url(instance.timestamp, {
-        'LAYERS': 'sea_level-std',
-        'STYLES': 'boxfill/rainbow',
-        'COLORSCALERANGE': '0,0.4',
-        'NUMCOLORBANDS': '20',
-        })
+        minmax = ('0', '1')
+        return {
+            "url": self.sea_level_url(instance.timestamp, {
+                'LAYERS': 'sea_level-std',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '20',
+            }),
+            "legend": self.sea_level_url(instance.timestamp, {
+                'LAYER': 'sea_level-std',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+                'REQUEST': 'GetLegendGraphic',
+                'COLORBARONLY': 'false',
+                "WIDTH": "10",
+                "HEIGHT": "200",
+                "PALETTE": "sst_36",
+            }),
+            'min': minmax[0],
+            'max': minmax[1],
+        }
 
 
     class Meta:

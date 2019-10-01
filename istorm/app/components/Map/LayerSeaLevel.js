@@ -15,7 +15,8 @@ class LayerSeaLevel extends BaseControl {
     let override = {
       source: {
         height: 256,
-        tiles: [mean ? layerInfo.sea_level_mean : layerInfo.sea_level_std],
+        tiles: [mean ? layerInfo.sea_level_mean.url : layerInfo.sea_level_std.url],
+        // tiles: [mean ? layerInfo.sea_level_mean : layerInfo.sea_level_std],
         type: "raster"
       }
     }
@@ -43,7 +44,7 @@ class LayerSeaLevel extends BaseControl {
       let override = {
         source: {
           height: 256,
-          tiles: [mean ? layerInfo.sea_level_mean : layerInfo.sea_level_std],
+        tiles: [mean ? layerInfo.sea_level_mean.url : layerInfo.sea_level_std.url],
           type: "raster"
         }
       }

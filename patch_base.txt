@@ -1,0 +1,471 @@
+0a1,19
+> <!-- -----------------------------------------------------------------
+> -
+> - Copyright (C) 2019 OSGeo
+> -
+> - This program is free software: you can redistribute it and/or modify
+> - it under the terms of the GNU General Public License as published by
+> - the Free Software Foundation, either version 3 of the License, or
+> - (at your option) any later version.
+> -
+> - This program is distributed in the hope that it will be useful,
+> - but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> - GNU General Public License for more details.
+> -
+> - You should have received a copy of the GNU General Public License
+> - along with this program. If not, see <http://www.gnu.org/licenses/>.
+> -
+> ---------------------------------------------------------------------- -->
+> 
+1a21
+> {% load static from staticfiles %}
+2a23
+> {% load base_tags %}
+9d29
+< 
+16a37,39
+> 
+>     <link rel="shortcut icon" href="{% static 'geonode/img/favicon.ico' %}" />
+> 
+19,22c42,45
+<           <link href="{{ STATIC_URL }}lib/css/jquery.dataTables.css?v={{ VERSION }}" rel="stylesheet" />
+<           <link href="{{ STATIC_URL }}lib/css/select2.css?v={{ VERSION }}" rel="stylesheet"/>
+<           <link href="{{ STATIC_URL }}lib/css/bootstrap.min.css?v={{ VERSION }}" rel="stylesheet"/>
+<           <link href="{{ STATIC_URL }}lib/css/jquery-ui.css?v={{ VERSION }}" rel="stylesheet"/>
+---
+>           <link href="{% static "lib/css/jquery.dataTables.css" %}?v={{ VERSION }}" rel="stylesheet" />
+>           <link href="{% static "lib/css/select2.css" %}?v={{ VERSION }}" rel="stylesheet"/>
+>           <link href="{% static "lib/css/bootstrap.min.css" %}?v={{ VERSION }}" rel="stylesheet"/>
+>           <link href="{% static "lib/css/jquery-ui.css" %}?v={{ VERSION }}" rel="stylesheet"/>
+24c47
+<         <link href="{{ STATIC_URL }}lib/css/assets.min.css?v={{ VERSION }}" rel="stylesheet"/>
+---
+>         <link href="{% static "lib/css/assets.min.css" %}?v={{ VERSION }}" rel="stylesheet"/>
+27,29c50,56
+<       <link href="{{ STATIC_URL }}geonode/css/ext-compatibility.css?v={{ VERSION }}" rel="stylesheet" />
+<       <link href="{{ STATIC_URL }}geonode/css/ux-all.css?v={{ VERSION }}" rel="stylesheet" />
+<       <link href="{{ STATIC_URL }}geonode/css/base.css?v={{ VERSION }}" rel="stylesheet" />
+---
+>       <link href="{% static "geonode/css/ext-compatibility.css" %}?v={{ VERSION }}" rel="stylesheet" />
+>       <link href="{% static "geonode/css/ux-all.css" %}?v={{ VERSION }}" rel="stylesheet" />
+>       <link href="{% static "geonode/css/base.css" %}?v={{ VERSION }}" rel="stylesheet" />
+> 
+>       <link rel='stylesheet' id='cookie-law-info-css'  href="{% static "geonode/css/cookie-law-info/cookie-law-info-public.css" %}?v={{ VERSION }}" type='text/css' media='all' />
+>       <link rel='stylesheet' id='cookie-law-info-gdpr-css'  href="{% static "geonode/css/cookie-law-info/cookie-law-info-gdpr.css" %}?v={{ VERSION }}" type='text/css' media='all' />
+> 
+30a58,151
+>       <style type="text/css">
+>         /* Additional styles by custom themes */
+>         {% if custom_theme.body_color %}
+>         body {
+>           background: {{ custom_theme.body_color }};
+>           {% if custom_theme.body_text_color %}
+>           color: {{ custom_theme.body_text_color }};
+>           {% endif %}
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_color %}
+>         .home .navbar-inverse , .navbar-inverse {
+>           background-color: {{ custom_theme.navbar_color }};
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_text_color %}
+>         .navbar-inverse .navbar-nav > li > a {
+>           color: {{ custom_theme.navbar_text_color }};
+>           font-weight: 600;
+>           padding-top: 25px;
+>           padding-bottom: 25px;
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_text_hover %}
+>         .navbar-inverse .navbar-nav > li > a:hover {
+>           background-color: {{ custom_theme.navbar_text_hover }};
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_text_hover_focus %}
+>         .navbar-inverse .navbar-nav > .open > a,
+>         .navbar-inverse .navbar-nav > .open > a:hover,
+>         .navbar-inverse .navbar-nav > .open > a:focus {
+>           background-color: {{ custom_theme.navbar_text_hover_focus }};
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_dropdown_menu %}
+>         .navbar-nav .dropdown-menu {
+>           background-color: {{ custom_theme.navbar_dropdown_menu }};
+>           border-top: 1px solid {{ custom_theme.navbar_dropdown_menu }};
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_dropdown_menu_text %}
+>         .navbar-nav .dropdown-menu a {
+>           color: {{ custom_theme.navbar_dropdown_menu_text }};
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_dropdown_menu_hover %}
+>         .navbar-nav .dropdown-menu li a:hover {
+>           background-color: {{ custom_theme.navbar_dropdown_menu_hover }};
+>           color: {{ custom_theme.navbar_dropdown_menu_text }};
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.navbar_dropdown_menu_divider %}
+>         .navbar-nav .dropdown-menu .divider {
+>           background-color: {{ custom_theme.navbar_dropdown_menu_divider }};
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.logo %}
+>         .navbar-brand {
+>           background-image: url({{ custom_theme.logo.url }});
+>           background-repeat: no-repeat;
+>           background-position: center;
+>           background-size: contain;
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.jumbotron_color %}
+>         .home .jumbotron {
+>           background-color: {{ custom_theme.jumbotron_color }}
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.jumbotron_title_color %}
+>         .home .jumbotron h1,
+>         .home .jumbotron h2,
+>         .home .jumbotron h3 {
+>           color: {{ custom_theme.jumbotron_title_color }}
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.jumbotron_text_color %}
+>         .home .jumbotron p {
+>           color: {{ custom_theme.jumbotron_text_color }}
+>         }
+>         {% endif %}
+31a153,188
+>         {% if custom_theme.jumbotron_welcome_hide %}
+>         .home .jumbotron .container {
+>           visibility: hidden;
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.jumbotron_bg %}
+>         .home .jumbotron .container {
+>           position: relative;
+>           z-index: 1;
+>         }
+>         .home .jumbotron:after {
+>           content: "";
+>           background-image: url({{ custom_theme.jumbotron_bg.url }});
+>           background-repeat: no-repeat;
+>           background-position: center;
+>           background-size: cover;
+>           {% if not custom_theme.jumbotron_welcome_hide %}
+>           opacity: 0.5;
+>           {% endif %}
+>           top: 0;
+>           left: 0;
+>           bottom: 0;
+>           right: 0;
+>           position: absolute;
+>           z-index: 0;
+>         }
+>         {% endif %}
+> 
+>         {% if custom_theme.copyright_color %}
+>         .footer-copyright {
+>           background-color: {{ custom_theme.copyright_color }};
+>         }
+>         {% endif %}
+> 
+>       </style>
+45c202,207
+<     <link rel="search" type="application/opensearchdescription+xml" href="/catalogue/opensearch" title="GeoNode Search"/>
+---
+>     <link rel="search" type="application/opensearchdescription+xml" href="{{SITEURL}}catalogue/opensearch" title="{% trans "GeoNode Search" %}"/>
+> 
+>     <script>
+>         var siteUrl = '{{ SITEURL }}'.replace(/\/?$/, '/');
+>     </script>
+> 
+51,52c213,214
+< 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+< 	  <div class="container">
+---
+>   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+>     <div class="container">
+54,62c216,226
+< 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+< 	        <i class="fa fa-navicon fa-lg"></i>
+< 	      </button>
+< 	      <a class="navbar-brand" href="{% url "home" %}">GeoNode</a>
+< 	    </div>
+< 	    <div id="navbar" class="navbar-collapse collapse">
+< 	      <ul class="nav navbar-nav toolbar">
+< 	        {% block tabs %}
+< 	        <li id="nav_layers">
+---
+>         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+>           <i class="fa fa-navicon fa-lg"></i>
+>         </button>
+>         <a class="navbar-brand" href="{% url "home" %}">GeoNode</a>
+>       </div>
+>       <div id="navbar" class="navbar-collapse collapse">
+>         <ul class="nav navbar-nav toolbar">
+> 
+>           {% block tabs %}
+> 
+>           <li id="nav_layers">
+67d230
+<                 {% if user.is_authenticated %}
+69,72c232,238
+<                 <li role="separator" class="divider"></li>
+<                 <li><a href="{% url "layer_upload" %}">Upload Layer</a></li>
+<                 {% if 'geonode.contrib.createlayer' in INSTALLED_APPS %}
+<                   <li><a href="{% url "layer_create" %}">{% trans "Create Layer" %}</a></li>
+---
+>                 {% if user.is_authenticated %}
+>                     <li role="separator" class="divider"></li>
+>                     <li><a href="{% url "layer_upload" %}">{% trans "Upload Layer" %}</a></li>
+>                     {% if 'geonode.contrib.createlayer' in INSTALLED_APPS %}
+>                         <li><a href="{% url "layer_create" %}">{% trans "Create Layer" %}</a></li>
+>                     {% endif %}
+>                     <li><a href="{% url "document_upload" %}">{% trans "Upload Document" %}</a></li>
+74,75c240,241
+<                 <li><a href="{% url "document_upload" %}">Upload Document</a></li>
+<                 <li><a href="{% url "register_service" %}">{% trans "Add Remote Service" %}</a></li>
+---
+>                 {% if user.is_superuser or user.is_staff %}
+>                     <li><a href="{% url "register_service" %}">{% trans "Add Remote Service" %}</a></li>
+79c245
+< 	        <li id="nav_maps">
+---
+>           <li id="nav_maps">
+89,91c255,257
+<             </li>
+<             <li>
+< 	      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans "About" %}<i class="fa fa-angle-down fa-lg"></i></a>
+---
+>           </li>
+>           <li>
+>               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans "About" %}<i class="fa fa-angle-down fa-lg"></i></a>
+102c268
+<                 <li><a href="/admin/people/profile/add/">{% trans "Add User" %}</a></li>
+---
+>                 <li><a href="{{SITEURL}}admin/people/profile/add/">{% trans "Add User" %}</a></li>
+106c272
+<             </li>
+---
+>           </li>
+108,113c274,282
+< 	    {% block extra_tab %}
+<             {% endblock %}
+<             {% endblock %}
+<           </ul>
+< 	      <ul class="nav navbar-nav navbar-right">
+<             <!--<li>
+---
+>           {% block extra_tab %}
+> 
+>           {% endblock %}
+> 
+>           {% endblock %}
+> 
+>         </ul>
+>         <ul class="nav navbar-nav navbar-right">
+>             <li>
+124c293
+< 	        </li>-->
+---
+>           </li>
+145,152c314,323
+<                 <li role="separator" class="divider"></li>
+<                 <li><a href="{% url "admin:index" %}">Admin</a></li>
+<                 {% if 'geonode.geoserver' in INSTALLED_APPS %}
+<                 <li><a href="{% url "proxy" %}?url={{ GEOSERVER_LOCAL_URL }}web">GeoServer</a></li>
+<                 {% endif %}
+<                 {% if user.is_superuser and USE_MONITORING %}
+<                 <li role="separator" class="divider"></li>
+<                 <li><a href="{% url "monitoring:index" %}">{% trans "Monitoring" %}</a></li>
+---
+>                 {% if user.is_superuser or user.is_staff %}
+>                     <li role="separator" class="divider"></li>
+>                     <li><a href="{% url "admin:index" %}">{% trans "Admin" %}</a></li>
+>                     {% if 'geonode.geoserver' in INSTALLED_APPS %}
+>                     <li><a href="{{ OGC_SERVER.default.WEB_UI_LOCATION }}">GeoServer</a></li>
+>                     {% endif %}
+>                     {% if USE_MONITORING %}
+>                     <li role="separator" class="divider"></li>
+>                     <li><a href="{% url "monitoring:index" %}">{% trans "Monitoring" %}</a></li>
+>                     {% endif %}
+157c328
+<                 <li><a href="/account/logout/">Logout</a></li>
+---
+>                 <li><a href="{{SITEURL}}account/logout/">{% trans "Log out" %}</a></li>
+160,161c331,332
+< 		      {% else %}
+< 		      <li><a href="#" data-toggle="modal" data-target="#SigninModal" role="button" >{% trans "Sign in" %} </a></li>
+---
+>           {% else %}
+>           <li><a href="#" data-toggle="modal" data-target="#SigninModal" role="button" >{% trans "Sign in" %} </a></li>
+172,173c343,344
+<       <h1>You are using an outdated browser that is not supported by GeoNode.</h1>
+<       <p>Please use a <strong>modern browser</strong> like Mozilla Firefox, Google Chrome or Safari.</p>
+---
+>       <h1>{% trans "You are using an outdated browser that is not supported by GeoNode." %}</h1>
+>       <p>{% trans "Please use a <strong>modern browser</strong> like Mozilla Firefox, Google Chrome or Safari." %}</p>
+193a365,368
+> 
+>     {% block extra_mainbody %}
+>     {% endblock extra_mainbody %}
+> 
+205c380
+<             <li>Data</li>
+---
+>             <li>{% trans "Data" %}</li>
+208d382
+<             {% if user.is_authenticated %}
+210,212c384,390
+<             <li><a href="{% url "layer_upload" %}">Upload Layer</a></li>
+<             {% if 'geonode.contrib.createlayer' in INSTALLED_APPS %}
+<               <li><a href="{% url "layer_create" %}">{% trans "Create Layer" %}</a></li>
+---
+>             {% if user.is_authenticated %}
+>                 <li role="separator" class="divider"></li>
+>                 <li><a href="{% url "layer_upload" %}">{% trans "Upload Layer" %}</a></li>
+>                 {% if 'geonode.contrib.createlayer' in INSTALLED_APPS %}
+>                     <li><a href="{% url "layer_create" %}">{% trans "Create Layer" %}</a></li>
+>                 {% endif %}
+>                 <li><a href="{% url "document_upload" %}">{% trans "Upload Document" %}</a></li>
+214,215c392,393
+<             <li><a href="{% url "document_upload" %}">Upload Document</a></li>
+<             <li><a href="{% url "register_service" %}">{% trans "Add Remote Service" %}</a></li>
+---
+>             {% if user.is_superuser or user.is_staff %}
+>                 <li><a href="{% url "register_service" %}">{% trans "Add Remote Service" %}</a></li>
+221c399
+<             <li>Maps</li>
+---
+>             <li>{% trans "Maps" %}</li>
+228c406
+< 		<div class="col-md-2">
+---
+>     <div class="col-md-2">
+230c408
+<             <li>About</li>
+---
+>             <li>{% trans "About" %}</li>
+238c416
+<             <li><a href="/admin/people/profile/add/">{% trans "Add User" %}</a></li>
+---
+>             <li><a href="{{SITEURL}}admin/people/profile/add/">{% trans "Add User" %}</a></li>
+242a421
+> 
+243a423,440
+>           {% block contactus %}
+>           {% if custom_theme.contactus %}
+>           <ul class="list-unstyled">
+>               <li style="text-align: left;"><h2 style="margin-top: 0px;">{% trans "Contact Us" %} </h2> </li>
+>               {% if custom_theme.contact_name %}<li style="text-align: left;">{{ custom_theme.contact_name }}</li>{% endif %}
+>               {% if custom_theme.contact_position %}<li style="text-align: left;">{{ custom_theme.contact_position }}</li>{% endif %}
+>               {% if custom_theme.contact_administrative_area %}<li style="text-align: left;">{{ custom_theme.contact_administrative_area }}</li>{% endif %}
+>               {% if custom_theme.contact_city %}<li style="text-align: left;">{{ custom_theme.contact_city }}</li>{% endif %}
+>               {% if custom_theme.contact_street %}<li style="text-align: left;">{{ custom_theme.contact_street }}</li>{% endif %}
+>               {% if custom_theme.contact_postal_code %}<li style="text-align: left;">{{ custom_theme.contact_postal_code }}</li>{% endif %}
+>               {% if custom_theme.contact_country %}<li style="text-align: left;">{{ custom_theme.contact_country }}</li>{% endif %}
+>               {% if custom_theme.contact_delivery_point %}<li style="text-align: left;">{{ custom_theme.contact_delivery_point }}</li>{% endif %}
+>               {% if custom_theme.contact_voice %}<li style="text-align: left;">{% trans "Tel" %}: {{ custom_theme.contact_voice }}</li>{% endif %}
+>               {% if custom_theme.contact_facsimile %}<li style="text-align: left;">{% trans "Fax" %}: {{ custom_theme.contact_facsimile }}</li>{% endif %}
+>               {% if custom_theme.contact_email %}<li style="text-align: left;">{% trans "E-mail" %}: {{ custom_theme.contact_email }}</li>{% endif %}
+>           </ul>
+>           {% endif %}
+>           {% endblock contactus %}
+265a463,477
+> 
+>   {% if custom_theme.copyright %}
+>     <section class="footer-copyright">
+>       <div class="container">
+>         <div class="row">
+>           <div class="col-md-12 copyright ">
+>             <div class="module">
+>               <small>{{ custom_theme.copyright|safe }}</small>
+>             </div>
+>           </div>
+>         </div>
+>       </div>
+>     </section>
+>   {% endif %}
+> 
+275c487
+<             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+---
+>             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
+310,322c522,534
+<     <script src="{{ STATIC_URL }}lib/js/jquery.min.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/jquery.dataTables.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/jquery.timeago.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/jquery.ajaxprogress.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/jquery.ajaxQueue.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/jquery-ui.custom.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/jquery.raty.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/bootstrap.min.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/moment-with-locales.min.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/bootstrap-datetimepicker.min.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/json2.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/select2.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}lib/js/waypoints.js?v={{ VERSION }}"></script>
+---
+>     <script src="{% static "lib/js/jquery.min.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/jquery.dataTables.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/jquery.timeago.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/jquery.ajaxprogress.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/jquery.ajaxQueue.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/jquery-ui.custom.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/jquery.raty.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/bootstrap.min.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/moment-with-locales.min.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/bootstrap-datetimepicker.min.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/json2.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/select2.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "lib/js/waypoints.js" %}?v={{ VERSION }}"></script>
+324c536
+<     <script src="{{ STATIC_URL }}lib/js/assets.min.js?v={{ VERSION }}"></script>
+---
+>     <script src="{% static "lib/js/assets.min.js" %}?v={{ VERSION }}"></script>
+326,327c538,539
+<     <script src="{{ STATIC_URL }}geonode/js/utils/utils.js?v={{ VERSION }}"></script>
+<     <script src="{{ STATIC_URL }}geonode/js/base/base.js?v={{ VERSION }}"></script>
+---
+>     <script src="{% static "geonode/js/utils/utils.js" %}?v={{ VERSION }}"></script>
+>     <script src="{% static "geonode/js/base/base.js" %}?v={{ VERSION }}"></script>
+370c582
+<                     <h1>Uploading...</h1>
+---
+>                     <h1>{% trans "Uploading..." %}</h1>
+375c587
+<                         Upload in progress...
+---
+>                         {% trans "Upload in progress..." %}
+387c599
+<                     <h1>Processing...</h1>
+---
+>                     <h1>{% trans "Processing..." %}</h1>
+392c604
+<                         Updating Thumbnail...
+---
+>                         {% trans "Updating Thumbnail..." %}
+405c617
+<             <h4 class="modal-title" id="exampleModalLabel">Message box</h4>
+---
+>             <h4 class="modal-title" id="exampleModalLabel">{% trans "Message box" %}</h4>
+411c623
+<             <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+---
+>             <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "OK" %}</button>

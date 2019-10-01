@@ -1,0 +1,377 @@
+Attaching to elasticsearch4iws, rabbitmq4iws, gsconf4iws, db4iws, celery4iws, django4iws, geoserver4iws, nginx4iws
+[36melasticsearch4iws |[0m [2019-06-30 12:31:17,054][WARN ][bootstrap                ] unable to install syscall filter: seccomp unavailable: your kernel is buggy and you should upgrade
+[36melasticsearch4iws |[0m [2019-06-30 12:31:17,248][INFO ][node                     ] [Ziggy Pig] version[2.4.1], pid[1], build[c67dc32/2016-09-27T18:57:55Z]
+[36melasticsearch4iws |[0m [2019-06-30 12:31:17,248][INFO ][node                     ] [Ziggy Pig] initializing ...
+[36melasticsearch4iws |[0m [2019-06-30 12:31:17,922][INFO ][plugins                  ] [Ziggy Pig] modules [reindex, lang-expression, lang-groovy], plugins [], sites []
+[32mgsconf4iws exited with code 0
+[0m[36melasticsearch4iws |[0m [2019-06-30 12:31:17,946][INFO ][env                      ] [Ziggy Pig] using [1] data paths, mounts [[/usr/share/elasticsearch/data (/dev/sda1)]], net usable_space [13.5gb], net total_space [29.4gb], spins? [possibly], types [ext4]
+[35mdb4iws           |[0m LOG:  database system was shut down at 2019-06-30 12:30:19 UTC
+[35mdb4iws           |[0m LOG:  MultiXact member wraparound protections are now enabled
+[35mdb4iws           |[0m LOG:  database system is ready to accept connections
+[35mdb4iws           |[0m LOG:  autovacuum launcher started
+[36melasticsearch4iws |[0m [2019-06-30 12:31:17,946][INFO ][env                      ] [Ziggy Pig] heap size [990.7mb], compressed ordinary object pointers [true]
+[36melasticsearch4iws |[0m [2019-06-30 12:31:20,381][INFO ][node                     ] [Ziggy Pig] initialized
+[36melasticsearch4iws |[0m [2019-06-30 12:31:20,381][INFO ][node                     ] [Ziggy Pig] starting ...
+[36melasticsearch4iws |[0m [2019-06-30 12:31:20,458][INFO ][transport                ] [Ziggy Pig] publish_address {172.23.0.2:9300}, bound_addresses {0.0.0.0:9300}
+[36melasticsearch4iws |[0m [2019-06-30 12:31:20,465][INFO ][discovery                ] [Ziggy Pig] elasticsearch/ElVTAoT8TcCNex_tG__47A
+[36;1mgeoserver4iws    |[0m OpenJDK 64-Bit Server VM warning: ignoring option MaxPermSize=512m; support was removed in 8.0
+[36;1mgeoserver4iws    |[0m OpenJDK 64-Bit Server VM warning: ignoring option PermSize=256m; support was removed in 8.0
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.820 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.19
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.824 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Apr 12 2019 14:22:48 UTC
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.824 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.19.0
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.825 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.825 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            4.9.0-8-amd64
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /usr/lib/jvm/java-8-openjdk-amd64/jre
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_212-8u212-b01-1~deb9u1-b01
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.827 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /usr/local/tomcat
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.827 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /usr/local/tomcat
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.827 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.828 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.828 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.awt.headless=true
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.828 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -XX:MaxPermSize=512m
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.829 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -XX:PermSize=256m
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.829 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Xms512m
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.829 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Xmx2048m
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.830 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -XX:+UseConcMarkSweepGC
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.830 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -XX:+UseParNewGC
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.830 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -XX:ParallelGCThreads=4
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.831 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dfile.encoding=UTF8
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.831 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Duser.timezone=GMT
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.831 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djavax.servlet.request.encoding=UTF-8
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.832 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djavax.servlet.response.encoding=UTF-8
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.832 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Duser.timezone=GMT
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.832 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.geotools.shapefile.datetime=true
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.833 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.833 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.833 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.apache.catalina.security.SecurityListener.UMASK=0027
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.834 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.834 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/usr/local/tomcat
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.834 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/usr/local/tomcat
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.835 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/usr/local/tomcat/temp
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.835 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded APR based Apache Tomcat Native library [1.2.21] using APR version [1.5.2].
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.835 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.836 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.840 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 1.1.0j  20 Nov 2018]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.945 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.979 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.984 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [681] milliseconds
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.016 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.019 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.19]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.030 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/host-manager]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.378 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/host-manager] has finished in [348] ms
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.378 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/examples]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.612 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/examples] has finished in [234] ms
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.613 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/ROOT]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.629 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/ROOT] has finished in [15] ms
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.629 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/docs]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.649 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/docs] has finished in [20] ms
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.649 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/manager]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.672 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/manager] has finished in [23] ms
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.672 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/geoserver]
+[36melasticsearch4iws |[0m [2019-06-30 12:31:23,551][INFO ][cluster.service          ] [Ziggy Pig] new_master {Ziggy Pig}{ElVTAoT8TcCNex_tG__47A}{172.23.0.2}{172.23.0.2:9300}, reason: zen-disco-join(elected_as_master, [0] joins received)
+[36melasticsearch4iws |[0m [2019-06-30 12:31:23,624][INFO ][http                     ] [Ziggy Pig] publish_address {172.23.0.2:9200}, bound_addresses {0.0.0.0:9200}
+[36melasticsearch4iws |[0m [2019-06-30 12:31:23,624][INFO ][node                     ] [Ziggy Pig] started
+[36melasticsearch4iws |[0m [2019-06-30 12:31:23,633][INFO ][gateway                  ] [Ziggy Pig] recovered [0] indices into cluster_state
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.697 [info] <0.241.0> 
+[33mrabbitmq4iws     |[0m  Starting RabbitMQ 3.7.15 on Erlang 22.0.4
+[33mrabbitmq4iws     |[0m  Copyright (C) 2007-2019 Pivotal Software, Inc.
+[33mrabbitmq4iws     |[0m  Licensed under the MPL.  See https://www.rabbitmq.com/
+[33mrabbitmq4iws     |[0m 
+[33mrabbitmq4iws     |[0m   ##  ##
+[33mrabbitmq4iws     |[0m   ##  ##      RabbitMQ 3.7.15. Copyright (C) 2007-2019 Pivotal Software, Inc.
+[33mrabbitmq4iws     |[0m   ##########  Licensed under the MPL.  See https://www.rabbitmq.com/
+[33mrabbitmq4iws     |[0m   ######  ##
+[33mrabbitmq4iws     |[0m   ##########  Logs: <stdout>
+[33mrabbitmq4iws     |[0m 
+[33mrabbitmq4iws     |[0m               Starting broker...
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.701 [info] <0.241.0> 
+[33mrabbitmq4iws     |[0m  node           : rabbit@1ecc4a2b80a3
+[33mrabbitmq4iws     |[0m  home dir       : /var/lib/rabbitmq
+[33mrabbitmq4iws     |[0m  config file(s) : /etc/rabbitmq/rabbitmq.conf
+[33mrabbitmq4iws     |[0m  cookie hash    : brJqLACNybQMMCyiSt5teA==
+[33mrabbitmq4iws     |[0m  log(s)         : <stdout>
+[33mrabbitmq4iws     |[0m  database dir   : /var/lib/rabbitmq/mnesia/rabbit@1ecc4a2b80a3
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.713 [info] <0.241.0> Running boot step pre_boot defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.713 [info] <0.241.0> Running boot step rabbit_core_metrics defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.713 [info] <0.241.0> Running boot step rabbit_alarm defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.724 [info] <0.277.0> Memory high watermark set to 3187 MiB (3342735769 bytes) of 7969 MiB (8356839424 bytes) total
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.736 [info] <0.283.0> Enabling free disk space monitoring
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.736 [info] <0.283.0> Disk free limit set to 50MB
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.747 [info] <0.241.0> Running boot step code_server_cache defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.747 [info] <0.241.0> Running boot step file_handle_cache defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.286.0> Limiting to approx 1048476 file handles (943626 sockets)
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.287.0> FHC read buffering:  OFF
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.287.0> FHC write buffering: ON
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.241.0> Running boot step worker_pool defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.749 [info] <0.241.0> Running boot step database defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.750 [info] <0.241.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.801 [info] <0.241.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.801 [info] <0.241.0> Peer discovery backend rabbit_peer_discovery_classic_config does not support registration, skipping registration.
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step database_sync defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step codec_correctness_check defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step external_infrastructure defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_registry defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_auth_mechanism_cr_demo defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_queue_location_random defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_event defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_auth_mechanism_amqplain defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_auth_mechanism_plain defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_direct defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_fanout defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_headers defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_topic defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_mirror_queue_mode_all defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_mirror_queue_mode_exactly defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_mirror_queue_mode_nodes defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_priority_queue defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Priority queues enabled, real BQ is rabbit_variable_queue
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_queue_location_client_local defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_queue_location_min_masters defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step kernel_ready defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_sysmon_minder defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_epmd_monitor defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.815 [info] <0.241.0> Running boot step guid_generator defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.840 [info] <0.241.0> Running boot step rabbit_node_monitor defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.840 [info] <0.313.0> Starting rabbit_node_monitor
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.841 [info] <0.241.0> Running boot step delegate_sup defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.842 [info] <0.241.0> Running boot step rabbit_memory_monitor defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.842 [info] <0.241.0> Running boot step core_initialized defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.842 [info] <0.241.0> Running boot step upgrade_queues defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.871 [info] <0.241.0> Running boot step rabbit_connection_tracking defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.872 [info] <0.241.0> Running boot step rabbit_connection_tracking_handler defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.873 [info] <0.241.0> Running boot step rabbit_exchange_parameters defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.874 [info] <0.241.0> Running boot step rabbit_mirror_queue_misc defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.875 [info] <0.241.0> Running boot step rabbit_policies defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step rabbit_policy defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step rabbit_queue_location_validator defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step rabbit_vhost_limit defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step recovery defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.881 [info] <0.342.0> Making sure data directory '/var/lib/rabbitmq/mnesia/rabbit@1ecc4a2b80a3/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L' for vhost '/' exists
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.905 [info] <0.342.0> Starting message stores for vhost '/'
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.905 [info] <0.346.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_transient": using rabbit_msg_store_ets_index to provide index
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.908 [info] <0.342.0> Started message store of type transient for vhost '/'
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.908 [info] <0.349.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": using rabbit_msg_store_ets_index to provide index
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.912 [info] <0.342.0> Started message store of type persistent for vhost '/'
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step empty_db_check defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step rabbit_looking_glass defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step rabbit_core_metrics_gc defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step background_gc defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step connection_tracking defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Setting up a table for connection tracking on this node: tracked_connection_on_node_rabbit@1ecc4a2b80a3
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Setting up a table for per-vhost connection counting on this node: tracked_connection_per_vhost_on_node_rabbit@1ecc4a2b80a3
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step routing_ready defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step pre_flight defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step notify_cluster defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step networking defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.922 [warning] <0.372.0> Setting Ranch options together with socket options is deprecated. Please use the new map syntax that allows specifying socket options separately from other options.
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.923 [info] <0.386.0> started TCP listener on [::]:5672
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.923 [info] <0.241.0> Running boot step direct_client defined by app rabbit
+[33mrabbitmq4iws     |[0m 2019-06-30 12:31:25.055 [info] <0.8.0> Server startup complete; 0 plugins started.
+[33mrabbitmq4iws     |[0m  completed with 0 plugins.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:29.785 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:30.743 WARNING [main] it.geosolutions.imageio.gdalframework.GDALUtilities.loadGDAL Failed to load the GDAL native libs. This is not a problem unless you need to use the GDAL plugins: they won't be enabled.
+[36;1mgeoserver4iws    |[0m java.lang.UnsatisfiedLinkError: no gdaljni in java.library.path
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:31.204 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'XStreamPersisterInitializer', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:31.205 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionFilter', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:31.207 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionProvider', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:31.207 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionFilter', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m log4j:WARN File option not set for appender [geoserverlogfile].
+[36;1mgeoserver4iws    |[0m log4j:WARN Are you using FileAppender instead of ConsoleAppender?
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:34 WARN [geoserver.config] - Error reading resource URL [jar:file:/usr/local/tomcat/webapps/geoserver/WEB-INF/lib/gs-geofence-server-2.13-20180523.163159-8.jar!/geofence-default-override.properties]
+[36;1mgeoserver4iws    |[0m java.io.FileNotFoundException: URL [jar:file:/usr/local/tomcat/webapps/geoserver/WEB-INF/lib/gs-geofence-server-2.13-20180523.163159-8.jar!/geofence-default-override.properties] cannot be resolved to absolute file path because it does not reside in the file system: jar:file:/usr/local/tomcat/webapps/geoserver/WEB-INF/lib/gs-geofence-server-2.13-20180523.163159-8.jar!/geofence-default-override.properties
+[36;1mgeoserver4iws    |[0m 	at org.springframework.util.ResourceUtils.getFile(ResourceUtils.java:218)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.core.io.AbstractFileResolvingResource.getFile(AbstractFileResolvingResource.java:52)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.core.io.UrlResource.getFile(UrlResource.java:213)
+[36;1mgeoserver4iws    |[0m 	at org.geoserver.config.SpringResourceAdaptor.relative(SpringResourceAdaptor.java:40)
+[36;1mgeoserver4iws    |[0m 	at org.geoserver.config.GeoServerPropertyOverrideConfigurer.setLocations(GeoServerPropertyOverrideConfigurer.java:52)
+[36;1mgeoserver4iws    |[0m 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[36;1mgeoserver4iws    |[0m 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[36;1mgeoserver4iws    |[0m 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[36;1mgeoserver4iws    |[0m 	at java.lang.reflect.Method.invoke(Method.java:498)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.BeanWrapperImpl$BeanPropertyHandler.setValue(BeanWrapperImpl.java:358)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.AbstractNestablePropertyAccessor.processLocalProperty(AbstractNestablePropertyAccessor.java:469)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.AbstractNestablePropertyAccessor.setPropertyValue(AbstractNestablePropertyAccessor.java:292)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.AbstractNestablePropertyAccessor.setPropertyValue(AbstractNestablePropertyAccessor.java:280)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.AbstractPropertyAccessor.setPropertyValues(AbstractPropertyAccessor.java:95)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.AbstractPropertyAccessor.setPropertyValues(AbstractPropertyAccessor.java:75)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1564)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1276)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:149)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:686)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:524)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+[36;1mgeoserver4iws    |[0m 	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+[36;1mgeoserver4iws    |[0m 	at org.geoserver.platform.GeoServerContextLoaderListener.contextInitialized(GeoServerContextLoaderListener.java:23)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4682)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5150)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:713)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:690)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:695)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.HostConfig.deployDirectory(HostConfig.java:1133)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.HostConfig$DeployDirectory.run(HostConfig.java:1867)
+[36;1mgeoserver4iws    |[0m 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+[36;1mgeoserver4iws    |[0m 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+[36;1mgeoserver4iws    |[0m 	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+[36;1mgeoserver4iws    |[0m 	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:112)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.HostConfig.deployDirectories(HostConfig.java:1045)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.HostConfig.deployApps(HostConfig.java:429)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.HostConfig.start(HostConfig.java:1576)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.HostConfig.lifecycleEvent(HostConfig.java:309)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:123)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.setStateInternal(LifecycleBase.java:423)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.setState(LifecycleBase.java:366)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:929)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:831)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1377)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1367)
+[36;1mgeoserver4iws    |[0m 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+[36;1mgeoserver4iws    |[0m 	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+[36;1mgeoserver4iws    |[0m 	at java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:134)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:902)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:262)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:423)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:932)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.Catalina.start(Catalina.java:633)
+[36;1mgeoserver4iws    |[0m 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[36;1mgeoserver4iws    |[0m 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[36;1mgeoserver4iws    |[0m 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[36;1mgeoserver4iws    |[0m 	at java.lang.reflect.Method.invoke(Method.java:498)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:350)
+[36;1mgeoserver4iws    |[0m 	at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:492)
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:34.769 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'MonitorDAO', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:34.769 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionFilter', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:34.769 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionProvider', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:34.770 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionFilter', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:34 WARN [geoserver.monitor] - monitoring storage memory not found, falling back to 'memory'
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:35.041 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'GeoServerSecurityProvider', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:35.041 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionFilter', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:35.041 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionProvider', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:35.041 WARNING [main] org.geoserver.platform.GeoServerExtensions.checkContext Extension lookup 'ExtensionFilter', but ApplicationContext is unset.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:35 INFO [geoserver.geofence] - GeoFence configuration: instance name is default-gs
+[36;1mgeoserver4iws    |[0m ERROR StatusLogger Log4j2 could not find a logging implementation. Please add log4j-core to the classpath. Using SimpleLogger to log to the console...
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:36 WARN [ejb.Ejb3Configuration] - hibernate.connection.autocommit = false break the EJB3 specification
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:36 WARN [dialect.H2Dialect] - The 1.1.119 version of H2 implements temporary table creation such that it commits current transaction; multi-table, bulk hql/jpaql will not work properly
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:36 WARN [dialect.H2Dialect] - The 1.1.119 version of H2 implements temporary table creation such that it commits current transaction; multi-table, bulk hql/jpaql will not work properly
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:37 WARN [cache.EhCacheProvider] - Could not find configuration [RuleLimits]; using defaults.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:37 WARN [cache.EhCacheProvider] - Could not find configuration [Rule]; using defaults.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:37 WARN [cache.EhCacheProvider] - Could not find configuration [usergroup]; using defaults.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:37 WARN [cache.EhCacheProvider] - Could not find configuration [GSUser]; using defaults.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:37 WARN [cache.EhCacheProvider] - Could not find configuration [GFUser]; using defaults.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:37 WARN [cache.EhCacheProvider] - Could not find configuration [gsinstance]; using defaults.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:37 WARN [cache.EhCacheProvider] - Could not find configuration [LayerDetails]; using defaults.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - GeoServer configuration lock is enabled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded style 'point'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded style 'line'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded style 'polygon'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded style 'raster'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded style 'generic'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded default workspace geonode
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded workspace 'geonode'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded service 'wms', enabled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded service 'WPSInfoImpl-5af2e37b:155c5279975:-7ffe', enabled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded service 'WMTSInfoImpl--3351f7fa:15766bb3594:-8000', enabled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded service 'wcs', enabled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:38 INFO [org.geoserver] - Loaded service 'wfs', enabled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.GeoserverXMLResourceProvider] - Will look for 'geowebcache.xml' in directory '/geoserver_data/data/gwc'.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 WARN [config.XMLConfiguration] - ********************************************************************************
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 WARN [config.XMLConfiguration] - *** GWC configuration validation error: cvc-elt.1.a: Cannot find the declaration of element 'gwcConfiguration'.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 WARN [config.XMLConfiguration] - *** Will try to use configuration anyway. Please check the order of declared elements against the schema.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 WARN [config.XMLConfiguration] - ********************************************************************************
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.XMLConfiguration] - Initializing GridSets from gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.XMLConfiguration] - Read GridSet InspireCRS84Quad
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.XMLConfiguration] - Read GridSet EPSG:3857
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [config.XMLConfiguration] - Initializing layers from gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [gwc.layer] - Initializing GWC configuration based on GeoServer's Catalog
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [gwc.layer] - GeoServer TileLayer store base directory is: gwc-layers
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [gwc.layer] - Loading tile layers from gwc-layers
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [storage.BlobStoreAggregator] - BlobStoreConfiguration gwc contained no blob store infos.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [storage.DefaultStorageFinder] - *************************************************************************************************************************
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [storage.DefaultStorageFinder] - *** Found System environment variable GEOSERVER_DATA_DIR set to /geoserver_data/data, using it as the default prefix. ***
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [storage.DefaultStorageFinder] - *************************************************************************************************************************
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:39 INFO [gwc.config] - Initializing GeoServer specific GWC configuration from gwc-gs.xml
+[36;1mgeoserver4iws    |[0m Security framework of XStream not initialized, XStream is probably vulnerable.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 WARN [platform.resource] - There is code leaving resource input streams open, locks around them might not be cleared! Add -Dfalse=true to your JVM options to get a full stack trace of the code that acquired the input stream
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [config.GeoserverXMLResourceProvider] - Will look for 'geowebcache-diskquota.xml' in directory '/geoserver_data/data/gwc'.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [config.GeoserverXMLResourceProvider] - Will look for 'geowebcache-diskquota-jdbc.xml' in directory '/geoserver_data/data/gwc'.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [diskquota.ConfigLoader] - Quota config is: gwc/geowebcache-diskquota.xml
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [diskquota.ConfigLoader] - Quota config is: gwc/geowebcache-diskquota.xml
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [diskquota.DiskQuotaMonitor] - Setting up disk quota periodic enforcement task
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [diskquota.DiskQuotaMonitor] - 0 layers configured with their own quotas. 
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [diskquota.DiskQuotaMonitor] - 0 layers attached to global quota 500.0 MB
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:40 INFO [diskquota.DiskQuotaMonitor] - Disk quota periodic enforcement task set up every 10 SECONDS
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:41 INFO [flow.config] - Loaded control-flow rule: ows.global=100
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:41 INFO [flow.config] - Loaded control-flow rule: ows.wms.getmap=10
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:41 INFO [flow.config] - Loaded control-flow rule: ows.wfs.getfeature.application/msexcel=4
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:41 INFO [flow.config] - Loaded control-flow rule: user=6
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:41 INFO [flow.config] - Loaded control-flow rule: ows.gwc=16
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:41 INFO [geoserver.flow] - Control-flow active with 5 flow controllers
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:42 INFO [geoserver.monitor] - Monitor extension enabled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:42 INFO [ows.OWSHandlerMapping] - Mapped URL path [/ows/**] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:42 INFO [ows.OWSHandlerMapping] - Mapped URL path [/ows] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:43 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wms] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:43 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wms/*] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:43 INFO [ows.OWSHandlerMapping] - Mapped URL path [/animate/*] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:43 INFO [ows.OWSHandlerMapping] - Mapped URL path [/animate] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:43 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wps] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:43 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wps/*] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:43 INFO [ows.OWSHandlerMapping] - Mapped URL path [/temp/**] onto handler 'filePublisher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Found 9 bindable processes in GeoServer specific processes
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Found 89 bindable processes in Deprecated processes
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Found 48 bindable processes in Geometry processes
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Found 1 bindable processes in PolygonLabelProcess
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Found 31 bindable processes in Vector processes
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process geonode:BatchDownload as the input LAYERS of type class org.geonode.process.batchdownload.LayerReference cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process geonode:BatchDownload as the input map of type class org.geonode.process.batchdownload.MapMetadata cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process geonode:BatchDownload as the output ZippedFile of type interface org.geonode.process.storage.Resource cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Found 0 bindable processes in Batch Downloader
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process ras:ConvolveCoverage as the input kernel of type class javax.media.jai.KernelJAI cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process ras:RasterZonalStatistics2 as the input zones of type class java.lang.Object cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process ras:RasterZonalStatistics2 as the input nodata of type class it.geosolutions.jaiext.range.Range cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process ras:RasterZonalStatistics2 as the input rangeData of type class java.lang.Object cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Blacklisting process ras:RasterZonalStatistics2 as the output zonal statistics of type interface java.util.List cannot be handled
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:44 INFO [geoserver.wps] - Found 17 bindable processes in Raster processes
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [ows.OWSHandlerMapping] - Mapped URL path [/gwc/service/**] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [geowebcache.GeoWebCacheDispatcher] - Invoked setServletPrefix(gwc)
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [georss.GeoRSSPoller] - Initializing GeoRSS poller in a background job...
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [georss.GeoRSSPoller] - No enabled GeoRSS feeds found, poller will not run.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [wms.WMSService] - Will NOT recombine tiles for non-tiling clients.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [wms.WMSService] - Will proxy requests to backend that are not getmap or getcapabilities.
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wcs] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:46 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wcs/*] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:47 INFO [ows.OWSHandlerMapping] - Mapped URL path [/TestWfsPost] onto handler 'wfsTestServlet'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:47 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wfs/*] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:47 INFO [ows.OWSHandlerMapping] - Mapped URL path [/wfs] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:50 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:50 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml/*] onto handler 'dispatcher'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:50 INFO [ows.OWSHandlerMapping] - Mapped URL path [/kml/icon/**/*] onto handler 'kmlIconService'
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:52 INFO [geoserver.security] - Start reloading user/groups for service named default
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:52 INFO [geoserver.security] - Reloading user/groups successful for service named default
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:52 WARN [auth.GeoFenceAuthenticationProvider] - INIT FROM CONFIG
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:52 INFO [geoserver.security] - AuthenticationCache Initialized with 1000 Max Entries, 300 seconds idle time, 600 seconds time to live and 3 concurrency level
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:52 INFO [geoserver.security] - AuthenticationCache Eviction Task created to run every 600 seconds
+[36;1mgeoserver4iws    |[0m 30 Jun 12:31:52 INFO [geoserver.importer] - Enabling import store: memory
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:52.436 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/geoserver] has finished in [29,764] ms
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:52.440 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:52.449 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+[36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:52.452 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [30,467] milliseconds
