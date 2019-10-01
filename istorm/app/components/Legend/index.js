@@ -2,6 +2,8 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import bar_wave from  '../../images/bar_wave.png'
+import bar_level from  '../../images/bar_level.png'
 
 const styles = (theme) => {
     return {
