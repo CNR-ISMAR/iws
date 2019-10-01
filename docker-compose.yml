@@ -167,8 +167,6 @@ services:
       GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
       GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
       GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      DSS_PHAROS: ${DSS_PHAROS_NAME}
-      DSS_PHAROS_PASSWORD: ${DSS_PHAROS_PASSWORD}
       SEASTORM: ${SEASTORM_NAME}
       SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
       ASYNC_SIGNALS: 'True'
@@ -215,8 +213,12 @@ services:
       - geoserver
     ports:
       - 80:80
+    expose:
+      - 80
     volumes:
-      - statics:/mnt/volumes/statics
+    - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
+    - statics:/mnt/volumes/statics
+    - ./iws/storage:/mnt/volumes/storage
 
 
   data-dir-conf:

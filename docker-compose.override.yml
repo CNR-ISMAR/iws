@@ -1,12 +1,19 @@
 version: '2.2'
 services:
   django:
+  #    command: python manage.py runserver --settings=iws.settings 0.0.0.0:8000
+    ports:
+    - 8000:8000
+    expose:
+    - 8000
+    env_file:
+    - ./.env
     environment:
-      DEBUG: 'True'
+#      DEBUG: 'True'
       GEONODE_LB_HOST_IP: localhost
       GEONODE_LB_PORT: 80
-      SITEURL: http://localhost/
-      ALLOWED_HOSTS: "['localhost']"
+      SITEURL: ${SITE_URL}
+      ALLOWED_HOSTS: "['localhost','*', 'django', 'django:8000']"
       GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
 
   celery:

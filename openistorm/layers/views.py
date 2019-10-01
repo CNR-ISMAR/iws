@@ -11,7 +11,8 @@ import json
 import datetime
 from dateutil import parser
 from collections import OrderedDict
-from .utils import WmsQuery
+from .utils import WmsQuery, WmsQueryNew
+import pytz
 
 
 class ImageLayerList(ListAPIView):
@@ -28,8 +29,8 @@ class ImageLayerList(ListAPIView):
         fromdate = self.request.query_params.get('from', '')
         todate = self.request.query_params.get('to', '')
 
-        fromdate = parser.parse(fromdate) if fromdate != '' else datetime.datetime.now() - datetime.timedelta(days=1)
-        todate = parser.parse(todate) if todate != '' else datetime.datetime.now() + datetime.timedelta(days=2)
+        fromdate = parser.parse(fromdate).replace(tzinfo=pytz.timezone('utc')) if fromdate != '' else datetime.datetime.now().replace(tzinfo=pytz.timezone('utc')) - datetime.timedelta(days=1)
+        todate = parser.parse(todate).replace(tzinfo=pytz.timezone('utc')) if todate != '' else datetime.datetime.now().replace(tzinfo=pytz.timezone('utc')) + datetime.timedelta(days=2)
 
         # print("\n\n")
         # print(fromdate)
@@ -89,7 +90,6 @@ class ImageLayerBoundaries(views.APIView):
         }
         return Response(boundaries)
 
-
 class Info(views.APIView):
     permission_classes = (AllowAny,)
     def get(self, request):
@@ -114,3 +114,17 @@ class TimeSeries(views.APIView):
         TIME_TO = request.query_params.get('to')
         wms = WmsQuery(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
         return Response(wms.get_timeseries())
+
+class SeaLevelMixMax(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        BBOX = request.query_params.get('bbox')
+        X = request.query_params.get('x')
+        Y = request.query_params.get('y')
+        WIDTH = request.query_params.get('width')
+        HEIGHT = request.query_params.get('height')
+        TIME_FROM = request.query_params.get('from')
+        # TIME_TO = request.query_params.get('to')
+        wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM)
+        return Response(wms.getnextSeaLevelMinMax())
+        # return Response(wms.get_timeseries())

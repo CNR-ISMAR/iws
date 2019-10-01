@@ -31,6 +31,7 @@ const styles = (theme) => {
             "& img":{
                 transformOrigin: "top",
                 transform: "rotateZ(90deg) translateY(-200px)"
+                // transform: "rotateZ(270deg) translateY(0px)"
             },
         
         },
@@ -47,11 +48,12 @@ const styles = (theme) => {
             <>
                <div item className={this.props.classes.overlayLayersLegendGraphic}>
                     <div item className={this.props.classes.graphic}>
-                        <img src="https://iws.ismar.cnr.it/thredds/wms/tmes/history/TMES_waves_20190925.nc?REQUEST=GetLegendGraphic&COLORBARONLY=true&WIDTH=10&HEIGHT=200&PALETTE=rainbow&NUMCOLORBANDS=20" />
+                        {/*<img src="https://iws.ismar.cnr.it/thredds/wms/tmes/history/TMES_waves_20190925.nc?REQUEST=GetLegendGraphic&COLORBARONLY=true&WIDTH=10&HEIGHT=200&PALETTE=rainbow&NUMCOLORBANDS=20" />*/}
+                        <img src="https://iws.ismar.cnr.it/thredds/wms/tmes/history/TMES_waves_20190925.nc?REQUEST=GetLegendGraphic&COLORBARONLY=true&WIDTH=10&HEIGHT=200&PALETTE=sst_36&NUMCOLORBANDS=20" />
                     </div>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
-                        <Typography m={0}>0</Typography>
-                        <Typography m={0}>100</Typography>
+                        <Typography m={0}>-80</Typography>
+                        <Typography m={0}>+80</Typography>
                     </Box>
                 </div>
             </> 
