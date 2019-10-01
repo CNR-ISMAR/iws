@@ -72,9 +72,9 @@ div[class *='color-legend']{
 
 
 
-.rv-discrete-color-legend-item.clickable:hover{
+.rv-discrete-color-legend .rv-discrete-color-legend-item.clickable:hover{
     border: none;
-    background:none;
+    background: transparent;
 }
 
 

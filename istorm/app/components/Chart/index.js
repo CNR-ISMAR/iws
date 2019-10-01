@@ -166,7 +166,7 @@ function Chart(props) {
                         </Paper>
                       </Grid>
                     </Grid>
-                  </Crosshair>
+                </Crosshair>
               </XYPlot>
               <DiscreteColorLegend 
                   items={legendsItems} 
