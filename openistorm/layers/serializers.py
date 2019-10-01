@@ -63,51 +63,64 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     def get_sea_level_mean(self, instance):
         minmax = ('-1', '1')
-        return {
-            "url": self.sea_level_url(instance.timestamp, {
+        return self.sea_level_url(instance.timestamp, {
                 'LAYERS': 'sea_level-mean',
                 'STYLES': 'boxfill/sst_36',
                 'COLORSCALERANGE': ','.join(minmax),
                 'NUMCOLORBANDS': '80',
-            }),
-            "legend": self.sea_level_url(instance.timestamp, {
-                'LAYERS': 'sea_level-mean',
-                'STYLES': 'boxfill/sst_36',
-                'COLORSCALERANGE': ','.join(minmax),
-                'NUMCOLORBANDS': '80',
-                'REQUEST': 'GetLegendGraphic',
-                'COLORBARONLY': 'false',
-                "WIDTH": "10",
-                "HEIGHT": "200",
-                "PALETTE": "sst_36",
-            }),
-            'min': minmax[0],
-            'max': minmax[1],
-        }
+            })
+        # return {
+        #     "url": self.sea_level_url(instance.timestamp, {
+        #         'LAYERS': 'sea_level-mean',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '80',
+        #     }),
+        #     "legend": self.sea_level_url(instance.timestamp, {
+        #         'LAYERS': 'sea_level-mean',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '80',
+        #         'REQUEST': 'GetLegendGraphic',
+        #         'COLORBARONLY': 'false',
+        #         "WIDTH": "10",
+        #         "HEIGHT": "200",
+        #         "PALETTE": "sst_36",
+        #     }),
+        #     'min': minmax[0],
+        #     'max': minmax[1],
+        # }
 
     def get_sea_level_std(self, instance):
         minmax = ('0', '1')
-        return {
-            "url": self.sea_level_url(instance.timestamp, {
+        return self.sea_level_url(instance.timestamp, {
                 'LAYERS': 'sea_level-std',
                 'STYLES': 'boxfill/sst_36',
                 'COLORSCALERANGE': ','.join(minmax),
                 'NUMCOLORBANDS': '20',
-            }),
-            "legend": self.sea_level_url(instance.timestamp, {
-                'LAYER': 'sea_level-std',
-                'STYLES': 'boxfill/sst_36',
-                'COLORSCALERANGE': ','.join(minmax),
-                'NUMCOLORBANDS': '80',
-                'REQUEST': 'GetLegendGraphic',
-                'COLORBARONLY': 'false',
-                "WIDTH": "10",
-                "HEIGHT": "200",
-                "PALETTE": "sst_36",
-            }),
-            'min': minmax[0],
-            'max': minmax[1],
-        }
+            })
+        # minmax = ('0', '1')
+        # return {
+        #     "url": self.sea_level_url(instance.timestamp, {
+        #         'LAYERS': 'sea_level-std',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '20',
+        #     }),
+        #     "legend": self.sea_level_url(instance.timestamp, {
+        #         'LAYER': 'sea_level-std',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '80',
+        #         'REQUEST': 'GetLegendGraphic',
+        #         'COLORBARONLY': 'false',
+        #         "WIDTH": "10",
+        #         "HEIGHT": "200",
+        #         "PALETTE": "sst_36",
+        #     }),
+        #     'min': minmax[0],
+        #     'max': minmax[1],
+        # }
 
 
     class Meta:
