@@ -137,6 +137,7 @@ class Map extends React.Component {
     super(props);
     this.state = {
       mapboxIsLoading: true,
+      station: '',
       viewport: {
         width: window.document.body.offsetWidth,
         height: window.document.body.offsetHeight,
@@ -207,14 +208,13 @@ class Map extends React.Component {
 
       const favouritesContainer = this.props.favourites.results;
       let selectedFav = [];
-      let field_Station = null;
       if(event.features.length > 0) {
         if(event.features[0].source === 'favorites'){
           selectedFav = favouritesContainer.filter(fav => fav.title.includes(event.features[0].properties.title));
           // console.log(selectedFav[0])
         }else if( event.features.findIndex(station =>  station.source.includes('station')) !== -1 ) {
           const Index = event.features.findIndex(station =>  station.source.includes('station'))
-          field_Station =  event.features[Index].properties.field_1
+          this.setState({...this.state, station: event.features[Index].properties.field_1})
         }
       }
       // ANIMATION OPEN/CLOSE + REQUEST/CLOSE InfoLayer
@@ -225,7 +225,7 @@ class Map extends React.Component {
           this.props.dispatch(requestInfoLayer({
             time: this.props.layerInfo.date,
             bounds: bb200,
-            field: field_Station
+            station: this.state.station
           }));
           selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
         }, this.openingTime)
@@ -233,7 +233,7 @@ class Map extends React.Component {
         this.props.dispatch(requestInfoLayer({
           time: this.props.layerInfo.date,
           bounds: bb200,
-          field: field_Station
+          station: this.state.station
         }));
         selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
       }
@@ -338,8 +338,8 @@ class Map extends React.Component {
                         const latlon = new LngLat(popup.longitude, popup.latitude)
                         const bb200 = latlon.toBounds(200)
                         console.log(bb200)
-                        this.props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${this.props.timeline.from}&width=2&height=2&to=${this.props.timeline.to}`)
-                      } 
+                        this.props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${this.props.timeline.from}&width=2&height=2&to=${this.props.timeline.to}&station=${this.state.station}`)
+                      }
                     }>
                       <BarChartIcon></BarChartIcon>
                     </Button>
