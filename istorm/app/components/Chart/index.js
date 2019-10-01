@@ -11,6 +11,8 @@ import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import moment from "moment";
+
 import 'react-vis/dist/style.css';
 import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis, Crosshair } from 'react-vis';
 import DiscreteColorLegend from 'react-vis/dist/legends/discrete-color-legend';
@@ -149,23 +151,28 @@ function Chart(props) {
                           })
                 }
                 <Crosshair
-                  values={chart.crosshairValues} 
+                  values={chart.crosshairValues} /* 
                   itemsFormat={x => x.map((value, index) => { 
-                      /*console.log(x, "CIAOCIAO"); */ return  {title: labels[index], value: value.y}
-                    })
-                  }>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <Paper style={{ color:"white", background:"rgba(105, 131, 151, 0.80)", padding:"10px", width:"200px"}}>
-                          <Typography variant="body2">Data: Mon Sep 30 2019</Typography>
-                            <Box p={0} my={1} width="100%">
-                              <Typography variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>Sea Level Mean: <span style={{fontSize:"0.825rem"}}>1234,00</span></Typography>
-                              <Typography variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>Sea Level Min: <span style={{fontSize:"0.825rem"}}>1234,00</span></Typography>
-                              <Typography variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>Sea Level Max: <span style={{fontSize:"0.825rem"}}>1234,00</span></Typography>
-                            </Box>
-                        </Paper>
+                    console.log(value.y)
+                      return  {title: labels[index], value: value.y}
+                    }) 
+                  }*/>
+                    {chart.crosshairValues !== undefined && chart.crosshairValues.length > 0 &&
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <Paper style={{ color:"white", background:"rgba(105, 131, 151, 0.80)", padding:"10px", width:"200px"}}>
+                            <Typography variant="body2">Data: { moment(chart.crosshairValues[0].x).utc().format('DD/MM/YYYY HH:mm') }</Typography>
+                              <Box p={0} my={1} width="100%">
+                                { chart.crosshairValues.map((value, index) => { 
+                                    return <Typography key={labels[index]} variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>{labels[index]}: <span style={{fontSize:"0.825rem"}}>{value.y.toFixed(4)}</span></Typography>
+                                  }) 
+                                }
+                                
+                              </Box>
+                          </Paper>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                  }
                 </Crosshair>
               </XYPlot>
               <DiscreteColorLegend 
