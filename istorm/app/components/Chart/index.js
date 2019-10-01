@@ -39,12 +39,8 @@ const styles = (theme) => {
   }
 };
 
-<<<<<<< HEAD
+
 const legendsColors = {
-  //verificare
-=======
-const LegendsColors = {
->>>>>>> dd01589e2f28a6353d97971c82e93e7c58e7f129
   sea_level: theme.palette.custom.seaIcon,
   wmd: theme.palette.custom.waveIcon,
   wmp: theme.palette.custom.waveDirection,
