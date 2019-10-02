@@ -10,26 +10,36 @@ class Layer extends BaseControl {
     }
   
     componentDidMount() {
-        const map = this._context.map;
-        const { layer } = this.props;
+      const map = this._context.map;
+      const { layer } = this.props;
+      if(layer.isVisible) {
         map.addLayer(layer);
+      } else {
+        const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
+        if(source) {
+            map.removeLayer(layer.id);
+            map.removeSource(layer.id);
+        }
+      }
     }
 
     componentWillReceiveProps(newProps) {
         const map = this._context.map;
         const { layer } = newProps;
-        const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
-        if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
+        const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
+        if(source) {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);
-            map.addLayer(layer);
         }
+          if(layer.isVisible) {
+            map.addLayer(layer);
+          }
       }
 
     componentWillUnmount() {
         const map = this._context.map;
         const { layer } = this.props;
-        const source = typeof getLayer !== "undefined" ? map.map.getLayer(layer.id) : null;
+        const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
         if(source) {
             map.removeLayer(layer.id);
             map.removeSource(layer.id);

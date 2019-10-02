@@ -1,0 +1,1236 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.2,
+          43.75
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (13.2 43.75)",
+        "field_1": "SL_15",
+        "institute_code": "PP2",
+        "institute": "ISMAR",
+        "map_name": "AN-SNG",
+        "id": null,
+        "name": "",
+        "nothing1": 32,
+        "nothing2": " Aigio",
+        "parameters": [
+          "sea_surface_height",
+          "wind_direction",
+          "wind_speed",
+          "sea_surface_pressure",
+          "air_temperature",
+          "relative_humidity",
+          "sea_water_temperature",
+          "sea_water_salinity"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.51,
+          43.62
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (13.51 43.62)",
+        "field_1": "SL_49",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Ancona",
+        "id": 21,
+        "name": " Ancona",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.53,
+          45.3
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (14.53 45.3)",
+        "field_1": "SL_40",
+        "institute_code": "PP9",
+        "institute": "PMF Zagreb",
+        "map_name": "Bakar",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.86,
+          41.14
+        ]
+      },
+      "properties": {
+        "the_geom": "",
+        "field_1": "SL_53",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Bari",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.42,
+          45.48
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.42 45.48)",
+        "field_1": "SL_07",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Burano",
+        "id": 17,
+        "name": " Burano",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.28,
+          45.23
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.28 45.23)",
+        "field_1": "SL_09",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Chioggia Porto",
+        "id": 9,
+        "name": " Chioggia_porto",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.28,
+          45.22
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.28 45.22)",
+        "field_1": "SL_10",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Chioggia Vigo",
+        "id": 8,
+        "name": " Chioggia_Vigo",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.14,
+          39.08
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (17.14 39.08)",
+        "field_1": "SL_56",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Crotone",
+        "id": 28,
+        "name": " Crotone",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.34,
+          45.33
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.34 45.33)",
+        "field_1": "SL_02",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Diga Nord Malamocco",
+        "id": 5,
+        "name": " Diga_nord_Malamocco",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.31,
+          45.23
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.31 45.23)",
+        "field_1": "SL_03",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Diga Sud Chioggia",
+        "id": 3,
+        "name": " Diga_sud_Chioggia",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.43,
+          45.42
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.43 45.42)",
+        "field_1": "SL_01",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Diga Sud Lido",
+        "id": 10,
+        "name": " Diga_sud_Lido",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.07,
+          42.67
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (18.07 42.67)",
+        "field_1": "SL_39",
+        "institute_code": "PP9",
+        "institute": "HHI",
+        "map_name": "Dubrovnik",
+        "id": null,
+        "name": "",
+        "nothing1": 16,
+        "nothing2": " Gazzera",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.45,
+          41.3
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (19.45 41.3)",
+        "field_1": "SL_29",
+        "institute_code": "PP8",
+        "institute": "Institute of GeoSciences",
+        "map_name": "Durres",
+        "id": null,
+        "name": "",
+        "nothing1": 30,
+        "nothing2": " Itea",
+        "parameters": [
+          "wind_speed",
+          "wind_direction",
+          "air_temperature",
+          "relative_humidity",
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.407490505498373,
+          44.79352107502929
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.407490505498373 44.79352107502929)",
+        "field_1": "SL_57",
+        "institute_code": "PP3",
+        "institute": "Arpae",
+        "map_name": "Faro",
+        "id": 13,
+        "name": " Diga_Sud_Lido_Faro",
+        "nothing1": 33,
+        "nothing2": " Katakolo",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.26,
+          45.41
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.26 45.41)",
+        "field_1": "SL_11",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Fusina",
+        "id": 34,
+        "name": " Fusina",
+        "nothing1": 27,
+        "nothing2": " Kerkyra, Corfu",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.39,
+          43.51
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (16.39 43.51)",
+        "field_1": "SL_41",
+        "institute_code": "PP9",
+        "institute": "IZOR",
+        "map_name": "IZOR -KaÅ¡telanski zaljev",
+        "id": null,
+        "name": "",
+        "nothing1": 18,
+        "nothing2": " Koper - kapitanija",
+        "parameters": [
+          "sea_surface_height",
+          "sea_surface_pressure",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.47,
+          45.5
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.47 45.5)",
+        "field_1": "SL_05",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Laguna Nord Saline",
+        "id": 2,
+        "name": " Laguna_nord_Saline",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.29,
+          45.34
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.29 45.34)",
+        "field_1": "SL_08",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Malamocco Porto",
+        "id": 6,
+        "name": " Malamocco_Porto",
+        "nothing1": 29,
+        "nothing2": " Le Castella",
+        "parameters": [
+          "sea_surface_height",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.47,
+          44.53
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (14.47 44.53)",
+        "field_1": "SL_34",
+        "institute_code": "PP9",
+        "institute": "HHI",
+        "map_name": "Mali LoÅ¡inj",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.72,
+          45.55
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (13.72 45.55)",
+        "field_1": "SL_18",
+        "institute_code": "PP4",
+        "institute": "Slovenian Environment Agency",
+        "map_name": "Mareograf Koper",
+        "id": null,
+        "name": "",
+        "nothing1": 15,
+        "nothing2": " Meda_Abate",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.34,
+          45.45
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.34 45.45)",
+        "field_1": "SL_06",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Misericorda",
+        "id": 14,
+        "name": " Venezia_Misericordia",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "wave_significant_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.55,
+          45.78
+        ]
+      },
+      "properties": {
+        "the_geom": "",
+        "field_1": "SL_46",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Monfalcone",
+        "id": null,
+        "name": "",
+        "nothing1": 11,
+        "nothing2": " Palazzo_Cavalli",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.41,
+          42.36
+        ]
+      },
+      "properties": {
+        "the_geom": "",
+        "field_1": "SL_51",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Ortona",
+        "id": null,
+        "name": "",
+        "nothing1": 31,
+        "nothing2": " Panormos",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.5,
+          40.15
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (18.5 40.15)",
+        "field_1": "SL_54",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Otranto",
+        "id": 26,
+        "name": " Otranto",
+        "nothing1": 7,
+        "nothing2": " Piattaforma_Acqua_Alta_Siap",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.45,
+          43.05
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (17.45 43.05)",
+        "field_1": "SL_38",
+        "institute_code": "PP9",
+        "institute": "HHI",
+        "map_name": "PloÄe",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.25,
+          44.68
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.25 44.68)",
+        "field_1": "SL_16",
+        "institute_code": "PP3",
+        "institute": "Arpae",
+        "map_name": "Porto Garibaldi",
+        "id": 4,
+        "name": " Punta_Salute_Canal_Grande",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.34,
+          45.43
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.34 45.43)",
+        "field_1": "SL_04",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Punta Salute Canal Grande",
+        "id": null,
+        "name": "",
+        "nothing1": 12,
+        "nothing2": " San_Giorgio_Isola",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.34,
+          45.43
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.34 45.43)",
+        "field_1": "SL_12",
+        "institute_code": "PP1",
+        "institute": "CoV",
+        "map_name": "Punta Salute Giudecca",
+        "id": 1,
+        "name": " Punta_Salute_Canale_Giudecca",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.28,
+          44.49
+        ]
+      },
+      "properties": {
+        "the_geom": "",
+        "field_1": "SL_48",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Ravenna",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.63,
+          45.08
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (13.63 45.08)",
+        "field_1": "SL_33",
+        "institute_code": "PP9",
+        "institute": "HHI",
+        "map_name": "Rovinj",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.89,
+          42.96
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (13.89 42.96)",
+        "field_1": "SL_50",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "San Benedetto del Tronto",
+        "id": 22,
+        "name": " S. Benedetto Del Tronto",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20,
+          39.87
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (20 39.87)",
+        "field_1": "SL_31",
+        "institute_code": "PP8",
+        "institute": "Institute of GeoSciences",
+        "map_name": "Sarande",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "wind_speed",
+          "wind_direction",
+          "air_temperature",
+          "relative_humidity",
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.59,
+          41.81
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (19.59 41.81)",
+        "field_1": "SL_32",
+        "institute_code": "PP8",
+        "institute": "Institute of GeoSciences",
+        "map_name": "Shengjin",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "wind_speed",
+          "wind_direction",
+          "air_temperature",
+          "relative_humidity",
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.6,
+          42.74
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (17.6 42.74)",
+        "field_1": "SL_44",
+        "institute_code": "PP9",
+        "institute": "IZOR",
+        "map_name": "Sobra; Mljet",
+        "id": 25,
+        "name": " Sobra",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.43,
+          43.5
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (16.43 43.5)",
+        "field_1": "SL_36",
+        "institute_code": "PP9",
+        "institute": "HHI",
+        "map_name": "Split",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.6,
+          43.18
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (16.6 43.18)",
+        "field_1": "SL_43",
+        "institute_code": "PP9",
+        "institute": "IZOR",
+        "map_name": "Starigrad; Hvar",
+        "id": 23,
+        "name": " Stari Grad",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_surface_pressure",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.76,
+          45.65
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (13.76 45.65)",
+        "field_1": "SL_45",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Trieste",
+        "id": 19,
+        "name": " Trieste",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.76,
+          45.25
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.78 45.25)",
+        "field_1": "SL_14",
+        "institute_code": "PP2",
+        "institute": "ISMAR",
+        "map_name": "VE-ABT",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_surface_pressure",
+          "air_temperature",
+          "relative_humidity",
+          "sea_water_temperature"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.51,
+          45.31
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.51 45.31)",
+        "field_1": "SL_13",
+        "institute_code": "PP2",
+        "institute": "ISMAR",
+        "map_name": "VE-PTF",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "wind_direction",
+          "wind_speed",
+          "wave_significant_height",
+          "sea_surface_pressure",
+          "air_temperature",
+          "sea_water_temperature",
+          "relative_humidity",
+          "precipitation"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.71,
+          42.96
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (16.71 42.96)",
+        "field_1": "SL_42",
+        "institute_code": "PP9",
+        "institute": "IZOR",
+        "map_name": "Vela Luka; KorÄula",
+        "id": 24,
+        "name": " Vela Luka",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_surface_pressure",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.43,
+          45.42
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.43 45.42)",
+        "field_1": "SL_47",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Venezia",
+        "id": 20,
+        "name": " Venice",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.18,
+          41.89
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (16.18 41.89)",
+        "field_1": "SL_52",
+        "institute_code": "ISPRA",
+        "institute": "ISPRA",
+        "map_name": "Vieste",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height",
+          "sea_water_temperature",
+          "air_temperature",
+          "wind_speed",
+          "wind_direction"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.2,
+          43.07
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (16.2 43.07)",
+        "field_1": "SL_37",
+        "institute_code": "PP9",
+        "institute": "HHI",
+        "map_name": "Vis",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.48,
+          40.45
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (19.48 40.45)",
+        "field_1": "SL_30",
+        "institute_code": "PP8",
+        "institute": "Institute of GeoSciences",
+        "map_name": "Vlore",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "wind_speed",
+          "wind_direction",
+          "air_temperature",
+          "relative_humidity",
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.39,
+          40.51
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (19.39 40.51)",
+        "field_1": "SL_28",
+        "institute_code": "PP8",
+        "institute": "Institute of GeoSciences",
+        "map_name": "Vlore Triport",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "wind_speed",
+          "wind_direction",
+          "air_temperature",
+          "relative_humidity",
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.27,
+          44.8
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (12.264789717521417 44.80471329369414)",
+        "field_1": "SL_58",
+        "institute_code": "PP3",
+        "institute": "Arpae",
+        "map_name": "Volano",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.27,
+          44.08
+        ]
+      },
+      "properties": {
+        "the_geom": "POINT (15.27 44.08)",
+        "field_1": "SL_35",
+        "institute_code": "PP9",
+        "institute": "HHI",
+        "map_name": "Zadar",
+        "id": null,
+        "name": "",
+        "nothing1": null,
+        "nothing2": "",
+        "parameters": [
+          "sea_surface_height"
+        ]
+      }
+    }
+  ]
+}

@@ -39,7 +39,6 @@ class LayerSeaLevel extends BaseControl {
     const map = this._context.map;
     const {layer, layerInfo, mean} = newProps;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
-    console.log(newProps.mean == this.props.mean)
     if (source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo) || newProps.mean !== this.props.mean) {
       let override = {
         source: {

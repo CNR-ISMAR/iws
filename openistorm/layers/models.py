@@ -31,3 +31,22 @@ class ImageLayer(models.Model):
         ordering = ['timestamp']
 
 
+
+
+# class StationData(models.Model):
+#     workspace_id = models.UUIDField(editable=False)
+#     geom_multipolygon = models.MultiPolygonField(editable=False)
+#     score = models.FloatField(editable=False)
+#
+#     class Meta:
+#         db_table = 'measurements_measure_view'
+#         managed = False
+#
+# class Station(models.Model):
+#     workspace_id = models.UUIDField(editable=False)
+#     geom_multipolygon = models.MultiPolygonField(editable=False)
+#     score = models.FloatField(editable=False)
+#
+#     class Meta:
+#         db_table = 'measurements_measure_view'
+#         managed = False
