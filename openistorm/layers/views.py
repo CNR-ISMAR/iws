@@ -128,3 +128,12 @@ class SeaLevelMixMax(views.APIView):
         wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM)
         return Response(wms.getnextSeaLevelMinMax())
         # return Response(wms.get_timeseries())
+
+# class Stations(views.APIView):
+#     permission_classes = (AllowAny,)
+#     def get(self, request):
+#         if self.request.query_params.get('stations', 'sea_level'):
+#             gj = json.load(file('openistorm/layers/sea_level.geojson', 'r'));
+#         else:
+#             gj = json.load(file('openistorm/layers/waves.geojson', 'r'));
+#         return Response(gj)

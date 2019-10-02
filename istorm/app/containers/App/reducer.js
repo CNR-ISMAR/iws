@@ -36,6 +36,8 @@ const waveUrl = proxyUrl + "/thredds/wms/tmes/TMES_waves_" + ncdate + ".nc";
 // const waveUrl = 'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190620.nc';
 const wmpMeanUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".nc";
 
+const BASE_URL = process.env.API_URL;
+
 export const initialState = {
   bbox: [[46.286224,25.708008], [35.960223,11.733398]],
   mean: true,
@@ -132,7 +134,8 @@ export const initialState = {
       type: 'circle',
       source: {
         type: 'geojson',
-        data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+        // data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+        data: `${BASE_URL}/openistorm/stations?type=waves`,
       },
       paint: {
         'circle-color': '#d10000',
@@ -140,8 +143,8 @@ export const initialState = {
         "circle-radius": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          8,
-          5
+          6,
+          6
         ]
       }
     },
@@ -153,7 +156,8 @@ export const initialState = {
       type: 'circle',
       source: {
         type: 'geojson',
-        data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+        // data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+        data: `${BASE_URL}/openistorm/stations?type=sea_level`,
       },
       paint: {
         'circle-color': '#fa0',
@@ -161,8 +165,8 @@ export const initialState = {
         "circle-radius": [
           "case",
           ["boolean", ["feature-state", "hover"], true],
-          8,
-          5
+          6,
+          6
         ]
       }
     }

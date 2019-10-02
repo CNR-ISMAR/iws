@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'openistorm/favorites/', include('openistorm.favorites.urls'), name='favorites'),
     url(r'openistorm/layers/', include('openistorm.layers.urls'), name='imagelayers'),
     url(r'openistorm/notifications/', include('openistorm.notifications.urls'), name='notifications'),
+    url(r'openistorm/stations/', include('openistorm.stations.urls'), name='stations'),
     url(r'openistorm/stormevents/', include('openistorm.stormeventsapi.urls'), name='stormeventsapi'),
 ]
 
