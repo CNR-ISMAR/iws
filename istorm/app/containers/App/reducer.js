@@ -188,6 +188,7 @@ export const initialState = {
     longitude: 12.33265,
     latitude: 45.43713
   }
+
 };
 
 
