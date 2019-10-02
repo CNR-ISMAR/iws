@@ -30,30 +30,7 @@ import SidebarSubNav from 'components/SidebarSubNav';
 function FavouritesPage(props) {
   console.info("Favourite Page");
   console.log(props.favourites)
-  /* const linkTo = (path) => {
-    if(isCurrentPage(path)) { 
-      props.history.push(`/favourites`) 
-    } else {
-      props.history.push(`/${path}`)
-    }
-  }  */
   
-/*   const isCurrentPage = (pagePath) => {
-    const check = pagePath === props.location.pathname ? true : false
-    //return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
-    return check
-  }; */
-
-  /* const _delete = (id) => {
-    props.dispatch(deleteFavourite(id))
-  }; */
-
-  /* useEffect(() => {
-    if(props.favourites.loading == false ){
-      props.dispatch(requestFavourites())
-    }
- 
-  }, []) */
 
   useEffect(() => {
     if(props.match.params.id && props.favourites.results.length > 0){

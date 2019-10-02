@@ -104,7 +104,7 @@ const styles = (theme, style) => {
         setState(prevState => !prevState);
     }; */
     return (
-        <div className={`${props.classes.subNav} ${props.mainClass}`}>
+        <div className={`${props.classes.subNav} ${props.mainClass ? props.mainClass : ''}`}>
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.title} icon={props.icon}  />
             { 
               props.content && props.content()

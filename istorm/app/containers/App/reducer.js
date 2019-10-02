@@ -191,6 +191,9 @@ export const initialState = {
   LatLon: {
     longitude: 12.33265,
     latitude: 45.43713
+  },
+  requestError: {
+    message: null
   }
 
 };
@@ -252,8 +255,8 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.source.data = action.result;
         break; 
       case REQUEST_ERROR:
-        draft.popups.loading = false;
-        draft.popups.error = action.error;
+        /* draft.popups.loading = false; */
+        draft.requestError.message = action.error;
       break;
       case CLOSE_INFO_LAYER:
         draft.popups.results = [];
