@@ -8,10 +8,9 @@ import bar_level from  '../../images/bar_level.png'
 const styles = (theme) => {
     return {
         overlayLayersLegendGraphic:{
-            position: "absolute",
-            top: "60vh",
-            width: 240,
-            right: theme.spacing(2),
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: 30,
             maxWidth: 'none',
             padding: 12,
             height: 40,
@@ -22,18 +21,13 @@ const styles = (theme) => {
                 height: '100%'
             },
             "& div[class*='MuiBox']": {
-                height: 20
+                height: 20,
+                marginTop: 10
             }
             },
             graphic:{
             height: 20,
             right: 9,
-            "& img":{
-                transformOrigin: "top",
-                transform: "rotateZ(90deg) translateY(-200px)"
-                // transform: "rotateZ(270deg) translateY(0px)"
-            },
-        
         },
     }
   };
@@ -47,13 +41,10 @@ const styles = (theme) => {
         return (
             <>
                <div item className={this.props.classes.overlayLayersLegendGraphic}>
-                    <div item className={this.props.classes.graphic}>
-                        {/*<img src="https://iws.ismar.cnr.it/thredds/wms/tmes/history/TMES_waves_20190925.nc?REQUEST=GetLegendGraphic&COLORBARONLY=true&WIDTH=10&HEIGHT=200&PALETTE=rainbow&NUMCOLORBANDS=20" />*/}
-                        <img src="https://iws.ismar.cnr.it/thredds/wms/tmes/history/TMES_waves_20190925.nc?REQUEST=GetLegendGraphic&COLORBARONLY=true&WIDTH=10&HEIGHT=200&PALETTE=sst_36&NUMCOLORBANDS=20" />
-                    </div>
+                    <img src={ this.props.type.includes('Sea') ? bar_level : bar_wave } />
                     <Box display="flex" justifyContent="space-between" alignItems="center">
-                        <Typography m={0}>-80</Typography>
-                        <Typography m={0}>+80</Typography>
+                        <Typography m={0}>{ this.props.type.includes('Sea') ? '-80' : '-1' }</Typography>
+                        <Typography m={0}>{ this.props.type.includes('Sea') ? '+80' : '+8' }</Typography>
                     </Box>
                 </div>
             </> 

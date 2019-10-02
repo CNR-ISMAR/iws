@@ -49,7 +49,6 @@ const AntSwitch = withStyles(theme => ({
     width: 28,
     height: 16,
     padding: 0,
-    //display: 'flex',
   },
   switchBase: {
     padding: 2,
@@ -83,12 +82,15 @@ const styles = (theme) => {
     mapControl: {
       position: "absolute",
       zIndex: 10,
-      flexGrow: 1,
-      right: 0,
+      right: 30,
       width: 157,
-      padding: 0,
+      padding: "25px 0",
       margin: 0,
-      //marginLeft: -240
+      display: "flex",
+      justifyContent: "space-between",
+      height: "calc(100vh - 128px)",
+      alignItems: "flex-end",
+      flexDirection: "column",
     },
     overlayMap: {
       backgroundColor: theme.palette.custom.mapOverlayBackground
@@ -102,23 +104,15 @@ const styles = (theme) => {
     },
     overlayZoom: {
       backgroundColor: theme.palette.custom.mapOverlayBackground,
-      position: "absolute",
-      top: theme.spacing(2),
-      right: theme.spacing(2),
+      marginBottom: 30,
+      width: 50,
     },
     overlayLayersMap: {
-      position: "absolute",
-      top: 110,
-      right: theme.spacing(2),
       padding: 0,
       maxWidth: 140,
       backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayLayersLatLon:{
-      position: "absolute",
-      top: "70vh",
-      width: 220,
-      right: theme.spacing(2),
       maxWidth: 'none',
       padding: 12,
       height: 40,
@@ -141,28 +135,13 @@ const styles = (theme) => {
       right: 0,
       left: 0,
       padding: 0,
-      //height: 150,
       width: "100%",
       maxWidth: "100%",
-      //overflowX: "scroll",
-      //marginBottom: -15,
-      //overflow: "hidden",
       backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayMapTimelineScroll: {
       width: "100%",
       overflowX: "scroll",
-      //overflowY: "hidden",
-      //transform: "rotate(-90deg) translateY(-80px)",
-      //transformOrigin: "right top",
-      //paddingBottom: 28,
-      //position: "absolute",
-      //height: 150,
-      //bottom: 0,
-      //right: 0,
-      //left: 0,
-      //padding: 0,
-      //backgroundColor: theme.palette.custom.mapOverlayBackground
     },
     overlayLayerMapList: {
       padding: 0
@@ -223,58 +202,66 @@ function MapPage(props) {
           favourites={props.mapPage.favourites}
           />
         <div className={props.classes.mapControl}>
-          <div item className={props.classes.overlayZoom}>
-            <List className={props.classes.overlayZoomList}>
-              <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
-                <Add />
-              </ListItem>
-              <ListItem button onClick={(e) => props.dispatch(zoomOut())} key={"zoom-out"} className={props.classes.overlayZoomItem}>
-                <Remove />
-              </ListItem>
-            </List>
-          </div>
-          <div item className={props.classes.overlayLayersMap}>
-            <div className={props.classes.overlayLayerMapHeader}></div>
-            <List className={props.classes.overlayLayerMapList}>
-                <ListItem button selected={props.mapPage.WindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-sea-level"}>
-                  <ListItemText primary={props.mapPage.WindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
-                    <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
+          <Box display="flex" alignItems="flex-end" flexDirection="column">
+            <div item className={props.classes.overlayZoom}>
+              <List className={props.classes.overlayZoomList}>
+                <ListItem button onClick={(e) => props.dispatch(zoomIn())} key={"zoom-in"} className={props.classes.overlayZoomItem}>
+                  <Add />
                 </ListItem>
-                <ListItem button selected={props.mapPage.seaLevel.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
-                  <ListItemText primary={props.mapPage.seaLevel.name} className={props.classes.overlayLayerMapListText} />
-                  <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
+                <ListItem button onClick={(e) => props.dispatch(zoomOut())} key={"zoom-out"} className={props.classes.overlayZoomItem}>
+                  <Remove />
                 </ListItem>
-            </List>
-            <Typography component="div" align="center" variant="caption">
-              <Grid component="label" container spacing={1}>
-                <Grid item>STD</Grid>
-                <Grid item>
-                  <Switch
-                    size="small"
-                    checked={props.mapPage.mean}
-                    onChange={() => props.dispatch(toggleLayerMean())}
-                    style={{display: "flex"}}
-                    value="mean"
-                  />
+              </List>
+            </div>
+            <div item className={props.classes.overlayLayersMap}>
+              <div className={props.classes.overlayLayerMapHeader}></div>
+              <List className={props.classes.overlayLayerMapList}>
+                  <ListItem button selected={props.mapPage.WindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-sea-level"}>
+                    <ListItemText primary={props.mapPage.WindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
+                      <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
+                  </ListItem>
+                  <ListItem button selected={props.mapPage.seaLevel.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
+                    <ListItemText primary={props.mapPage.seaLevel.name} className={props.classes.overlayLayerMapListText} />
+                    <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
+                  </ListItem>
+              </List>
+              <Typography component="div" align="center" variant="caption">
+                <Grid component="label" container spacing={1}>
+                  <Grid item>STD</Grid>
+                  <Grid item>
+                    <Switch
+                      size="small"
+                      checked={props.mapPage.mean}
+                      onChange={() => props.dispatch(toggleLayerMean())}
+                      style={{display: "flex"}}
+                      value="mean"
+                    />
+                  </Grid>
+                  <Grid item>MEAN</Grid>
                 </Grid>
-                <Grid item>MEAN</Grid>
-              </Grid>
-            </Typography>
+              </Typography>
+            </div>
+            </Box>
+            <Box>
+              { props.mapPage.seaLevel.isVisible && 
+                <Legend type="Sea Level" /> || 
+                <Legend type="Wind GL Layer" /> }
+              <div item className={props.classes.overlayLayersLatLon}>
+                <Grid component="label" container spacing={1}>
+                  <Grid item>Lat</Grid>
+                  <Grid item m-r={2}>{props.mapPage.LatLon.latitude.toFixed(4)}</Grid>
+                  <Grid item>Lon</Grid>
+                  <Grid item>{props.mapPage.LatLon.longitude.toFixed(4)}</Grid>
+                </Grid>
+              </div>
+            </Box>
           </div>
-          { props.mapPage.seaLevel.isVisible && <Legend type="Sea Level" /> /* || <Legend type="Wind GL Layer" /> */ }
-          <div item className={props.classes.overlayLayersLatLon}>
-            <Grid component="label" container spacing={1}>
-              <Grid item>Lat</Grid>
-              <Grid item m-r={2}>{props.mapPage.LatLon.latitude.toFixed(4)}</Grid>
-              <Grid item>Lon</Grid>
-              <Grid item>{props.mapPage.LatLon.longitude.toFixed(4)}</Grid>
-            </Grid>
-          </div>
-        </div>
+      
         {(props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
           <div className={props.classes.overlayMapTimelineScroll}>
             <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
           </div>
+          
         </div>)}
       </>
       ) : null;
