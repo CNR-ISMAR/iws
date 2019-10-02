@@ -77,6 +77,14 @@ div[class *='color-legend']{
     background: transparent;
 }
 
+.rv-discrete-color-legend-item.disabled .rv-discrete-color-legend-item__color__path {
+    stroke: #698397
+}
+
+.rv-discrete-color-legend-item.disabled .rv-discrete-color-legend-item__title {
+    opacity: 0.7;
+}
+
 
 
 .rv-discrete-color-legend .rv-discrete-color-legend-item{
@@ -105,8 +113,8 @@ div[class *='color-legend'] {
 }
 
 .rv-crosshair__line {
-    background: white;
-    width: 2px;
+    background: white!important;
+    width: 2px!important;
 }
 
 .rv-crosshair {
