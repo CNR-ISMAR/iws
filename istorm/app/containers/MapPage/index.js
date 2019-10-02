@@ -161,14 +161,14 @@ function MapPage(props) {
 
   useEffect(() => {
     props.dispatch(requestTimeline())
-    if(props.isLogged){
-      props.dispatch(requestFavouritesLayer())
-    }
   }, [])
 
   useEffect(() => {
-    if(props.isLogged && props.favourites.results.length == 0){
+    if(props.isLogged && props.mapPage.favourites.results.length == 0){
       props.dispatch(requestFavourites());
+    }
+    if(props.isLogged){
+      props.dispatch(requestFavouritesLayer())
     } 
   }, [props.isLogged]);
 
@@ -188,7 +188,7 @@ function MapPage(props) {
           popups={props.mapPage.popups}
           isLogged={props.isLogged}
           favoritesLayer={props.mapPage.layers.favorites}
-          favourites={props.favourites}
+          favourites={props.mapPage.favourites}
           />
         <div className={props.classes.mapControl}>
           <Box display="flex" alignItems="flex-end" flexDirection="column">
@@ -256,7 +256,7 @@ const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
   //wmsVisible: makeSelectVisibleWmsLayer(),
   timeline: makeSelectHistoryPage(),
-  favourites: makeSelectFavourites(),
+  
 });
 
 function mapDispatchToProps(dispatch) {
