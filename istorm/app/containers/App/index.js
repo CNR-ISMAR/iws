@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import { withStyles } from '@material-ui/core/styles';
+
 import { syncPersistanceRequest, isSync } from "../../persistence";
 
 import Header from 'containers/Header';
@@ -30,6 +32,7 @@ import SettingsPage from '../Settings/Loadable';
 import InfoPage from '../Info/Loadable';
 import FavouritesPage from '../Favourites/Loadable';
 import StationChart from '../StationChart/Loadable';
+import Timeline from 'components/Timeline';
 
 import NotificationSnake from "../NotificationSnake";
 
@@ -41,7 +44,10 @@ import NotificationSnake from "../NotificationSnake";
 
 import { SnackbarProvider } from 'notistack';
 
-import {requestNotification} from '../AuthProvider/actions' 
+import {requestNotification} from '../AuthProvider/actions'
+
+import makeSelectHistoryPage from '../History/selectors';
+import { setCurrentDate, togglePlay } from '../History/actions';
 
 import GlobalStyle from '../../global-styles';
 
@@ -56,8 +62,6 @@ function App(props) {
   console.info("app");
   console.info(props);
 
-  
-  
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());
   }, []);
@@ -94,7 +98,7 @@ function App(props) {
               <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
               { props.isLogged && 
                 <Route path={"/favourites/:id?"} 
-                      component={ ({match, history, location}) => <FavouritesPage auth={props.auth} match={match} history={history} location={location}/> } />  
+                      component={ ({match, history, location}) => <FavouritesPage auth={props.auth}  match={match} history={history} location={location}/> } />  
               }
               <Route exact path={"/station/"} 
                       component={({match, history}) => <StationChart timeline={props.timeline} auth={props.auth} history={history} />} />
@@ -103,7 +107,6 @@ function App(props) {
               <Route component={NotFoundPage} />
             </Switch>
           </main>
-        
       </div>
       <GlobalStyle />
     </ThemeProvider>
@@ -117,7 +120,7 @@ App.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   // notifications: makeSelectNotifications(),
-  //mapPage: makeSelectMapPage(),
+  timeline: makeSelectHistoryPage(),
   //wmsVisible: makeSelectVisibleWmsLayer()
 });
 

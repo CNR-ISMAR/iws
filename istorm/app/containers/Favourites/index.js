@@ -18,26 +18,18 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
-
-import { useInjectReducer } from 'utils/injectReducer';
-import { useInjectSaga } from 'utils/injectSaga';
 /* import { toggleDrawerMini, toggleDrawer } from './actions'; */
-import makeSelectMapPage from 'containers/MapPage/selectors';
-import reducer from './reducer';
-import saga from './saga';
-import HeaderBar from "../../components/HeaderBar";
+import makeSelectMapPage, {makeSelectFavourites} from 'containers/App/selectors';
 import { FavoriteIcon, ListIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { deleteFavourite } from "containers/App/actions";
 import { setViewport } from '../App/actions';
 import SidebarSubNav from 'components/SidebarSubNav';
-import continuousColorLegend from 'react-vis/dist/legends/continuous-color-legend';
 
 function FavouritesPage(props) {
   console.info("Favourite Page");
-  
-
+  console.log(props.favourites)
   /* const linkTo = (path) => {
     if(isCurrentPage(path)) { 
       props.history.push(`/favourites`) 
@@ -64,8 +56,8 @@ function FavouritesPage(props) {
   }, []) */
 
   useEffect(() => {
-    if(props.match.params.id && props.mapPage.favourites.results.length > 0){
-      const FavouritesResults = props.mapPage.favourites.results;
+    if(props.match.params.id && props.favourites.results.length > 0){
+      const FavouritesResults = props.favourites.results;
       if(FavouritesResults.some(result => result.id == props.match.params.id )){
         const selectedFav = FavouritesResults.filter(function(result) {
           return result.id == props.match.params.id;
@@ -75,7 +67,7 @@ function FavouritesPage(props) {
       }else{
         props.history.push(`/favourites`) 
       }
-    }
+    }  
   })
 
   return (
@@ -86,7 +78,7 @@ function FavouritesPage(props) {
         deleteFunc={(id) => props.dispatch(deleteFavourite(id))}
         title="Favourites List" 
         icon={ListIcon} 
-        listItems={props.mapPage.favourites.results}
+        listItems={props.favourites.results}
         />
     </>
   );
@@ -94,8 +86,9 @@ function FavouritesPage(props) {
  
 
 const mapStateToProps = createStructuredSelector({
-  mapPage: makeSelectMapPage(),
-})
+  favourites: makeSelectFavourites(),
+  
+}) 
 
 const mapDispatchToProps = (dispatch) => {
   return {

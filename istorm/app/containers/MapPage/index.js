@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleWindGLLayer } from '../App/selectors';
+import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleWindGLLayer,makeSelectFavourites } from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
 import { setCurrentDate, togglePlay } from '../History/actions';
 import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean, requestFavouritesLayer, requestFavourites } from '../App/actions';
@@ -21,6 +21,7 @@ import messages from './messages';
 import Map from '../../components/Map';
 import Timeline from '../../components/Timeline';
 import Legend from 'components/Legend';
+import LatLng from 'components/LatLng';
 //import TileLayers from '../../components/Map/TileLayer';
 //import WmsLayers from '../../components/Map/WmsLayers';
 
@@ -84,11 +85,11 @@ const styles = (theme) => {
       zIndex: 10,
       right: 30,
       width: 157,
-      padding: "25px 0",
+      padding: "25px 0 10px 0",
       margin: 0,
       display: "flex",
       justifyContent: "space-between",
-      height: "calc(100vh - 128px)",
+      height: "calc(100vh - 130px)",
       alignItems: "flex-end",
       flexDirection: "column",
     },
@@ -111,18 +112,6 @@ const styles = (theme) => {
       padding: 0,
       maxWidth: 140,
       backgroundColor: theme.palette.custom.mapOverlayBackground
-    },
-    overlayLayersLatLon:{
-      maxWidth: 'none',
-      padding: 12,
-      height: 40,
-      backgroundColor: theme.palette.custom.mapOverlayBackground,
-      "& .MuiGrid-item":{
-        fontSize: "0.75rem"
-      },
-      "& .MuiGrid-container": {
-        justifyContent: "flex-end"
-      }
     },
     overlayLayerMapHeader: {
       width: "100%",
@@ -178,7 +167,7 @@ function MapPage(props) {
   }, [])
 
   useEffect(() => {
-    if(props.isLogged && props.mapPage.favourites.results.length == 0){
+    if(props.isLogged && props.favourites.results.length == 0){
       props.dispatch(requestFavourites());
     } 
   }, [props.isLogged]);
@@ -199,7 +188,7 @@ function MapPage(props) {
           popups={props.mapPage.popups}
           isLogged={props.isLogged}
           favoritesLayer={props.mapPage.layers.favorites}
-          favourites={props.mapPage.favourites}
+          favourites={props.favourites}
           />
         <div className={props.classes.mapControl}>
           <Box display="flex" alignItems="flex-end" flexDirection="column">
@@ -243,26 +232,17 @@ function MapPage(props) {
             </div>
             </Box>
             <Box>
+              <LatLng />
               { props.mapPage.seaLevel.isVisible && 
                 <Legend type="Sea Level" /> || 
                 <Legend type="Wind GL Layer" /> }
-              <div item className={props.classes.overlayLayersLatLon}>
-                <Grid component="label" container spacing={1}>
-                  <Grid item>Lat</Grid>
-                  <Grid item m-r={2}>{props.mapPage.LatLon.latitude.toFixed(4)}</Grid>
-                  <Grid item>Lon</Grid>
-                  <Grid item>{props.mapPage.LatLon.longitude.toFixed(4)}</Grid>
-                </Grid>
-              </div>
             </Box>
           </div>
-      
-        {(props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
-          <div className={props.classes.overlayMapTimelineScroll}>
-            <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
-          </div>
-          
-        </div>)}
+          { (props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
+              <div className={props.classes.overlayMapTimelineScroll}>
+                <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
+              </div>
+              </div>) } 
       </>
       ) : null;
 }
@@ -275,7 +255,8 @@ MapPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
   //wmsVisible: makeSelectVisibleWmsLayer(),
-  timeline: makeSelectHistoryPage()
+  timeline: makeSelectHistoryPage(),
+  favourites: makeSelectFavourites(),
 });
 
 function mapDispatchToProps(dispatch) {

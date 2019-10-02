@@ -191,7 +191,6 @@ export const initialState = {
 };
 
 
-
 /* eslint-disable default-case, no-param-reassign */
 const mapPageReducer = (state = initialState, action) =>
   produce(state, draft => {
@@ -199,19 +198,19 @@ const mapPageReducer = (state = initialState, action) =>
       case TOGGLE_PAPER:
         draft.popups.open = action.open;
         break;
+      case TOGGLE_LAYER_VISIBILITY:
+          if(action.layer === "wmpMean") {
+            draft.WindGLLayer.isVisible = true;
+            draft.seaLevel.isVisible = false;
+          } else if(action.layer === "seaLevel") {
+            draft.seaLevel.isVisible = true;
+            draft.WindGLLayer.isVisible = false;
+          } else {
+            draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
+          }
+        break;
       case TOGGLE_LAYER_MEAN:
         draft.mean = !draft.mean;
-        break;
-      case TOGGLE_LAYER_VISIBILITY:
-        if(action.layer === "wmpMean") {
-          draft.WindGLLayer.isVisible = true;
-          draft.seaLevel.isVisible = false;
-        } else if(action.layer === "seaLevel") {
-          draft.seaLevel.isVisible = true;
-          draft.WindGLLayer.isVisible = false;
-        } else {
-          draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
-        }
         break;
       case ZOOM_IN:
         draft.viewport.zoom = draft.viewport.zoom + .5;
@@ -237,8 +236,6 @@ const mapPageReducer = (state = initialState, action) =>
           }), {})
         draft.popups.results = [{...action.result, show: true, results: results}];
       break;
-
-
       case REQUEST_FAVOURITES_LAYER:
           draft.layers.favorites.loading = true;
           draft.layers.favorites.error = initialState.layers.favorites.error;
@@ -249,9 +246,48 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.error = initialState.layers.favorites.error;
           draft.layers.favorites.source.data = action.result;
         break; 
+      case REQUEST_ERROR:
+        draft.popups.loading = false;
+        draft.popups.error = action.error;
+      break;
+      case CLOSE_INFO_LAYER:
+        draft.popups.results = [];
+      break;
+    }
+  });
 
-      
-      case POST_FAVOURITE:
+const latLngReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case SET_LAT_LON:
+        draft.LatLon.latitude = action.latitude;
+        draft.LatLon.longitude = action.longitude;
+      break;
+  }
+})
+
+const favouriteReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case REQUEST_FAVOURITES:
+        draft.favourites.loading = true;
+        draft.favourites.error = initialState.favourites.error;
+        draft.favourites.results = []
+      break;
+      case REQUEST_FAVOURITES_SUCCESS:
+          draft.favourites.loading = false;
+          draft.favourites.error = initialState.favourites.error;
+          draft.favourites.results = action.result;
+        break;
+      case DELETE_FAVOURITE:
+          draft.favourites.loading = true;
+          draft.favourites.error = initialState.favourites.error;
+        break;
+        case FILL_IF_IS_FAVOURITE:
+          draft.favourites.selected = action.item
+          /*  draft.results = [] */
+        break;
+        case POST_FAVOURITE:
           draft.favourites.loading = true;
           draft.favourites.error = initialState.favourites.error;
           /* draft.popups.postfavourites.results = [] */
@@ -269,44 +305,12 @@ const mapPageReducer = (state = initialState, action) =>
           draft.loading = false;
           draft.popups.postfavourites.results = []
         break;
-      case FILL_IF_IS_FAVOURITE:
-          draft.favourites.selected = action.item
-          /*  draft.results = [] */
-        break;  
-
-
-      case REQUEST_FAVOURITES:
-        draft.favourites.loading = true;
-        draft.favourites.error = initialState.favourites.error;
-        draft.favourites.results = []
-      break;
-      case REQUEST_FAVOURITES_SUCCESS:
-          draft.favourites.loading = false;
-          draft.favourites.error = initialState.favourites.error;
-          draft.favourites.results = action.result;
-        break;
-      case DELETE_FAVOURITE:
-          draft.favourites.loading = true;
-          draft.favourites.error = initialState.favourites.error;
-          /*  draft.results = [] */
-        break;
-      
-      case REQUEST_ERROR:
-        draft.popups.loading = false;
-        draft.popups.error = action.error;
-      break;
       case CLOSE_INFO_LAYER:
-        draft.popups.results = [];
         draft.favourites.selected = {};
       break;
-
-      case SET_LAT_LON:
-        draft.LatLon.latitude = action.latitude;
-        draft.LatLon.longitude = action.longitude;
-      break;
     }
-  });
-
+  })
 
 export default mapPageReducer;
+export { favouriteReducer, latLngReducer }
 

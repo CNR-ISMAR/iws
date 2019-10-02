@@ -10,10 +10,10 @@ const styles = (theme) => {
         overlayLayersLegendGraphic:{
             display: "flex",
             flexDirection: "column",
-            marginBottom: 30,
             maxWidth: 'none',
             padding: 12,
             height: 40,
+            marginTop: 20,
             backgroundColor: theme.palette.custom.mapOverlayBackground,
             "& p":{
                 fontSize: "0.75rem",

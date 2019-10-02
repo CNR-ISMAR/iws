@@ -9,6 +9,9 @@ const selectMapPageDomain = state => state.mapPage || initialState;
 
 const selectRouter = state => state.router;
 
+const selectFavourites = state => state.favourites || initialState;
+const selectLatLng = state => state.latLng || initialState;
+
 /**
  * Other specific selectors
  */
@@ -16,6 +19,18 @@ const makeSelectLocation = () =>
   createSelector(
     selectRouter,
     routerState => routerState.location,
+  );
+
+const makeSelectLatLng = () =>
+  createSelector(
+    selectLatLng,
+    substate =>  substate.LatLon
+  );
+
+const makeSelectFavourites = () =>
+  createSelector(
+    selectFavourites,
+    substate =>  substate.favourites
   );
 
 /**
@@ -44,4 +59,4 @@ const makeSelectLayers = () =>
 
 
 export default makeSelectMapPage;
-export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers };
+export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers,makeSelectFavourites, makeSelectLatLng, selectFavourites};
