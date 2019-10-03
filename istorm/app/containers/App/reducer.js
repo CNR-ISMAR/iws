@@ -12,13 +12,14 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
   FILL_IF_IS_FAVOURITE,
-  DELETE_FAVOURITE_SUCCESS, SET_LAT_LON  } from './constants';
+  DELETE_FAVOURITE_SUCCESS, SET_LAT_LON, TOGGLE_SIDEPANEL  } from './constants';
 
 import theme from 'theme'
 import { elementType } from 'prop-types';
 import labels from "../../utils/labels";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 import React from "react";
+import ReactMapGL from "react-map-gl/dist/es6/components/interactive-map";
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -39,12 +40,20 @@ const wmpMeanUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".n
 const BASE_URL = process.env.API_URL;
 
 export const initialState = {
-  bbox: [[46.286224,25.708008], [35.960223,11.733398]],
+  bbox: [[49.2,24.29], [36.02,5.48]],
   mean: true,
+  options: {
+    minPitch: 0,
+    maxPitch: 0,
+    dragRotate: false,
+    touchRotate: false,
+  },
   viewport: {
     longitude: 12.33265,
     latitude: 45.43713, 
     zoom: 5,
+    minZoom: 5,
+    maxZoom: 16,
     // bearing: 3,
     // pitch: 0
   },
@@ -57,15 +66,34 @@ export const initialState = {
         // tiles: ["http://ows.emodnet-bathymetry.eu/wms?layers=emodnet:mean_atlas_land,coastlines&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256"],
         tileSize: 256,
         attribution: 'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
-      }
+      },
+
+    cover: {
+      type: 'raster',
+        tiles: [
+          // 'https://www.informare-er.it/istorms/base/{z}/{x}/{y}.png'
+          // proxyUrl + '/istorms/base/{z}/{x}/{y}.png'
+          proxyUrl + '/istorms/istorms/base/{z}/{x}/{y}.png'
+        ],
+        tileSize: 256,
+      },
     },
-    layers: [{
-      id: "backgroundLayer",
-      type: "raster",
-      source: "backgroundLayer",
-      minzoom: 0,
-      maxzoom: 22
-    }]
+    layers: [
+      {
+        id: "backgroundLayer",
+        type: "raster",
+        source: "backgroundLayer",
+        minzoom: 0,
+        maxzoom: 22
+      },
+      {
+        id: "cover",
+        type: "raster",
+        source: "cover",
+        minzoom: 0,
+        maxzoom: 22
+      }
+    ]
   },
   WindGLLayer: {
     name: "Wave",
@@ -194,8 +222,9 @@ export const initialState = {
   },
   requestError: {
     message: null
-  }
-
+  },
+  
+  
 };
 
 
@@ -303,6 +332,8 @@ const mapPageReducer = (state = initialState, action) =>
       break;
     }
   });
+
+
 
 const latLngReducer = (state = initialState, action) =>
   produce(state, draft => {

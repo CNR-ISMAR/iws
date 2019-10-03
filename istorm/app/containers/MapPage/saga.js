@@ -3,7 +3,7 @@ import { REQUEST_INFO_LAYER, POST_FAVOURITE, DELETE_FAVOURITE, REQUEST_FAVOURITE
 import { requestInfoLayerSuccess, requestError , postFavouriteSuccess, deleteFavouriteSuccess, requestFavouritesLayerSuccess, togglePaper, postFavouriteEmpty  } from 'containers/App/actions';
 import { popups, postFavourite, deleteFavourite, geoJsonFavourites } from 'utils/api';
 
-import {enqueueSuccess} from "containers/NotificationSnake/actions";
+import {enqueueSuccess,enqueueRemove} from "containers/NotificationSnake/actions";
 
 import { requestFavouritesSuccess, /* postFavouriteSuccess */ } from 'containers/App/actions';
 import { favourites } from 'utils/api';
@@ -84,6 +84,7 @@ export function* deleteFavouriteSaga(action) {
     const request = yield call(deleteFavourite, action.id);
     yield put(postFavouriteEmpty())
     // yield put(deleteFavouritesSuccess(request));
+    yield put(enqueueRemove("Favourite removed"));
     yield call(FavouritesSaga);
     yield call(requestFavouritesLayerSaga)
   } catch(e) {

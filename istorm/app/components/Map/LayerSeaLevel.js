@@ -26,13 +26,14 @@ class LayerSeaLevel extends BaseControl {
   }
 
   getLayerBefore(map) {
-    if(map.getLayer('favorites'))
-      return 'favorites';
-    if(map.getLayer('stations-sea-level'))
-      return 'stations-sea-level';
-    if(map.getLayer('stations-wave'))
-      return 'stations-wave';
-    return null
+    return 'cover';
+    // if(map.getLayer('favorites'))
+    //   return 'favorites';
+    // if(map.getLayer('stations-sea-level'))
+    //   return 'stations-sea-level';
+    // if(map.getLayer('stations-wave'))
+    //   return 'stations-wave';
+    // return null
   }
 
   componentWillReceiveProps(newProps) {

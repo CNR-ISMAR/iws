@@ -4,6 +4,9 @@ const GlobalStyle = createGlobalStyle`
 html, body, #app {
   height: 100%;
 }
+body{
+  overflow-x: hidden
+}
 .leaflet-container {
   height: 400px;
   width: 80%;

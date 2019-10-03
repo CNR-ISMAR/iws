@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import HeaderBar from "components/HeaderBar";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { inherits } from 'util';
-import clsx from "clsx";
+
+
 
 
 const styles = (theme, style) => {
@@ -17,22 +18,29 @@ const styles = (theme, style) => {
     console.info(theme, style);
     return {
       subNav: {
-        position: "relative", 
-        height: "auto",
+        position: "absolute", 
+        height: "100%",
         zIndex: 1000, 
         width: 250,
         maxWidth: 300,
         overflowY: "auto",
         //flex: 1,
         backgroundColor: theme.palette.custom.panelLightBk,
-        transform: 'translateX(-260px)', 
         transition: theme.transitions.create('transform', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
-      open: {
-        transform: 'translateX(0)'
+          duration: theme.transitions.duration.enteringScreen
+        }), 
+        '&.slidein-enter':{
+          transform: 'translateX(-260px)'
+        },
+        '&.slidein-enter-active':{
+          transform: 'translateX(0)'
+        },
+        '&.slidein-enter-exit':{
+          transform: 'translateX(0)'
+        },
+        '&.slidein-exit-active':{
+          transform: 'translateX(-260px)'
+        }
       },
       headerTopClose: {
         minWidth: "auto",
@@ -100,21 +108,16 @@ const styles = (theme, style) => {
   
 
   function SidebarSubNav(props){
+    console.log('SidebarSubNav')
+    console.log(props)
     
     const isCurrentPage = (pagePath) => {
         const check = pagePath === props.location.pathname ? true : false
         //return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
         return check
     };
-
-
-    /* const toggleDrawer = () => {
-        
-        setState(prevState => !prevState);
-    }; */
     return (
-      <div className={  clsx(props.classes.subNav, props.mainClass ? props.mainClass : '', {
-                          [props.classes.open]: props.open}) }>
+      <div className={ `${props.classes.subNav} ${props.mainClass ? props.mainClass : ''}` }>
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.title} icon={props.icon}  />
             { 
               props.content && props.content()
@@ -139,10 +142,9 @@ const styles = (theme, style) => {
                   }
               </List>
             }
-        </div>
-        
+        </div> 
     );
   }
 
 
-  export default (withStyles(styles, {withTheme: true})(SidebarSubNav));
+export default (withStyles(styles, {withTheme: true})(SidebarSubNav));

@@ -48,6 +48,25 @@ app.use('/thredds', proxy(proxyHost, {
   }
 }));
 
+app.use('/istorms', proxy('https://www.informare-er.it/istorms/base', {
+  proxyReqOptDecorator(opts) {
+    if ('origin' in opts.headers)
+      delete opts.headers['origin'];
+    if ('Referer' in opts.headers)
+      delete opts.headers['Referer'];
+    if ('referer' in opts.headers)
+      delete opts.headers['referer'];
+    if ('x-powered-by' in opts.headers)
+      delete opts.headers['x-powered-by'];
+    // console.log(opts)
+    return opts;
+  },
+  proxyReqPathResolver: function (req) {
+    // console.log(req.url)
+    return req.url //.replace('/istorms', '/istorms/base');
+  }
+}));
+
 /*
 name: wawes / sea_level_avg sea_level_std
 timestamp: timestamp hourly
