@@ -27,7 +27,6 @@ const styles = (theme, style) => {
         //flex: 1,
         backgroundColor: theme.palette.custom.panelLightBk,
         transition: theme.transitions.create('transform', {
-          easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen
         }), 
         '&.slidein-enter':{
