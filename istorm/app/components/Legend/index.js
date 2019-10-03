@@ -8,26 +8,26 @@ import bar_level from  '../../images/bar_level.png'
 const styles = (theme) => {
     return {
         overlayLayersLegendGraphic:{
-            display: "flex",
-            flexDirection: "column",
+            display: 'flex',
+            flexDirection: 'column',
             maxWidth: 'none',
-            padding: 12,
-            height: 40,
-            marginTop: 20,
+            padding: '12',
+            height: '40',
+            marginTop: '20',
             backgroundColor: theme.palette.custom.mapOverlayBackground,
             "& p":{
-                fontSize: "0.75rem",
-                lineHeight: 0,
+                fontSize: '0.75rem',
+                lineHeight: '0',
                 height: '100%'
             },
             "& div[class*='MuiBox']": {
-                height: 20,
-                marginTop: 10
+                height: '20',
+                marginTop: '10',
             }
             },
             graphic:{
-            height: 20,
-            right: 9,
+            height: '20',
+            right: '9',
         },
     }
   };

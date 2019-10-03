@@ -97,12 +97,7 @@ function Chart(props) {
                   <Typography align="center" variant="body2">Time: <span>{props.timeFrom} to: {props.timeTo}</span></Typography>
                 </Grid>
               </Grid>
-
-              {/* <div className='chart_subtitle'>
-                <div><h4>Latitude:<span>{props.latitude.toFixed(4)}</span></h4></div>
-                <div><h4>Longitude:</h4><h3>{props.longitude.toFixed(4)}</h3></div>
-                <div><h4>Time: </h4><h3>from: {props.timeFrom} to: {props.timeTo}</h3></div>
-              </div> */}
+              
               <XYPlot  
                 height={chart.height}
                 width={chart.width}

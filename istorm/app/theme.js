@@ -44,6 +44,7 @@ const theme = createMuiTheme({
       listSelected: "#698397",
       paddingSide: 25,
     },
+    
     type: 'light',
     primary: {
       dark: "#0B303A",

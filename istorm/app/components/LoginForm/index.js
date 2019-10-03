@@ -22,6 +22,11 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
+import InputAdornment from '@material-ui/core/InputAdornment';
+import PersonOutlineSharpIcon from '@material-ui/icons/PersonOutlineSharp';
+import HttpsOutlinedIcon from '@material-ui/icons/HttpsOutlined';
+
+
 const styles = (theme) => {
   return {
     errorBox: {
@@ -30,17 +35,18 @@ const styles = (theme) => {
       color: theme.palette.common.white,
       backgroundColor: theme.palette.custom.waveIcon,
     },
+    avatar : {
+      width: 60,
+      height: 60,
+      margin: '20px auto',
+    }
   }
 };
 
 function MadeWithLove() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Built with love by the '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Material-UI
-      </Link>
-      {' team.'}
+    <Typography color="secondary" variant="h5" align="center">
+      Integrated sea storms management strategies
     </Typography>
   );
 }
@@ -101,18 +107,19 @@ class LoginForm extends React.Component {
 
   render () {
     return (
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" align="center">
       <CssBaseline />
       <div>
-        <Avatar >
-          Lol
+        <Avatar className={this.props.classes.avatar}>
+          A
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography color="secondary" component="h1" variant="h5">
           Sign in
         </Typography>
         <form noValidate>
           <TextField
-            variant="outlined"
+            // variant="outlined"
+            color="secondary"
             margin="normal"
             required
             fullWidth
@@ -124,9 +131,17 @@ class LoginForm extends React.Component {
             onChange={(e) => this.handleChange(e, 'email')}
             autoComplete="email"
             autoFocus
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonOutlineSharpIcon style={{color:"#698397"}}/>
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
-            variant="outlined"
+            // variant="outlined"
+            color="secondary"
             margin="normal"
             required
             fullWidth
@@ -138,6 +153,13 @@ class LoginForm extends React.Component {
             type="password"
             id="password"
             autoComplete="current-password"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <HttpsOutlinedIcon style={{color:"#698397"}}/>
+                </InputAdornment>
+              ),
+            }}
           />
          { this.state.errors.error   && 
           <Typography variant="body2" gutterBottom className={this.props.classes.errorBox}>
@@ -145,31 +167,32 @@ class LoginForm extends React.Component {
           </Typography>
           }
           <Button
+            style={{marginTop:"5px"}}
             type="submit"
             fullWidth
             onClick={(e) => this.submitChange(e)}
             disabled={this.props.auth.loading}
             variant="contained"
-            color="primary"
+            color="secondary"
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
+          <Grid container style={{margin:"10px 0"}}>
+            <Grid item xs style={{textAlign:"left"}}>
+              <Link color="secondary" href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link color="secondary" href="#" variant="body2">
+                {"Don't have an account? SIGN UP"}
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
       <Box mt={5}>
-        <MadeWithLove />
+        <MadeWithLove/>
       </Box>
       </Container>
     )}

@@ -37,21 +37,21 @@ const styles = (theme) => {
       }
     }, */
     headerTop: {
-      width: "100%",
+      width: '100%',
       backgroundColor: theme.palette.custom.darkBackground,
-      textAlign: "right",
+      textAlign: 'right',
     },
     
     divider: {
       backgroundColor: theme.palette.custom.contrastText,
     },
     titleIcon: {
-      minWidth: 40,
+      minWidth: '40',
     },
     title: {
       color: theme.palette.custom.darkBackground,
-      "font-weight": "700",
-      "font-size":"1.15rem"
+      fontWeight: '700 ',
+      fontSize: '1.15rem',
     },
     toolBar:{
       paddingLeft: theme.palette.custom.paddingSide,
