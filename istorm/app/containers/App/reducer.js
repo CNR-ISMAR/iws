@@ -59,15 +59,34 @@ export const initialState = {
         // tiles: ["http://ows.emodnet-bathymetry.eu/wms?layers=emodnet:mean_atlas_land,coastlines&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&SRS=EPSG%3A3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256"],
         tileSize: 256,
         attribution: 'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
-      }
+      },
+
+    cover: {
+      type: 'raster',
+        tiles: [
+          // 'https://www.informare-er.it/istorms/base/{z}/{x}/{y}.png'
+          // proxyUrl + '/istorms/base/{z}/{x}/{y}.png'
+          proxyUrl + '/istorms/istorms/base/{z}/{x}/{y}.png'
+        ],
+        tileSize: 256,
+      },
     },
-    layers: [{
-      id: "backgroundLayer",
-      type: "raster",
-      source: "backgroundLayer",
-      minzoom: 0,
-      maxzoom: 22
-    }]
+    layers: [
+      {
+        id: "backgroundLayer",
+        type: "raster",
+        source: "backgroundLayer",
+        minzoom: 0,
+        maxzoom: 22
+      },
+      {
+        id: "cover",
+        type: "raster",
+        source: "cover",
+        minzoom: 0,
+        maxzoom: 22
+      }
+    ]
   },
   WindGLLayer: {
     name: "Wave",
@@ -104,21 +123,6 @@ export const initialState = {
     }
   },
   layers: {
-    cover: {
-      name: "Cover",
-      id: "cover",
-      isVisible: true,
-      isTimeseries: false,
-      type: 'raster',
-      source: {
-      type: 'raster',
-        tiles: [
-          // 'https://www.informare-er.it/istorms/base/{z}/{x}/{y}.png'
-          // proxyUrl + '/istorms/base/{z}/{x}/{y}.png'
-          proxyUrl + '/istorms/istorms/base/{z}/{x}/{y}.png'
-        ],
-      },
-    },
     favorites: {
       name: "Favourites",
       id: "favorites",
