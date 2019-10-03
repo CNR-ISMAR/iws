@@ -32,6 +32,7 @@ urlpatterns = (
 	url(r'^atlas$', TemplateView.as_view(template_name='sea_storm_atlas/map_sea_storm.html'), {'mapid':'165'}, name='atlas_map_test'),
 	url(r'^storm_events$', TemplateView.as_view(template_name='sea_storm_atlas/events_sea_storm.html'), name='storm_events'),
 	url(r'^segment/list$', CoastalSegmentListView.as_view(), name='segment-list'),
+        url(r'^segment/listnew$', TemplateView.as_view(template_name='sea_storm_atlas/coastalsegment_list.html'), name='storm_events'),
 	url(r'^segment/(?P<pk>\d+)', views.CoastalSegmentDetailView.as_view(), name='segment-detail'),
     #url(r'^(segments/?P<segid>[^/]+)/edit$', map_edit, name='segment_edit'),
     url(r'^event/list/segment/(?P<segid>\d+)', views.StormEventListView.as_view(),  name='event-list' ),
