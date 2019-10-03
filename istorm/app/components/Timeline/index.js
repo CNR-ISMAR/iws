@@ -51,7 +51,8 @@ const styles = (theme) => {
     slider: {
       paddingTop: 20,
       paddingBottom: 0
-    }
+    },
+    
   }
 };
 

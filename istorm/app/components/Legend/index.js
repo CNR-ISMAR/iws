@@ -11,9 +11,9 @@ const styles = (theme) => {
             display: 'flex',
             flexDirection: 'column',
             maxWidth: 'none',
-            padding: '12',
-            height: '40',
-            marginTop: '20',
+            padding: '12px',
+            height: '40px',
+            marginTop: '20px',
             backgroundColor: theme.palette.custom.mapOverlayBackground,
             "& p":{
                 fontSize: '0.75rem',
@@ -21,13 +21,13 @@ const styles = (theme) => {
                 height: '100%'
             },
             "& div[class*='MuiBox']": {
-                height: '20',
-                marginTop: '10',
+                height: '20px',
+                marginTop: '10px',
             }
             },
             graphic:{
-            height: '20',
-            right: '9',
+            height: '20px',
+            right: '9px',
         },
     }
   };

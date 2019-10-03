@@ -61,6 +61,11 @@ body{
   color: white !important; 
   border: none !important;
 }
+
+.MuiTooltip-popper {
+  z-index: 500 !important
+}
+
 #outdated .last {
   height: 20px;
   position: absolute;

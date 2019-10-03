@@ -22,13 +22,12 @@ const styles = (theme) => {
     content: {
       position: "relative",
       flexGrow: 1,
-      width: "100%",
+      //width: "100%",
       zIndex: 10,
       padding: 0,
       paddingTop: 64,
-      backgroundColor: "white",
-      
-    }
+      backgroundColor: "white"
+    },
   }
 };
 

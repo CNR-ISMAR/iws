@@ -48,7 +48,7 @@ const styles = (theme) => {
       backgroundColor: theme.palette.custom.contrastText,
     },
     titleIcon: {
-      minWidth: '40',
+      minWidth: '40px',
     },
     title: {
       color: theme.palette.custom.darkBackground,
