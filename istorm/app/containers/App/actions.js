@@ -165,9 +165,3 @@ export function getLatLon(latitude, longitude) {
   };
 }
 
-export function toggleSidePanel(open) {
-  return {
-    type: TOGGLE_SIDEPANEL,
-    open: open
-  };
-}

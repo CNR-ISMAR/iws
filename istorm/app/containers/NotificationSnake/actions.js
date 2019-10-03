@@ -34,3 +34,13 @@ export const enqueueSuccess = (text) => {
         }
     });
 }
+
+export const enqueueRemove = (text) => {
+    return enqueueSnackbar({
+        message: text,
+        options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+        }
+    });
+}

@@ -19,7 +19,7 @@ import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 /* import { toggleDrawerMini, toggleDrawer } from './actions'; */
-import makeSelectMapPage, {makeSelectToggleSidePanel} from 'containers/App/selectors';
+import makeSelectMapPage from 'containers/App/selectors';
 import { FavoriteIcon, ListIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -71,7 +71,7 @@ function FavouritesPage(props) {
 
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
-  toggleSidePanel: makeSelectToggleSidePanel(),
+  
   
 }) 
 

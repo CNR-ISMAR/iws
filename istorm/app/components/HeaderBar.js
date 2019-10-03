@@ -71,11 +71,7 @@ function HeaderBar(props) {
   console.info(props);
 
   const close = () => {
-    props.dispatch(toggleSidePanel(false))
-    setTimeout(() => {
-      props.history.push("/")   
-    }, props.theme.transitions.duration.enteringScreen) 
-    
+    props.history.push("/")   
   };
 
   return (
