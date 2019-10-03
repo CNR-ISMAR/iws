@@ -12,7 +12,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
   FILL_IF_IS_FAVOURITE,
-  DELETE_FAVOURITE_SUCCESS, SET_LAT_LON  } from './constants';
+  DELETE_FAVOURITE_SUCCESS, SET_LAT_LON, TOGGLE_SIDEPANEL  } from './constants';
 
 import theme from 'theme'
 import { elementType } from 'prop-types';
@@ -194,8 +194,9 @@ export const initialState = {
   },
   requestError: {
     message: null
-  }
-
+  },
+  
+  
 };
 
 
@@ -304,6 +305,21 @@ const mapPageReducer = (state = initialState, action) =>
     }
   });
 
+export const initToggleState = { 
+  toggleSidePanel: false
+}
+
+const toggleSidePanelReducer = (state = initToggleState, action) => 
+  produce(state, draft => {
+    switch(action.type){
+      case TOGGLE_SIDEPANEL:
+          draft.toggleSidePanel = action.open ?  true : false 
+      break;
+      
+    }
+  })
+ 
+
 const latLngReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
@@ -316,5 +332,5 @@ const latLngReducer = (state = initialState, action) =>
 
 
 export default mapPageReducer;
-export { latLngReducer }
+export { latLngReducer, toggleSidePanelReducer }
 

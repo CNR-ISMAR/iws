@@ -10,6 +10,12 @@ import HeaderBar from "components/HeaderBar";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { inherits } from 'util';
 import clsx from "clsx";
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import {makeSelectToggleSidePanel, makeSelectMapPage} from 'containers/App/selectors'
+import { toggleSidePanel  } from '../containers/App/actions';
+
 
 
 const styles = (theme, style) => {
@@ -28,7 +34,7 @@ const styles = (theme, style) => {
         transform: 'translateX(-260px)', 
         transition: theme.transitions.create('transform', {
           easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
+          duration: theme.transitions.duration.enteringScreen
         }),
       },
       open: {
@@ -100,13 +106,25 @@ const styles = (theme, style) => {
   
 
   function SidebarSubNav(props){
-    
+    console.log('SidebarSubNav')
+    console.log(props)
+    const [mount, setMount] = useState(false)
     const isCurrentPage = (pagePath) => {
         const check = pagePath === props.location.pathname ? true : false
         //return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
         return check
     };
+ 
+    useEffect(() => {
+      // setMount(true)
+      if(!props.toggleSidePanel){
+        setTimeout(() => {
+          props.dispatch(toggleSidePanel(true))
+        }, props.theme.transitions.duration.enteringScreen) 
+      }
+    },[])  
 
+   
 
     /* const toggleDrawer = () => {
         
@@ -114,7 +132,7 @@ const styles = (theme, style) => {
     }; */
     return (
       <div className={  clsx(props.classes.subNav, props.mainClass ? props.mainClass : '', {
-                          [props.classes.open]: props.open}) }>
+                          [props.classes.open]: props.toggleSidePanel}) }>
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.title} icon={props.icon}  />
             { 
               props.content && props.content()
@@ -139,10 +157,18 @@ const styles = (theme, style) => {
                   }
               </List>
             }
-        </div>
-        
+        </div> 
     );
   }
 
+const mapStateToProps = createStructuredSelector({
+  toggleSidePanel: makeSelectToggleSidePanel(),
+}) 
 
-  export default (withStyles(styles, {withTheme: true})(SidebarSubNav));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(SidebarSubNav));
