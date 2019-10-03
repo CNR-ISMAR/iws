@@ -39,12 +39,14 @@ const wmpMeanUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".n
 const BASE_URL = process.env.API_URL;
 
 export const initialState = {
-  bbox: [[46.286224,25.708008], [35.960223,11.733398]],
+  bbox: [[49.2,24.29], [36.02,5.48]],
   mean: true,
   viewport: {
     longitude: 12.33265,
     latitude: 45.43713, 
     zoom: 5,
+    minZoom: 5,
+    maxZoom: 16,
     // bearing: 3,
     // pitch: 0
   },
@@ -102,6 +104,21 @@ export const initialState = {
     }
   },
   layers: {
+    cover: {
+      name: "Cover",
+      id: "cover",
+      isVisible: true,
+      isTimeseries: false,
+      type: 'raster',
+      source: {
+      type: 'raster',
+        tiles: [
+          // 'https://www.informare-er.it/istorms/base/{z}/{x}/{y}.png'
+          // proxyUrl + '/istorms/base/{z}/{x}/{y}.png'
+          proxyUrl + '/istorms/istorms/base/{z}/{x}/{y}.png'
+        ],
+      },
+    },
     favorites: {
       name: "Favourites",
       id: "favorites",
