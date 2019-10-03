@@ -124,14 +124,17 @@ function SidebarNav(props) {
               <ArrowRightIcon className={props.classes.arrow}/>
             }
         </ListItem>
-        <ListItem button className={props.classes.listItem} selected={isCurrentPage("storm-events")} onClick={() => linkTo("storm-events")} key={"nav-storm-events"}>
-          <ListItemIcon className={props.classes.listItemIcon}><StormEventsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
-          <ListItemText primary={"Sea storm events"} />
-        </ListItem>
-        <ListItem button className={props.classes.listItem} selected={isCurrentPage("layers")} onClick={() => linkTo("layers")} key={"nav-layers"}>
-          <ListItemIcon className={props.classes.listItemIcon}><LayersIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
-          <ListItemText primary={"Layers"} />
-        </ListItem>
+      {/*TODO: si attiva se si leggono decentemente i dati*/}
+        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("storm-events")} onClick={() => linkTo("storm-events")} key={"nav-storm-events"}>*/}
+          {/*<ListItemIcon className={props.classes.listItemIcon}><StormEventsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
+          {/*<ListItemText primary={"Sea storm events"} />*/}
+        {/*</ListItem>*/}
+
+      {/*TODO: si attiva se si leggono decentemente i dati*/}
+        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("layers")} onClick={() => linkTo("layers")} key={"nav-layers"}>*/}
+          {/*<ListItemIcon className={props.classes.listItemIcon}><LayersIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
+          {/*<ListItemText primary={"Layers"} />*/}
+        {/*</ListItem>*/}
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("history")} onClick={() => linkTo("history")} key={"nav-history"}>
           <ListItemIcon className={props.classes.listItemIcon}><HistoryIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"History"} />

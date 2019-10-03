@@ -3,12 +3,12 @@ from django.contrib.gis.db import models as gismodel
 from geonode import settings
 from django.contrib.gis.geos import Point
 
-class Device(models.Model):
+class Setting(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    type = models.CharField(max_length=10) # ANDROID | IOS
-    push_key = models.CharField(max_length=512) # FCM KEY
+    sl_reference = models.FloatField(blank=True, null=True)
+    sl_notification_threshold = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
-        return self.push_key
+        return str(self.user.email)
 
 

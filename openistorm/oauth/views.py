@@ -4,12 +4,19 @@ from django.http import HttpResponse
 from rest_framework import generics
 from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, RegisterSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 # from djcore.djcore.users.models import User
 
 from rest_framework.response import Response
 from guardian.shortcuts import assign_perm, get_users_with_perms
+from oauth2_provider.views.mixins import OAuthLibMixin
+from braces.views import CsrfExemptMixin
+from oauth2_provider.settings import oauth2_settings
+from rest_framework.views import APIView
+from django.db import transaction
+from rest_framework import status
+import json
 
 class ApiEndpoint(ProtectedResourceView):
     def get(self, request, *args, **kwargs):
@@ -77,3 +84,32 @@ class ProfileViewSet(generics.RetrieveUpdateAPIView):
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+
+
+class UserRegister(CsrfExemptMixin, OAuthLibMixin, APIView):
+    permission_classes = (AllowAny,)
+
+    server_class = oauth2_settings.OAUTH2_SERVER_CLASS
+    validator_class = oauth2_settings.OAUTH2_VALIDATOR_CLASS
+    oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
+
+    def post(self, request):
+        if request.auth is None:
+            data = request.data
+            #data = data.dict()
+            serializer = RegisterSerializer(data=data)
+            if serializer.is_valid():
+                 try:
+                    with transaction.atomic():
+                        user = serializer.save()
+
+                        url, headers, body, token_status = self.create_token_response(request)
+                        if token_status != 200:
+                            raise Exception(json.loads(body))
+
+                    return Response(json.loads(body), status=token_status)
+                 except Exception as e:
+                     return Response(data={"error": e.args}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_403_FORBIDDEN)

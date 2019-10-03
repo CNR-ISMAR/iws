@@ -1,12 +1,12 @@
 from django.conf.urls import url
 from rest_framework import routers
-from views import DeviceList
+from views import SettingList
 
 
-app_name = 'devices'
+app_name = 'settings'
 
 router = routers.SimpleRouter()
 
 urlpatterns = router.urls + [
-    url(r'^$', DeviceList.as_view(), name="list"),
+    url(r'^$', SettingList.as_view(), name="get_or_update"),
 ]

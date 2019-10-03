@@ -51,8 +51,8 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       formData: {
-        email: "demo@domain.com",
-        password: "xxxx"
+        email: "",
+        password: ""
       },
       defaultFormData: {
         password: "",
@@ -118,7 +118,7 @@ class LoginForm extends React.Component {
             fullWidth
             error={this.state.formData.email === "" || this.props.auth.error ? true : false}
             id="email"
-            label="Email Address"
+            label="Username"
             name="email"
             value={this.state.formData.email}
             onChange={(e) => this.handleChange(e, 'email')}
