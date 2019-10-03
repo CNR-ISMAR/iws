@@ -120,6 +120,43 @@ Content-Type: application/json
 }
 ```
 
+# Device registration (after login!)
+
+### POST (create) /openistorm/devices/ (NEEDS AUTH)
+```bash
+curl -X POST \
+  http://localhost/openistorm/devices/ \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Authorization: Bearer OiGe9iJmE14eIGL3QfPE4iy1MoUKKw' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "type": "android",
+    "push_key": "1234567891myFCMkey"
+}'
+```
+
+##### JSON PARAMETERS
+```json
+{
+    "type": "android",
+    "push_key": "1234567891myFCMkey"
+}
+```
+
+| Parameter | Optional                         | Descrition | Example                                         |
+|-----------|-------------------------------------|----------|------------------------------------------------|
+|type  |   false | device type: ios | android |  [ios, android] |
+|push_key  |   false | FCM KEY |  eg: 1234567891myFCMkey |
+
+
+##### RESPONSE
+```json
+{
+    "type": "android",
+    "push_key": "1234567891myFCMkey",
+}
+```
+
 # User settings
 
 ### GET (item) /openistorm/settings/ (NEEDS AUTH)
@@ -145,15 +182,8 @@ curl -X GET \
 curl -X PUT \
   http://localhost/openistorm/settings/ \
   -H 'Accept: application/json, text/plain, */*' \
-  -H 'Accept-Encoding: gzip, deflate' \
   -H 'Authorization: Bearer OiGe9iJmE14eIGL3QfPE4iy1MoUKKw' \
-  -H 'Cache-Control: no-cache' \
-  -H 'Content-Length: 94' \
   -H 'Content-Type: application/json' \
-  -H 'Host: localhost' \
-  -H 'Postman-Token: 89bd2b70-3cab-4dc4-a1ad-99a7b87c599f,b5c2eff3-72ca-43b3-9d92-9a7a98a12cd8' \
-  -H 'User-Agent: PostmanRuntime/7.17.1' \
-  -H 'cache-control: no-cache' \
   -d '{
         "sl_reference": 20.0,
         "sl_notification_threshold": 50.0
@@ -564,7 +594,14 @@ curl -X GET \
 ##### RESPONSE
 ```json
 {
- IL TREDDHS AL MOMENTO è OFFLINE.
+    "max": {
+        "value": -0.22010869,
+        "time": "2019-09-16T05:00:00.000Z"
+    },
+    "min": {
+        "value": -0.39257224,
+        "time": "2019-09-16T12:00:00.000Z"
+    }
 }
 ```
     

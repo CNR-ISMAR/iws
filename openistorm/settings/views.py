@@ -36,13 +36,11 @@ class SettingList(ListCreateAPIView):
 
         return serializer
 
-
-    def create(self, request, *args, **kwargs):
-        return self.post(request, args, kwargs)
+    def post(self, request, *args, **kwargs):
+        return self.put(request, args, kwargs)
 
     def put(self, request, *args, **kwargs):
         data = request.data
-        # return Response(data)
         serializer = self.create_or_retrieve_and_update_settings(data)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
