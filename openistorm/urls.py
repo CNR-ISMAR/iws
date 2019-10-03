@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'openistorm/notifications/', include('openistorm.notifications.urls'), name='notifications'),
     url(r'openistorm/stations/', include('openistorm.stations.urls'), name='stations'),
     url(r'openistorm/stormevents/', include('openistorm.stormeventsapi.urls'), name='stormeventsapi'),
+    url(r'openistorm/settings/', include('openistorm.settings.urls'), name='settings'),
 ]
 
 # router.register(r'users', UserViewSet)

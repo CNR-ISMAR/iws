@@ -14,7 +14,7 @@ import { STOP_LOADING, SYNC_AUTH, REQUEST_LOGIN,
 export const initialState = {
   loading: false,
   user: {
-    email: "test@email.com"
+    email: ""
   },
   error: null,
   oauth: {

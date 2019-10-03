@@ -13,6 +13,7 @@ from dateutil import parser
 from collections import OrderedDict
 from .utils import WmsQuery, WmsQueryNew
 import pytz
+from ..stations.utils import find_station
 
 
 class ImageLayerList(ListAPIView):
@@ -102,6 +103,7 @@ class Info(views.APIView):
         wms = WmsQuery(BBOX, X, Y, WIDTH, HEIGHT, TIME)
         return Response(wms.get_values())
 
+
 class TimeSeries(views.APIView):
     permission_classes = (AllowAny,)
     def get(self, request):
@@ -112,8 +114,25 @@ class TimeSeries(views.APIView):
         HEIGHT = request.query_params.get('height')
         TIME_FROM = request.query_params.get('from')
         TIME_TO = request.query_params.get('to')
+
+        station = request.query_params.get('station', '')
+        if station:
+            station = find_station(station)
+            if station:
+                BBOX = station.get('bbox')
+                X = station.get('x')
+                Y = station.get('y')
+                WIDTH = station.get('width')
+                HEIGHT = station.get('height')
+
         wms = WmsQuery(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
-        return Response(wms.get_timeseries())
+        forecasts = wms.get_timeseries()
+
+        if station:
+            # TODO: AGGIUNGI I DATI DALLE STAZIONI
+            forecasts = forecasts
+
+        return Response(forecasts)
 
 class SeaLevelMixMax(views.APIView):
     permission_classes = (AllowAny,)
@@ -128,12 +147,3 @@ class SeaLevelMixMax(views.APIView):
         wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM)
         return Response(wms.getnextSeaLevelMinMax())
         # return Response(wms.get_timeseries())
-
-# class Stations(views.APIView):
-#     permission_classes = (AllowAny,)
-#     def get(self, request):
-#         if self.request.query_params.get('stations', 'sea_level'):
-#             gj = json.load(file('openistorm/layers/sea_level.geojson', 'r'));
-#         else:
-#             gj = json.load(file('openistorm/layers/waves.geojson', 'r'));
-#         return Response(gj)

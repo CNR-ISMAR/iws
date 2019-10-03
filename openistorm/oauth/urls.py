@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth import views as authViews
 from oauth2_provider import views as oauthViews
 # from django.urls import reverse_lazy
-from .views import ProfileViewSet
+from .views import ProfileViewSet, UserRegister
 
 app_name = 'oauth'
 
@@ -33,6 +33,8 @@ urlpatterns = [
     #
     # # PROFILE view & update
     url(r'^me/$', ProfileViewSet.as_view(), name="me"),
+
+    url(r'^register/$', UserRegister.as_view(), name="register"),
     #
     # # OAuth 2 endpoints:
     # # url(r'^o/', include(oauth2_endpoint_views, namespace="oauth2_provider")),

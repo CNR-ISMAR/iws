@@ -1,0 +1,284 @@
+[
+ {
+   "map_code": "SL_15",
+   "name": "",
+   "longitude": 13.2,
+   "latitude": 43.75
+ },
+ {
+   "map_code": "SL_49",
+   "name": " Ancona",
+   "longitude": 13.51,
+   "latitude": 43.62
+ },
+ {
+   "map_code": "SL_40",
+   "name": "",
+   "longitude": 14.53,
+   "latitude": 45.3
+ },
+ {
+   "map_code": "SL_53",
+   "name": "",
+   "longitude": 16.86,
+   "latitude": 41.14
+ },
+ {
+   "map_code": "SL_07",
+   "name": " Burano",
+   "longitude": 12.42,
+   "latitude": 45.48
+ },
+ {
+   "map_code": "SL_09",
+   "name": " Chioggia_porto",
+   "longitude": 12.28,
+   "latitude": 45.23
+ },
+ {
+   "map_code": "SL_10",
+   "name": " Chioggia_Vigo",
+   "longitude": 12.28,
+   "latitude": 45.22
+ },
+ {
+   "map_code": "SL_56",
+   "name": " Crotone",
+   "longitude": 17.14,
+   "latitude": 39.08
+ },
+ {
+   "map_code": "SL_02",
+   "name": " Diga_nord_Malamocco",
+   "longitude": 12.34,
+   "latitude": 45.33
+ },
+ {
+   "map_code": "SL_03",
+   "name": " Diga_sud_Chioggia",
+   "longitude": 12.31,
+   "latitude": 45.23
+ },
+ {
+   "map_code": "SL_01",
+   "name": " Diga_sud_Lido",
+   "longitude": 12.43,
+   "latitude": 45.42
+ },
+ {
+   "map_code": "SL_39",
+   "name": "",
+   "longitude": 18.07,
+   "latitude": 42.67
+ },
+ {
+   "map_code": "SL_29",
+   "name": "",
+   "longitude": 19.45,
+   "latitude": 41.3
+ },
+ {
+   "map_code": "SL_57",
+   "name": " Diga_Sud_Lido_Faro",
+   "longitude": 12.4051,
+   "latitude": 44795
+ },
+ {
+   "map_code": "SL_11",
+   "name": " Fusina",
+   "longitude": 12.26,
+   "latitude": 45.41
+ },
+ {
+   "map_code": "SL_41",
+   "name": "",
+   "longitude": 16.39,
+   "latitude": 43.51
+ },
+ {
+   "map_code": "SL_05",
+   "name": " Laguna_nord_Saline",
+   "longitude": 12.47,
+   "latitude": 45.5
+ },
+ {
+   "map_code": "SL_08",
+   "name": " Malamocco_Porto",
+   "longitude": 12.29,
+   "latitude": 45.34
+ },
+ {
+   "map_code": "SL_34",
+   "name": "",
+   "longitude": 14.47,
+   "latitude": 44.53
+ },
+ {
+   "map_code": "SL_18",
+   "name": "",
+   "longitude": 13.72,
+   "latitude": 45.55
+ },
+ {
+   "map_code": "SL_06",
+   "name": " Venezia_Misericordia",
+   "longitude": 12.34,
+   "latitude": 45.45
+ },
+ {
+   "map_code": "SL_46",
+   "name": "",
+   "longitude": 13.55,
+   "latitude": 45.78
+ },
+ {
+   "map_code": "SL_51",
+   "name": "",
+   "longitude": 14.41,
+   "latitude": 42.36
+ },
+ {
+   "map_code": "SL_54",
+   "name": " Otranto",
+   "longitude": 18.5,
+   "latitude": 40.15
+ },
+ {
+   "map_code": "SL_38",
+   "name": "",
+   "longitude": 17.45,
+   "latitude": 43.05
+ },
+ {
+   "map_code": "SL_16",
+   "name": " Punta_Salute_Canal_Grande",
+   "longitude": 12.25,
+   "latitude": 44.68
+ },
+ {
+   "map_code": "SL_04",
+   "name": "",
+   "longitude": 12.34,
+   "latitude": 45.43
+ },
+ {
+   "map_code": "SL_12",
+   "name": " Punta_Salute_Canale_Giudecca",
+   "longitude": 12.34,
+   "latitude": 45.43
+ },
+ {
+   "map_code": "SL_48",
+   "name": "",
+   "longitude": 12.28,
+   "latitude": 44.49
+ },
+ {
+   "map_code": "SL_33",
+   "name": "",
+   "longitude": 13.63,
+   "latitude": 45.08
+ },
+ {
+   "map_code": "SL_50",
+   "name": " S. Benedetto Del Tronto",
+   "longitude": 13.89,
+   "latitude": 42.96
+ },
+ {
+   "map_code": "SL_31",
+   "name": "",
+   "longitude": 20,
+   "latitude": 39.87
+ },
+ {
+   "map_code": "SL_32",
+   "name": "",
+   "longitude": 19.59,
+   "latitude": 41.81
+ },
+ {
+   "map_code": "SL_44",
+   "name": " Sobra",
+   "longitude": 17.6,
+   "latitude": 42.74
+ },
+ {
+   "map_code": "SL_36",
+   "name": "",
+   "longitude": 16.43,
+   "latitude": 43.5
+ },
+ {
+   "map_code": "SL_43",
+   "name": " Stari Grad",
+   "longitude": 16.6,
+   "latitude": 43.18
+ },
+ {
+   "map_code": "SL_45",
+   "name": " Trieste",
+   "longitude": 13.76,
+   "latitude": 45.65
+ },
+ {
+   "map_code": "SL_14",
+   "name": "",
+   "longitude": 12.76,
+   "latitude": 45.25
+ },
+ {
+   "map_code": "SL_13",
+   "name": "",
+   "longitude": 12.51,
+   "latitude": 45.31
+ },
+ {
+   "map_code": "SL_42",
+   "name": " Vela Luka",
+   "longitude": 16.71,
+   "latitude": 42.96
+ },
+ {
+   "map_code": "SL_47",
+   "name": " Venice",
+   "longitude": 12.43,
+   "latitude": 45.42
+ },
+ {
+   "map_code": "SL_52",
+   "name": "",
+   "longitude": 16.18,
+   "latitude": 41.89
+ },
+ {
+   "map_code": "SL_37",
+   "name": "",
+   "longitude": 16.2,
+   "latitude": 43.07
+ },
+ {
+   "map_code": "SL_30",
+   "name": "",
+   "longitude": 19.48,
+   "latitude": 40.45
+ },
+ {
+   "map_code": "SL_28",
+   "name": "",
+   "longitude": 19.39,
+   "latitude": 40.51
+ },
+ {
+   "map_code": "SL_58",
+   "name": "",
+   "longitude": 12.27,
+   "latitude": 44.8
+ },
+ {
+   "map_code": "SL_35",
+   "name": "",
+   "longitude": 15.27,
+   "latitude": 44.08
+ }
+]
