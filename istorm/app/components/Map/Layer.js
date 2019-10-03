@@ -23,22 +23,23 @@ class Layer extends BaseControl {
       }
     }
 
-    // shouldComponentUpdate() {
-    //  JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)
-    // }
 
-    componentWillReceiveProps(newProps) {
-        const map = this._context.map;
-        const { layer } = newProps;
-        const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
-        if(source) {
-            map.removeLayer(layer.id);
-            map.removeSource(layer.id);
-        }
-          if(layer.isVisible) {
-            map.addLayer(layer);
-          }
+    shouldComponentUpdate(newProps) {
+      return JSON.stringify(newProps.layer) !== JSON.stringify(this.props.layer);
+    }
+
+    componentDidUpdate() {
+      const map = this._context.map;
+      const layer = this.props.layer;
+      const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
+      if (source) {
+        map.removeLayer(layer.id);
+        map.removeSource(layer.id);
       }
+      if (layer.isVisible) {
+        map.addLayer(layer);
+      }
+    }
 
     componentWillUnmount() {
         const map = this._context.map;
