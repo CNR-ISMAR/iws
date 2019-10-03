@@ -28,7 +28,11 @@ class LayerFavorites extends BaseControl {
     }
   }
 
-   componentWillReceiveProps(newProps) {
+  shouldComponentUpdate(newProps) {
+    return JSON.stringify(newProps.layer) !== JSON.stringify(this.props.layer);
+  }
+
+  componentWillReceiveProps(newProps) {
      const map = this._context.map;
      const {layerInfo} = newProps;
      const source = typeof map.getLayer !== "undefined" ? map.getLayer(layerInfo.id) : null;
