@@ -19,6 +19,7 @@ import { elementType } from 'prop-types';
 import labels from "../../utils/labels";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 import React from "react";
+import ReactMapGL from "react-map-gl/dist/es6/components/interactive-map";
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -41,6 +42,12 @@ const BASE_URL = process.env.API_URL;
 export const initialState = {
   bbox: [[49.2,24.29], [36.02,5.48]],
   mean: true,
+  options: {
+    minPitch: 0,
+    maxPitch: 0,
+    dragRotate: false,
+    touchRotate: false,
+  },
   viewport: {
     longitude: 12.33265,
     latitude: 45.43713, 

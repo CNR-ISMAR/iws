@@ -183,6 +183,7 @@ function MapPage(props) {
           mapStyle={props.mapPage.style} 
           layers={props.mapPage.layers} 
           mean={props.mapPage.mean}
+          options={props.mapPage.options}
           seaLevel={props.mapPage.seaLevel}
           WindGLLayer={props.mapPage.WindGLLayer}
           popups={props.mapPage.popups}
