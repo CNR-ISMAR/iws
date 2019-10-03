@@ -13,6 +13,7 @@ import { push } from 'connected-react-router';
 import {  login, loginRefresh, oauthOption, 
           setToken, oauthOptionRefreshToken, getProfile, 
           notification, deleteNotification, updateNotification } from 'utils/api';
+import {enqueueSuccess,enqueueRemove} from "containers/NotificationSnake/actions";
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
@@ -68,6 +69,7 @@ export function* deleteNotificationSaga(action) {
    try {
     const request = yield call(deleteNotification, action.id);
     // yield put(deleteNotificationSuccess(request));
+    yield put(enqueueRemove("Notification removed"));
     yield call(notificationSaga)
   } catch(e) {
     yield put(requestError(e.message));
