@@ -212,9 +212,11 @@ class Map extends React.Component {
         if(event.features[0].source === 'favorites'){
           selectedFav = favouritesContainer.filter(fav => fav.title.includes(event.features[0].properties.title));
           // console.log(selectedFav[0])
-        }else if( event.features.findIndex(station =>  station.source.includes('station')) !== -1 ) {
-          const Index = event.features.findIndex(station =>  station.source.includes('station'))
-          this.setState({...this.state, station: event.features[Index].properties.field_1})
+        }else {
+          const Index = event.features.findIndex(station =>  station.source.includes('station'));
+          if(Index !== -1) {
+            this.setState({...this.state, station: event.features[Index].properties.field_1})
+          }
         }
       }
       // ANIMATION OPEN/CLOSE + REQUEST/CLOSE InfoLayer
@@ -294,6 +296,7 @@ class Map extends React.Component {
                 key={'LayerWave'} 
                 layer={this.props.WindGLLayer}/>)}
 
+                {/*TODO: UPDATE ONLY IF change isVisible*/}
             {Object.keys(this.props.layers).map((layer) => (
                  <Layer layerInfo={this.props.layerInfo} 
                         key={"map-layer-" + this.props.layers[layer].id} 

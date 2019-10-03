@@ -62,7 +62,7 @@ app.use('/istorms', proxy('https://www.informare-er.it/istorms/base', {
     return opts;
   },
   proxyReqPathResolver: function (req) {
-    console.log(req.url)
+    // console.log(req.url)
     return req.url //.replace('/istorms', '/istorms/base');
   }
 }));

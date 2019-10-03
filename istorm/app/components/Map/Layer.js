@@ -23,6 +23,10 @@ class Layer extends BaseControl {
       }
     }
 
+    // shouldComponentUpdate() {
+    //  JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)
+    // }
+
     componentWillReceiveProps(newProps) {
         const map = this._context.map;
         const { layer } = newProps;
