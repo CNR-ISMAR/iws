@@ -10,7 +10,7 @@ const selectMapPageDomain = state => state.mapPage || initialState;
 const selectRouter = state => state.router;
 
 const selectLatLng = state => state.latLng || initialState;
-const selectToggleSidePanel = state => state.toggleSidePanel || initialState;
+
 
 /**
  * Other specific selectors
@@ -26,14 +26,6 @@ const makeSelectLatLng = () =>
     selectLatLng,
     substate =>  substate.LatLon
   );
-
-const makeSelectToggleSidePanel = () =>
-  createSelector(
-    selectToggleSidePanel,
-    substate =>  substate.toggleSidePanel
-  );
- 
-
 /**
  * Default selector used by MapPage
  */
@@ -60,4 +52,4 @@ const makeSelectLayers = () =>
 
 
 export default makeSelectMapPage;
-export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers, makeSelectLatLng, makeSelectToggleSidePanel };
+export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers, makeSelectLatLng };

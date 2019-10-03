@@ -305,20 +305,7 @@ const mapPageReducer = (state = initialState, action) =>
     }
   });
 
-export const initToggleState = { 
-  toggleSidePanel: false
-}
 
-const toggleSidePanelReducer = (state = initToggleState, action) => 
-  produce(state, draft => {
-    switch(action.type){
-      case TOGGLE_SIDEPANEL:
-          draft.toggleSidePanel = action.open ?  true : false 
-      break;
-      
-    }
-  })
- 
 
 const latLngReducer = (state = initialState, action) =>
   produce(state, draft => {
@@ -332,5 +319,5 @@ const latLngReducer = (state = initialState, action) =>
 
 
 export default mapPageReducer;
-export { latLngReducer, toggleSidePanelReducer }
+export { latLngReducer }
 
