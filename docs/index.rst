@@ -8,12 +8,18 @@ Welcome to IWS Geoportal's Documentation.
 
 This manual is based on `Geonode's Documentation <http://docs.geonode.org/>`_ Geonode Development Team 2019
 
-THe I-Storms web System is a results of the `I-Storms project <https://istorms.adrioninterreg.eu/>`_
+THe I-STORMS web System is a results of the `I-STORMS project <https://istorms.adrioninterreg.eu/>`_
 
 GeoNode is an Open Source, Content Management System (CMS) for geospatial data. It is a web-based application and platform for developing geospatial information systems (GIS) and for deploying spatial data infrastructures (SDI).
 
 Table of contents
 =================
+
+.. toctree::
+    :caption: The IWS
+    :maxdepth: 3
+
+    about_iws/index
 
 
 .. toctree::
