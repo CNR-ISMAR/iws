@@ -38,6 +38,9 @@ export const REQUEST_ERROR = 'app/App/REQUEST_ERROR';
 export const TOGGLE_PAPER = 'app/App/TOGGLE_PAPER';
 export const CLOSE_INFO_LAYER = 'app/App/CLOSE_INFO_LAYER';
 
+export const TOGGLE_SIDEPANEL = 'app/App/TOGGLE_SIDEPANEL';
+
+
 
 
 

@@ -22,8 +22,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { Divider } from '@material-ui/core';
-import { toggleLayerVisibility  } from '../containers/App/actions';
+import { toggleLayerVisibility, toggleSidePanel  } from '../containers/App/actions';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { connect } from 'react-redux';
+
 const styles = (theme) => {
   return {
     /* listItem: {
@@ -69,7 +71,11 @@ function HeaderBar(props) {
   console.info(props);
 
   const close = () => {
-      props.history.push("/") 
+    props.dispatch(toggleSidePanel(false))
+    setTimeout(() => {
+      props.history.push("/")   
+    }, props.theme.transitions.duration.enteringScreen) 
+    
   };
 
   return (
@@ -84,4 +90,11 @@ function HeaderBar(props) {
     </div>
   );
 }
-export default withRouter(withStyles(styles, {withTheme: true})(HeaderBar));
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  }
+  
+}
+export default connect(null, mapDispatchToProps)(withRouter(withStyles(styles, {withTheme: true})(HeaderBar)));

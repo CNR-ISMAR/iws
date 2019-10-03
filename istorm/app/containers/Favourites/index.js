@@ -19,18 +19,19 @@ import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 /* import { toggleDrawerMini, toggleDrawer } from './actions'; */
-import makeSelectMapPage from 'containers/App/selectors';
+import makeSelectMapPage, {makeSelectToggleSidePanel} from 'containers/App/selectors';
 import { FavoriteIcon, ListIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { deleteFavourite } from "containers/App/actions";
+import { deleteFavourite, toggleSidePanel } from "containers/App/actions";
+
 import { setViewport } from '../App/actions';
 import SidebarSubNav from 'components/SidebarSubNav';
 
 function FavouritesPage(props) {
   console.info("Favourite Page");
   console.log(props)
-  /* const [open, setOpen] = useState(false) */
+  const [open, setOpen] = useState(false) 
 
   useEffect(() => {
     if(props.match.params.id && props.mapPage.favourites.results.length > 0){
@@ -46,9 +47,10 @@ function FavouritesPage(props) {
       }
     }
     /* if(props.mapPage.favourites.results.length > 0){
-      setOpen(true)
-    } */
+      props.dispatch(toggleSidePanel(true))
+    }  */
   })
+  
 
   return (
      <>
@@ -59,7 +61,8 @@ function FavouritesPage(props) {
         title="Favourites List" 
         icon={ListIcon} 
         listItems={props.mapPage.favourites.results}
-        open={true} 
+        
+        //toggle={props.mapPage.toggleSidePanel} 
         />
     </>
   );
@@ -68,6 +71,7 @@ function FavouritesPage(props) {
 
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
+  toggleSidePanel: makeSelectToggleSidePanel(),
   
 }) 
 
