@@ -278,13 +278,32 @@ class Map extends React.Component {
         // disable={true}
         mapStyle={this.props.mapStyle}
         >
-          
+        
         {!this.state.mapboxIsLoading && (
           <>
-            {this.props.seaLevel.isVisible && (<LayerSeaLevel layerInfo={this.props.layerInfo} key={'LayerSeaLevel'} layer={this.props.seaLevel} mean={this.props.mean}/>)}
-            {this.props.WindGLLayer.isVisible && (<WindGLLayer layerInfo={this.props.layerInfo} key={'LayerWave'} layer={this.props.WindGLLayer}/>)}
-            {Object.keys(this.props.layers).map((layer) => (<Layer layerInfo={this.props.layerInfo} key={"map-layer-" + this.props.layers[layer].id} layer={this.props.layers[layer]}/>))}
-            {this.props.isLogged && this.props.favoritesLayer && Object.keys(this.props.favoritesLayer.source.data).length > 0  && this.props.favoritesLayer.isVisible && <LayerFavorites layerInfo={this.props.favoritesLayer}/> }
+            {this.props.seaLevel.isVisible && 
+              (<LayerSeaLevel 
+                layerInfo={this.props.layerInfo} 
+                key={'LayerSeaLevel'} 
+                layer={this.props.seaLevel} 
+                mean={this.props.mean}/>)}
+
+            {this.props.WindGLLayer.isVisible && 
+              (<WindGLLayer 
+                layerInfo={this.props.layerInfo} 
+                key={'LayerWave'} 
+                layer={this.props.WindGLLayer}/>)}
+
+            {Object.keys(this.props.layers).map((layer) => (
+                 <Layer layerInfo={this.props.layerInfo} 
+                        key={"map-layer-" + this.props.layers[layer].id} 
+                        layer={this.props.layers[layer]}/>))}
+
+            { this.props.isLogged && 
+              this.props.favoritesLayer && 
+              Object.keys(this.props.favoritesLayer.source.data).length > 0  && 
+              this.props.favoritesLayer.isVisible && 
+              <LayerFavorites layerInfo={this.props.favoritesLayer}/> }
           </>
         )}
 

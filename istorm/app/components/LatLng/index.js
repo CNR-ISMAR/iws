@@ -24,8 +24,8 @@ const styles = (theme) => {
 }
 
 function LatLng(props){
-    console.log('LATLNG')
-    console.log(props)
+    console.log('LATLNG COMPONENT')
+    
     return (
         <div item className={props.classes.overlayLayersLatLon}>
             <Grid component="label" container spacing={1}>

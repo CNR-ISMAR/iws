@@ -105,7 +105,7 @@ export const initialState = {
     favorites: {
       name: "Favourites",
       id: "favorites",
-      isVisible: true,
+      isVisible: false,
       isTimeseries: false,
       type: 'circle',
       source: {
@@ -191,7 +191,11 @@ export const initialState = {
   LatLon: {
     longitude: 12.33265,
     latitude: 45.43713
+  },
+  requestError: {
+    message: null
   }
+
 };
 
 
@@ -249,30 +253,9 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.loading = false;
           draft.layers.favorites.error = initialState.layers.favorites.error;
           draft.layers.favorites.source.data = action.result;
+          draft.layers.favorites.isVisible = true
         break; 
-      case REQUEST_ERROR:
-        draft.popups.loading = false;
-        draft.popups.error = action.error;
-      break;
-      case CLOSE_INFO_LAYER:
-        draft.popups.results = [];
-      break;
-    }
-  });
 
-const latLngReducer = (state = initialState, action) =>
-  produce(state, draft => {
-    switch (action.type) {
-      case SET_LAT_LON:
-        draft.LatLon.latitude = action.latitude;
-        draft.LatLon.longitude = action.longitude;
-      break;
-  }
-})
-
-const favouriteReducer = (state = initialState, action) =>
-  produce(state, draft => {
-    switch (action.type) {
       case REQUEST_FAVOURITES:
         draft.favourites.loading = true;
         draft.favourites.error = initialState.favourites.error;
@@ -308,13 +291,30 @@ const favouriteReducer = (state = initialState, action) =>
       case DELETE_POST_FAVOURITE_SUCCESS:
           draft.loading = false;
           draft.popups.postfavourites.results = []
-        break;
+        break; 
+        
+      case REQUEST_ERROR:
+        /* draft.popups.loading = false; */
+        draft.requestError.message = action.error;
+      break;
       case CLOSE_INFO_LAYER:
+        draft.popups.results = [];
         draft.favourites.selected = {};
       break;
     }
-  })
+  });
+
+const latLngReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case SET_LAT_LON:
+        draft.LatLon.latitude = action.latitude;
+        draft.LatLon.longitude = action.longitude;
+      break;
+  }
+})
+
 
 export default mapPageReducer;
-export { favouriteReducer, latLngReducer }
+export { latLngReducer }
 

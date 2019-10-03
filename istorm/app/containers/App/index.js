@@ -47,7 +47,6 @@ import { SnackbarProvider } from 'notistack';
 import {requestNotification} from '../AuthProvider/actions'
 
 import makeSelectHistoryPage from '../History/selectors';
-import { setCurrentDate, togglePlay } from '../History/actions';
 
 import GlobalStyle from '../../global-styles';
 

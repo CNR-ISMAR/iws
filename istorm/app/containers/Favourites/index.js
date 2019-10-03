@@ -5,7 +5,7 @@
  *
  */
 
-import React, {useEffect}  from 'react';
+import React, {useEffect, useState}  from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import { Redirect, Route } from 'react-router-dom';
@@ -19,7 +19,7 @@ import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 /* import { toggleDrawerMini, toggleDrawer } from './actions'; */
-import makeSelectMapPage, {makeSelectFavourites} from 'containers/App/selectors';
+import makeSelectMapPage from 'containers/App/selectors';
 import { FavoriteIcon, ListIcon } from '../../utils/icons';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -29,35 +29,12 @@ import SidebarSubNav from 'components/SidebarSubNav';
 
 function FavouritesPage(props) {
   console.info("Favourite Page");
-  console.log(props.favourites)
-  /* const linkTo = (path) => {
-    if(isCurrentPage(path)) { 
-      props.history.push(`/favourites`) 
-    } else {
-      props.history.push(`/${path}`)
-    }
-  }  */
-  
-/*   const isCurrentPage = (pagePath) => {
-    const check = pagePath === props.location.pathname ? true : false
-    //return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
-    return check
-  }; */
-
-  /* const _delete = (id) => {
-    props.dispatch(deleteFavourite(id))
-  }; */
-
-  /* useEffect(() => {
-    if(props.favourites.loading == false ){
-      props.dispatch(requestFavourites())
-    }
- 
-  }, []) */
+  console.log(props)
+  /* const [open, setOpen] = useState(false) */
 
   useEffect(() => {
-    if(props.match.params.id && props.favourites.results.length > 0){
-      const FavouritesResults = props.favourites.results;
+    if(props.match.params.id && props.mapPage.favourites.results.length > 0){
+      const FavouritesResults = props.mapPage.favourites.results;
       if(FavouritesResults.some(result => result.id == props.match.params.id )){
         const selectedFav = FavouritesResults.filter(function(result) {
           return result.id == props.match.params.id;
@@ -67,18 +44,22 @@ function FavouritesPage(props) {
       }else{
         props.history.push(`/favourites`) 
       }
-    }  
+    }
+    /* if(props.mapPage.favourites.results.length > 0){
+      setOpen(true)
+    } */
   })
 
   return (
-    <>
-      <SidebarSubNav 
+     <>
+       <SidebarSubNav 
         category="favourites"
         location={props.location}
         deleteFunc={(id) => props.dispatch(deleteFavourite(id))}
         title="Favourites List" 
         icon={ListIcon} 
-        listItems={props.favourites.results}
+        listItems={props.mapPage.favourites.results}
+        open={true} 
         />
     </>
   );
@@ -86,7 +67,7 @@ function FavouritesPage(props) {
  
 
 const mapStateToProps = createStructuredSelector({
-  favourites: makeSelectFavourites(),
+  mapPage: makeSelectMapPage(),
   
 }) 
 

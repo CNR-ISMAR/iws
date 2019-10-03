@@ -10,7 +10,7 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import authReducer from 'containers/AuthProvider/reducer';
 import timelineReducer from 'containers/History/reducer';
 import mapReducer from 'containers/App/reducer';
-import {favouriteReducer, latLngReducer} from 'containers/App/reducer';
+import {latLngReducer} from 'containers/App/reducer';
 import notificationSnakeReducer from 'containers/NotificationSnake/reducer';
 
 /**
@@ -23,7 +23,6 @@ export default function createReducer(injectedReducers = {}) {
     auth: authReducer,
     timeline: timelineReducer,
     mapPage: mapReducer,
-    favourites: favouriteReducer,
     latLng: latLngReducer,
     notificationsSnake: notificationSnakeReducer,
     ...injectedReducers,
