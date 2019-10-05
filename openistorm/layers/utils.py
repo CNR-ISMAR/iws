@@ -475,11 +475,13 @@ class WmsQuery:
             ]
         }
         for dataset in datasets.keys():
+            # print(dataset)
             layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'
             if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
                                                           tzinfo=pytz.timezone('utc')):
                 layerFileName = 'history/' + layerFileName
             for layer in datasets[dataset]:
+                # print(layer)
                 # print("\n\n=======\n\n")
                 # print(dataset + ' ' + layer)
 
@@ -492,7 +494,7 @@ class WmsQuery:
                 layerdata = xmltodict.parse(r.content)
                 try:
                     result["results"][ layer] = {
-                        "mean": float(layerdata['FeatureInfoResponse']['FeatureInfo']['value']) * 100 if dataset=='sea_level' else 1
+                        "mean": float(layerdata['FeatureInfoResponse']['FeatureInfo']['value']) * 100 if dataset=='sea_level' else float(layerdata['FeatureInfoResponse']['FeatureInfo']['value'])
                     }
                 except:
                     print(layerdata)
@@ -506,7 +508,7 @@ class WmsQuery:
                 r = requests.get(url=url)
                 layerdata = xmltodict.parse(r.content)
                 # print(json.dumps(layerdata))
-                result["results"][ layer]["std"] = float(layerdata['FeatureInfoResponse']['FeatureInfo']['value']) * 100 if dataset=='sea_level' else 1
+                result["results"][ layer]["std"] = float(layerdata['FeatureInfoResponse']['FeatureInfo']['value']) * 100 if dataset=='sea_level' else float(layerdata['FeatureInfoResponse']['FeatureInfo']['value'])
 
         result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
         result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
@@ -577,7 +579,7 @@ class WmsQuery:
                 # print("\n")
                 # print(layerdata)
                 # print("\n")
-                result['results'][layer] = list({"x": x['time'], "y": float(x['value']) * 100 if dataset=='sea_level' else 1} for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
+                result['results'][layer] = list({"x": x['time'], "y": float(x['value']) * 100 if dataset=='sea_level' else float(x['value'])} for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
 
         result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
         result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
