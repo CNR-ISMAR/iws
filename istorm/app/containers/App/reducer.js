@@ -74,6 +74,7 @@ export const initialState = {
           // 'https://www.informare-er.it/istorms/base/{z}/{x}/{y}.png'
           // proxyUrl + '/istorms/base/{z}/{x}/{y}.png'
           proxyUrl + '/istorms/istorms/base/{z}/{x}/{y}.png'
+          // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
         ],
         tileSize: 256,
       },
@@ -266,12 +267,18 @@ const mapPageReducer = (state = initialState, action) =>
       case REQUEST_INFO_LAYER_SUCCESS:
         draft.popups.loading = false;
         draft.popups.error = initialState.popups.error;
-        const results = Object.keys(action.result.results)
-          .sort()
-          .reduce((acc, key) => ({
-              ...acc, [key]: action.result.results[key]
-          }), {})
-        draft.popups.results = [{...action.result, show: true, results: results}];
+        // console.log(action.result)
+        // const results = Object.keys(action.result.results)
+        //   .sort()
+        //   .reduce((acc, key) => ({
+        //       ...acc, [key]: action.result.results[key]
+        //   }), {})
+        const results = {...action.result, parameters: action.result.parameters.sort()}
+        // console.log('CONV RESULTS')
+        // console.log('CONV RESULTS')
+        // console.log('CONV RESULTS')
+        // console.log(results)
+        draft.popups.results = [{...results, show: true}];
       break;
       case REQUEST_FAVOURITES_LAYER:
           draft.layers.favorites.loading = true;

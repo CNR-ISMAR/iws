@@ -17,5 +17,9 @@ export default {
   "wsh-mean": "Wave Height mean",
   "wmp-mean": "Wave Period mean",
   "wmd-mean": "Wave Direction mean",
+  "sea_level-station": "Sea Level station",
+  "wmp-station": "Wave Period station",
+  "wmd-station": "Wave Direction station",
+  "wsh-station": "Wave Height station",
   }
 }

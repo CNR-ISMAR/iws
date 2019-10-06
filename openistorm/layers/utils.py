@@ -45,9 +45,9 @@ class WmsQueryNew:
             "SRS": "EPSG:4326",
             "CRS": "EPSG:4326",
             "INFO_FORMAT": "text/xml",
-            # "i": 1,
-            # "j": 1,
-            # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            # "i": 1,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            # "j": 1,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
             "BBOX": BBOX,
             "X": X,
             "Y": Y,
@@ -96,8 +96,85 @@ class WmsQueryNew:
             'min': ordered[0] if len(ordered) > 5 else None
         }
 
+    def get_values(self):
+        datasets = {
+            'waves': [
+                "wmd",
+                "wmp",
+                "wsh",
+            ],
+            'sea_level': [
+                'sea_level',
+            ]
+        }
+        value_types = ['mean', 'std']
+        result = {
+            "results": {
+                'station': {},
+                'mean': {},
+                'std': {},
+            }
+        }
+        for value_type in value_types:
+            for dataset in datasets.keys():
+                for layer in datasets[dataset]:
 
-    def query(self, dataset, layer, time_from, time_to=None):
+                    queryResponse = self.query(dataset, layer+'-'+value_type, self.time_from, None, True)
+                    try:
+                        data = queryResponse['FeatureInfoResponse']['FeatureInfo']
+                        result["results"][value_type][layer] = float(data['value']) * 100 if dataset=='sea_level' else float(data['value'])
+                    except:
+                        print(queryResponse)
+                        # raise Exception(json.dumps(queryResponse)+"\n")
+
+        try:
+            result['latitude'] = float(queryResponse['FeatureInfoResponse']['latitude'])
+            result['longitude'] = float(queryResponse['FeatureInfoResponse']['longitude'])
+            result['time'] = data['time']
+            result['parameters'] = result["results"]['mean'].keys()
+        except:
+            print(queryResponse)
+            # raise Exception(json.dumps(queryResponse)+"\n")
+        return result
+
+    def get_timeseries(self):
+
+        self.setTimeRange('sea_level')
+
+        datasets = {
+            'waves': [
+                'wmd-mean',
+                'wmd-std',
+                'wmp-mean',
+                'wmp-std',
+                'wsh-mean',
+                'wsh-std',
+            ],
+            'sea_level': [
+                'sea_level-mean',
+                'sea_level-std',
+            ]
+        }
+        result = {
+            'results': {}
+        }
+        for dataset in datasets.keys():
+            for layer in datasets[dataset]:
+                layerdata = self.query(dataset, layer, self.time_from, self.time_to, True)
+                try:
+                    result['results'][layer] = list(
+                        {"x": x['time'], "y": float(x['value']) * 100 if dataset == 'sea_level' else float(x['value'])}
+                        for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
+                except:
+                    print(layerdata)
+
+        result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
+        result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
+        result['from'] = self.time_from.isoformat()[0:19] + '.000Z'
+        result['to'] = self.time_to.isoformat()[0:19] + '.000Z'
+        return result
+
+    def query(self, dataset, layer, time_from, time_to=None, raw=False):
         options = self.default_options
         layerFileName = self.history + 'TMES_' + dataset + '_' + self.formatted_date + '.nc'
         options.update({
@@ -106,8 +183,47 @@ class WmsQueryNew:
         })
         url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
         r = requests.get(url=url)
-        queryData = xmltodict.parse(r.content)['FeatureInfoResponse']
+        queryData = xmltodict.parse(r.content)
+        if not raw:
+            queryData = queryData['FeatureInfoResponse']
         return queryData
+
+    # def get_values(self):
+    #     datasets = {
+    #         'waves': [
+    #             "wmd",
+    #             "wmp",
+    #             "wsh",
+    #         ],
+    #         'sea_level': [
+    #             'sea_level',
+    #         ]
+    #     }
+    #     result = {
+    #         "results": {}
+    #     }
+    #     for dataset in datasets.keys():
+    #         for layer in datasets[dataset]:
+    #             queryResponse = self.query(dataset, layer+'-mean', self.time_from, None, False)['FeatureInfo']
+    #             try:
+    #                 result["results"][ layer] = {
+    #                     "mean": float(queryResponse['value']) * 100 if dataset=='sea_level' else float(queryResponse['value'])
+    #                 }
+    #             except:
+    #                 print(queryResponse)
+    #                 raise Exception(json.dumps(queryResponse)+"\n")
+    #
+    #             queryResponse = self.query(dataset, layer+'-std', self.time_from, None, True)
+    #             try:
+    #                 std = queryResponse['FeatureInfoResponse']['FeatureInfo']
+    #                 result["results"][ layer]["std"] = float(std['value']) * 100 if dataset=='sea_level' else float(std['value'])
+    #             except:
+    #                 print(queryResponse)
+    #                 raise Exception(json.dumps(queryResponse)+"\n")
+    #
+    #     result['latitude'] = float(queryResponse['FeatureInfoResponse']['latitude'])
+    #     result['longitude'] = float(queryResponse['FeatureInfoResponse']['longitude'])
+    #     result['time'] = std['time']
 
 class NCToImg:
 
@@ -161,7 +277,6 @@ class NCToImg:
         wget.download(self.url, out=self.nc_filepath, bar=None)
 
         if os.path.isfile(self.nc_filepath):
-            # logging.info("File " + self.nc_filename+ " scaricato...")
 
             tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
             os.system(
@@ -174,7 +289,6 @@ class NCToImg:
                 self.parameters[1] + ' ' + tif2filename)
 
             if os.path.isfile(tif1filename) & os.path.isfile(tif2filename):
-                # logging.info("Riproiezione in " + tif1filename+ " e "+tif2filename)
 
                 ds1 = gdal.Open(tif1filename)
                 ds2 = gdal.Open(tif2filename)
@@ -203,7 +317,6 @@ class NCToImg:
                 dy = str(-yres)
 
                 n_bande = ds1.RasterCount
-                # print("BANDE TOTALI "+str(n_bande))
 
                 for banda in range(1, n_bande+1):
                     print("BANDA "+str(banda))
@@ -217,11 +330,6 @@ class NCToImg:
                     ts = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
                     json_time = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
                     print("json_time "+str(json_time))
-                    # print("m['NETCDF_DIM_time']) "+str(m['NETCDF_DIM_time']))
-
-
-                    # ts = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%s')
-                    # json_time = datetime.fromtimestamp( (int(m['NETCDF_DIM_time'])*3600) + since).strftime('%Y-%m-%dT%H:%M.000Z')
 
                     data = []
 
@@ -284,14 +392,9 @@ class NCToImg:
                     self.generate_wave_image_and_meta_from_json(tsfile_path, os.path.join(settings.LAYERDATA_ROOT,output_prefix))
                     # TODO: save in database
                     image_layer, result = ImageLayer.objects.update_or_create(dataset=self.dataset, timestamp=ts,)
-                    # print(image_layer.__dict__)
-
-
-                    # logging.info("Esportati "+str(n_bande)+ " file json in: "+str(datetime.now() - startTime))
 
                     os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
-                # ds1 = None
-                # ds2 = None
+
                 os.system("rm " + self.nc_filepath)
                 os.system("rm " + tif1filename)
                 os.system("rm " + tif2filename)
@@ -312,11 +415,6 @@ class NCToImg:
         v['min'] = self.min(v['data'])
         u['max'] = self.max(u['data'])
         v['max'] = self.max(v['data'])
-        
-        # print('min '+ str(v['min']))
-        # print('min '+ str(v['min']))
-        # print('max '+ str(v['max']))
-        # print('max '+ str(v['max']))
 
         bgmin = -1
         bgmax = 8
@@ -358,13 +456,6 @@ class NCToImg:
                         opa = 1
                     else:
                         pngDataBackground.append((255, 255, 255, 0))
-                # else:
-                #     pngData.append((255, 255, 255, 0))
-                #
-                #     if x % width not in (0,1):
-                #         pngDataBackground.append(p)
-                #     else:
-                #         pngDataBackground.append((255, 255, 255, 0))
 
         image = Image.new('RGBA', (width, height))
         image.putdata(pngData)
@@ -398,192 +489,8 @@ class NCToImg:
 
         os.system("rm " + input_file)
 
-    # def normalize_data(self, data):
-    #     return list(map(lambda x: None if x == 'NaN' else x, data))
-
     def min(self, data):
         return min(x for x in data if x is not None)
 
     def max(self, data):
         return max(x for x in data if x is not None)
-
-
-
-class WmsQuery:
-    def __init__(self, BBOX, X, Y, WIDTH, HEIGHT, time_from=None, time_to=None):
-
-        self.tmp = True if "2015-02" in time_from else False
-
-
-        self.time_from = parser.parse(time_from) if time_from is not None else False
-        self.time_to = parser.parse(time_to) if time_to is not None else False
-
-        self.default_options = {
-            "REQUEST": "GetFeatureInfo",
-            "ELEVATION": "0",
-            "TRANSPARENT": "true",
-            "STYLES": "boxfill/rainbow",
-            "COLORSCALERANGE": "-50,50",
-            "NUMCOLORBANDS": "20",
-            "LOGSCALE": "false",
-            "SERVICE": "WMS",
-            # "VERSION": "1.3.0",
-            "VERSION": "1.1.1",
-            "FORMAT": "image/png",
-            "SRS": "EPSG:4326",
-            "CRS": "EPSG:4326",
-            "INFO_FORMAT": "text/xml",
-            # "i": 1,
-            # "j": 1,
-            # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
-            "BBOX": BBOX,
-            "X": X,
-            "Y": Y,
-            "WIDTH": WIDTH,
-            "HEIGHT": HEIGHT,
-            # "TIME": "2019-09-17T00:00:00.000Z/2019-09-17T23:00:00.000Z",
-            # "QUERY_LAYERS": "sea_level-mean",
-            # "LAYERS": "sea_level-mean",
-        }
-
-
-    def get_values(self):
-
-        formatted_date = self.time_from.strftime("%Y%m%d")
-
-        if self.tmp:
-            formatted_date = "20150205"
-
-        result = {
-            "results": {}
-        }
-        options = self.default_options
-        time = self.time_from.isoformat()[0:19] + '.000Z'
-
-        if self.tmp and self.time_from <= parser.parse('2015-02-05T00:00:00Z'):
-            time = '2015-02-05T00:00:00Z'
-
-
-        datasets = {
-            'waves': [
-                "wmd",
-                "wmp",
-                "wsh",
-            ],
-            'sea_level': [
-                'sea_level',
-            ]
-        }
-        for dataset in datasets.keys():
-            # print(dataset)
-            layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'
-            if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
-                                                          tzinfo=pytz.timezone('utc')):
-                layerFileName = 'history/' + layerFileName
-            for layer in datasets[dataset]:
-                # print(layer)
-                # print("\n\n=======\n\n")
-                # print(dataset + ' ' + layer)
-
-                options.update({
-                    "TIME": time,
-                    "QUERY_LAYERS": layer+"-mean",
-                })
-                url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
-                r = requests.get(url=url)
-                layerdata = xmltodict.parse(r.content)
-                try:
-                    result["results"][ layer] = {
-                        "mean": float(layerdata['FeatureInfoResponse']['FeatureInfo']['value']) * 100 if dataset=='sea_level' else float(layerdata['FeatureInfoResponse']['FeatureInfo']['value'])
-                    }
-                except:
-                    print(layerdata)
-                    raise Exception(json.dumps(layerdata)+"\n"+url)
-
-                options.update({
-                    "TIME": time,
-                    "QUERY_LAYERS": layer+"-std",
-                })
-                url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
-                r = requests.get(url=url)
-                layerdata = xmltodict.parse(r.content)
-                # print(json.dumps(layerdata))
-                result["results"][ layer]["std"] = float(layerdata['FeatureInfoResponse']['FeatureInfo']['value']) * 100 if dataset=='sea_level' else float(layerdata['FeatureInfoResponse']['FeatureInfo']['value'])
-
-        result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
-        result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
-        result['time'] = layerdata['FeatureInfoResponse']['FeatureInfo']['time']
-
-        # print("\n\n\n\n"+json.dumps(result)+"\n\n\n\n")
-        return result
-
-    def get_timeseries(self):
-
-        # formatted_date = self.time_from.strftime("%Y%m%d")
-        # TODO: TO FIX
-        formatted_date = self.time_to.strftime("%Y%m%d")
-
-        if self.tmp:
-            formatted_date = "20150205"
-
-        datasets = {
-            'waves': [
-                'wmd-mean',
-                'wmd-std',
-                'wmp-mean',
-                'wmp-std',
-                'wsh-mean',
-                'wsh-std',
-            ],
-            'sea_level': [
-                'sea_level-mean',
-                'sea_level-std',
-            ]
-        }
-        result = {
-            'results': {}
-        }
-        options = self.default_options
-        # time_from = self.time_from.isoformat()[0:19] + '.000Z'
-        # time_to = self.time_to.isoformat()[0:19] + '.000Z'
-        # TODO: TO FIX
-        time_from = datetime.combine(self.time_to, timed.min).replace(hour=1).isoformat()[0:19] + '.000Z'
-        time_to = self.time_to.isoformat()[0:19] + '.000Z'
-
-        if self.tmp:
-            time_from = "2015-02-05T00:00:00Z"
-            time_to = "2015-02-06T23:00:00Z"
-
-        for dataset in datasets.keys():
-            layerFileName = 'TMES_' + dataset + '_' + formatted_date + '.nc'
-            # if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
-            #                                               tzinfo=pytz.timezone('utc')):
-            #     layerFileName = 'history/' + layerFileName
-            # TODO: TO FIX
-            if self.time_to < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
-                                                          tzinfo=pytz.timezone('utc')):
-                layerFileName = 'history/' + layerFileName
-
-            for layer in datasets[dataset]:
-
-                options.update({
-                    "TIME": time_from + '/' + time_to,
-                    "QUERY_LAYERS": layer,
-                })
-                url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
-                # print("\n")
-                # print(url)
-                # print("\n")
-                r = requests.get(url=url)
-                layerdata = xmltodict.parse(r.content)
-                # print("\n")
-                # print(layerdata)
-                # print("\n")
-                result['results'][layer] = list({"x": x['time'], "y": float(x['value']) * 100 if dataset=='sea_level' else float(x['value'])} for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
-
-        result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
-        result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
-        result['from'] = time_from
-        result['to'] = time_to
-        # print(json.dumps(result))
-        return result

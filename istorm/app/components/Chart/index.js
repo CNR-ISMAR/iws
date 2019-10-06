@@ -48,22 +48,34 @@ const legendsColors = {
   wmp: theme.palette.custom.waveDirection,
   wsh: theme.palette.custom.wavePeriod
 }
-let legendsItems = Object.keys(labels.lines).sort().map((item) => {return {
+const legendsItems = Object.keys(labels.lines).sort().map((item) => {return {
   'id': item,
   'title': labels.lines[item],
   'color': legendsColors[item.split('-')[0]],
-  'strokeStyle': item.includes('mean') ? 'solid' : 'dashed',
+  'strokeStyle': item.includes('mean') || item.includes('station') ? 'solid' : 'dashed',
   'disabled': false,
 }})
 
-let recordclick = {}
 function Chart(props) {
-  const [chart, setChartState] = useState({ width: 0, height: 0, itemClickID: '', crosshairValues: [] });
+  const [chart, setChartState] = useState(
+    {
+      width: 0,
+      height: 0,
+      itemClickID: '',
+      crosshairValues: [],
+      recordclick: {}
+    }
+  );
   const wrapper = useRef(null);
   // console.log('Chart')
   /* console.log(props.data) */
   const updateWidthHeight = () => {
     setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 25   })
+  };
+  const setRecordClick = (itemId, clicked) => {
+    let tmp = chart.recordclick;
+    tmp[itemId] = clicked;
+    setChartState({...chart, recordclick:tmp})
   };
 
   const fixFormat = (ts) => {
@@ -80,7 +92,7 @@ function Chart(props) {
 
   
   useEffect(updateWidthHeight, [props.data]);
-  
+
   return (
     <div ref={wrapper} className={props.classes.subNav}>
         {/* console.log(chart.itemClickID) */}  
@@ -119,13 +131,7 @@ function Chart(props) {
                     title: {fill: '#698397'}
                 }}/>
                 { Object.keys(props.data)
-                          .filter(name => {
-                            if(recordclick[name] === undefined || recordclick[name]){
-                              return true
-                            }else{
-                              return false
-                            } 
-                          })
+                          .filter(name => chart.recordclick[name] === undefined || chart.recordclick[name])
                           .map(name => {
                             return (
                               <LineSeries 
@@ -137,11 +143,11 @@ function Chart(props) {
                                     name.includes('wmp') && legendsColors.wmp ||
                                     name.includes('wsh') && legendsColors.wsh
                                   }
-                                  opacity={ 1 /*recordclick[name] === undefined || recordclick[name] ? 1 : 0*/  }
+                                  opacity={ 1 }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'} 
-                                  strokeStyle={name.includes('mean') ? 'solid' : 'dashed'}
-                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} /> 
+                                  strokeStyle={name.includes('mean') || name.includes('station') ? 'solid' : 'dashed'}
+                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} />
                               )
                           })
                 }
@@ -171,17 +177,20 @@ function Chart(props) {
                 </Crosshair>
               </XYPlot>
               <DiscreteColorLegend 
-                  items={legendsItems} 
+                  items={legendsItems.filter(item => props.data && props.data[item.id] && props.data[item.id].length > 0)}
+                  // items={legendsItems}
                   orientation='horizontal'
-                  onItemClick={item => { 
+                  onItemClick={item => {
                     setChartState({ ...chart, itemClickID: item.id }); 
-                    if(recordclick[item.id] === undefined){
-                      recordclick[item.id] = false
+                    if(chart.recordclick[item.id] === undefined){
+                      console.log('PASSO UNDEFINED')
+                      setRecordClick(item.id, false)
                     }
                     else{
-                      recordclick[item.id] = !recordclick[item.id]
+                      console.log('NON PASSO UNDEFINED')
+                      setRecordClick(item.id, !chart.recordclick[item.id])
                     }
-                    legendsItems.map(legenditem => { 
+                    legendsItems.map(legenditem => {
                       if(item.id === legenditem.id){
                         if(legenditem.disabled){
                           legenditem.disabled = false

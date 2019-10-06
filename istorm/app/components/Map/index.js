@@ -129,7 +129,7 @@ const styles = (theme) => {
   }
 };
 
-let addFavourite = false
+// let addFavourite = false
 
 class Map extends React.Component {
 
@@ -145,6 +145,7 @@ class Map extends React.Component {
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic,
       },
+      addFavourite: false
     };
        
     this.flyTo = this.flyTo.bind(this);
@@ -152,6 +153,7 @@ class Map extends React.Component {
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.setAddFavourite = this.setAddFavourite.bind(this);
     this.openingTime = this.props.theme.transitions.duration.enteringScreen;
 
   }
@@ -177,10 +179,15 @@ class Map extends React.Component {
   updateViewport(viewport) {
     this.props.dispatch(setViewport(viewport));
   }
+  setAddFavourite(value) {
+    if(this.state.addFavourite !== value) {
+    this.setState({...this.state, addFavourite:value})
+    }
+  }
 
   componentDidUpdate(){
     console.log('React Map Update')
-    Object.keys(this.props.favourites.selected).length > 0 ? addFavourite = true : addFavourite = false
+    Object.keys(this.props.favourites.selected).length > 0 ? this.setAddFavourite(true)  : this.setAddFavourite(false)
    
   }
 
@@ -287,7 +294,7 @@ class Map extends React.Component {
           <>
             {this.props.seaLevel.isVisible && 
               (<LayerSeaLevel 
-                layerInfo={this.props.layerInfo} 
+                layerInfo={this.props.layerInfo}
                 key={'LayerSeaLevel'} 
                 layer={this.props.seaLevel} 
                 mean={this.props.mean}/>)}
@@ -336,31 +343,47 @@ class Map extends React.Component {
                     <TableHead>
                       <TableRow >
                       <TableCell></TableCell>
-                      {Object.keys(popup.results).map((name, index) =>
+                      { popup.parameters.map((name, index) =>
                         <TableCell key={name+'-'+index}>{labels[name]}</TableCell>
                       )}
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      <TableRow>
-                        <TableCell>mean</TableCell>
-                        {Object.keys(popup.results).map((name, index) =>
-                          <TableCell key={name+'-mean-'+index}>{ parseInt(popup.results[name].mean) }</TableCell>
-                        )}
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>std</TableCell>
-                        {Object.keys(popup.results).map((name, index) =>
-                          <TableCell key={name+'-std-'+index}>{ parseInt(popup.results[name].std) }</TableCell>
-                        )}
-                      </TableRow>
+                      {
+                        typeof popup.results.mean === 'object' &&
+                        <TableRow>
+                          <TableCell>mean</TableCell>
+                          {popup.parameters.map((name) =>
+                            <TableCell key={name + '-mean'}>{parseInt(popup.results.mean[name])}</TableCell>
+                          )}
+                        </TableRow>
+                      }
+                      {
+                        typeof popup.results.std === 'object' &&
+                        <TableRow>
+                          <TableCell>std</TableCell>
+                          {popup.parameters.map((name) =>
+                            <TableCell key={name + '-std'}>{parseInt(popup.results.std[name])}</TableCell>
+                          )}
+                        </TableRow>
+                      }
+                      {
+                        typeof popup.results.station === 'object' &&
+                        // popup.results.std && typeof popup.results.std === 'object' &&
+                        <TableRow>
+                          <TableCell>station</TableCell>
+                          { popup.parameters.map((name) =>
+                            <TableCell key={name+'-station'}>{ typeof popup.results.station[name] == 'number' ? parseInt(popup.results.station[name]) : '' }</TableCell>
+                          )}
+                        </TableRow>
+                      }
                     </TableBody>
                   </Table>
                   <Box textAlign="center" className="buttons" p={1} display="flex" flexDirection="row">
                     <Button className={this.props.classes.buttonChart} onClick={ () => { 
                         const latlon = new LngLat(popup.longitude, popup.latitude)
                         const bb200 = latlon.toBounds(200)
-                        console.log(bb200)
+                        // console.log(bb200)
                         this.props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${this.props.timeline.from}&width=2&height=2&to=${this.props.timeline.to}&station=${this.state.station}`)
                       }
                     }>
@@ -371,7 +394,7 @@ class Map extends React.Component {
  
                             onClick={ (e) => {
                                       e.preventDefault()
-                                      if(!addFavourite){
+                                      if(!this.state.addFavourite){
                                         this.props.dispatch(postFavourite({ 
                                           title: "",
                                           address: "",
@@ -384,7 +407,7 @@ class Map extends React.Component {
                                       }
                                     }
                       }>
-                      {  addFavourite &&
+                      {  this.state.addFavourite &&
                         <GradeIcon></GradeIcon> || <GradeOutlinedIcon></GradeOutlinedIcon>
                       }
                       </Button> 

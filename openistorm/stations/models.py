@@ -11,7 +11,7 @@ class StationData(models.Model):
     id = models.IntegerField(editable=False)
     timestamp = models.DateTimeField(editable=False)
     value = models.FloatField(editable=False)
-    value_norm = models.value_norm(editable=False)
+    value_norm = models.FloatField(editable=False)
     location = models.CharField(editable=False)
     parameter = models.CharField(editable=False)
     network = models.CharField(editable=False)
