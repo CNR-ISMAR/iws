@@ -33,11 +33,11 @@ class ImageLayer(models.Model):
 
 
 
-class StationData(models.Model):
-    workspace_id = models.UUIDField(editable=False)
-    geom_multipolygon = gismodel.MultiPolygonField(editable=False)
-    score = models.FloatField(editable=False)
-
-    class Meta:
-        db_table = 'measurements_measure_view'
-        managed = False
+# class StationData(models.Model):
+#     workspace_id = models.UUIDField(editable=False)
+#     geom_multipolygon = gismodel.MultiPolygonField(editable=False)
+#     score = models.FloatField(editable=False)
+#
+#     class Meta:
+#         db_table = 'measurements_measure_view'
+#         managed = False
