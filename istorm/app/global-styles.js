@@ -63,7 +63,7 @@ body{
 }
 
 .MuiTooltip-popper {
-  z-index: 500 !important
+  z-index: 9 !important
 }
 
 #outdated .last {
