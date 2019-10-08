@@ -1,6 +1,8 @@
+
 .. toctree::
     :maxdepth: 2
 
+    about_geoportal.rst
     accounts_user_profile/index
     users_groups/index
     data/index

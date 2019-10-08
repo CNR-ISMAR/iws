@@ -1,52 +1,69 @@
 .. _mainindex:
 
-=======================
-IWS Geoportal's Documentation
-=======================
+=================================
+I-STORMS Web System Documentation
+=================================
 
-Welcome to IWS Geoportal's Documentation.
+Welcome to I-STORMS Web System (IWS) Documentation.
+IWS is a results of the `I-STORMS project <https://istorms.adrioninterreg.eu/>`_,
+supported by the `Interreg ADRION programme
+<https://www.adrioninterreg.eu>`_ funded under the European Regional Development 
+Fund and IPA II fund.
 
-This manual is based on `Geonode's Documentation <http://docs.geonode.org/>`_ Geonode Development Team 2019
+In order to address the territorial challenges related to sea storms effects 
+on the coastal areas, the I-STORMS project aims to develop a shared and 
+interoperable system (I-STORMS Web integrated System - IWS) to allow a better 
+exchange of information among partners and stakeholders in the Adriatic-Ionian area.
 
-THe I-STORMS web System is a results of the `I-STORMS project <https://istorms.adrioninterreg.eu/>`_
-
-GeoNode is an Open Source, Content Management System (CMS) for geospatial data. It is a web-based application and platform for developing geospatial information systems (GIS) and for deploying spatial data infrastructures (SDI).
-
-Table of contents
-=================
+The IWS allows the public data, ocean forecast results and information about sea 
+storms to be explored over the internet through the use of share
+maps, dashboards, graphics, tables and other interactive geo-visualization tools.
+IWS has been designed to foster the data dissemination in according to
+the community-based paradigm and to the Open Data principles (i.e. open format,
+open licensing), while respecting each countries' data policies.
 
 .. toctree::
-    :caption: The IWS
-    :maxdepth: 3
+    :caption: IWS
+    :maxdepth: 1
 
-    about_iws/index
-
-
-.. toctree::
-    :caption: Usage of Geoportal
-    :maxdepth: 3
-
-    usage/index
-
+    iws/about_iws
+    iws/system-user-interactions
+    iws/authentication
+    iws/disclaimer_iws
 
 .. toctree::
     :caption: Sea Storm Atlas
     :maxdepth: 3
 
-    storm_atlas/index
-    
-    
+    storm_atlas/about_atlas
+    storm_atlas/add_event
+
+.. toctree::
+    :caption: Measurements
+    :maxdepth: 3
+
+    measurements/about_measurements
+    measurements/customize_dashboard
+
+.. toctree::
+    :caption: Multi-model forecasts
+    :maxdepth: 3
+
+    tmes/about_tmes
+    tmes/tds
+
+.. toctree::
+    :caption: Geoportal
+    :maxdepth: 3
+
+    geoportal/index
+
 .. toctree::
     :caption: Open I-storms
     :maxdepth: 3
 
-    open_istorms/index    
-
-.. toctree::
-    :caption: Thredds Data server
-    :maxdepth: 3
-
-    tds/index
+    open_istorms/about_open_istorms
+    open_istorms/customize_open_istorms
 
 
 

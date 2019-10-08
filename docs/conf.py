@@ -43,15 +43,15 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'I-Storms Web System'
-copyright = u'2019, I-Storms project, CC-SA'
+project = u'I-STORMS Web System'
+copyright = u'2019, I-STORMS project, CC-SA'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '1.0'
+#version = '1.0'
 # The full version, including alpha/beta/rc tags.
 release = '1.0.beta'
 
@@ -189,7 +189,7 @@ htmlhelp_basename = 'IWSdoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'IWS.tex', u'IWS Documentation',
-   u'I-Storms Project & Geonode Development Team', 'manual'),
+   u'I-STORMS Project & Geonode Development Team', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -222,7 +222,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'iws', u'IWS Documentation',
-     [u'I-Storms Project & GeoNode Development Team'], 1)
+     [u'I-STORMS Project & GeoNode Development Team'], 1)
 ]
 
 
@@ -230,9 +230,9 @@ man_pages = [
 
 # Bibliographic Dublin Core info.
 epub_title = u'IWS'
-epub_author = u'I-Storms Project & GeoNode Development Team'
-epub_publisher = u'I-Storms Project & GeoNode Development Team'
-epub_copyright = u'2019, I-Storms Project, CC-SA'
+epub_author = u'I-STORMS Project & GeoNode Development Team'
+epub_publisher = u'I-STORMS Project & GeoNode Development Team'
+epub_copyright = u'2019, I-STORMS Project, CC-SA'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.
