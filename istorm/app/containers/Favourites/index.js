@@ -49,7 +49,7 @@ function FavouritesPage(props) {
     /* if(props.mapPage.favourites.results.length > 0){
       props.dispatch(toggleSidePanel(true))
     }  */
-  })
+  }, [props.match.params])
   
 
   return (
