@@ -9,8 +9,7 @@ import Button from '@material-ui/core/Button';
 import HeaderBar from "components/HeaderBar";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { inherits } from 'util';
-
-
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 
 const styles = (theme, style) => {
@@ -124,9 +123,11 @@ const styles = (theme, style) => {
               props.content && props.content()
             }
             { props.listItems && props.listItems.length > 0 && 
+            
               <List>
-                  {props.listItems.sort((a, b) => {return b.id - a.id } ).map((listItem) => {
+                  {props.listItems.sort((a, b) => {return b.id - a.id } ).map((listItem, index) => {
                   return (
+                    
                       <ListItem 
                           button 
                           className={`${props.classes.listItem} ${listItem.read ? 'read' : '' }`} 
@@ -134,7 +135,6 @@ const styles = (theme, style) => {
                           selected={isCurrentPage(`/${props.category}/${listItem.id}`)}>
                           <Link to={`/${props.category}/${listItem.id}`} 
                                 onClick={(e) => { 
-                                    e.preventDefault()
                                     props.clickEvent ? props.clickEvent(listItem.id) : null 
                                 } } >
                               <ListItemText primary={`${listItem.title}`} /> 
@@ -142,11 +142,14 @@ const styles = (theme, style) => {
                           </Link>
                           <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(listItem.id) : null} ><HighlightOffIcon/></Button>
                       </ListItem>
-                          )
-                      })
+                    
+                      )
+                    })
                   }
               </List>
+            
             }
+            
         </div> 
     );
   }
