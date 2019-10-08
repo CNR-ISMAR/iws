@@ -77,7 +77,7 @@ class WindLayer {
     this.animationFrame = null;
     this.windImageSrc =  windImageSrc;
     this.windImageMeta =  windImageMeta;
-    this.state = {wind: null, map: null};
+    this.state = {wind: null, map: null, previous:null};
     //this.render = this.render.bind(this)
     this.drawWind = this.drawWind.bind(this);
     this.updateWindScale = this.updateWindScale.bind(this);
@@ -85,8 +85,8 @@ class WindLayer {
 
   onAdd(map, gl) {
     this.loading = true;
-    const updateWindScale = this.updateWindScale
     this.state.map = map
+    const updateWindScale = this.updateWindScale
     const wind = new WindGL(this.ctx);
     wind.numParticles = this.calcNumParticles(map.transform.width, map.transform.height);
 
@@ -130,17 +130,19 @@ class WindLayer {
 
   calcNumParticles(width, height) {
     // console.log('calcNumParticles')
-    return Math.min(Math.floor(width / 20 * height / 20),
+    return Math.min(Math.floor(width / 20 * height / 20 / 5),
       1500
     );
   }
 
 
   updateWindScale(wind, map) {
-    // console.log('updateWindScale')
-    if (!wind || !wind.windData || !this.loading) {
+    if (!wind || !wind.windData || !this.loading || map._moving  || map._zooming
+      || ( JSON.stringify(map.transform) == this.state.previous )
+    ) {
       return;
     }
+    this.state.previous = JSON.stringify(map.transform)
     let data = wind.windData;
     let constRes = 5.01; // * window.devicePixelRatio
     let resolution = 40075016.686 * Math.cos(0) / Math.pow(2, (map.getZoom()) + 8) / constRes
@@ -175,13 +177,13 @@ class WindGLLayer extends BaseControl {
 
   getLayerBefore(map) {
     return 'cover';
-    // if(map.getLayer('favorites'))
-    //   return 'favorites';
-    // if(map.getLayer('stations-sea-level'))
-    //   return 'stations-sea-level';
-    // if(map.getLayer('stations-wave'))
-    //   return 'stations-wave';
-    // return null
+    if(map.getLayer('favorites'))
+      return 'favorites';
+    if(map.getLayer('stations-sea-level'))
+      return 'stations-sea-level';
+    if(map.getLayer('stations-wave'))
+      return 'stations-wave';
+    return null
   }
 
   componentDidMount() {
