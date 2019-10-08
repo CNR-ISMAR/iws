@@ -25,20 +25,21 @@ const styles = (theme, style) => {
         maxWidth: 300,
         overflowY: "auto",
         //flex: 1,
+        transform: 'translateX(0)',
         backgroundColor: theme.palette.custom.panelLightBk,
         transition: theme.transitions.create('transform', {
           duration: theme.transitions.duration.enteringScreen
         }), 
-        '&.slidein-enter':{
+        '&.slide-enter':{
           transform: 'translateX(-260px)'
         },
-        '&.slidein-enter-active':{
+        '&.slide-enter-active':{
           transform: 'translateX(0)'
         },
-        '&.slidein-enter-exit':{
+        '&.slide-enter-exit':{
           transform: 'translateX(0)'
         },
-        '&.slidein-exit-active':{
+        '&.slide-exit-active':{
           transform: 'translateX(-260px)'
         }
       },
@@ -131,7 +132,11 @@ const styles = (theme, style) => {
                           className={`${props.classes.listItem} ${listItem.read ? 'read' : '' }`} 
                           key={"nav-stormtestents-"+listItem.id} 
                           selected={isCurrentPage(`/${props.category}/${listItem.id}`)}>
-                          <Link to={`/${props.category}/${listItem.id}`} onClick={() => props.clickEvent ? props.clickEvent(listItem.id) : null} >
+                          <Link to={`/${props.category}/${listItem.id}`} 
+                                onClick={(e) => { 
+                                    e.preventDefault()
+                                    props.clickEvent ? props.clickEvent(listItem.id) : null 
+                                } } >
                               <ListItemText primary={`${listItem.title}`} /> 
                               { props.listItemContent && props.listItemContent(`${listItem.description}`) }
                           </Link>

@@ -12,6 +12,10 @@ body{
   width: 80%;
   margin: 0 auto;
 }
+.appContent{
+  height: 100%;
+  width: 100%
+}
 #outdated {
   position: absolute;
   background-color: #4874a1!important;

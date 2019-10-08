@@ -48,6 +48,8 @@ import {requestNotification} from '../AuthProvider/actions'
 
 import makeSelectHistoryPage from '../History/selectors';
 
+import {makeSelectLocation} from './selectors';
+
 import GlobalStyle from '../../global-styles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -82,31 +84,46 @@ function App(props) {
           <Sidebar auth={props.auth}  isLogged={props.isLogged} />
           <main className={classes.content}>
             <MapPage isLogged={props.isLogged} />
-           <Switch>
-              {/*props.isLogged && (
-                <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-              )*/}
-              {!props.isLogged && (
-                <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
-              )}
-              <Route exact path="/" component={() => null} />
-              {  props.isLogged && 
-                <Route exact path={"/notification/:id?"} component={({match, history}) => <NotificationPage auth={props.auth} location={location} />  } /> 
-              }
-              <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
-              <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
-              <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
-              { props.isLogged && 
-                <Route path={"/favourites/:id?"} 
-                      component={ ({match, history, location}) => <FavouritesPage auth={props.auth}  match={match} history={history} location={location}/> } />  
-              }
-              <Route exact path={"/station/"} 
-                      component={({match, history}) => <StationChart timeline={props.timeline} auth={props.auth} history={history} />} />
-              <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
-              <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
-              <Route component={NotFoundPage} />
-            </Switch>
-
+               <TransitionGroup 
+                  className="appContent"
+                  exit={ props.routeLocation.pathname !== '/login' 
+                          && props.routeLocation.pathname.split('/').length < 3
+                          && !props.auth.loggingout 
+                          ? true 
+                          : false }
+                  enter={ props.routeLocation.pathname.split('/').length < 3 }                  
+                          >
+                  <CSSTransition
+                    key={props.routeLocation.key}
+                    timeout={500}
+                    classNames="slide"
+                  >
+                  <Switch location={props.routeLocation}>
+                    {/*props.isLogged && (
+                      <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
+                    )*/}
+                    {!props.isLogged && (
+                      <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
+                    )}
+                    <Route exact path="/"  component={() => null} />
+                    {  props.isLogged && 
+                      <Route exact path={"/notification/:id?"} component={({match, history}) => <NotificationPage auth={props.auth} location={location} />  } /> 
+                    }
+                    <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
+                    <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
+                    <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
+                    { props.isLogged && 
+                      <Route path={"/favourites/:id?"} 
+                            component={ ({match, history, location}) => <FavouritesPage auth={props.auth}  match={match} history={history} location={location}/> } />  
+                    }
+                    <Route exact path={"/station/"} 
+                            component={({match, history}) => <StationChart timeline={props.timeline} auth={props.auth} history={history} />} />
+                    <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
+                    <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
+                    <Route component={NotFoundPage} />
+                  </Switch>
+                  </CSSTransition>
+                </TransitionGroup>
           </main>
       </div>
       <GlobalStyle />
@@ -121,6 +138,7 @@ App.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   // notifications: makeSelectNotifications(),
+  routeLocation: makeSelectLocation(),
   timeline: makeSelectHistoryPage(),
   //wmsVisible: makeSelectVisibleWmsLayer()
 });

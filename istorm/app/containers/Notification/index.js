@@ -59,6 +59,7 @@ function NotificationPage(props) {
   return (
     <>
       <SidebarSubNav
+        category="notification"
         mainClass={props.classes.notification}
         location={props.location}
         deleteFunc={(id) => props.dispatch(deleteNotification(id))}

@@ -26,7 +26,8 @@ const styles = (theme) => {
       zIndex: 10,
       padding: 0,
       paddingTop: 64,
-      backgroundColor: "white"
+      backgroundColor: "white",
+      height: '100%',
     },
   }
 };

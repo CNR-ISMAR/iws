@@ -13,6 +13,7 @@ import { STOP_LOADING, SYNC_AUTH, REQUEST_LOGIN,
 
 export const initialState = {
   loading: false,
+  loggingout: false,
   user: {
     email: ""
   },
@@ -42,6 +43,7 @@ const authReducer = (state = initialState, action) =>
         break;
       case REQUEST_LOGIN:
           draft.loading = true;
+          draft.loggingout = false;
         break;
       case REQUEST_LOGIN_SUCCESS:
           draft.loading = false;
@@ -52,6 +54,7 @@ const authReducer = (state = initialState, action) =>
         break;
       case REQUEST_LOGOUT:
           draft.loading = true;
+          draft.loggingout = true;
         break;
       case REQUEST_LOGOUT_SUCCESS:
           draft.loading = false;
