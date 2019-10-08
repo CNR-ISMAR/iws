@@ -384,7 +384,10 @@ class Map extends React.Component {
                         const latlon = new LngLat(popup.longitude, popup.latitude)
                         const bb200 = latlon.toBounds(200)
                         // console.log(bb200)
+                        this.props.dispatch(togglePaper(false))
+                        this.props.dispatch(closeInfoLayer());  
                         this.props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${this.props.timeline.from}&width=2&height=2&to=${this.props.timeline.to}&station=${this.state.station}`)
+                        
                       }
                     }>
                       <BarChartIcon></BarChartIcon>
