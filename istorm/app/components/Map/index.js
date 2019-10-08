@@ -51,6 +51,8 @@ import labels from '../../utils/labels.js'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { fontSize } from '@material-ui/system';
 
+import InfoLayer from 'containers/InfoLayer';
+
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
 const styles = (theme) => {
@@ -59,73 +61,6 @@ const styles = (theme) => {
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
     },
-    paperWrapper:{
-      "& *[class^='MuiTableCell']":{
-        // fontFamily: "Roboto",
-        color: theme.palette.common.white,
-        padding: "4px 0px",
-        fontSize: "0.75rem",
-        "line-height": "1.5em",
-        textAlign: "center",
-        borderColor: theme.palette.custom.contrastText,
-        width: 15,
-        [theme.breakpoints.down('md')]: {
-          padding: 4,
-        },
-      },
-      "& *[class^='MuiTypography']":{
-        // fontFamily: "Roboto",
-        color: theme.palette.common.white,
-        fontSize: "0.75rem"
-      },
-      borderColor: theme.palette.custom.contrastText,
-      backgroundColor: theme.palette.custom.backgroundOverlay,
-      width: theme.sizing.paperWrapperWidth,
-      position: "absolute",
-      left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
-      top: -200,
-      border: "1px solid",
-      borderRadius: 0,
-      width: 460,
-      padding: 8,
-      transition: theme.transitions.create('top', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      [theme.breakpoints.down('md')]: {
-        width: 360
-      },
-    },
-    paperOpen: {
-      top: 5,
-    },
-    headerTopClose: {
-      minWidth: "auto",
-      position: "absolute",
-      right: 0,
-      top: 0,
-      color:theme.palette.custom.contrastText,
-      "&:hover": {
-        background: "transparent",
-        color:theme.palette.custom.contrastTextSelected,
-      }
-    },
-    buttonChart:{
-      width:"50%",
-      color:theme.palette.custom.contrastText,
-      "&:hover": {
-        background: "transparent",
-        color:theme.palette.custom.contrastTextSelected,
-      }
-    },
-    buttonAddFav:{
-      width:"50%",
-      color:theme.palette.custom.contrastText,
-      "&:hover": {
-        background: "transparent",
-        color:theme.palette.custom.contrastTextSelected,
-      }
-    }
   }
 };
 
@@ -154,7 +89,7 @@ class Map extends React.Component {
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
     this.setAddFavourite = this.setAddFavourite.bind(this);
-    this.openingTime = this.props.theme.transitions.duration.enteringScreen;
+   // this.openingTime = this.props.theme.transitions.duration.enteringScreen;
 
   }
 
@@ -320,112 +255,18 @@ class Map extends React.Component {
         )}
 
         </ReactMapGL>
-        {this.props.popups.results.length > 0 && (this.props.popups.results.filter(x=>x.show).map((popup, index) =>
-            /*
-               <Popup
-                key={'popup'+index}
-                latitude={popup.latitude}
-                longitude={popup.longitude}
-                closeButton={true}
-                closeOnClick={ false }
-                onClose={() => this.props.dispatch(closeInfoLayer()) }
-            >
-            */
-              
-              <Paper key={'popup'+index} className={ clsx(this.props.classes.paperWrapper, {
-                [this.props.classes.paperOpen]: this.props.popups.open,
-                }) } display="flex">
-                <Typography align="center" width="100%" >
-                  {moment(popup.time).utc().format('DD/MM/YYYY HH:mm')} - lat {popup.latitude.toFixed(4)}  lon {popup.longitude.toFixed(4)}
-                </Typography>
-                <Box pt={2} display="flex" flexDirection="column" justifyContent="center" width="100%">
-                  <Table>
-                    <TableHead>
-                      <TableRow >
-                      <TableCell></TableCell>
-                      { popup.parameters.map((name, index) =>
-                        <TableCell key={name+'-'+index}>{labels[name]}</TableCell>
-                      )}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {
-                        typeof popup.results.mean === 'object' &&
-                        <TableRow>
-                          <TableCell>mean</TableCell>
-                          {popup.parameters.map((name) =>
-                            <TableCell key={name + '-mean'}>{parseInt(popup.results.mean[name])}</TableCell>
-                          )}
-                        </TableRow>
-                      }
-                      {
-                        typeof popup.results.std === 'object' &&
-                        <TableRow>
-                          <TableCell>std</TableCell>
-                          {popup.parameters.map((name) =>
-                            <TableCell key={name + '-std'}>{parseInt(popup.results.std[name])}</TableCell>
-                          )}
-                        </TableRow>
-                      }
-                      {
-                        typeof popup.results.station === 'object' &&
-                        // popup.results.std && typeof popup.results.std === 'object' &&
-                        <TableRow>
-                          <TableCell>station</TableCell>
-                          { popup.parameters.map((name) =>
-                            <TableCell key={name+'-station'}>{ typeof popup.results.station[name] == 'number' ? parseInt(popup.results.station[name]) : '' }</TableCell>
-                          )}
-                        </TableRow>
-                      }
-                    </TableBody>
-                  </Table>
-                  <Box textAlign="center" className="buttons" p={1} display="flex" flexDirection="row">
-                    <Button className={this.props.classes.buttonChart} onClick={ () => { 
-                        const latlon = new LngLat(popup.longitude, popup.latitude)
-                        const bb200 = latlon.toBounds(200)
-                        // console.log(bb200)
-                        this.props.dispatch(togglePaper(false))
-                        this.props.dispatch(closeInfoLayer());  
-                        this.props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${this.props.timeline.from}&width=2&height=2&to=${this.props.timeline.to}&station=${this.state.station}`)
-                        
-                      }
-                    }>
-                      <BarChartIcon></BarChartIcon>
-                    </Button>
-                  { this.props.isLogged &&
-                    <Button className={this.props.classes.buttonAddFav}
- 
-                            onClick={ (e) => {
-                                      e.preventDefault()
-                                      if(!this.state.addFavourite){
-                                        this.props.dispatch(postFavourite({ 
-                                          title: "",
-                                          address: "",
-                                          latitude: popup.latitude,
-                                          longitude: popup.longitude }
-                                        ))
-                                       }
-                                       else{
-                                        this.props.dispatch(deleteFavourite(this.props.favourites.selected.id))
-                                      }
-                                    }
-                      }>
-                      {  this.state.addFavourite &&
-                        <GradeIcon></GradeIcon> || <GradeOutlinedIcon></GradeOutlinedIcon>
-                      }
-                      </Button> 
-                    }
-                  </Box>
-                </Box>
-                <Button size={"small"} className={this.props.classes.headerTopClose} onClick={() => {
-                          this.props.dispatch(togglePaper(false))
-                          setTimeout(() => {
-                            this.props.dispatch(closeInfoLayer());
-                          }, this.openingTime)
-
-                        } }><HighlightOffIcon/></Button>
-              </Paper>
-        ))}
+        <div>
+          <InfoLayer 
+            timeline={this.props.timeline} 
+            infos={this.props.popups} 
+            station={this.state.station}
+            history={this.props.history}
+            isLogged={this.props.isLogged} 
+            addFavourite={this.state.addFavourite}
+            selected={this.props.favourites.selected} />
+        </div>
+        
+       
       </>
     )
   }
