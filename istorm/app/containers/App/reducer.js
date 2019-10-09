@@ -144,6 +144,8 @@ export const initialState = {
       },
       paint: {
         'circle-color': theme.palette.custom.favoriteIcon,
+        'circle-stroke-color': 'white',
+        'circle-stroke-width': 1,
         // 'circle-radius': 4,
         "circle-radius": [
           "case",
@@ -168,6 +170,8 @@ export const initialState = {
       },
       paint: {
         'circle-color': '#fa0',
+        'circle-stroke-color': 'white',
+        'circle-stroke-width': 1,
         // 'circle-radius': 4,
         "circle-radius": [
           "case",
@@ -190,6 +194,8 @@ export const initialState = {
       },
       paint: {
         'circle-color': '#d10000',
+        'circle-stroke-color': 'white',
+        'circle-stroke-width': 1,
         // 'circle-radius': 4,
         "circle-radius": [
           "case",
