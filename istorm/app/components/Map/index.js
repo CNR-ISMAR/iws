@@ -59,8 +59,6 @@ class Map extends React.Component {
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic,
       },
-     // addFavourite: false,
-      onSelected: [],
     };
        
     this.flyTo = this.flyTo.bind(this);

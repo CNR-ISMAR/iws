@@ -85,7 +85,7 @@ function App(props) {
           <main className={classes.content}>
             <MapPage isLogged={props.isLogged} />
                <TransitionGroup 
-                  className="appContent"
+                  className="subMenuContent"
                   exit={ props.routeLocation.pathname !== '/login' 
                           && props.routeLocation.pathname.split('/').length < 3
                           && !props.auth.loggingout 

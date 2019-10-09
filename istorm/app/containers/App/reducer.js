@@ -204,11 +204,6 @@ export const initialState = {
     loading: false,
     error: null,
     results: [],
-    postfavourites: {
-      loading: false,
-      error: null,
-      results: []
-    },
     open: false
   },
   favourites:{
@@ -328,10 +323,10 @@ const mapPageReducer = (state = initialState, action) =>
       case POST_FAVOURITE_EMPTY:
           draft.favourites.selected = {};
       break;
-      case DELETE_POST_FAVOURITE_SUCCESS:
+      /* case DELETE_POST_FAVOURITE_SUCCESS:
           draft.loading = false;
           draft.popups.postfavourites.results = []
-        break; 
+        break;  */
         
       case REQUEST_ERROR:
         /* draft.popups.loading = false; */

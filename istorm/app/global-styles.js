@@ -12,7 +12,7 @@ body{
   width: 80%;
   margin: 0 auto;
 }
-.appContent{
+.subMenuContent{
   height: 100%;
   width: 100%
 }
