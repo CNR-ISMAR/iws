@@ -26,7 +26,7 @@ import { fontSize } from '@material-ui/system';
 
 import { LngLat } from 'mapbox-gl';
 
-import { closeInfoLayer, postFavourite, deleteFavourite, togglePaper } from "containers/App/actions";
+import { emptyInfoLayer, postFavourite, deleteFavourite, toggleInfoLayer } from "containers/App/actions";
 
 import labels from 'utils/labels.js'
 
@@ -172,8 +172,8 @@ function InfoLayer(props){
                         const latlon = new LngLat(info.longitude, info.latitude)
                         const bb200 = latlon.toBounds(200)
                         // console.log(bb200)
-                        props.dispatch(togglePaper(false))
-                        props.dispatch(closeInfoLayer());  
+                        props.dispatch(toggleInfoLayer(false))
+                        props.dispatch(emptyInfoLayer());  
                         props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${props.timeline.from}&width=2&height=2&to=${props.timeline.to}&station=${props.station}`)
                       }
                     }>
@@ -206,9 +206,9 @@ function InfoLayer(props){
                 <Button size={"small"} 
                         className={props.classes.headerTopClose} 
                         onClick={() => {
-                          props.dispatch(togglePaper(false))
+                          props.dispatch(toggleInfoLayer(false))
                           setTimeout(() => {
-                            props.dispatch(closeInfoLayer());
+                            props.dispatch(emptyInfoLayer());
                           }, props.openingTime)
 
                         }}><HighlightOffIcon/>

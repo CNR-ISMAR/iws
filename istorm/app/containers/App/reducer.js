@@ -8,18 +8,12 @@ import moment from 'moment';
 import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
   TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
   POST_FAVOURITE, POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_POST_FAVOURITE, 
-  DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, CLOSE_INFO_LAYER,
-  REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_PAPER,
+  DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, EMPTY_INFO_LAYER,
+  REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_INFO_LAYER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
-  FILL_IF_IS_FAVOURITE,
-  DELETE_FAVOURITE_SUCCESS, SET_LAT_LON, TOGGLE_SIDEPANEL  } from './constants';
+  FILL_IF_IS_FAVOURITE, SET_LAT_LON  } from './constants';
 
 import theme from 'theme'
-import { elementType } from 'prop-types';
-import labels from "../../utils/labels";
-import TableRow from "@material-ui/core/TableRow/TableRow";
-import React from "react";
-import ReactMapGL from "react-map-gl/dist/es6/components/interactive-map";
 
 let currentTime = new Date();
 currentTime.setUTCHours(0, 0, 0, 0);
@@ -239,8 +233,12 @@ export const initialState = {
 const mapPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case TOGGLE_PAPER:
+      case TOGGLE_INFO_LAYER:
         draft.popups.open = action.open;
+        break;
+      case EMPTY_INFO_LAYER:
+        draft.popups.results = [];
+        draft.favourites.selected = {};
         break;
       case TOGGLE_LAYER_VISIBILITY:
           if(action.layer === "wmpMean") {
@@ -339,10 +337,7 @@ const mapPageReducer = (state = initialState, action) =>
         /* draft.popups.loading = false; */
         draft.requestError.message = action.error;
       break;
-      case CLOSE_INFO_LAYER:
-        draft.popups.results = [];
-        draft.favourites.selected = {};
-      break;
+      
     }
   });
 

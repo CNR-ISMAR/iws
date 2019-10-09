@@ -35,10 +35,9 @@ export const DELETE_FAVOURITE_SUCCESS = 'app/App/DELETE_FAVOURITE_SUCCESS';
 export const SET_LAT_LON = 'app/App/SET_LAT_LON';
 
 export const REQUEST_ERROR = 'app/App/REQUEST_ERROR';
-export const TOGGLE_PAPER = 'app/App/TOGGLE_PAPER';
-export const CLOSE_INFO_LAYER = 'app/App/CLOSE_INFO_LAYER';
+export const TOGGLE_INFO_LAYER = 'app/App/TOGGLE_INFO_LAYER';
+export const EMPTY_INFO_LAYER = 'app/App/EMPTY_INFO_LAYER';
 
-export const TOGGLE_SIDEPANEL = 'app/App/TOGGLE_SIDEPANEL';
 
 
 

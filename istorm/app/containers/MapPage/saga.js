@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { REQUEST_INFO_LAYER, POST_FAVOURITE, DELETE_FAVOURITE, REQUEST_FAVOURITES_LAYER,REQUEST_FAVOURITES } from 'containers/App/constants';
-import { requestInfoLayerSuccess, requestError , postFavouriteSuccess, deleteFavouriteSuccess, requestFavouritesLayerSuccess, togglePaper, postFavouriteEmpty  } from 'containers/App/actions';
+import { requestInfoLayerSuccess, requestError , postFavouriteSuccess, deleteFavouriteSuccess, requestFavouritesLayerSuccess, toggleInfoLayer, postFavouriteEmpty  } from 'containers/App/actions';
 import { popups, postFavourite, deleteFavourite, geoJsonFavourites } from 'utils/api';
 
 import {enqueueSuccess,enqueueRemove} from "containers/NotificationSnake/actions";
@@ -14,7 +14,7 @@ export function* infoLayerSaga(options) {
     console.log('infoLayerSaga')
     yield put(requestInfoLayerSuccess(request));
    // yield put(postFavouriteEmpty())
-    yield put(togglePaper(true))
+    yield put(toggleInfoLayer(true))
   } catch(e) {
     yield put(requestError(e.message));
   }

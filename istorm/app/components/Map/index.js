@@ -27,7 +27,7 @@ import LayerFavorites from "./LayerFavorites";
 import mapCss from './mapCss.css';
 
 import { requestInfoLayer, 
-  closeInfoLayer, togglePaper,
+  emptyInfoLayer, toggleInfoLayer,
   fillIfIsFavourite,  } from "containers/App/actions";
 
 import InfoLayer from 'components/InfoLayer';
@@ -139,9 +139,9 @@ class Map extends React.Component {
       }
       // ANIMATION OPEN/CLOSE + REQUEST/CLOSE InfoLayer
       if(this.props.popups.open){
-        this.props.dispatch(togglePaper(false))
+        this.props.dispatch(toggleInfoLayer(false))
         setTimeout(() => {
-          this.props.dispatch(closeInfoLayer());
+          this.props.dispatch(emptyInfoLayer());
           this.dispatchRequestInfoLayer(bb200, selectedFav)
         }, this.openingTime)
       }else{
