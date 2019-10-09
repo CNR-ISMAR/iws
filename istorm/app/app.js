@@ -105,18 +105,16 @@ const render = messages => {
   ReactDOM.render(
     <Provider store={store.store}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
-	  	<SnackbarProvider maxSnack={3}>
-			<LanguageProvider messages={messages}>
-			<ConnectedRouter history={history}>
-			{/*<ThemeProvider theme={theme}>*/}
-				<AuthProvider>
-				<App />
-				</AuthProvider>
-			{/*</ThemeProvider>*/}
-			</ConnectedRouter>
-			</LanguageProvider>
-		</SnackbarProvider> 
-      </MuiPickersUtilsProvider>
+	  	<LanguageProvider messages={messages}>
+		<ConnectedRouter history={history}>
+		{/*<ThemeProvider theme={theme}>*/}
+			<AuthProvider>
+			<App />
+			</AuthProvider>
+		{/*</ThemeProvider>*/}
+		</ConnectedRouter>
+		</LanguageProvider>
+	</MuiPickersUtilsProvider>
     </Provider>,
     MOUNT_NODE,
   );

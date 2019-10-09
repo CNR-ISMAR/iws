@@ -76,9 +76,9 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
+      <SnackbarProvider maxSnack={3}>
       <div className={classes.root}>
         <CssBaseline />
-        
           <NotificationSnake />
           <Header isLogged={props.isLogged} />
           <Sidebar auth={props.auth}  isLogged={props.isLogged} />
@@ -127,6 +127,7 @@ function App(props) {
           </main>
       </div>
       <GlobalStyle />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

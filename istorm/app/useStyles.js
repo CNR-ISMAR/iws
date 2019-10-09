@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     position: "relative",
     display: "flex",
+    justifyContent: "center",
     //flexWrap: "wrap",
     //flexDirection: "row",
     flexDirection: "row",

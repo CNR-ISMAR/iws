@@ -56,7 +56,6 @@ const styles = (theme) => {
         backgroundColor: theme.palette.custom.backgroundOverlay,
         width: theme.sizing.paperWrapperWidth,
         position: "absolute",
-        left: `calc( ((100vw - ${theme.sizing.drawerWidth}px) / 2 ) -  ( ${theme.sizing.paperWrapperWidth}px / 2 ) )`, 
         top: -200,
         border: "1px solid",
         borderRadius: 0,
