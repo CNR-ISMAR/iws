@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import clsx from "clsx";
 
@@ -24,12 +24,9 @@ import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { fontSize } from '@material-ui/system';
 
-import { LngLat, LngLatBounds } from 'mapbox-gl';
+import { LngLat } from 'mapbox-gl';
 
-import { setViewport, requestInfoLayer, 
-  closeInfoLayer, postFavourite,
-  deleteFavourite, togglePaper,
-  postFavouriteEmpty, fillIfIsFavourite, getLatLon } from "containers/App/actions";
+import { closeInfoLayer, postFavourite, deleteFavourite, togglePaper } from "containers/App/actions";
 
 import labels from 'utils/labels.js'
 
@@ -108,11 +105,17 @@ const styles = (theme) => {
 
 function InfoLayer(props){
     console.log('Info Layer')
-    console.log(props.infos)
-    console.log(props.infos)
-    console.log(props.infos)
-    const openingTime = props.theme.transitions.duration.enteringScreen;
-   
+    console.log(props)
+    
+    const [addFavourite, setAddFavourite] = useState((value) => {
+      if(addFavourite !== value) {
+        return value
+      }
+    })
+    
+    useEffect(() => {
+      Object.keys(props.favourites.selected).length > 0 ? setAddFavourite(true)  : setAddFavourite(false)
+    }, [props.favourites.selected])
 
     return ( 
       <>
@@ -178,36 +181,38 @@ function InfoLayer(props){
                     </Button>
                   { props.isLogged &&
                     <Button className={props.classes.buttonAddFav}
- 
                             onClick={ (e) => {
-                                      e.preventDefault()
-                                      if(!props.addFavourite){
-                                        props.dispatch(postFavourite({ 
-                                          title: "",
-                                          address: "",
-                                          latitude: info.latitude,
-                                          longitude: info.longitude }
-                                        ))
-                                       }
-                                       else{
-                                        props.dispatch(deleteFavourite(props.selected.id))
-                                      }
-                                    }
+                              e.preventDefault()
+                              if(!addFavourite){
+                                props.dispatch(postFavourite({ 
+                                  title: "",
+                                  address: "",
+                                  latitude: info.latitude,
+                                  longitude: info.longitude }
+                                ))
+                                }
+                                else{
+                                props.dispatch(deleteFavourite(props.favourites.selected.id))
+                              }
+                            }
                       }>
-                      {  props.addFavourite &&
+                      {  addFavourite &&
                         <GradeIcon></GradeIcon> || <GradeOutlinedIcon></GradeOutlinedIcon>
                       }
-                      </Button> 
+                    </Button> 
                     }
                   </Box>
                 </Box>
-                <Button size={"small"} className={props.classes.headerTopClose} onClick={() => {
+                <Button size={"small"} 
+                        className={props.classes.headerTopClose} 
+                        onClick={() => {
                           props.dispatch(togglePaper(false))
                           setTimeout(() => {
                             props.dispatch(closeInfoLayer());
-                          }, openingTime)
+                          }, props.openingTime)
 
-                        } }><HighlightOffIcon/></Button>
+                        }}><HighlightOffIcon/>
+                </Button>
               </Paper>
         ))}
       </>

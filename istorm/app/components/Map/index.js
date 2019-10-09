@@ -5,13 +5,8 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from "clsx";
-
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 
 import { withStyles } from '@material-ui/core/styles';
-import moment from "moment";
 
 import { withRouter } from "react-router-dom";
 
@@ -22,36 +17,20 @@ import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
-import { setViewport, requestInfoLayer, 
-        closeInfoLayer, postFavourite,
-        deleteFavourite, togglePaper,
-        postFavouriteEmpty, fillIfIsFavourite, getLatLon } from "../../containers/App/actions";
+import { setViewport,  getLatLon } from "../../containers/App/actions";
 
-import ReactMapGL, { FlyToInterpolator, Popup, MapController } from 'react-map-gl';
-import { LngLat, Point, LngLatBounds, MercatorCoordinate } from 'mapbox-gl';
+import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
+import { LngLat } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
 import LayerFavorites from "./LayerFavorites";
 import mapCss from './mapCss.css';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import GradeIcon from '@material-ui/icons/Grade';
-import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
-import labels from '../../utils/labels.js'
 
+import { requestInfoLayer, 
+  closeInfoLayer, togglePaper,
+  fillIfIsFavourite,  } from "containers/App/actions";
 
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import { fontSize } from '@material-ui/system';
-
-import InfoLayer from 'containers/InfoLayer';
+import InfoLayer from 'components/InfoLayer';
 
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
@@ -80,7 +59,8 @@ class Map extends React.Component {
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic,
       },
-      addFavourite: false
+     // addFavourite: false,
+      onSelected: [],
     };
        
     this.flyTo = this.flyTo.bind(this);
@@ -88,9 +68,9 @@ class Map extends React.Component {
     this.updateViewport = this.updateViewport.bind(this);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.onClick = this.onClick.bind(this);
-    this.setAddFavourite = this.setAddFavourite.bind(this);
-   // this.openingTime = this.props.theme.transitions.duration.enteringScreen;
-
+    this.dispatchRequestInfoLayer = this.dispatchRequestInfoLayer.bind(this);
+    this.openingTime = this.props.theme.transitions.duration.enteringScreen;
+  
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -114,18 +94,7 @@ class Map extends React.Component {
   updateViewport(viewport) {
     this.props.dispatch(setViewport(viewport));
   }
-  setAddFavourite(value) {
-    if(this.state.addFavourite !== value) {
-    this.setState({...this.state, addFavourite:value})
-    }
-  }
-
-  componentDidUpdate(){
-    console.log('React Map Update')
-    Object.keys(this.props.favourites.selected).length > 0 ? this.setAddFavourite(true)  : this.setAddFavourite(false)
-   
-  }
-
+  
   onMapLoad(data) {
     const viewport = this.flyToBbox(this.props.bbox);
     this.setState({...this.state, mapboxIsLoading: false}, () => {
@@ -135,6 +104,15 @@ class Map extends React.Component {
 
   componentWillUnmount() {
     this.setState({...this.state, mapboxIsLoading: true});
+  }
+
+  dispatchRequestInfoLayer(bb200, selectedFav){
+    this.props.dispatch(requestInfoLayer({
+      time: this.props.layerInfo.date,
+      bounds: bb200,
+      station: this.state.station
+    }));
+    selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
   }
 
 
@@ -164,30 +142,17 @@ class Map extends React.Component {
         this.props.dispatch(togglePaper(false))
         setTimeout(() => {
           this.props.dispatch(closeInfoLayer());
-          this.props.dispatch(requestInfoLayer({
-            time: this.props.layerInfo.date,
-            bounds: bb200,
-            station: this.state.station
-          }));
-          selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
+          this.dispatchRequestInfoLayer(bb200, selectedFav)
         }, this.openingTime)
       }else{
-        this.props.dispatch(requestInfoLayer({
-          time: this.props.layerInfo.date,
-          bounds: bb200,
-          station: this.state.station
-        }));
-        selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
+        this.dispatchRequestInfoLayer(bb200, selectedFav)
       }
-
     }
   }
 
   onMouseMove(event, refs) {
-   // console.log(refs)
     const pos = refs.map.getMap().unproject(event.offsetCenter)
     const latlon = new LngLat(pos.lng,pos.lat)
-    //const bb200 = latlon.toBounds(200)
     this.props.dispatch(getLatLon(latlon.lat, latlon.lng))
   }
 
@@ -195,12 +160,6 @@ class Map extends React.Component {
     console.log('React Map')
     console.log(this.props)
 
-    console.log( 'SELECTED POINT' )
-    console.log( this.props.favourites.selected)
-    
-    /* console.log('addFavourite')
-    console.log('addFavourite')
-    console.log(addFavourite) */
     return (
       <>
       <ReactMapGL
@@ -253,20 +212,16 @@ class Map extends React.Component {
               <LayerFavorites layerInfo={this.props.favoritesLayer}/> }
           </>
         )}
-
         </ReactMapGL>
-        <div>
-          <InfoLayer 
-            timeline={this.props.timeline} 
-            infos={this.props.popups} 
-            station={this.state.station}
-            history={this.props.history}
-            isLogged={this.props.isLogged} 
-            addFavourite={this.state.addFavourite}
-            selected={this.props.favourites.selected} />
-        </div>
-        
-       
+        <InfoLayer 
+          timeline={this.props.timeline} 
+          infos={this.props.popups} 
+          station={this.state.station}
+          history={this.props.history}
+          isLogged={this.props.isLogged} 
+          favourites={this.props.favourites}
+          openingTime={this.openingTime}
+          />
       </>
     )
   }
