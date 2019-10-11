@@ -40,7 +40,7 @@ function FavouritesPage(props) {
         const selectedFav = FavouritesResults.filter(function(result) {
           return result.id == props.match.params.id;
         });
-        props.dispatch(setViewport({longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8})) 
+        props.dispatch(setViewport({...props.mapPage.viewport, longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8}))
         console.log('dispatch set viewport fav')
       }else{
         props.history.push(`/favourites`) 

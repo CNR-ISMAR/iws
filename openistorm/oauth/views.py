@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from rest_framework import generics
 from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer, RegisterSerializer
+from .serializers import UserSerializer, RegisterSerializer, PasswordSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 # from djcore.djcore.users.models import User
 
@@ -113,3 +113,21 @@ class UserRegister(CsrfExemptMixin, OAuthLibMixin, APIView):
                      return Response(data={"error": e.args}, status=status.HTTP_400_BAD_REQUEST)
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_403_FORBIDDEN)
+
+
+
+class ChangePassword(APIView):
+
+    def post(self, request):
+        user = request.user
+        serializer = PasswordSerializer(data=request.data)
+
+        if serializer.is_valid():
+            if not user.check_password(serializer.data.get('old_password')):
+                return Response({'old_password': ['Wrong password.']}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            user.set_password(serializer.data.get('new_password'))
+            user.save()
+            return Response({'status': 'password set'}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

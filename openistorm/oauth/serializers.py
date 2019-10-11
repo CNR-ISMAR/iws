@@ -59,3 +59,30 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('email', 'username', 'first_name', 'last_name', 'password', 'confirm_password')
+
+
+
+
+class PasswordSerializer(serializers.Serializer):
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+
+    def validate(self, data):
+
+        if not data.get('old_password'):
+            raise serializers.ValidationError(_("Empty Old Password"))
+
+        if not data.get('new_password'):
+            raise serializers.ValidationError(_("Empty New Password"))
+
+        if not data.get('confirm_password'):
+            raise serializers.ValidationError(_("Empty Confirm Password"))
+
+        if data.get('new_password') != data.get('confirm_password'):
+            raise serializers.ValidationError(_("Mismatch password"))
+
+        return data
