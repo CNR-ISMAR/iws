@@ -128,6 +128,29 @@ class TimeSeries(views.APIView):
 
         return Response(forecasts)
 
+
+class MobileTimeSeries(views.APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        BBOX = request.query_params.get('bbox')
+        X = request.query_params.get('x')
+        Y = request.query_params.get('y')
+        WIDTH = request.query_params.get('width')
+        HEIGHT = request.query_params.get('height')
+        TIME_FROM = request.query_params.get('from')
+        TIME_TO = request.query_params.get('to')
+        station = request.query_params.get('station', '')
+        if station:
+            station = find_station(station)
+        wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
+        forecasts = wms.get_mobile_timeseries()
+
+        if type(station) == dict and station['name'] != '':
+            # TODO: AGGIUNGI I DATI DALLE STAZIONI
+            forecasts = station_timeseries(forecasts, station, TIME_FROM, TIME_TO)
+
+        return Response(forecasts)
+
 class SeaLevelMixMax(views.APIView):
     permission_classes = (AllowAny,)
     def get(self, request):

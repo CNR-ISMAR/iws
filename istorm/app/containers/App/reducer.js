@@ -34,7 +34,7 @@ const wmpMeanUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".n
 const BASE_URL = process.env.API_URL;
 
 export const initialState = {
-  bbox: [[49.2,24.29], [36.02,5.48]],
+  bbox: [[46.0072862623,18.7461364269], [42.7225675413,11.6001372337]],
   mean: true,
   options: {
     minPitch: 0,
@@ -45,9 +45,9 @@ export const initialState = {
   viewport: {
     longitude: 12.33265,
     latitude: 45.43713, 
-    zoom: 5,
-    minZoom: 5,
-    maxZoom: 16,
+    zoom: 7,
+    minZoom: 7,
+    maxZoom: 14,
     // bearing: 3,
     // pitch: 0
   },

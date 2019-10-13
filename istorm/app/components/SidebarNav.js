@@ -170,16 +170,16 @@ function SidebarNav(props) {
         
         
 
-        <Divider className={props.classes.divider} variant={"middle"} />
+        {/*<Divider className={props.classes.divider} variant={"middle"} />*/}
 
-        <ListItem button className={props.classes.listItem} selected={isCurrentPage("settings")} onClick={() => linkTo("settings")} key={"nav-settings"}>
-          <ListItemIcon className={props.classes.listItemIcon}><SettingsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
-          <ListItemText primary={"Settings"} />
-        </ListItem>
-        <ListItem button className={props.classes.listItem} selected={isCurrentPage("info")} onClick={() => linkTo("info")} key={"nav-info"}>
-          <ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
-          <ListItemText primary={"Info"} />
-        </ListItem>
+        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("settings")} onClick={() => linkTo("settings")} key={"nav-settings"}>*/}
+          {/*<ListItemIcon className={props.classes.listItemIcon}><SettingsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
+          {/*<ListItemText primary={"Settings"} />*/}
+        {/*</ListItem>*/}
+        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("info")} onClick={() => linkTo("info")} key={"nav-info"}>*/}
+          {/*<ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
+          {/*<ListItemText primary={"Info"} />*/}
+        {/*</ListItem>*/}
     </List>
   );
 }

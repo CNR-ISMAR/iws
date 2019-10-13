@@ -174,6 +174,63 @@ class WmsQueryNew:
         result['to'] = self.time_to.isoformat()[0:19] + '.000Z'
         return result
 
+    def get_mobile_timeseries(self):
+
+        self.setTimeRange('sea_level')
+
+        datasets = {
+            'waves': [
+                'wmd-mean',
+                # 'wmd-std',
+                'wmp-mean',
+                'wmp-std',
+                'wsh-mean',
+                'wsh-std',
+            ],
+            'sea_level': [
+                'sea_level-mean',
+                'sea_level-std',
+            ]
+        }
+        result = {
+            'results': {}
+        }
+        for dataset in datasets.keys():
+            for layer in datasets[dataset]:
+                layerdata = self.query(dataset, layer, self.time_from, self.time_to, True)
+                try:
+                    result['results'][layer] = list(
+                        {"x": x['time'], "y": float(x['value']) * 100 if dataset == 'sea_level' else float(x['value'])}
+                        for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
+                except:
+                    print(layerdata)
+
+        result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
+        result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
+        result['from'] = self.time_from.isoformat()[0:19] + '.000Z'
+        result['to'] = self.time_to.isoformat()[0:19] + '.000Z'
+
+
+        result['results'] = {
+            'sea_level': list(
+                {"x": x['x'], "y": x['y']+result['results']['sea_level-std'][i]['y']}
+                for i, x in enumerate(result['results']['sea_level-mean'])
+            ),
+            # wave_period
+            'wmp': list(
+                {"x": x['x'], "y": x['y']+result['results']['wmp-std'][i]['y']}
+                for i, x in enumerate(result['results']['wmp-mean'])
+            ),
+            # wave_height
+            'wsh': list(
+                {"x": x['x'], "y": x['y']+result['results']['wsh-std'][i]['y']}
+                for i, x in enumerate(result['results']['wsh-mean'])
+            ),
+            # wave_direction
+            'wmd': result['results']['wmd-mean'],
+        }
+        return result
+
     def query(self, dataset, layer, time_from, time_to=None, raw=False):
         options = self.default_options
         layerFileName = self.history + 'TMES_' + dataset + '_' + self.formatted_date + '.nc'
