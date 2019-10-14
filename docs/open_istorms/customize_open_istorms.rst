@@ -1,4 +1,4 @@
-User Profile
+How to customize the platform
 ===============
 
 | The Open I-Storms interface is customizable by user
