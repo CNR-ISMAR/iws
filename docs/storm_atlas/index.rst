@@ -1,7 +1,9 @@
-Sea Storm Atlas
+About the Atlas
 ===============
 
-| Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-
-
+All information on coastal disaster due to sea storm events (historical and
+more recent) are organized and mapped in geospatial layers which constitute
+the Sea Storms Atlas. That series can be used to draw the map of risk
+characterisation of the coast with the aim of identifying the most vulnerable
+areas and supporting the planning of coastal area use and development.
 
