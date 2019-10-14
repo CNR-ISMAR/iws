@@ -81,3 +81,5 @@ build_log.txt
 srcgeonode/
 
 .idea/
+
+.bash*
