@@ -110,15 +110,10 @@ const styles = (theme, style) => {
   function SidebarSubNav(props){
     console.log('SidebarSubNav')
     console.log(props)
-    const [Items, setItems] = useState(null)
+    const [Items, setItems] = useState([])
 
     useEffect(() => {
       setItems(props.listItems.sort((a, b) => {return b.id - a.id } ))
-      console.log('Items')
-      console.log('Items')
-      console.log('Items')
-      console.log(Items)
-      
     }, [props.listItems])
 
     const isCurrentPage = (pagePath) => {
