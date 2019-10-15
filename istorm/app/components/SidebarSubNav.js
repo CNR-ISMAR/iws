@@ -110,7 +110,17 @@ const styles = (theme, style) => {
   function SidebarSubNav(props){
     console.log('SidebarSubNav')
     console.log(props)
-    
+    const [Items, setItems] = useState(null)
+
+    useEffect(() => {
+      setItems(props.listItems.sort((a, b) => {return b.id - a.id } ))
+      console.log('Items')
+      console.log('Items')
+      console.log('Items')
+      console.log(Items)
+      
+    }, [props.listItems])
+
     const isCurrentPage = (pagePath) => {
         const check = pagePath === props.location.pathname ? true : false
         //return new RegExp(`^\/${(pagePath).replace("/", "\/")}(.*?)`).test(props.location.pathname);
@@ -122,10 +132,10 @@ const styles = (theme, style) => {
             { 
               props.content && props.content()
             }
-            { props.listItems && props.listItems.length > 0 && 
+            { Items && Items.length > 0 && 
             
               <List>
-                  {props.listItems.sort((a, b) => {return b.id - a.id } ).map((listItem) => {
+                  {Items.map((listItem) => {
                   return (
                     <ListItem 
                           button 
