@@ -55,7 +55,7 @@ export function* notificationSaga() {
   const options = {
     method: 'get'
   }; 
-  console.log('notificationSaga')
+  // console.log('notificationSaga')
   try {
     const request = yield call(notification, options);
     yield put(requestNotificationSuccess(request));
@@ -80,7 +80,7 @@ export function* deleteNotificationSaga(action) {
 export function* updateNotificationSaga(action) {
   try {
    const request = yield call(updateNotification, action.id);
-   console.log('updateNotificationSaga')
+   // console.log('updateNotificationSaga')
    // yield put(deleteNotificationSuccess(request));
    yield call(notificationSaga)
  } catch(e) {

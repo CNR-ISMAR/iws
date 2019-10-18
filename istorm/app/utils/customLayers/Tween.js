@@ -15,7 +15,7 @@ export let myTween = {
                 stepIndex =0,
                 objsCopy = [],
                 props = [];
-            console.log("animation params init complete...");
+            // console.log("animation params init complete...");
 
             // tranverse targetStatus props then calculate status of each frame
             for(var i=0;i<myTween.objs.length;i++){

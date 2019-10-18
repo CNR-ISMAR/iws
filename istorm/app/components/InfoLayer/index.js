@@ -103,8 +103,8 @@ const styles = (theme) => {
   };
 
 function InfoLayer(props){
-    console.log('Info Layer')
-    console.log(props)
+    // console.log('Info Layer')
+    // console.log(props)
     
     const [addFavourite, setAddFavourite] = useState((value) => {
       if(addFavourite !== value) {

@@ -150,8 +150,8 @@ const styles = (theme) => {
 };
 
 function MapPage(props) {
-  console.info("mapPage");
-  console.info(props);
+  // console.info("mapPage");
+  // console.info(props);
   useInjectSaga({ key: 'infolayer_favourites', saga });
   
   let layerInfo = null;

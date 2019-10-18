@@ -8,5 +8,5 @@ app_name = 'devices'
 router = routers.SimpleRouter()
 
 urlpatterns = router.urls + [
-    url(r'^$', DeviceList.as_view(), name="list"),
+    url(r'^$', DeviceList.as_view({'post': 'create'}), name="list"),
 ]

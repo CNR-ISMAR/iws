@@ -11,7 +11,7 @@ import { favourites } from 'utils/api';
 export function* infoLayerSaga(options) {
   try {
     const request = yield call(popups, options);
-    console.log('infoLayerSaga')
+    // console.log('infoLayerSaga')
     yield put(requestInfoLayerSuccess(request));
    // yield put(postFavouriteEmpty())
     yield put(toggleInfoLayer(true))
@@ -27,7 +27,7 @@ export function* postFavouriteSaga(action) {
   };
   try {
     const request = yield call(postFavourite, options);
-    console.log('postFavouriteSaga')
+    // console.log('postFavouriteSaga')
     yield put(postFavouriteSuccess(request));
     yield put(enqueueSuccess("Favourite added"));
     yield call(FavouritesSaga);
@@ -41,7 +41,7 @@ export function* postFavouriteSaga(action) {
 export function* requestFavouritesLayerSaga() {
   try {
     const request = yield call(geoJsonFavourites);
-    console.log('requestFavouritesLayerSaga')
+    // console.log('requestFavouritesLayerSaga')
     yield put(requestFavouritesLayerSuccess(request));
   } catch(e) {
     // console.log('requestFavouritesLayerSaga: '+e.message)

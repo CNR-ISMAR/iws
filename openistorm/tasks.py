@@ -5,10 +5,7 @@ from iws.celeryapp import app
 from django.db import connection
 import json, datetime
 from .layers.models import ImageLayer
-from .layers.utils import NCToImg
-
-
-
+from .layers.utils import NCToImg, ThresholdsExceed
 
 class BaseTask(Task):
     def on_success(self, retval, task_id, args, kwargs):
@@ -62,6 +59,29 @@ class BaseTask(Task):
 
         connection.close()
 
+
+@app.task(base=BaseTask)
+def fcm_notify(args):
+    from .notifications.utils import FcmNotifyUser
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+    print("NOTIFY")
+
+@app.task(base=BaseTask)
+def check_thresholds_exceed(args):
+    print('check_thresholds_exceed')
+    print(args)
+    th = ThresholdsExceed()
+    th.handle()
+
 @app.task(base=BaseTask)
 def import_waves(args):
     if ImageLayer.objects.filter(created_at__gte=datetime.datetime.combine(datetime.datetime.now(), datetime.time.min)).count() == 0:
@@ -69,6 +89,9 @@ def import_waves(args):
         NCToImg(**args)
     else:
         print('DONE FOR TODAY')
+
+
+
 
 @app.on_after_configure.connect
 def localcrontest(sender, **kwargs):

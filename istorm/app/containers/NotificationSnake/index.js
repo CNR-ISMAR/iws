@@ -60,7 +60,7 @@ class Notifier extends Component {
         console.log('COMPONENT DID UPDATE')
         console.log('COMPONENT DID UPDATE') */
 
-        console.log(notifications)
+        // console.log(notifications)
         notifications.forEach(({ key, message, options = { } }) => {
             // Do nothing if snackbar is already displayed
             if (this.displayed.includes(key)) return;

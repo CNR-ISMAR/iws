@@ -108,11 +108,12 @@ const styles = (theme, style) => {
   
 
   function SidebarSubNav(props){
-    console.log('SidebarSubNav')
-    console.log(props)
+    // console.log('SidebarSubNav')
+    // console.log(props)
     const [Items, setItems] = useState([])
 
     useEffect(() => {
+      if(props.listItems && props.listItems.length > 0)
       setItems(props.listItems.sort((a, b) => {return b.id - a.id } ))
     }, [props.listItems])
 
@@ -139,7 +140,7 @@ const styles = (theme, style) => {
                           selected={isCurrentPage(`/${props.category}/${listItem.id}`)}>
                           <Link to={`/${props.category}/${listItem.id}`} 
                                 onClick={(e) => { 
-                                    props.clickEvent ? props.clickEvent(listItem.id) : null 
+                                    props.clickEvent ? props.clickEvent(listItem.id, listItem) : null
                                 } } >
                               <ListItemText primary={`${listItem.title}`} /> 
                               { props.listItemContent && props.listItemContent(`${listItem.description}`) }

@@ -20,7 +20,7 @@ export class DomOverlayer extends Overlayer {
         this.doms = []; // store dom elements.
         this.lastData = [];
         this.redraw();
-        console.log("Dom overlayer add to Map...");
+        // console.log("Dom overlayer add to Map...");
     }
 
     _init() {

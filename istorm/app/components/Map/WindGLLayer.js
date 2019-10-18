@@ -77,7 +77,7 @@ class WindLayer {
     this.animationFrame = null;
     this.windImageSrc =  windImageSrc;
     this.windImageMeta =  windImageMeta;
-    this.state = {wind: null, map: null, previous:null};
+    this.state = {wind: null, map: null, previous:null, position:null};
     //this.render = this.render.bind(this)
     this.drawWind = this.drawWind.bind(this);
     this.updateWindScale = this.updateWindScale.bind(this);
@@ -103,9 +103,9 @@ class WindLayer {
           this.loading = false;
         };
         windData.windData = windImage;
-        wind.setWind(windData)
+        // wind.setWind(windData)
         this.state.wind = wind
-        this.updateWindScale(wind, map)
+        // this.updateWindScale(wind, map)
         this.drawWind();
       })
   }
@@ -129,7 +129,6 @@ class WindLayer {
   }
 
   calcNumParticles(width, height) {
-    // console.log('calcNumParticles')
     return Math.min(Math.floor(width / 20 * height / 20 / 5),
       1500
     );
@@ -152,9 +151,11 @@ class WindLayer {
       position.x,
       position.y
     ]
-    if (!position) {
+    if (!position || JSON.stringify(position) === this.state.position) {
       return;
     }
+
+    this.state.position = JSON.stringify(position)
 
     let offset = [
       Math.max(-position[0] / scale, 0),
@@ -223,7 +224,6 @@ class WindGLLayer extends BaseControl {
       map.removeLayer(layer.id);
       // const layers = map.getStyle().layers
       // let afterLayer = layers.map(x=>x.id).filter(x=>x.includes("station") || x.includes("seaLevel"))
-      // console.log(afterLayer)
       // afterLayer = (afterLayer.length > 0) ? afterLayer[0] : null
       const afterLayer = this.getLayerBefore(map);
       map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata), afterLayer);

@@ -104,6 +104,10 @@ class Map extends React.Component {
     this.setState({...this.state, mapboxIsLoading: true});
   }
 
+  shouldComponentUpdate(newProps) {
+    return JSON.stringify(newProps) !== JSON.stringify(this.props);
+  }
+
   dispatchRequestInfoLayer(bb200, selectedFav){
     this.props.dispatch(requestInfoLayer({
       time: this.props.layerInfo.date,
@@ -155,12 +159,13 @@ class Map extends React.Component {
   }
 
   render () {
-    console.log('React Map')
-    console.log(this.props)
+    // console.log('React Map')
+    // console.log(this.props)
 
     return (
       <>
       <ReactMapGL
+        // onWheel={(e)=>{setTimeout(function(){ console.log(e); }, 1000)}}
         disableTokenWarning={true}
         width={this.state.viewport.width}
         height={this.state.viewport.height}
@@ -192,8 +197,12 @@ class Map extends React.Component {
                 mean={this.props.mean}/>)}
 
             {this.props.WindGLLayer.isVisible && 
-              (<WindGLLayer 
-                layerInfo={this.props.layerInfo} 
+              (<WindGLLayer
+                captureClick={false}
+                captureDoubleClick={false}
+                captureDrag={false}
+                captureScroll={false}
+                layerInfo={this.props.layerInfo}
                 key={'LayerWave'} 
                 layer={this.props.WindGLLayer}/>)}
 

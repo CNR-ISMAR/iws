@@ -7,7 +7,7 @@ import { chart } from 'utils/api';
 export function* displayChartSaga(params) {
   try {
     const request = yield call(chart, params);
-    console.log('saga chart')
+    // console.log('saga chart')
     yield put(requestChartSuccess(request));
   } catch(e) {
     yield put(requestError(e.message));

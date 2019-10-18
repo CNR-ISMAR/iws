@@ -183,11 +183,11 @@ function Chart(props) {
                   onItemClick={item => {
                     setChartState({ ...chart, itemClickID: item.id }); 
                     if(chart.recordclick[item.id] === undefined){
-                      console.log('PASSO UNDEFINED')
+                      // console.log('PASSO UNDEFINED')
                       setRecordClick(item.id, false)
                     }
                     else{
-                      console.log('NON PASSO UNDEFINED')
+                      // console.log('NON PASSO UNDEFINED')
                       setRecordClick(item.id, !chart.recordclick[item.id])
                     }
                     legendsItems.map(legenditem => {

@@ -83,8 +83,8 @@ export const persitanceMiddleWare = store => next => action => {
 
 export function* refreshPersistance() {
   const authStore = persistore.get("auth");
-  console.log('authStore')
-  console.log(authStore)
+  // console.log('authStore')
+  // console.log(authStore)
   if(authStore) {
     setToken(authStore.oauth.token);
     yield put(syncAuth(authStore))

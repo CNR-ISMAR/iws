@@ -10,6 +10,7 @@ from dateutil import parser
 from django.conf import settings
 from .models import ImageLayer
 import pytz
+from django.contrib.auth import get_user_model
 from collections import defaultdict
 # from operator import itemgetter
 # import pydap.client
@@ -22,7 +23,7 @@ def setDateToUtc(date):
 
 
 class WmsQueryNew:
-    def __init__(self, BBOX, X, Y, WIDTH, HEIGHT, time_from=None, time_to=None, dataset=('waves', 'sea_level')):
+    def __init__(self, BBOX, X=1, Y=1, WIDTH=2, HEIGHT=2, time_from=None, time_to=None, dataset=('waves', 'sea_level')):
         self.time_from = parser.parse(time_from) if time_from is not None else datetime.combine(datetime.now(), timed.min)
         self.time_from = setDateToUtc(self.time_from)
         self.time_to = setDateToUtc(parser.parse(time_to)) if time_to is not None else False
@@ -30,6 +31,9 @@ class WmsQueryNew:
                                                       tzinfo=pytz.timezone('utc')) else ''
         self.formatted_date = self.time_from.strftime("%Y%m%d")
 
+        self.setDefaultData(BBOX, X, Y, WIDTH, HEIGHT)
+
+    def setDefaultData(self, BBOX, X=1, Y=1, WIDTH=2, HEIGHT=2):
         self.default_options = {
             "REQUEST": "GetFeatureInfo",
             "ELEVATION": "0",
@@ -44,10 +48,7 @@ class WmsQueryNew:
             "FORMAT": "image/png",
             "SRS": "EPSG:4326",
             "CRS": "EPSG:4326",
-            "INFO_FORMAT": "text/xml",
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            # "i": 1,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            # "j": 1,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
+            "INFO_FORMAT": "text/xml",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
             "BBOX": BBOX,
             "X": X,
             "Y": Y,
@@ -58,7 +59,7 @@ class WmsQueryNew:
             # "LAYERS": "sea_level-mean",
         }
 
-    def setTimeRange(self, dataset):
+    def setTimeRange(self, dataset='sea_level'):
         capabilitiesOptions = {
             "service": "WMS",
             "version": "1.3.0",
@@ -72,7 +73,7 @@ class WmsQueryNew:
         self.time_to = setDateToUtc(parser.parse(max(times)))
 
     def getnextSeaLevelMinMax(self):
-        self.setTimeRange('sea_level')
+        self.setTimeRange()
         # starts from next hour
         if self.time_to > (self.time_from + timedelta(hours=1)):
             self.time_from = self.time_from + timedelta(hours=1)
@@ -139,7 +140,7 @@ class WmsQueryNew:
 
     def get_timeseries(self):
 
-        self.setTimeRange('sea_level')
+        self.setTimeRange()
 
         datasets = {
             'waves': [
@@ -176,7 +177,7 @@ class WmsQueryNew:
 
     def get_mobile_timeseries(self):
 
-        self.setTimeRange('sea_level')
+        self.setTimeRange()
 
         datasets = {
             'waves': [
@@ -227,8 +228,55 @@ class WmsQueryNew:
                 for i, x in enumerate(result['results']['wsh-mean'])
             ),
             # wave_direction
-            'wmd': result['results']['wmd-mean'],
+            'wmd': list(
+                {"x": x['x'], "y": int(x['y']+180) % 360 }
+                for i, x in enumerate(result['results']['wmd-mean'])
+            ),
         }
+        return result
+
+    def get_thresholds(self, threshold, dataset='sea_level', meanlayer='sea_level-mean', stdlayer='sea_level-std', greater_than=True, add_std=True, sub_std=False):
+
+        self.setTimeRange()
+        result = {
+            'results': []
+        }
+        meandata = self.query(dataset, meanlayer, self.time_from, self.time_to, True)
+        try:
+            forecast = list(
+                {"x": x['time'], "y": float(x['value']) * 100 if dataset == 'sea_level' else float(x['value'])}
+                for x in meandata['FeatureInfoResponse']['FeatureInfo'])
+        except:
+            print(meandata)
+        try:
+            stddata = self.query(dataset, stdlayer, self.time_from, self.time_to, True)
+            std = list(
+                {"x": x['time'], "y": float(x['value']) * 100 if dataset == 'sea_level' else float(x['value'])}
+                for x in stddata['FeatureInfoResponse']['FeatureInfo'])
+        except:
+            print(stddata)
+
+        result['latitude'] = float(meandata['FeatureInfoResponse']['latitude'])
+        result['longitude'] = float(meandata['FeatureInfoResponse']['longitude'])
+        result['from'] = self.time_from.isoformat()[0:19] + '.000Z'
+        result['to'] = self.time_to.isoformat()[0:19] + '.000Z'
+
+        if add_std:
+            forecast = list(
+                {"x": x['x'], "y": x['y']+std[i]['y']}
+                for i, x in enumerate(forecast)
+            )
+        elif sub_std:
+            forecast = list(
+                {"x": x['x'], "y": x['y']-std[i]['y']}
+                for i, x in enumerate(forecast)
+            )
+
+        if greater_than:
+            result['results'] = list(filter(lambda x: x['y'] >= threshold, forecast))
+        else:
+            result['results'] = list(filter(lambda x: x['y'] <= threshold, forecast))
+
         return result
 
     def query(self, dataset, layer, time_from, time_to=None, raw=False):
@@ -281,6 +329,7 @@ class WmsQueryNew:
     #     result['latitude'] = float(queryResponse['FeatureInfoResponse']['latitude'])
     #     result['longitude'] = float(queryResponse['FeatureInfoResponse']['longitude'])
     #     result['time'] = std['time']
+
 
 class NCToImg:
 
@@ -551,3 +600,51 @@ class NCToImg:
 
     def max(self, data):
         return max(x for x in data if x is not None)
+
+
+
+class ThresholdsExceed:
+    def __init__(self):
+        self.users = get_user_model().objects.filter(favorites__isnull=False, settings__isnull=False).distinct()
+        self.wms_query = False
+        self.handle()
+
+    def handle(self):
+        from openistorm.notifications.models import Notification
+        for user in self.users:
+            print(user.email)
+            for favorite in user.favorites.all():
+                print(favorite.title)
+
+                try:
+                    BBOX = str(favorite.longitude - 0.001) + ',' +str(favorite.latitude - 0.001) + ',' +str(favorite.longitude + 0.001) + ',' +str(favorite.latitude + 0.001)
+
+                    if self.wms_query:
+                        self.wms_query.setDefaultData(BBOX)
+                    else:
+                        self.wms_query = WmsQueryNew(BBOX)
+                    self.wms_query.setTimeRange('sea_level')
+                    thresholds = self.wms_query.get_thresholds(user.settings.sl_notification_threshold)
+
+                    if len(thresholds['results']) > 0:
+                        # print(thresholds)
+                        user_notification = Notification(
+                            user_id=user.id,
+                            favorite_id=favorite.id,
+                            type='auto',
+                            time=thresholds['results'][0]["x"],
+                            position=favorite.position,
+                            title="Thresholds Exceed "+favorite.title,
+                            description="Sea level forecast exceeds your notification threshold at "
+                                        + thresholds['results'][0]["x"][12:16]
+                                        + ", with a maximum of "
+                                        + str( int(max(thresholds['results'], key=lambda x:x['y'])['y']) )
+                                        + " cm"
+                        )
+                        user_notification.save()
+                    # print(user_notification.__dict__)
+                except:
+                    print('ERROR ThresholdsExceed')
+                    print('ERROR ThresholdsExceed')
+                    print('ERROR ThresholdsExceed')
+                    pass

@@ -5,7 +5,11 @@ from django.contrib.gis.geos import Point
 class NotificationSerializer(serializers.ModelSerializer):
     longitude = serializers.SerializerMethodField()
     latitude = serializers.SerializerMethodField()
+    time = serializers.SerializerMethodField()
     position = Point
+
+    def get_time(self, instance):
+        return instance.time.isoformat()[0:19]+'.000Z'
 
     def get_latitude(self, instance):
         return instance.position.y

@@ -139,7 +139,7 @@ function StationChart(props) {
           timeTo={moment(props.timeline.max).format( 'DD/MM/YYYY')}
         />
       </div>
-      { console.log(props.chart)
+      {/*{ console.log(props.chart)*/}
         /* <Button onClick={ () => props.dispatch(requestChart()) }>REQ CHART</Button> */}
       
     </div>

@@ -8,7 +8,7 @@ import { REQUEST_CHART, REQUEST_CHART_SUCCESS,
     REQUEST_ERROR} from './constants';
   
   export function requestChart(params) {
-    console.log('requestChart')
+    // console.log('requestChart')
     return {
       type: REQUEST_CHART,
       params: params
@@ -16,7 +16,7 @@ import { REQUEST_CHART, REQUEST_CHART_SUCCESS,
   }
   
   export function requestChartSuccess(result) {
-    console.log('requestChartSuccess')
+    // console.log('requestChartSuccess')
     return {
       type: REQUEST_CHART_SUCCESS,
       result: result
@@ -29,4 +29,3 @@ import { REQUEST_CHART, REQUEST_CHART_SUCCESS,
       error: errorMessage
     };
   }
-  

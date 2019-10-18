@@ -120,7 +120,7 @@ export const popups = (action) => {
   const bounds = action.parameters.bounds
   const station = action.parameters.station
   const options = getOption({})
-  console.log(action)
+  // console.log(action)
   return request(`${BASE_URL}/openistorm/layers/info/?bbox=${bounds._sw.lng},${bounds._sw.lat},${bounds._ne.lng},${bounds._ne.lat}&x=1&y=1&time=${action.parameters.time}&width=2&height=2&station=${station}`, options)
 };
 
@@ -132,7 +132,7 @@ export const chart = (action) => {
  /*  const from = "2019-09-16T00:00:00.000Z"
   const to = "2019-09-16T23:00:00.000Z" */
   const options = getOption({})
-  console.log(action)
+  // console.log(action)
   
   //return request(`${BASE_URL}/openistorm/layers/timeseries/?bbox=18.562486834444055,40.60442396407557,18.56721978760456,40.608017225183865&x=1&y=1&from=2019-09-16T00:00:00.000Z&width=2&height=2&to=2019-09-16T23:00:00.000Z`, options)
   return request(`${BASE_URL}/openistorm/layers/timeseries/?bbox=${bbox}&x=1&y=1&from=${from}&width=2&height=2&to=${to}&station=${station}`, options)

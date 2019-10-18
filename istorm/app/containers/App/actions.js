@@ -75,7 +75,7 @@ export function requestFavouritesLayerSuccess(result) {
 }
 
 export function requestInfoLayerSuccess(result) {
-  console.log('REQUEST_INFO_LAYER_SUCCESS')
+  // console.log('REQUEST_INFO_LAYER_SUCCESS')
   return {
     type: REQUEST_INFO_LAYER_SUCCESS,
     result: result
@@ -84,7 +84,7 @@ export function requestInfoLayerSuccess(result) {
 
 
 export function postFavourite(Params) {
-  console.log('Add Favourite')
+  // console.log('Add Favourite')
   return {
     type: POST_FAVOURITE,
     Params: Params

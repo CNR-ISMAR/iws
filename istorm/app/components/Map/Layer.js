@@ -8,20 +8,14 @@ class Layer extends BaseControl {
     constructor(props) {
         super(props);
     }
-  
-    componentDidMount() {
-      const map = this._context.map;
-      const { layer } = this.props;
-      if(layer.isVisible) {
-        map.addLayer(layer);
-      } else {
-        const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
-        if(source) {
-            map.removeLayer(layer.id);
-            map.removeSource(layer.id);
-        }
-      }
+
+  componentDidMount() {
+    const map = this._context.map;
+    const { layer } = this.props;
+    if(layer.isVisible) {
+      map.addLayer(layer);
     }
+  }
 
 
     shouldComponentUpdate(newProps) {

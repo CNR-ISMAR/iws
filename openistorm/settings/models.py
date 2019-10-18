@@ -4,7 +4,7 @@ from geonode import settings
 from django.contrib.gis.geos import Point
 
 class Setting(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, related_name='settings', primary_key=True)
     sl_reference = models.FloatField(blank=True, null=True)
     sl_notification_threshold = models.FloatField(blank=True, null=True)
 

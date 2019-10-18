@@ -29,8 +29,8 @@ import { setViewport } from '../App/actions';
 import SidebarSubNav from 'components/SidebarSubNav';
 
 function FavouritesPage(props) {
-  console.info("Favourite Page");
-  console.log(props)
+  // console.info("Favourite Page");
+  // console.log(props)
   const [open, setOpen] = useState(false) 
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function FavouritesPage(props) {
           return result.id == props.match.params.id;
         });
         props.dispatch(setViewport({...props.mapPage.viewport, longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8}))
-        console.log('dispatch set viewport fav')
+        // console.log('dispatch set viewport fav')
       }else{
         props.history.push(`/favourites`) 
       }

@@ -4,7 +4,8 @@ from geonode import settings
 from django.contrib.gis.geos import Point
 
 class Favorite(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, related_name='favorites')
     title = models.CharField(max_length=190)
     latitude = models.FloatField(blank=True, null=True, verbose_name='Latitude')
     longitude = models.FloatField(blank=True, null=True, verbose_name='Longitude')
