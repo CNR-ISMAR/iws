@@ -22,8 +22,8 @@ class SettingList(ListCreateAPIView):
 
     def create_or_retrieve_and_update_settings(self, data={}):
         qs = self.filter_queryset(self.get_queryset())
-        # data['user_id'] = self.request.user.pk
-        data['user'] = self.request.user.pk
+        data['user_id'] = self.request.user.pk
+        data['user'] = self.request.user
         if qs.count() == 0:
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
