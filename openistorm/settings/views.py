@@ -20,7 +20,7 @@ class SettingList(ListCreateAPIView):
         user = self.request.user
         return qs.filter(user=user)
 
-    def create_or_retrieve_and_update_settings(self, data={}):
+    def create_or_retrieve_and_update_settings(self, data={"sl_reference": 0, "sl_notification_threshold": 100}):
         qs = self.filter_queryset(self.get_queryset())
         data['user'] = self.request.user.pk
         if qs.count() == 0:
