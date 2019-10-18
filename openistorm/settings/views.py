@@ -20,10 +20,11 @@ class SettingList(ListCreateAPIView):
         user = self.request.user
         return qs.filter(user=user)
 
-    def create_or_retrieve_and_update_settings(self, data={"sl_reference": 0, "sl_notification_threshold": 100}):
+    def create_or_retrieve_and_update_settings(self, data):
         qs = self.filter_queryset(self.get_queryset())
         data['user'] = self.request.user.pk
         if qs.count() == 0:
+            data = {"sl_reference": data.get("sl_reference", 0), "sl_notification_threshold": data.get("sl_notification_threshold", 0)}
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
@@ -46,6 +47,6 @@ class SettingList(ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get(self, request, *args, **kwargs):
-        serializer = self.create_or_retrieve_and_update_settings()
+        serializer = self.create_or_retrieve_and_update_settings({})
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
