@@ -28,7 +28,7 @@ class SettingList(ListCreateAPIView):
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
         elif len(data) > 1:
-            serializer = self.get_serializer(qs[0], data=data, partial=True)
+            serializer = self.get_serializer(qs[0], data=data, partial=False)
             serializer.is_valid(raise_exception=True)
             serializer.save()
         else:
