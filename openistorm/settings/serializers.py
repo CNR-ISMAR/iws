@@ -6,5 +6,5 @@ class SettingSerializer(serializers.ModelSerializer):
     sl_notification_threshold = serializers.IntegerField
     class Meta:
         model = Setting
-        fields = ('sl_reference', 'sl_notification_threshold', 'user')
+        fields = ('sl_reference', 'sl_notification_threshold')
 
