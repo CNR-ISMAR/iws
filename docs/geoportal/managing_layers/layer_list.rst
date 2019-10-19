@@ -12,7 +12,7 @@ To find *Layers* you can access the layers list clicking on the :guilabel:`Layer
 
 | In the *Layers* search page only *Layer* will be considered as data type. You can set one or more filter to refine the search. In the example below the layers have been filtered by EXTENT and CATEGORIES.
 
-.. figure:: img/filtering_layers.gif
-   :align: center
+    .. figure:: img/filtering_layers.gif
+       :align: center
 
    *Layers filtered by extent*
