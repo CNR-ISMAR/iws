@@ -27,8 +27,8 @@ open licensing), while respecting each countries' data policies.
     :maxdepth: 1
 
     iws/about_iws
+    iws/accounts_user_profile/index
     iws/system-user-interactions
-    iws/authentication
     iws/disclaimer_iws
 
 .. toctree::
@@ -57,8 +57,6 @@ open licensing), while respecting each countries' data policies.
     :maxdepth: 3
 
     geoportal/index
-    geoportal/layers
-    geoportal/maps
 
 .. toctree::
     :caption: Open I-storms
@@ -66,6 +64,3 @@ open licensing), while respecting each countries' data policies.
 
     open_istorms/about_open_istorms
     open_istorms/customize_open_istorms
-
-
-

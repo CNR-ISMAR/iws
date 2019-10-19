@@ -1,3 +1,5 @@
+..  _users_groups:
+
 Interacting with Users and Groups
 =================================
 
