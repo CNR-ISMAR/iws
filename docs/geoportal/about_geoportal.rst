@@ -37,7 +37,7 @@ Layers
 | By clicking the Layers link you will get a list of all published layers. If logged in as an administrator, you will also see the unpublished layers in the same list.
 | IWS/GeoNode allows the user to upload vector and raster data in their original projections using a web form.
 
-Vector data can be uploaded in many different formats (ESRI Shapefile, KML and so on...). When uploading ESRI Shapefile format please bue sure to provide all the mandatory files (at least .shp, .dbf, .shx, .prj). Satellite imagery and other kinds of raster data can be uploaded as GeoTIFFs.
+Vector data can be uploaded in many different formats (ESRI Shapefile, KML and so on...). When uploading ESRI Shapefile format please be sure to provide all the mandatory files (at least .shp, .dbf, .shx, .prj). Satellite imagery and other kinds of raster data can be uploaded as GeoTIFFs.
 
 Maps
 ----
