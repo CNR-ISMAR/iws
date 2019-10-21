@@ -5,6 +5,5 @@ from django.contrib.gis.serializers.geojson import Serializer as GeoJSONSerializ
 class Serializer(GeoJSONSerializer):
     def get_dump_object(self, obj):
         data = super(Serializer, self).get_dump_object(obj)
-        print(obj.pk)
         data['properties'].update(id=obj.pk)
         return data
