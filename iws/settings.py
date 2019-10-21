@@ -515,3 +515,6 @@ THREDDS_TO_PROXY = os.getenv('THREDDS_TO_PROXY', 'https://iws.ismar.cnr.it')
 FCM_DJANGO_SETTINGS = {
         "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY', 'NO KEY..')
 }
+SERIALIZATION_MODULES = {
+        "favorites_geojson": "openistorm.favorites.gj_serializers",
+}

@@ -59,7 +59,7 @@ class WmsQueryNew:
             # "LAYERS": "sea_level-mean",
         }
 
-    def setTimeRange(self, dataset='sea_level'):
+    def setTimeRange(self, dataset='sea_level', preserve_from=False):
         capabilitiesOptions = {
             "service": "WMS",
             "version": "1.3.0",
@@ -69,11 +69,12 @@ class WmsQueryNew:
         url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(capabilitiesOptions)
         r = requests.get(url=url)
         times = xmltodict.parse(r.content)['WMS_Capabilities']['Capability']['Layer']['Layer']['Layer'][0]['Dimension']['#text'].split(',')
-        self.time_from = setDateToUtc(parser.parse(min(times)))
         self.time_to = setDateToUtc(parser.parse(max(times)))
+        if not preserve_from:
+            self.time_from = setDateToUtc(parser.parse(min(times)))
 
     def getnextSeaLevelMinMax(self):
-        self.setTimeRange()
+        self.setTimeRange('sea_level', True)
         # starts from next hour
         if self.time_to > (self.time_from + timedelta(hours=1)):
             self.time_from = self.time_from + timedelta(hours=1)

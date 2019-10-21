@@ -61,7 +61,8 @@ class FavoriteListGeoJson(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        serialized = serialize('geojson', queryset,
+        # serialized = serialize('geojson', queryset,
+        serialized = serialize('favorites_geojson', queryset,
                   geometry_field='position',
                   fields=('id','title','address','position'),
                   srid= 'EPSG:3857')
