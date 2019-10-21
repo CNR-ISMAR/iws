@@ -625,7 +625,7 @@ class ThresholdsExceed:
                     else:
                         self.wms_query = WmsQueryNew(BBOX)
                     self.wms_query.setTimeRange('sea_level')
-                    thresholds = self.wms_query.get_thresholds(user.settings.sl_notification_threshold)
+                    thresholds = self.wms_query.get_thresholds(user.settings.get().sl_notification_threshold)
 
                     if len(thresholds['results']) > 0:
                         # print(thresholds)
