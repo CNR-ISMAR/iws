@@ -10,7 +10,7 @@ the ADRION area (ADRIPLAN, SHAPE, HAZADR projects).
 
 The Geoportal is based on `Geonode <http://geonode.org/>`_ extended with customized dajngo apps and dedicated interfaces.
 
- 1. The Map Viewer and Composer id a native Geonode feature and providess an interactive and dedicated GUI for creating, managing and sharing multi-layered maps and for navigating and querying them. The complete list of supported functionalities is reported in Section `managing_maps“Managing Maps”.
+ 1. The Map Viewer and Composer is a native Geonode feature and provides an interactive and dedicated GUI for creating, managing and sharing multi-layered maps and for navigating and querying them. The complete list of supported functionalities is reported in Section `managing_maps “Managing Maps”`_.
  2. Differently, the I-STORMS Interactive Viewer is a specialized GUI which offers a simultaneous visualization and exploration of multiple forecast model outputs and monitoring sensor networks time-series. The I-STORMS Interactive Viewer represents the more characteristic GUI of the IWS and supports Open I-STORMS and Sea Storm Atlas functionalities.
 
 | There are three main types of resources that GeoNode can manage:
