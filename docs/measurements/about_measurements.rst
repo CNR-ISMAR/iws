@@ -1,22 +1,44 @@
 About Measurements
 ==================
 
-A joint asset which could be exploited through fruitful cooperation is the
-presence in the whole Adriatic-Ionian coastal territories of large networks of
-sensors and stations. In the Adriatic region, we mapped 35 tide gauges (9
-inside the Venice Lagoon) and 9 wave stations, with the highest concentration
-in the northern Adriatic Sea.
+A joint asset which could be exploited through fruitful cooperation is
+the presence in the whole Adriatic-Ionian coastal territories of large
+networks of sensors and stations. In the Adriatic region, we mapped 35
+tide gauges (9 inside the Venice Lagoon) and 9 wave stations, with the
+highest concentration in the northern Adriatic Sea.
 
-The *Common Data Sharing System (CDSS)*  allows for aggregating the
-observed data from several monitoring network.
-The aggregating approach for collecting and sharing observations is crucial for
-providing real-time information about the sea state - and its evolution - to be
-used by several countries for prompt emergency response and to increase the
-overall preparedness to sea storms.
+The *Common Data Sharing System (CDSS)* allows for aggregating the
+observed data from several monitoring network.  The aggregating
+approach for collecting and sharing observations is crucial for
+providing real-time information about the sea state - and its
+evolution - to be used by several countries for prompt emergency
+response and to increase the overall preparedness to sea storms.
 
 In order to query, visualize and share measurement datasets and
-time-series, IWS provides a high-level graphical interface based on
+time-series, IWS provides a high-level graphical interfaces based on
 `Grafana <https://grafana.com>`_ dashboard and graph composer.
+Grafana is a multi-platform and Open Source Software which allows
+users to create and share interactive interfaces (dashboards)
+collecting and aggregating time series data from multiple data sources.
+
+A Grafana dashboard aggregates basic visualization blocks called
+panels. There are currently five Panel types: Graph, Singlestat,
+Dashlist, Table, and Text. Panels like the Graph panel allow you to
+graph as many metrics and series as you want. Other panels like
+Singlestat require a reduction of a single query into a single
+number. Dashlist and Text are special panels that do not connect to
+any Data Source.
+
+IWS publishes a default dashboard (menu "Measurements") which offers a
+synoptic view of tide and wave measurement data collected by the platform.
+Such dashboard is available following the "Measurements" menu.
+
+.. image:: image/measurements_menu.png
+   :width: 300px
+   :alt: measurements menu
+   :align: center
+
+Visualized data are directly collected from  CDSS
 
 
 ..
