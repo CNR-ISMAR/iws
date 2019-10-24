@@ -14,6 +14,15 @@ providing real-time information about the sea state - and its
 evolution - to be used by several countries for prompt emergency
 response and to increase the overall preparedness to sea storms.
 
+.. image:: image/iws_measurements_graph.png
+   :width: 450px
+   :alt: query builder
+   :align: center
+
+Entity-Relationship Diagram (ERD) of the Measurements application (part of the CDSS).
+
+
+
 In order to query, visualize and share measurement datasets and
 time-series, IWS provides a high-level graphical interfaces based on
 `Grafana <https://grafana.com>`_ dashboard and graph composer.
