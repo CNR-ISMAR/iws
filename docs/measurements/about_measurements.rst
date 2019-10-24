@@ -34,11 +34,27 @@ synoptic view of tide and wave measurement data collected by the platform.
 Such dashboard is available following the "Measurements" menu.
 
 .. image:: image/measurements_menu.png
-   :width: 300px
+   :width: 250px
    :alt: measurements menu
    :align: center
 
-Visualized data are directly collected from  CDSS
+.. image:: image/synoptic_dashboard.png
+   :width: 650px
+   :alt: default synoptic dashboard
+   :align: center
+
+Example of IWS sea level synoptic dashboard. The sea level time series are grouped by monitoring network.
+
+
+Visualized data are directly collected from  CDSS using the Query Editor tool provided bu Grafana. Query Editor provides a high-level interface for querying stored time series.
+
+.. image:: image/query_builder.png
+   :width: 550px
+   :alt: query builder
+   :align: center
+
+
+
 
 
 ..
