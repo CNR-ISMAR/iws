@@ -24,7 +24,7 @@ class SettingList(ListCreateAPIView):
         qs = self.filter_queryset(self.get_queryset())
         data['user'] = self.request.user.pk
         if qs.count() == 0:
-            data = {"sl_reference": data.get("sl_reference", 0), "sl_notification_threshold": data.get("sl_notification_threshold", 0, "user": data['user'])}
+            data = {"sl_reference": data.get("sl_reference", 0), "sl_notification_threshold": data.get("sl_notification_threshold", 0), "user": data['user']}
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
