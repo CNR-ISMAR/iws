@@ -37,13 +37,15 @@ class CoastalSegment(models.Model):
     
     objects = models.GeoManager()
     
-    ordering = ['code']
-    
     def __unicode__(self):
-        return self.code + self.partition    
+        return "{} {} ({})".format(self.code, self.partition, self.subregion)
         
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in CoastalSegment._meta.fields]
+
+    class Meta:
+        ordering = ['code', 'partition']
+    
 
 
 #class RegioniStormAtlasSummary(models.Model):
@@ -67,7 +69,11 @@ class CoastalSegment(models.Model):
 #         db_table = 'regioni_storm_atlas_summary'
 
 class StormEvent(models.Model):
-    coastalsegment = models.ForeignKey(CoastalSegment)
+    coastalsegment = models.ForeignKey(CoastalSegment,
+                                       verbose_name="Coastal segment")
+    geom = models.PointField(srid=3035, blank=True, null=True,
+                             verbose_name='Event location',
+                             help_text='Insert a reference point related to the sea storm events')
     area_code = models.CharField(max_length=5, blank=True, null=True)
     area_partition = models.CharField(max_length=2, blank=True, null=True)
     date_start = models.DateTimeField(auto_now=False)
@@ -86,7 +92,6 @@ class StormEvent(models.Model):
     evts_documents =  models.ManyToManyField(Document, blank=True, null=True) 
     lat = models.CharField(max_length=255, blank=True, null=True)
     lon = models.CharField(max_length=255, blank=True, null=True)
-    geom = models.PointField(srid=3035, blank=True, null=True)
     objects = models.GeoManager()
     def get_boolvalue(self, fieldname):
 	return bool(self.fieldname)

@@ -6,33 +6,37 @@ from views import _write
 
 
 ARSO = 'http://www.arso.gov.si/xml/vode/hidro_podatki_zadnji.xml'
-
+# ARSO_CODES=['9350', '9400', '9410', '9420']
+ARSO_CODES=['9350',]
 
 def syncarso():
     r = requests.get(ARSO)
 
     stations = BeautifulSoup(r.text, 'xml')
-    for p in stations.find_all('postaja', sifra='9350'):
-        location = p.merilno_mesto.string
-        parameter = 'SLEV'
-        _time = datetime.strptime(p.datum.string, "%Y-%m-%d %H:%M")
-        time = _time - timedelta(hours=1)
 
-        try:
-            _value = float(p.vodostaj.string) / 100.
-            baselevel = float(p.attrs['kota_0'])
-            value = baselevel + _value
-            rjson = {
-                'location': location,
-                'parameter': parameter,
-                "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ'),
-                'network': "ARSO",
-                "value": float(value)
-            }
-            _write([rjson])
-        except TypeError as e:
-            print str(e)
-            pass
+    for codes in ARSO_CODES:
+    
+        for p in stations.find_all('postaja', sifra=codes):
+            location = p.merilno_mesto.string
+            parameter = 'SLEV'
+            _time = datetime.strptime(p.datum.string, "%Y-%m-%d %H:%M")
+            time = _time - timedelta(hours=1)
+
+            try:
+                _value = float(p.vodostaj.string) / 100.
+                baselevel = float(p.attrs['kota_0'])
+                value = baselevel + _value
+                rjson = {
+                    'location': location,
+                    'parameter': parameter,
+                    "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                    'network': "ARSO",
+                    "value": float(value)
+                }
+                _write([rjson])
+            except TypeError as e:
+                print str(e)
+                pass
 
 
 IOC = "http://www.ioc-sealevelmonitoring.org/bgraph.php?code={}&output=tab&period=7"

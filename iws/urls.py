@@ -40,6 +40,7 @@ urlpatterns += (
     url(r'^dashboards/', include('iws.dashboards.urls')),
     #tmes
     url(r'^tmes/', include('iws.tmes.urls')),
+    url(r'grappelli/', include('grappelli.urls')),
 )
 
 urlpatterns = patterns('',
