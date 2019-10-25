@@ -46,7 +46,6 @@ provides management functionalities as well. Archived data are organized into th
 Entity-Relationship Diagram (ERD) of the common data model of the Measurements application (part of the CDSS).
 
 
-
 In order to query, visualize and share measurement datasets and
 time-series, IWS provides a high-level graphical interfaces based on
 `Grafana <https://grafana.com>`_ dashboard and graph composer.
@@ -60,7 +59,7 @@ Dashlist, Table, and Text. Panels like the Graph panel allow you to
 graph as many metrics and series as you want. Other panels like
 Singlestat require a reduction of a single query into a single
 number. Dashlist and Text are special panels that do not connect to
-any Data Source.
+any Data Source. Additional information are available on `Grafana documentation <https://grafana.com/docs/>`_.
 
 IWS publishes a default dashboard (menu "Measurements") which offers a
 synoptic view of tide and wave measurement data collected by the platform.
@@ -82,12 +81,22 @@ Example of IWS sea level synoptic dashboard. The sea level time series are group
 Visualized data are directly collected from  CDSS using the Query Editor tool provided bu Grafana. Query Editor provides a high-level interface for querying stored time series.
 
 .. image:: image/query_builder.png
-   :width: 550px
+   :width: 650px
    :alt: query builder
    :align: center
 
+In the previous example, Query Editor queries directly a convenient
+data view called "measurements_measure_view" which exposes all
+relevant data provided by "Measurements" application.
+"measurements_measure_view" has the following structure:
 
-
+* id: id of the measure
+* timestamp: time of measure in UTC
+* value: value of the measure
+* value_norm: normalized value of the measure (for sea level parameter)
+* location: label identifying a location of the measure
+* parameter: label identifying the parameter
+* network: label identifying the monitoring network
 
 
 ..
