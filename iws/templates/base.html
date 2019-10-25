@@ -244,19 +244,10 @@
               <ul class="dropdown-menu">
 
                 <li><a href="{% url "layer_browse" %}?limit={{ CLIENT_RESULTS_LIMIT }}">{% trans "Layers" %}</a></li>
-                <li><a href="{% url "document_browse" %}?limit={{ CLIENT_RESULTS_LIMIT }}">{% trans "Documents" %}</a></li>
-                <li><a href="{% url "services" %}?limit={{ CLIENT_RESULTS_LIMIT }}">{% trans "Remote Services" %}</a></li>
                 <li><a href="{% url "maps_browse" %}?limit={{ CLIENT_RESULTS_LIMIT }}">{% trans "Maps" %}</a></li>
-                <li><a href="{% url "profile_browse" %}">{% trans "People" %}</a></li>
-                <li><a href="{% url "group_list" %}">{% trans "Groups" %}</a></li>
-                {% if perms.announcements.can_manage %}
-                <li><a href="{% url "announcements_list" %}">{% trans "Announcements" %}</a></li>
-                {% endif %}
-                <li role="separator" class="divider"></li>
-                <li><a href="{% url "geonode.invitations:geonode-send-invite" %}">{% trans "Invite Users" %}</a></li>
-                {% if user.is_superuser %}
-                <li><a href="{{SITEURL}}admin/people/profile/add/">{% trans "Add User" %}</a></li>
-                <li><a href="{% url "group_create" %}">{% trans "Create Group" %}</a></li>
+                <li><a href="{% url "document_browse" %}?limit={{ CLIENT_RESULTS_LIMIT }}">{% trans "Documents" %}</a></li>
+		{% if user.is_superuser or user.is_staff %}
+                <li><a href="{% url "services" %}?limit={{ CLIENT_RESULTS_LIMIT }}">{% trans "Remote Services" %}</a></li>
                 {% endif %}
               </ul>
           </li>
@@ -358,12 +349,12 @@
           <ul class="list-unstyled">
             <li>{% trans "Sea Storm Atlas" %}</li>
             <li><a href="{% url "atlas_map" %}">{% trans "Map" %}</a></li>
-            <li> <a href="{% url "segment-list" %}">{% trans "Coastal Segments" %}</a></li>
+            <li> <a href="{% url "segment-list" %}">{% trans "Event Catalog" %}</a></li>
           </ul>
         </div>
         <div class="col-md-2">
           <ul class="list-unstyled">
-	    <li>{% trans "I-Storms data" %}</li>
+	    <li>{% trans "I-STORMS data" %}</li>
             <li><a href="/dashboards/" role="button" aria-haspopup="true" aria-expanded="false">{% trans "Measurements" %}</a></li>
             <li><a href="{% url "tmes_index" %}" role="button" aria-haspopup="true" aria-expanded="false">{% trans "Forecasts" %}</a></li>
           </ul>
@@ -379,7 +370,8 @@
     <div class="col-md-2">
           <ul class="list-unstyled">
             <li>{% trans "About" %}</li>
-            <li><a href="{% url "help" %}">{% trans "Manual" %}</a></li>
+           <!-- <li><a href="{% url "help" %}">{% trans "Quick help" %}</a></li>-->
+            <li><a href="/static/docs/html/index.html">{% trans "Manual" %}</a></li>
             <li><a href="{% url "profile_browse" %}">{% trans "People" %}</a></li>
             <li><a href="{% url "group_list" %}">{% trans "Groups" %}</a></li>
             <li><a href="{% url "geonode.invitations:geonode-send-invite" %}">{% trans "Invite Users" %}</a></li>
