@@ -32,3 +32,54 @@ documentation.
    :align: center
 
 Example of Graph Panel editing/configuration graphical user interface.
+
+The Graph Panel editing and configuration interface provides a preview
+of time series visualization graph and four configuration tabs (Query,
+Visualization, General, Alert). An example for the Query tab (Visualization
+Editor) is shown in the previous figure.
+
+.. image:: image/configuration_tabs_selector.png
+   :width: 50px
+   :alt: configuration tabs selector
+   :align: center
+
+Configuration tabs selector.
+
+
+Extract data from IWS Measurements
+----------------------------------
+
+As previously described, Query Builder provides an high-level
+interface for defining the database query and for preparing the data
+before their visualization.
+
+.. image:: image/query_builder_details.png
+   :width: 700px
+   :alt: query builder details
+   :align: center
+
+As described in the previous figure, query elements are:
+
+:FORM: table or view to query. IWS povides just the
+   "measurements_measure_view" which contains all collected
+   measurement data.
+
+:Time column: column containing date time value. The
+   "measurements_measure_view" contains the "timestamp" column which
+   provides date-time values in UTC.
+
+:Metric column: column defining the serie names allowing to plot the
+                values as separate series. Metric column is an
+                optional parameter. In the example column "location"
+                has been used.
+
+:SELECT: statement defining the values to be plotted. In the example
+         "value_norm" and aggregate function "avg" have been used.
+
+:WHERE: additional conditions for data pre-filtering. "$__timeFilter"
+        is a macros whihch simplify the creation of dynamic query
+        applying the time range filter defined by the parent
+        dashboard. This is an optional parameter.
+
+:GROUP BY: allows to group data by time or any other columns. This is
+           an optional parameter.
