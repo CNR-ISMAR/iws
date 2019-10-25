@@ -79,7 +79,9 @@ As described in the previous figure, query elements are:
 :WHERE: additional conditions for data pre-filtering. "$__timeFilter"
         is a macros whihch simplify the creation of dynamic query
         applying the time range filter defined by the parent
-        dashboard. This is an optional parameter.
+        dashboard. In the example the filter on network = 'IOC' is
+        selected in order to visualize only the stations belog to the
+        IOC-UNESCO network.  This is an optional parameter.
 
 :GROUP BY: allows to group data by time or any other columns. This is
            an optional parameter.
