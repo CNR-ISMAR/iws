@@ -14,12 +14,36 @@ providing real-time information about the sea state - and its
 evolution - to be used by several countries for prompt emergency
 response and to increase the overall preparedness to sea storms.
 
+CDSS collects and harmonizes monitoring network time-series storing
+them into a common data model (Measurements application) which
+provides management functionalities as well. Archived data are organized into the following structure:
+
+:Network:
+   environmental monitoring networks (e.g. Rete Meteomarina). Denomination and basic information related to the operational monitoring networks.
+
+:Sensor:
+   sensor label and main characteristics.
+
+:Location:
+   geographic location (point) where sensors are located. A single location may host one or more sensors.
+
+:Parameter:
+   denomination of the acquired parameter
+
+:Serie:
+   rapresent a collection of data that share a network, sensor, location and parameter. Serie object may contain statistics on the serie of data (es. mean sea level value).
+
+:Measure:
+   single measure composed by a serie, timestamp (in UCT) and a value.
+
+
+
 .. image:: image/iws_measurements_graph.png
-   :width: 450px
+   :width: 550px
    :alt: query builder
    :align: center
 
-Entity-Relationship Diagram (ERD) of the Measurements application (part of the CDSS).
+Entity-Relationship Diagram (ERD) of the common data model of the Measurements application (part of the CDSS).
 
 
 
