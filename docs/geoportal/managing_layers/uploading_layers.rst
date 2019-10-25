@@ -3,19 +3,12 @@
 Layers Uploading
 ================
 
-| The most important resource type in IWS/Geonode is the *Layer*. A layer represents spatial information so it can be displayed inside a map.
+| The *Layer* is the main resource type inside a geographic repository. A layer represents spatial information so it can be displayed inside a map.
 | To better understand what we are talking about let's upload your first layer.
 
-The *Layer Uploading* page can be reached from the :guilabel:`Upload Layer` link of the :guilabel:`Data` menu in the navigation bar.
+The *Layer Uploading* page can be reached from the :guilabel:`Upload Layer` button in the :ref:`finding-layers` page.
 
-.. figure:: img/upload_layer_link.png
-     :align: center
-
-     *Link for Layers Uploading*
-
-There is also an :guilabel:`Upload Layers` button in the *Layers Page*.
-
-.. figure:: img/upload_layer_link_from_list.png
+.. figure:: img/layer_upload_layer.png
      :align: center
 
      *Button for Layers Uploading*

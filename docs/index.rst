@@ -58,6 +58,7 @@ open licensing), while respecting each countries' data policies.
 
     geoportal/index
 
+
 .. toctree::
     :caption: Open I-storms
     :maxdepth: 3
