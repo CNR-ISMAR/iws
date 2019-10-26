@@ -51,7 +51,16 @@ Metadata Wizard
 ---------------
 
 | Metadata contains all the information related to the layer. They provide essential information for its identification and its comprehension. Metadata also make the layer more easily retrievable through search by other users.
-| The *Metadata* of a layer can be changed through a *Wizard* which involves four steps, one for each type of metadata considered:
+| The *Metadata* of a layer can be changed through a *Wizard* that can guide the user during the metadata completion.
+The wizard page can be opened from :guilabel:`Editing Tools` panel using the :guilabel:`Wizard` button.
+
+  .. figure:: img/layer_metadata_wizard.png
+      :align: center
+
+      *Metadata wizard Button*
+
+
+The Metadata wizard involves four steps, one for each type of metadata considered,
 
 * *Basic Metadata*
 
@@ -138,6 +147,11 @@ In the *Layer Editing* panel the :guilabel:`Advanced Edit` is also available.
 
 Click on it to display the *Metadata Advanced Editing Page*. That page allows you to edit all the layer metadata described in the previous paragraph. Once you have finished to edit them click on :guilabel:`Update` to save your changes.
 
+.. figure:: img/advanced_edit_page.png
+    :align: center
+
+    *The Advanced Edit button*
+
 Uploading Metadata
 ------------------
 
@@ -147,6 +161,6 @@ The picture below shows you how the page looks like.
 .. figure:: img/metadata_upload.png
     :align: center
 
-    *The Metadata Advanced Editing page*
+    *The Metadata Upload page*
 
 Click on :guilabel:`Choose Files` to select the document from your disk, then click on :guilabel:`Upload files` to trigger the uploading process.

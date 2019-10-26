@@ -44,4 +44,4 @@ class SeaAdmin(admin.ModelAdmin):
 
 admin.site.register(CoastalSegment, CoastalSegmentAdmin)
 admin.site.register(StormEvent, StormEventAdmin)
-admin.site.register(Sea, SeaAdmin)
+
