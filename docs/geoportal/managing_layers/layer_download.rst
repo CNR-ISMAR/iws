@@ -19,8 +19,3 @@ You can also download the layer data, the supported export formats will be liste
      *Downloading the Layer Data*
 
 As shown in the image above, GeoNode allows you to download a subset of data. Click on :guilabel:`Do you want to filter it?` to filter the layer data before the download.
-
-.. figure:: img/download_filtered_data.gif
-     :align: center
-
-     *Downloading the Layer Data*

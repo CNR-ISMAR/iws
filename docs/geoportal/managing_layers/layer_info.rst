@@ -20,20 +20,20 @@ As shown in the picture above, the *Layer Page* is divided into three main secti
 Layer Preview
 -------------
 
-The *Layer Preview* shows the layer in a map with very basic functionalities:
+The *Layer Preview* shows the layer in a map with very basic functionalities like :
 
-* the *Base Map Switcher* that allows you to change the base map;
-* the *Zoom in/out* tool to enlarge and decrease the view;
-* the *Zoom to max extent* tool for the zoom to fit the layer size;
-* the *Query Objects* tool to retrieve information about the map objects by clicking on the map;
-* the *Print* tool to print the preview.
+ 1. the *Base Map Switcher* that allows you to change the base map;
+ 2. the *Print* tool to print the preview.
+ 3. the *Zoom in/out* tool to enlarge and decrease the view;
+ 4. the *Query Objects* tool to retrieve information about the map objects by clicking on the map;
 
-.. figure:: img/layer_preview.gif
+
+.. figure:: img/layer_preview.png
     :align: center
 
     *Layer Preview*
 
-The GeoNode map viewer is `MapStore <https://mapstore2.geo-solutions.it/mapstore/#/>`_ based, see the `MapStore Documentation <https://mapstore2.readthedocs.io/en/latest/>`_ to learn more.
+
 
 Tabs Sections
 -------------
@@ -56,17 +56,7 @@ The *Layer Page* shows you some tabs sections containing different information a
 
 * The *Share* tab provides the links for the layer to share through social media or email.
 
-  .. figure:: img/layer_sharing.png
-      :align: center
-
-      *Layer Sharing*
-
 * You can *Rate* the layer through the *Rating system*.
-
-  .. figure:: img/layer_rating.png
-      :align: center
-
-      *Rate the Layer*
 
 * In the *Comments* tab section you can post your comment. Click on :guilabel:`Add Comment`, insert your comment and click :guilabel:`Submit Comment` to post it.
 
@@ -77,12 +67,6 @@ The *Layer Page* shows you some tabs sections containing different information a
 
   Your comment will be added next to the last already existing comment. If you want to remove it click on the red :guilabel:`Delete` button.
 
-* If you want this layer in your *Favorites* (see :ref:`editing-profile`), open the *Favorite* tab and click on :guilabel:`Add to Favorites`.
-
-  .. figure:: img/favorite_layer.png
-      :align: center
-
-      *Your Favorite Layer*
 
 Layer Tools
 -----------
@@ -97,7 +81,6 @@ In the right side of the *Layer Page* there are some buttons and information tha
 * the *Legend* shows what the symbols and styles on the map are referring to;
 * in the *Map using this layer* section all the map which uses the layer are listed;
 * in the *Create a map using this layer*, the :guilabel:`Create a Map` button allows you to create a map from scratch using the layer;
-* the section *Add the layer to an existing map* shows you a dropdown menu in which all the maps the user can view are listed. The button :guilabel:`Add to Map` allows you to add the layer to the map you have selected in the previous menu;
 * the *Styles* section shows all the styles associated with the layer. Click on the checkbox corresponding to one of the styles listed to apply it the preview;
 
   .. figure:: img/layer_preview_change_style.png

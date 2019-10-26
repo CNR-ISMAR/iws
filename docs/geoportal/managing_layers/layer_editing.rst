@@ -25,20 +25,12 @@ Setting the Layer Thumbnail
 | The Thumbnail of the layer that will be displayed on the *Layers* list page can be changed by dragging and zooming on the layer preview to select which portion will be displayed, then by clicking on the :guilabel:`Set` button of the *Layer Editing* panel.
 | A message will confirm the thumbnail has been correctly changed.
 
-.. figure:: img/set_thumbnail_confirmation_message.png
-     :align: center
-
-     *The Layer Editing panel*
 
 Replacing the Layer
 -------------------
 
-From the *Layer Editing* panel click on :guilabel:`Replace` to change the layer source dataset. You will be driven to the *Replace Layer* page in which :guilabel:`Choose Files` button allows you to select files from your disk.
+From the *Layer Editing* panel click on :guilabel:`Replace` to change the layer source dataset. You will be driven to the *Replace Layer* page in which :guilabel:`Choose Files` button allows you to select files from your disk. The *Replace Layer* page has the same interface described in :ref:`uploading-layers` section.
 
-.. figure:: img/replace_layer_page.png
-     :align: center
-
-     *Replace a Layer*
 
 Once the *Charset* selected the upload process can be triggered by clicking on :guilabel:`Replace Layer`. If no errors occur you will see a message like the one in the picture below.
 
@@ -47,12 +39,6 @@ Once the *Charset* selected the upload process can be triggered by clicking on :
 
      *Replace Layer success*
 
-We have replaced the *roads* dataset with the *railways* one. You can see the differences in the *Layer Preview*.
-
-.. figure:: img/replace_layer_result.png
-     :align: center
-
-     *Result of the Layer Replacement*
 
 Editing the Layer Data
 ----------------------
@@ -62,96 +48,47 @@ The :guilabel:`Edit data` button of the *Layer Editing* panel opens the *Layer* 
 .. figure:: img/editing_layer_data.png
      :align: center
 
-     *Editing the Layer Data*
+     *Map view for editing layer data*
 
-The *Attribute Table* panel of the *Layer* will automatically appear at the bottom of the *Map*. In that panel all the features are listed. For each feature you can zoom to its extent by clicking on the corresponding *magnifying glass* icon |magnifying_glass_icon| at the beginning of the row, you can also observe which values the feature assumes for each attribute.
 
-.. |magnifying_glass_icon| image:: img/magnifying_glass_icon.png
-     :width: 30px
-     :height: 30px
+Click the *Edit* button on the toolbar and select the *Create* or *Modify* from dropdown to start an editing session.
+
+.. figure:: img/edit_mode_button.png
      :align: middle
 
-Click the *Edit Mode* |edit_mode_button| button to start an editing session.
+    *The Edit tool in the map viever toolbar*
 
-.. |edit_mode_button| image:: img/edit_mode_button.png
-     :width: 30px
-     :height: 30px
-     :align: middle
 
 Now you can:
 
 * *Add new Features*
 
-  Through the *Add New Feature* button |add_new_feature_button| it is possible to set up a new feature for your layer.
-  Fill the attributes fields and click |save_changes_button| to save your change.
-  Your new feature doesn't have a shape yet, click on |add_shape_to_geometry_button| to draw its shape directly on the *Map* then click on |save_changes_button| to save it.
+  If you've choosen *Create* entry it is possible to set up a new feature for your layer. Just click on the map to draw a geometry.
+  Qhen you've created the new geometry it opens a popup with the attributes of the layer in use. Fill the attributes fields and click :guilabel:`Save` to save your change.
 
-  .. |add_new_feature_button| image:: img/add_new_feature_button.png
-       :width: 30px
-       :height: 30px
-       :align: middle
 
-  .. |save_changes_button| image:: img/save_changes_button.png
-      :width: 30px
-      :height: 30px
-      :align: middle
-
-  .. |add_shape_to_geometry_button| image:: img/add_shape_to_geometry_button.png
-       :width: 30px
-       :height: 30px
-       :align: middle
-
-  .. figure:: img/add_new_feature.gif
+  .. figure:: img/add_new_feature.png
        :align: center
 
-       *Add a New Feature to the Layer*
+       *The attribute popup on new feature*
 
   .. note:: When your new feature has a multi-vertex shape you have to double-click the last vertex to finish the drawing.
 
-* *Delete Features*
-
-  If you want to delete a feature you have to select it on the *Attribute Table* and click on |delete_feature_button|.
-
-  .. |delete_feature_button| image:: img/delete_feature_button.png
-       :width: 30px
-       :height: 30px
-       :align: middle
-
-  .. figure:: img/delete_feature.gif
-       :align: center
-
-       *Delete a Feature*
-
 * *Change the Feature Shape*
 
-  You can edit the shape of an existing geometry dragging its vertices with the mouse. A blue circle lets you know what vertex you are moving.
+  If you've choosen the *Modify* entry you can edit the shape of an existing geometry dragging its vertices with the mouse. First click on the gometry you want to edit and in the subsqquante popup select :guilabel:`Edit `button, At this point the vertices are shown with a white square
 
-  .. figure:: img/edit_feature_shape.gif
+  .. figure:: img/edit_feature.png
        :align: center
 
-       *Feature Shape Editing - Change the existing shape*
+       *The popup on new feature*
 
-  Features can have *multipart shapes*. You can add parts to the shape when editing it.
+* *Delete Features*
 
-  .. figure:: img/add_shape_to_existing_geometry.gif
-      :align: center
+  If you want to delete a feature just select :guilabel:`Delete` botton in the popup after you've selected the feature
 
-      *Feature Shape Editing -  Add parts to the existing shape*
 
 * *Change the Feature Attributes*
 
-  When you are in *Edit Mode* you can also edit the attributes values changing them directly in the corresponding text fields.
+  When you are in *Edit Mode* you can also edit the attributes values changing them directly in the corresponding text fields of the popup.
 
-  .. figure:: img/edit_feature_attributes.gif
-       :align: center
-
-       *Feature Attributes Editing*
-
-Once you have finished you can end the *Editing Session* by clicking on the |end_editing_session_button| button.
-
-.. |end_editing_session_button| image:: img/end_editing_session_button.png
-     :width: 30px
-     :height: 30px
-     :align: middle
-
-By default the GeoNode map viewer is `MapStore <https://mapstore2.geo-solutions.it/mapstore/#/>`_ based, see the `MapStore Documentation <https://mapstore2.readthedocs.io/en/latest/>`_ for further information.
