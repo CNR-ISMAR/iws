@@ -6,6 +6,8 @@ Layers Uploading
 | The *Layer* is the main resource type inside a geographic repository. A layer represents spatial information so it can be displayed inside a map.
 | To better understand what we are talking about let's upload your first layer.
 
+.. warning:: Only authenticated users can upload data into GeoNode.
+
 The *Layer Uploading* page can be reached from the :guilabel:`Upload Layer` button in the :ref:`finding-layers` page.
 
 .. figure:: img/layer_upload_layer.png
@@ -36,4 +38,4 @@ When the process ends click the :guilabel:`Layer Info` to check the layer has be
 
 ..  note:: if you don't have the `.prj` file you can create it copyng and pasting the `OGC WKT` definition from corresponding CSR page inn `http://epsg.io/`_
 
-In the next paragraphs you will learn how to create a layer from scratch, how to set permissions, how to explore the layer properties and how to edit them.
+In the next paragraphs you will learn how to set permissions, how to explore the layer properties and how to edit them.

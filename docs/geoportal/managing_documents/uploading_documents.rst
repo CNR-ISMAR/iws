@@ -5,23 +5,15 @@ Uploading Documents
 
 GeoNode allows to share reports, conceptual notes, posters, spreadsheets, etc. A wide range of documents files can be hosted on the platform, including text files (.doc, .docx, .txt, .odt), spreadsheets (.xls, .xlsx, .ods), presentations (.ppt, .pptx, .odp), images (.gif, .jpg, .png, .tif, .tiff), PDF, zip files (.rar, .zip, .gz), SLD, XML or QML files.
 
-.. warning:: Only authenticated users can upload data into GeoNode.
+To open the *Documents Search* page click on :guilabel:`Documents` entry of :guialabel:`Geoportal` menu.
 
-*Documents* uploading is accessible from two positions:
-
-* the :guilabel:`Upload Documents` button of the *Documents Search* page (see :ref:`finding-documents`)
+The :guilabel:`Upload Documents` button is on top of the page.
 
   .. figure:: img/upload_documents_button.png
       :align: center
 
       *Documents Upload button*
 
-* the :guilabel:`Upload Document` link of the :guilabel:`Data` menu in the navigation bar
-
-  .. figure:: img/upload_document_link.png
-      :align: center
-
-      *Document Upload link*
 
 The *Document Upload* page looks like the one shown in the picture below.
 

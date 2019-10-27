@@ -9,4 +9,14 @@ web mapping application to make accessible, through standard web browsers,
 geospatial and multi-temporal information on waves, sea level from both 
 measurements sensor networks and forecast model output.
 
+.. toctree::
+    :maxdepth: 2
+
+    open_istorms_interface.rst
+
+
+
+
+
+
 

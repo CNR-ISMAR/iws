@@ -71,31 +71,6 @@ In the same section of the *Document Page* you can find the following useful too
 * :guilabel:`Download Document` to download the document
 * :guilabel:`Edit Document` to change the document metadata, replace the file etc (see :ref:`document-editing`)
 * :guilabel:`Download Metadata` to download the whole set of metadata in various formats
-
-  .. figure:: img/document_metadata_download.png
-      :align: center
-
-      *Document Metadata download*
-
 * :guilabel:`Change Document Permissions` to assign permissions on the document to users and groups (see :ref:`edit-document-permissions`).
 
-Exploring Metadata Details
---------------------------
 
-When clicking on the :guilabel:`Metadata Detail` button the *Metadata Details Page* will open.
-
-.. figure:: img/document_metadata_details.png
-    :align: center
-
-    *Document Metadata Details page*
-
-| It displays the whole set of available metadata about the document.
-| Metadata are grouped in order to show the following types of information:
-
-* *Identification* to uniquely identify the document
-* *Owner*, the user who own the document
-* *Information*, the identification image, the Spatial Extent, Projection System and so on
-* *Features*, Restrictions, Language and so on
-* *Contact Points*, the user available to have a contact
-* *References*, various links to the resource information
-* *Metadata Author*, the metadata author information

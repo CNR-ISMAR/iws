@@ -62,9 +62,9 @@ For further information in editing styles see :ref:`layer-style` section.
 
 These commands and also the :guilabel:`Zoom to layer extent` option are available in the context menu by right-clicking on the layer title.
 
-.. figure:: img/lmap_layer_context_menu.png
+.. figure:: img/map_layer_context_menu.png
      :align: center
-     :height: 400px
+
 
 
      *The Layer Context Menu*
