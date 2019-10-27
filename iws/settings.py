@@ -497,7 +497,7 @@ OAUTH2_PROVIDER = {
     },
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
     # 'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.OAuthLibCore',
-    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600 * 4,
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 2,
     'REFRESH_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 60,
     #REFRESH_TOKEN_EXPIRE_SECONDS
     # 'APPLICATION_MODEL': 'djcore.djcore.oauth.models.Application'
