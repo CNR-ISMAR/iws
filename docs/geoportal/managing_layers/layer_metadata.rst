@@ -150,7 +150,7 @@ Click on it to display the *Metadata Advanced Editing Page*. That page allows yo
 .. figure:: img/advanced_edit_page.png
     :align: center
 
-    *The Advanced Edit button*
+    *The Advanced Edit Page*
 
 Uploading Metadata
 ------------------

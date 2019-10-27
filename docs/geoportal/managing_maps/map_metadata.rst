@@ -31,7 +31,16 @@ Metadata Wizard
 ---------------
 
 | Metadata provide essential information for the identification and the comprehension of the map. They also make the map more easily retrievable through the search tools.
-| Those *Metadata* can be filled out through a three-steps *Wizard* in which you have to provide all mandatory information to complete the process. Those three steps are described below.
+| Those *Metadata* can be filled out through a three-steps *Wizard* in which you have to provide all mandatory information to complete the process.
+
+The Metadata Wizard can be accessed from :guilabel:`Editing tools` panel
+
+  .. figure:: img/map_metadata_wizard_button.png
+      :align: center
+
+      *Metadata Wizard Button*
+
+The three steps of metadata input are described below.
 
 * *Basic Metadata*
 
