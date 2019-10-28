@@ -24,35 +24,14 @@ The *Profile* page looks like the one shown in the picture below.
 
 Your personal information are shown under the username. At the bottom of the page are listed all the resources associated to your *Profile*, you can decide to view only layers or maps or documents by clicking on the corresponding tab.
 
-Through the link ``User layers WMS GetCapabilities document`` you can retrieve an XML document with the list of the available layers.
+T
+On the right side of the page there are many useful links to edit personal information, to upload and create layers or maps, to update your *Profile* settings and to get in touch with other IWS users.
 
-On the right side of the page there are many useful links to edit personal information, to upload and create layers or maps, to update your *Profile* settings and to get in touch with other GeoNode users.
-
-The :guilabel:`Favorites` link, also accessible from the user menu, drive you to the list of the resources marked as your favorites.
-
-.. figure:: img/favorites_resources.png
-     :align: center
-
-     *Favorites*
-
-Click the :guilabel:`Delete from Favorites` button to remove the resource from the list.
-
-The :guilabel:`My Activities` link allows to see all your recent activities on GeoNode such as layers uploading and maps creation.
-
-.. figure:: img/user_activities.png
-     :align: center
-
-     *Recent activities*
-
-This link is also available in the user menu.
-
-All other links and their functionalities will be described in depth in the following sections.
+We will describe now how to edit your profile and manage your password.
 
 .. toctree::
     :maxdepth: 1
 
     editing_profile
-    connecting_with_social
-    associating_email
     managing_password
-    notification_settings
+
