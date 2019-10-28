@@ -13,7 +13,7 @@ The main interface of Open I-Storms Web Application integrates the visualization
     *The Open I-STORMS interface*
 
 The main window shows a Map starting wih sea level mean TMES output for the current hour.
-On the map are overlayed the measurements stations locations as  points and queryng a point will output station detail and measurements *[work in progress at 28/10/2019]*
+On the map are overlayed the measurements stations locations as  points
 
 Using the :guilabel:`Time Line` on the bottom of the map you can explore different times of current series.
 using the :guilabel:`Layer Switcher` widget on the
@@ -32,7 +32,7 @@ By clicking on the :guilabel:`Play` button the map will load in sequence all the
 
 Query TMES forecast
 -------------------
-To retrieve forecast for a point of the map simply zoom the map to the deired location and click by left mouse button.
+To retrieve forecast for a point of the map simply zoom the map to the desired location and click by left mouse button.
 A popup will appear with all quantities for the current selected hour in time line:
 
 
@@ -41,7 +41,7 @@ A popup will appear with all quantities for the current selected hour in time li
 
     *The Information popup*
 
-By clicking the :guilabel:`Graph` Icon |graph_button| you can open the *Graph panel* where is depicted the quantities for that point along all the duration of the current forecast (48 hours). If the selected point has also a station the graph will show also the station data  *[work in progress at 28/10/2019]*.
+By clicking the :guilabel:`Graph` Icon |graph_button| you can open the *Graph panel* where is represented the quantities for that point along all the duration of the current forecast (48 hours). If the selected point has also a station the graph will show also the station data. If you want to hide or show one variable from the graph just click on the label.
 
 .. figure:: img/graph_window.png
     :align: center
@@ -66,7 +66,7 @@ On the layer switcher you can select which forecast show on the map:
      *The Layer  switcher*
 
 Clicking on :guilabel:`Wave` or :guilabel:`Sea Level` entry will toggle from one layer to the other, the active layer is grey and the unactive is white.
-The :guilabel:`STD-MEAN` selector will toggle from the mean TMES value to the Standard deviation value for selected layer.
+The :guilabel:`STD-MEAN` selector will toggle from the *mean* TMES value to the *standard deviation* value for selected layer.
 
 
 
