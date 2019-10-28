@@ -65,3 +65,4 @@ open licensing), while respecting each countries' data policies.
 
     open_istorms/about_open_istorms
     open_istorms/customize_open_istorms
+    open_istorms/istorms_mobile_app

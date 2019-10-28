@@ -38,7 +38,7 @@ Event details:
 
 Evts documents:
 
-You can link one or more existing documents to the event: first Upload the document following the :ref:`uploading-documents` instructions and then select the documents of your interest from the left list.
+You can link one or more existing documents to the event: first upload the document following the :ref:`uploading-documents` instructions and then select the documents of your interest from the left list; the documents already linked to the event record are listed on the right box.
 
 
 When you have finished to insert all data of the event record you need to save with the :guilabel:`Save` button
@@ -47,4 +47,4 @@ When you have finished to insert all data of the event record you need to save w
 .. figure:: img/add_event_save.png
      :align: center
 
-*The Save button*
+    *The Save button*

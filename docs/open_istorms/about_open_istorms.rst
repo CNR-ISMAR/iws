@@ -1,5 +1,11 @@
+.. _open-istorms:
+
+Open I-STORMS web app
+=====================
+
+
 About Open I-STORMS
-===============
+-------------------
 
 The `Open I-STORMS <http://www.seastorms.eu>`_  allows the IWS data
 (measurements, ocean forecast results and information about sea storms) 
