@@ -17,7 +17,7 @@ The *Map Page* is divided into three main sections:
 2. the *Tabs* section, under the layer preview
 3. the *Tools* section, on the right side of the page
 
-The purpuse of the three section are the same as were described for :ref:`_layer-info`
+The purpuse of the three section are the same as were described for :ref:`layer-info`
 
 Map Tools
 ---------

@@ -1,5 +1,5 @@
 Thredds Data Server
-===============
+===================
 
 I-STORMS Web integrated System (IWS) uses the Thredds Data Server (TDS) to manage the flow of forecast model outputs, exploiting the several built-in inter-operable access services.
 
@@ -10,10 +10,10 @@ Thredds is based essentially on the catalog, an XML document describing what dat
 
 .. code-block:: xml
 
-    <catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" >
-    <service name="odap" serviceType="OpenDAP" base="/thredds/dodsC/" />
-    <datasetScan name=“Forecast model" path=“fc” location=“/local/data/” serviceName=“odap”/>
-    </catalog>
+<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" >
+<service name="odap" serviceType="OpenDAP" base="/thredds/dodsC/" />
+<datasetScan name=“Forecast model" path=“fc” location=“/local/data/” serviceName=“odap”/>
+</catalog>
 
 
 TDS publishes the datasets by using the catalog, that can be accessed by the mentioned access services from the final user. The working flow is depicted in the following figure:

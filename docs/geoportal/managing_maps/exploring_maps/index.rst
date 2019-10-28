@@ -31,7 +31,6 @@ The Map Viewer provides the following tools:
 
     toc
     attribute_table
-    timeline
     options_menu
 
 

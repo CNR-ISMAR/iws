@@ -11,9 +11,9 @@ Login with IWS credentials
 By clicking to Login you can register to IWS systems, if you have already your credentials you can login directly.
 
 .. figure:: img/login_page.png
-        :align: center
+    :align: center
 
- *The Login page*
+     *The Login page*
 
 
 

@@ -54,7 +54,7 @@ The :guilabel:`Edit data` button of the *Layer Editing* panel opens the *Layer* 
 Click the *Edit* button on the toolbar and select the *Create* or *Modify* from dropdown to start an editing session.
 
 .. figure:: img/edit_mode_button.png
-     :align: middle
+    :align: middle
 
     *The Edit tool in the map viever toolbar*
 

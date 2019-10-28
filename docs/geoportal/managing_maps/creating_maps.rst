@@ -50,7 +50,7 @@ Selecting "local geoserver" are listed all the layers present in the Geonode geo
 Once the map layers have been settled it is possible to save the *Map* by clicking on :guilabel:`Map` and choosing :guilabel:`Save Map`.
 
 .. figure:: img/map_menu.png
-     :align: center
+    :align: center
 
     *Map save button*
 
