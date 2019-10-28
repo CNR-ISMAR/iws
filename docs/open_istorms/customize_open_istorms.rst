@@ -25,8 +25,8 @@ Set up a favorite point
     :height: 30px
     :align: middle
 
-As a registered user when you click somewhere in the map a :guilabel:`Favorite Button` will be |favorite_button|.
-By clickin on it the point you have selected will be added to your favorite list.
+As a registered user when you click somewhere in the map a :guilabel:`Favorite Button`  |favorite_button| will be showed into the information popup.
+By clicking on it the point you have selected will be added to your favorite list.
 
 
 .. figure:: img/favorite_added.png
