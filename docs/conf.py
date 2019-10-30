@@ -188,8 +188,8 @@ htmlhelp_basename = 'IWSdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'IWS.tex', u'IWS Documentation',
-   u'I-STORMS Project & Geonode Development Team', 'manual'),
+  ('index', 'IWS_manual.tex', u'I-STORMS Web System Manual',
+   u'I-STORMS Project', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -268,5 +268,3 @@ epub_copyright = u'2019, I-STORMS Project, CC-SA'
 #def setup(app):
  #   from _ext import django_model_fields
   #  app.connect('autodoc-process-docstring', django_model_fields.process_docstring)
-extensions = ['rst2pdf.pdfbuilder']
-pdf_documents = [('index', u'rst2pdf', u'I-STORMS Web System Manual', u'CNR-ISMAR'),]

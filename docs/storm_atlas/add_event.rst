@@ -45,6 +45,6 @@ When you have finished to insert all data of the event record you need to save w
 
 
 .. figure:: img/add_event_save.png
-     :align: center
+    :align: center
 
     *The Save button*
