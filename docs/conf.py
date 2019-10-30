@@ -268,3 +268,5 @@ epub_copyright = u'2019, I-STORMS Project, CC-SA'
 #def setup(app):
  #   from _ext import django_model_fields
   #  app.connect('autodoc-process-docstring', django_model_fields.process_docstring)
+extensions = ['rst2pdf.pdfbuilder']
+pdf_documents = [('index', u'rst2pdf', u'I-STORMS Web System Manual', u'CNR-ISMAR'),]
