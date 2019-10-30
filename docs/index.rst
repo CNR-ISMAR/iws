@@ -64,5 +64,6 @@ open licensing), while respecting each countries' data policies.
     :maxdepth: 3
 
     open_istorms/about_open_istorms
-    open_istorms/customize_open_istorms
     open_istorms/istorms_mobile_app
+
+The Pdf version of this maual is available `here http://iws.seastorms.eu/static/docs/pdf/IWS_manual.pdf`.

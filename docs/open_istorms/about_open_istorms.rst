@@ -19,6 +19,7 @@ measurements sensor networks and forecast model output.
     :maxdepth: 2
 
     open_istorms_interface.rst
+    customize_open_istorms.rst
 
 
 
