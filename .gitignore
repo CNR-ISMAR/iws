@@ -24,6 +24,8 @@ var/
 .installed.cfg
 *.egg
 geonode/
+iws_bk
+
 
 #docker volumes
 volumes
