@@ -48,25 +48,7 @@ class CoastalSegment(models.Model):
     
 
 
-#class RegioniStormAtlasSummary(models.Model):
-#     id = models.CharField(primary_key=True, max_length=255)
-#     adm0 = models.CharField(max_length=255, blank=True, null=True)
-#     adm1 = models.CharField(max_length=255, blank=True, null=True)
-#     sea = models.CharField(max_length=255, blank=True, null=True)
-#     code = models.CharField(max_length=255, blank=True, null=True)
-#     partition = models.CharField(max_length=255, blank=True, null=True)
-#     ews_for_coastal_event_and_kind_of_hazard = models.CharField(db_column='EWS for coastal event and kind of hazard', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-#     institutional_forecasting_service_to_predict_sea_state_and_sea_field = models.CharField(db_column='Institutional forecasting service to predict sea state and sea ', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
-#     specific_civil_protection_procedures = models.CharField(db_column='Specific Civil Protection Procedures', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-#     intervention_procedures = models.CharField(db_column='Intervention procedures', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-#     risk_sources_of_coastal_flooding = models.CharField(db_column='Risk sources of coastal flooding', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-#     network_for_marine_measurement_observation = models.CharField(db_column='Network for marine measurement/observation', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-#     post_event_monitoring_system = models.CharField(db_column='Post event monitoring system', max_length=255, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-#     tot_eventi = models.CharField(max_length=255, blank=True, null=True)
 
-#     class Meta:
-#         managed = False
-#         db_table = 'regioni_storm_atlas_summary'
 
 class StormEvent(models.Model):
     coastalsegment = models.ForeignKey(CoastalSegment,
@@ -96,26 +78,4 @@ class StormEvent(models.Model):
     def get_boolvalue(self, fieldname):
 	return bool(self.fieldname)
 
-# class StormAtlasEvents(models.Model):
-#     id = models.CharField(primary_key=True, max_length=255)
-#     area_code = models.CharField(max_length=255, blank=True, null=True)
-#     area_partition = models.CharField(max_length=255, blank=True, null=True)
-#     date_start = models.CharField(max_length=255, blank=True, null=True)
-#     date_end = models.CharField(max_length=255, blank=True, null=True)
-#     flooding_wave = models.CharField(db_column='flooding wave', max_length=255, blank=True, null=True)  # Field renamed to remove unsuitable characters.
-#     origin = models.CharField(max_length=255, blank=True, null=True)
-#     comments = models.CharField(max_length=255, blank=True, null=True)
-#     coast_disaster = models.CharField(max_length=255, blank=True, null=True)
-#     coast_erosion = models.CharField(max_length=255, blank=True, null=True)
-#     flooding = models.CharField(max_length=255, blank=True, null=True)
-#     defence_damage = models.CharField(max_length=255, blank=True, null=True)
-#     infrastructure_damage = models.CharField(max_length=255, blank=True, null=True)
-#     businesses_damage = models.CharField(max_length=255, blank=True, null=True)
-#     lat = models.CharField(max_length=255, blank=True, null=True)
-#     lon = models.CharField(max_length=255, blank=True, null=True)
-#     geom = models.PointField(srid=3035, blank=True, null=True)
-#     objects = models.GeoManager()
 
-#     class Meta:
-#         managed = False
-#         db_table = 'storm_atlas_events'

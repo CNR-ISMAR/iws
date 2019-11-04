@@ -17,65 +17,7 @@ The *Map Page* is divided into three main sections:
 2. the *Tabs* section, under the layer preview
 3. the *Tools* section, on the right side of the page
 
-Map Preview
------------
-
-The *Map Preview* shows the *Map* with very basic functionalities:
-
-* the *Base Map Switcher* that allows you to change the base map;
-* the *Zoom in/out* tool to enlarge and decrease the view;
-* the *Zoom to max extent* tool for the zoom to fit the layers extents;
-* the *Query Objects* tool to retrieve information about the map objects by clicking on the map;
-* the *Print* tool to print the preview.
-
-.. figure:: img/map_preview.gif
-   :align: center
-
-   *Map Preview*
-
-See the `MapStore Documentation <https://mapstore2.readthedocs.io/en/latest/>`_ to learn more.
-
-Tabs Sections
--------------
-
-The *Map Information* page shows you some tabs sections containing different information about the map:
-
-* The tab *Info* is active by default. This tab section shows some metadata such as its Title, the License, the Publication Date etc. The metadata also indicates the map owner and which regions are involved. The ``Map Layers WMS GetCapabilities document`` link is also provided.
-
-  .. figure:: img/map_info_tab.png
-      :align: center
-
-      *Maps Info tab*
-
-* The *Share* tab provides the links for the map to share through social media or email.
-
-  .. figure:: img/map_sharing.png
-      :align: center
-
-      *Map Sharing*
-
-* You can *Rate* the map through the *Rating system*.
-
-  .. figure:: img/map_rating.png
-      :align: center
-
-      *Map Rating*
-
-* In the *Comments* tab section you can post your comment. Click on :guilabel:`Add Comment`, insert your comment and click :guilabel:`Submit Comment` to post it.
-
-   .. figure:: img/map_comments.png
-       :align: center
-
-       *Map Comments*
-
-   Your comment will be added next to the last already existing comment. If you want to remove it click on the red :guilabel:`Delete` button.
-
- * If you want this map in your *Favorites* (see :ref:`editing-profile`), open the *Favorite* tab and click on :guilabel:`Add to Favorites`.
-
-   .. figure:: img/favorite_map.png
-       :align: center
-
-       *Your Favorite Maps*
+The purpuse of the three section are the same as were described for :ref:`layer-info`
 
 Map Tools
 ---------

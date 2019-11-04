@@ -6,6 +6,8 @@ Layers Uploading
 | The *Layer* is the main resource type inside a geographic repository. A layer represents spatial information so it can be displayed inside a map.
 | To better understand what we are talking about let's upload your first layer.
 
+.. warning:: Only authenticated users can upload data into GeoNode.
+
 The *Layer Uploading* page can be reached from the :guilabel:`Upload Layer` button in the :ref:`finding-layers` page.
 
 .. figure:: img/layer_upload_layer.png
@@ -25,13 +27,15 @@ The *Layers Uploading* page looks like the one in the picture below.
 
 .. figure:: img/upload_shapefile.gif
      :align: center
-
+     :width: 600 px
      *Shapefile Uploading*
 
-In this example the ``roads`` ESRI Shapefile, with all its mandatory files (`.shp`, `.shx`, `.dbf` and `.prj`), has been chosen.
+In this example the ``Mediterranean Segments`` ESRI Shapefile, with all its mandatory files (`.shp`, `.shx`, `.dbf` and `.prj`), has been chosen.
+Optionally the style definition in `.sld` format and ISO metadata in `.xml` format should be also recognized.
+As an alternative way you can also upload a single `.zip` archive (without  subdirectories in it) containing at least these files.
 A progress bar shows the operation made during the layer upload and alerts you when the process is over.
 When the process ends click the :guilabel:`Layer Info` to check the layer has been correctly uploaded.
 
-.. note:: There are lot of free spatial dataset available in the Internet. In this example, an extract of the Berlin city center roads map from the `BBBike extracts OpenStreetMap <https://extract.bbbike.org>`_ dataset has been used.
+..  note:: if you don't have the `.prj` file you can create it copyng and pasting the `OGC WKT` definition from corresponding CSR page inn `http://epsg.io/`_
 
-In the next paragraphs you will learn how to create a layer from scratch, how to set permissions, how to explore the layer properties and how to edit them.
+In the next paragraphs you will learn how to set permissions, how to explore the layer properties and how to edit them.
