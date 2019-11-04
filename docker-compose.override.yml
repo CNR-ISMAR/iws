@@ -8,6 +8,7 @@ services:
       SITEURL: https://iws.seastorms.eu/
       ALLOWED_HOSTS: "['localhost', 'iws.seastorms.eu', 'www.seastorms.eu']"
       GEOSERVER_PUBLIC_LOCATION: https://iws.seastorms.eu/geoserver/
+      CELERY_TASK_ALWAYS_EAGER: 'True'
 
   celery:
     environment:
