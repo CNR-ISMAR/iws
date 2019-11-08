@@ -32,9 +32,8 @@ import queryString from 'query-string'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const styles = (theme, style) => {
-  console.info("themeeeeeeeeeeeeeeeee");
-  console.info(theme, style);
-
+  // console.info("themeeeeeeeeeeeeeeeee");
+  // console.info(theme, style);
   return {
     subNav: {
       position: "absolute",

@@ -26,8 +26,6 @@ import Grid from '@material-ui/core/Grid';
 import { flexbox } from '@material-ui/system';
 import { Paper } from '@material-ui/core';
 
-
-
 const styles = (theme) => {
   return {
     appBar: {
@@ -41,24 +39,12 @@ const styles = (theme) => {
   }
 };
 
-
 const legendsColors = {
   sea_level: theme.palette.custom.seaIcon,
   wmd: theme.palette.custom.waveIcon,
   wmp: theme.palette.custom.waveDirection,
   wsh: theme.palette.custom.wavePeriod
 }
-
-// const legendsItems =
-//   ["sea_level","wmd","wmp","wsh"]
-//   .sort()
-//   .map((item, index) => {
-//   return {
-//   'id': item,
-//   'title': labels[item],
-//   'color': legendsColors[item.split('-')[0]],
-//   'disabled': index > 0,
-// }})
 
 function Chart(props) {
   const [chart, setChartState] = useState(
@@ -103,15 +89,15 @@ function Chart(props) {
   const setRecordClick = (itemId, clicked) => {
     let tmp = chart.recordclick;
     if(!clicked) {
-      console.log('clicked', itemId)
+      // console.log('clicked', itemId)
       Object.keys(chart.recordclick).map(z=>{
         tmp[z].disabled = z !== itemId
       })
     } else {
-      console.log('else', itemId)
+      // console.log('else', itemId)
       tmp[itemId].disabled = true
     }
-    console.log(tmp)
+    // console.log(tmp)
     setChartState({...chart, recordclick:tmp})
   };
 
@@ -130,7 +116,6 @@ function Chart(props) {
       return {
         x: new Date(x.x),
         y: 0,
-        // y: x.y,
         customComponent: (row, positionInPixels, globalStyle) => {
           return (
               <g className="inner-inner-component">
@@ -142,7 +127,7 @@ function Chart(props) {
       }
     })
   }
-
+  const cslabels = typeof props.data == 'object' ? Object.keys(props.data) : []
   const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
 
   
@@ -237,13 +222,17 @@ function Chart(props) {
                       <Grid container>
                         <Grid item xs={12}>
                           <Paper style={{ color:"white", background:"rgba(105, 131, 151, 0.80)", padding:"10px", width:"200px"}}>
-                            <Typography variant="body2">Data: { moment(chart.crosshairValues[0].x).utc().format('DD/MM/YYYY HH:mm') }</Typography>
+                            <Typography variant="body2">Time: { moment(chart.crosshairValues[0].x).utc().format('DD/MM/YYYY HH:mm') }</Typography>
                               <Box p={0} my={1} width="100%">
-                                { chart.crosshairValues.map((value, index) => { 
-                                    return <Typography key={labels[index]} variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>{labels[index]}: <span style={{fontSize:"0.825rem"}}>{value.y.toFixed(4)}</span></Typography>
+                                {
+                                  chart.crosshairValues.map((value, index) => {
+                                    return <Typography key={cslabels[index]} variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>
+                                      {labels.lines[cslabels[index]]}: <span style={{fontSize:"0.825rem"}}>
+                                      { cslabels[index].includes("mean") ? value.y.toFixed(0) : `±${(value.y - value.y0).toFixed(0)}` }
+                                        {labels.um[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')]}</span>
+                                    </Typography>
                                   }) 
                                 }
-                                
                               </Box>
                           </Paper>
                         </Grid>

@@ -25,5 +25,12 @@ export default {
   "wmp-station": "Wave Period station",
   "wmd-station": "Wave Direction station",
   "wsh-station": "Wave Height station",
+  },
+
+  "um": {
+  "sea_level": "cm",
+  "wsh": "m",
+  "wmp": "°",
+  "wmd": "s",
   }
 }
