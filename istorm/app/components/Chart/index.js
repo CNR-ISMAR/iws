@@ -14,7 +14,7 @@ import { withStyles } from '@material-ui/core/styles';
 import moment from "moment";
 
 import 'react-vis/dist/style.css';
-import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis, Crosshair } from 'react-vis';
+import {XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis, Crosshair, AreaSeries, CustomSVGSeries } from 'react-vis';
 import DiscreteColorLegend from 'react-vis/dist/legends/discrete-color-legend';
 import {timeFormatDefaultLocale} from 'd3-time-format';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -48,12 +48,15 @@ const legendsColors = {
   wmp: theme.palette.custom.waveDirection,
   wsh: theme.palette.custom.wavePeriod
 }
-const legendsItems = Object.keys(labels.lines).sort().map((item) => {return {
+const legendsItems =
+  ["sea_level","wmd","wmp","wsh"]
+  .sort()
+  .map((item, index) => {
+  return {
   'id': item,
   'title': labels.lines[item],
   'color': legendsColors[item.split('-')[0]],
-  'strokeStyle': item.includes('mean') || item.includes('station') ? 'solid' : 'dashed',
-  'disabled': false,
+  'disabled': index > 0,
 }})
 
 function Chart(props) {
@@ -61,20 +64,26 @@ function Chart(props) {
     {
       width: 0,
       height: 0,
-      itemClickID: '',
       crosshairValues: [],
-      recordclick: {}
+      recordclick: {
+        sea_level: true,
+        wmd: false,
+        wmp: false,
+        wsh: false,
+      }
     }
   );
   const wrapper = useRef(null);
-  // console.log('Chart')
-  /* console.log(props.data) */
+
   const updateWidthHeight = () => {
     setChartState({...chart, width: wrapper.current.offsetWidth, height:  (wrapper.current.offsetWidth/100) * 25   })
   };
+
   const setRecordClick = (itemId, clicked) => {
     let tmp = chart.recordclick;
-    tmp[itemId] = clicked;
+      Object.keys(chart.recordclick).map(z=>{
+        tmp[z] = clicked && z == itemId
+      })
     setChartState({...chart, recordclick:tmp})
   };
 
@@ -82,7 +91,28 @@ function Chart(props) {
     return ts.map(function (x) {
       return {
         x: new Date(x.x),
-        y: x.y
+        y: x.y,
+        y0: x.y0,
+      }
+    })
+  }
+
+  const fixDirection = (ts) => {
+    return ts.map(function (x) {
+      return {
+        x: new Date(x.x),
+        y: 0,
+        customComponent: (row, positionInPixels, globalStyle) => {
+          // console.log(row, positionInPixels, globalStyle)
+          return (
+            <g className="inner-inner-component" style={{paddingTop: "50%"}}>
+              <text style={{fontSize: "40", transform: `rotateZ(${x.y}deg)`}}>↑</text>
+              <text>
+                <tspan>{parseInt(x.y)}°</tspan>
+              </text>
+            </g>
+          );
+        }
       }
     })
   }
@@ -95,7 +125,6 @@ function Chart(props) {
 
   return (
     <div ref={wrapper} className={props.classes.subNav}>
-        {/* console.log(chart.itemClickID) */}  
         { typeof props.data == 'object' && Object.keys(props.data).length > 0 && 
           <>
               <Grid container spacing={2} className={props.classes.myGridContainer} direction="row" justify="flex-start" alignItems="baseline">
@@ -116,8 +145,6 @@ function Chart(props) {
                 xType="time" 
                 yType="linear" 
                 onMouseLeave={() => setChartState({...chart, crosshairValues: []})}>
-                <VerticalGridLines />
-                <HorizontalGridLines />  
                 
                 <XAxis title='time' style={{
                     line: { stroke: '#698397', strokeWidth: 1 }, 
@@ -125,15 +152,21 @@ function Chart(props) {
                     title: {fill: '#698397'}
                 }}/>
 
-                <YAxis title='value' style={{
-                    line: { stroke: '#698397', strokeWidth: 1 }, 
-                    text: { stroke: 'none', fill: '#ffffff', fontSize: "0.5625rem" },
-                    title: {fill: '#698397'}
-                }}/>
+                { !chart.recordclick['wmd'] && [
+                  <VerticalGridLines />,
+                  <HorizontalGridLines />,
+                  <YAxis title='value' style={{
+                        line: { stroke: '#698397', strokeWidth: 1 },
+                        text: { stroke: 'none', fill: '#ffffff', fontSize: "0.5625rem" },
+                        title: {fill: '#698397'}
+                    }}/>
+                  ]
+                }
+
                 { Object.keys(props.data)
-                          .filter(name => chart.recordclick[name] === undefined || chart.recordclick[name])
+                          .filter(name => chart.recordclick[name.replace(/mean|area|max|min|station|-/gi, '')] === undefined || chart.recordclick[name.replace(/mean|area|max|min|station|-/gi, '')])
                           .map(name => {
-                            return (
+                            return name.includes('mean') && !name.includes('wmd') ? (
                               <LineSeries 
                                   key={name}
                                   className={name}
@@ -148,7 +181,30 @@ function Chart(props) {
                                   curve={'curveMonotoneX'} 
                                   strokeStyle={name.includes('mean') || name.includes('station') ? 'solid' : 'dashed'}
                                   onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} />
-                              )
+                              ) : name.includes('area') ? (
+                              <AreaSeries
+                                  // className={`area-elevated-series-${name}`}
+                                  className='area-elevated-series'
+                                  key={name}
+                                  color={
+                                    name.includes('sea_level') && legendsColors.sea_level ||
+                                    name.includes('wmd') && legendsColors.wmd ||
+                                    name.includes('wmp') && legendsColors.wmp ||
+                                    name.includes('wsh') && legendsColors.wsh
+                                  }
+                                  opacity={ 0.3 }
+                                  data={fixFormat(props.data[name])}
+                                  curve={'curveMonotoneX'}
+                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})}
+                             />
+                              ) : (
+                              <CustomSVGSeries
+                                className="custom-marking"
+                                customComponent="square"
+                                key={name}
+                                data={fixDirection(props.data[name])}
+                              />
+                            )
                           })
                 }
                 <Crosshair
@@ -177,28 +233,12 @@ function Chart(props) {
                 </Crosshair>
               </XYPlot>
               <DiscreteColorLegend 
-                  items={legendsItems.filter(item => props.data && props.data[item.id] && props.data[item.id].length > 0)}
-                  // items={legendsItems}
+                  items={legendsItems}
                   orientation='horizontal'
                   onItemClick={item => {
-                    setChartState({ ...chart, itemClickID: item.id }); 
-                    if(chart.recordclick[item.id] === undefined){
-                      // console.log('PASSO UNDEFINED')
-                      setRecordClick(item.id, false)
-                    }
-                    else{
-                      // console.log('NON PASSO UNDEFINED')
-                      setRecordClick(item.id, !chart.recordclick[item.id])
-                    }
+                    setRecordClick(item.id, !chart.recordclick[item.id])
                     legendsItems.map(legenditem => {
-                      if(item.id === legenditem.id){
-                        if(legenditem.disabled){
-                          legenditem.disabled = false
-                        }
-                        else{
-                          legenditem.disabled = true
-                        }
-                      }
+                      legenditem.disabled = item.id !== legenditem.id || !chart.recordclick[item.id]
                     })
 
                   }}   

@@ -9,6 +9,10 @@ export default {
   "wsh-min": "Wave Height min",
   "wmp-min": "Wave Period min",
   "wmd-min": "Wave Direction min",
+  "sea_level-area": "Sea Level std",
+  "wsh-area": "Wave Height std",
+  "wmp-area": "Wave Period std",
+  "wmd-area": "Wave Direction std",
   "sea_level-max": "Sea Level max",
   "wsh-max": "Wave Height max",
   "wmp-max": "Wave Period max",
@@ -21,5 +25,10 @@ export default {
   "wmp-station": "Wave Period station",
   "wmd-station": "Wave Direction station",
   "wsh-station": "Wave Height station",
+
+  "sea_level": "Sea Level",
+  "wmp": "Wave Period",
+  "wmd": "Wave Direction",
+  "wsh": "Wave Height",
   }
 }
