@@ -185,6 +185,7 @@ function MapPage(props) {
           mean={props.mapPage.mean}
           options={props.mapPage.options}
           seaLevel={props.mapPage.seaLevel}
+          wsh={props.mapPage.wsh}
           WindGLLayer={props.mapPage.WindGLLayer}
           popups={props.mapPage.popups}
           isLogged={props.isLogged}
@@ -235,8 +236,8 @@ function MapPage(props) {
             <Box>
               <LatLng />
               { props.mapPage.seaLevel.isVisible && 
-                <Legend type="Sea Level" /> || 
-                <Legend type="Wind GL Layer" /> }
+                <Legend type="Sea Level" mean={props.mapPage.mean}/> ||
+                <Legend type="Wind GL Layer" mean={props.mapPage.mean}/> }
             </Box>
           </div>
           { (props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>

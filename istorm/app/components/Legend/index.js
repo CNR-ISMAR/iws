@@ -35,16 +35,21 @@ const styles = (theme) => {
 
   class Legend extends React.Component {
     constructor(props) {
-        super(props);
+      super(props);
     }
     render () {
         return (
             <>
                <div item className={this.props.classes.overlayLayersLegendGraphic}>
-                    <img src={ this.props.type.includes('Sea') ? bar_level : bar_wave } />
+                    <img src={ bar_level } />
                     <Box display="flex" justifyContent="space-between" alignItems="center">
-                        <Typography m={0}>{ this.props.type.includes('Sea') ? '-80' : '-1' }</Typography>
-                        <Typography m={0}>{ this.props.type.includes('Sea') ? '+80' : '+8' }</Typography>
+                      <Typography m={0}>{
+                        this.props.type.includes('Sea') && this.props.mean ? '-80cm' : '0cm'
+                      }</Typography>
+                      <Typography m={0}>{
+                        this.props.type.includes('Sea') ? (this.props.mean ? '+80cm' : '+40cm')
+                          : (this.props.mean ? '+8m' : '+2m')
+                      }</Typography>
                     </Box>
                 </div>
             </> 

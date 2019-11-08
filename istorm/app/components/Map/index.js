@@ -203,8 +203,11 @@ class Map extends React.Component {
                 captureDrag={false}
                 captureScroll={false}
                 layerInfo={this.props.layerInfo}
-                key={'LayerWave'} 
-                layer={this.props.WindGLLayer}/>)}
+                key={'LayerWave'}
+                layer={this.props.WindGLLayer}
+                wsh={this.props.wsh}
+                mean={this.props.mean}
+              />)}
 
                 {/*TODO: UPDATE ONLY IF change isVisible*/}
             {Object.keys(this.props.layers).map((layer) => (

@@ -7,63 +7,24 @@ import request from '../../utils/request';
 import blu from './tmp/blu_large.png'
 // import blu from './tmp/blu_tutto.png'
 
-class BackgroundWindLayer {
-  constructor(id, ctx, windImageSrc, windImageMeta) {
+class WSHLayer {
+  constructor(id, ctx, wshLayer, uri) {
     this.id = id;
     this.loading = false;
     this.type = 'raster';
     this.source = {
-          type: 'image',
-          url: windImageSrc,
-          coordinates: [
-            [
-              12.21,
-              45.85
-            ],
-            [
-              22.37,
-              45.85
-            ],
-            [
-              22.37,
-              36.67,
-            ],
-            [
-              12.21,
-              36.67,
-            ]
-          ]
-        }
+      id: 'wsh',
+      type: 'raster',
+      tiles: [
+        uri
+      ],
+      width: 256,
+      height: 256
+    }
     this.paint = {
-            "raster-opacity": 0.7,
-            'raster-hue-rotate': 0.2,
-        }
-    this.windImageMeta =  windImageMeta;
-  }
-
-  onAdd(map, gl) {
-    this.loading = true;
-    request(this.windImageMeta)
-     .then(windJson => {
-       this.source.coordinates = [
-            [
-              windJson.lo1,
-              windJson.la1,
-            ],
-            [
-              windJson.lo2,
-              windJson.la1,
-            ],
-            [
-              windJson.lo2,
-              windJson.la2,
-            ],
-            [
-              windJson.lo1,
-              windJson.la2,
-            ]
-          ]
-      })
+      "raster-opacity": 0.8,
+      'raster-hue-rotate': 0.2,
+    }
   }
 }
 
@@ -189,21 +150,22 @@ class WindGLLayer extends BaseControl {
 
   componentDidMount() {
     const map = this._context.map;
-    const { layer, layerInfo } = this.props;
+    const { layer, layerInfo, wsh, mean } = this.props;
     const canvas = this._containerRef.current;
     if (canvas) {
       this._canvas = canvas;
       this._ctx = canvas.getContext('webgl', {antialiasing: false});
     }
       const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
-      if(source) {
-        map.removeLayer(layer.id+'Bg');
-        map.removeSource(layer.id+'Bg');
+      if(source && wsh) {
+        map.removeLayer("wsh");
+        map.removeSource("wsh");
         map.removeLayer(layer.id);
       }
-      if (this._ctx && this._ctx instanceof WebGLRenderingContext) {
+      if (this._ctx && this._ctx instanceof WebGLRenderingContext && wsh) {
+        const wsh_uri = mean && layerInfo ? layerInfo.wsh_mean : layerInfo ? layerInfo.wsh_std : null
       const afterLayer = this.getLayerBefore(map);
-        map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata), afterLayer);
+        map.addLayer(new WSHLayer(wsh.id, this._ctx, wsh, wsh_uri), afterLayer);
         map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata), afterLayer);
       } else {
         console.log("WEBGL NON ATTIVO");
@@ -216,17 +178,19 @@ class WindGLLayer extends BaseControl {
 
   componentWillReceiveProps(newProps) {
     const map = this._context.map;
-    const { layer, layerInfo } = newProps;
+    const { layer, layerInfo, mean, wsh } = newProps;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
-    if(source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
-      map.removeLayer(layer.id+'Bg');
-      map.removeSource(layer.id+'Bg');
+    if(source && JSON.stringify(layerInfo) !== JSON.stringify(this.props.layerInfo) || mean != this.props.mean) {
+      const wsh_uri = mean && layerInfo ? layerInfo.wsh_mean : layerInfo ? layerInfo.wsh_std : null
+      console.log("wsh_uri", wsh_uri)
+      map.removeLayer("wsh");
+      map.removeSource("wsh");
       map.removeLayer(layer.id);
       // const layers = map.getStyle().layers
       // let afterLayer = layers.map(x=>x.id).filter(x=>x.includes("station") || x.includes("seaLevel"))
       // afterLayer = (afterLayer.length > 0) ? afterLayer[0] : null
       const afterLayer = this.getLayerBefore(map);
-      map.addLayer(new BackgroundWindLayer(layer.id+'Bg', this._ctx, layerInfo.wave_image_background, layerInfo.wave_metadata), afterLayer);
+        map.addLayer(new WSHLayer(wsh.id, this._ctx, wsh, wsh_uri), afterLayer);
       map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata), afterLayer);
     }
   }
@@ -236,8 +200,8 @@ class WindGLLayer extends BaseControl {
     const { layer } = this.props;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
     if(source) {
-      map.removeLayer(layer.id+'Bg');
-      map.removeSource(layer.id+'Bg');
+      map.removeLayer("wsh");
+      map.removeSource("wsh");
       map.removeLayer(layer.id);
     }
   }

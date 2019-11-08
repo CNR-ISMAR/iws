@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         NCToImg()
-        print('TEST')
+        print('DONE')
         return None
         # GridFeature.objects.all().delete()
         # feature_collection = open(os.path.join(settings.RESOURCE_ROOT, 'SR_GRID/SR_GRID.geojson'), 'r')

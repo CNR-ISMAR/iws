@@ -12,6 +12,8 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     wave_image_background = serializers.SerializerMethodField()
     sea_level_mean = serializers.SerializerMethodField()
     sea_level_std = serializers.SerializerMethodField()
+    wsh_mean = serializers.SerializerMethodField()
+    wsh_std = serializers.SerializerMethodField()
 
 
     def get_date(self, instance):
@@ -25,6 +27,47 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     def get_wave_image_background(self, instance):
         return instance.image_background
+
+
+    def wsh_url(self, timestamp, layerOptions):
+        wmsdate = datetime.datetime.fromtimestamp(timestamp) + datetime.timedelta(hours=1)
+        formatted_date = wmsdate.strftime("%Y%m%d")
+        layerFileName =  'TMES_waves_'+formatted_date+'.nc'
+        if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
+            layerFileName = 'history/'+layerFileName
+        time = wmsdate.isoformat()+'.000Z'
+        options = {
+            "ELEVATION": "0",
+            "TIME": time,
+            "TRANSPARENT": "true",
+            "LOGSCALE": "false",
+            "SERVICE": "WMS",
+            "VERSION": "1.1.1",
+            "REQUEST": "GetMap",
+            "FORMAT": "image/png",
+            "SRS": "EPSG:3857",
+            "WIDTH": "256",
+            "HEIGHT": "256",
+        }
+        options.update(layerOptions)
+        return settings.PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
+
+    def get_wsh_mean(self, instance):
+        minmax = ('0', '8')
+        return self.wsh_url(instance.timestamp, {
+                'LAYERS': 'wsh-mean',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+            })
+    def get_wsh_std(self, instance):
+        minmax = ('0', '2')
+        return self.wsh_url(instance.timestamp, {
+                'LAYERS': 'wsh-std',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+            })
 
     def sea_level_url(self, timestamp, layerOptions):
         #TODO: manage missing current data!!!!!
@@ -92,12 +135,12 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         # }
 
     def get_sea_level_std(self, instance):
-        minmax = ('0', '1')
+        minmax = ('0', '0.4')
         return self.sea_level_url(instance.timestamp, {
                 'LAYERS': 'sea_level-std',
                 'STYLES': 'boxfill/sst_36',
                 'COLORSCALERANGE': ','.join(minmax),
-                'NUMCOLORBANDS': '20',
+                'NUMCOLORBANDS': '80',
             })
         # minmax = ('0', '1')
         # return {
@@ -125,4 +168,4 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ImageLayer
-        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std')
+        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std', 'wsh_mean', 'wsh_std')
