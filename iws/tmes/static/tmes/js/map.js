@@ -35,6 +35,11 @@ var map = L.map('map', {
     center: [42.10, 17.90]
 });
 
+/*colorscale ranges  
+* wsh 0-8 wsh-std 0-2
+* sea-level (cm) -80 +80 dev std 0-40
+*
+*/
 
 
 
@@ -44,7 +49,7 @@ var tmesWaterLevel = L.nonTiledLayer.wms(tmes_wl_WMS, {
     layers: 'sea_level-mean',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '-1,1',
+    colorscalerange: '-0.8,0.8',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     numcolorbands: 100,
@@ -55,7 +60,7 @@ var tmesWaterLevel_std = L.nonTiledLayer.wms(tmes_wl_WMS, {
     layers: 'sea_level-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,0.5',
+    colorscalerange: '0,0.4',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -72,7 +77,7 @@ var tmesWavesSignificantHeight = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wsh-mean',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,6',
+    colorscalerange: '0,8',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -84,7 +89,7 @@ var tmesWavesSignificantHeight_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wsh-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,1',
+    colorscalerange: '0,2',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -212,7 +217,7 @@ tmesWaterLevelLegend.onAdd = function(map) {
     var scalerange = tmesWaterLevel.options.colorscalerange.split(",")
     var src = tmes_wl_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg2&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
+    div.innerHTML += '<label>>=' + scalerange[1] + '</label><br><img src="' + src + '" alt="legend"><br><label><=' + scalerange[0] +'</label>';
     return div;
 };
 
