@@ -1,6 +1,7 @@
 version: "2.0"
 services:
 
+
   db:
     image: geonode/postgis:10
     #image: iws_db:modified
@@ -12,7 +13,7 @@ services:
       org.geonode.component: db
       org.geonode.instance.name: geonode
     ports:
-      - 5432:5432
+      - "5432"
     volumes:
       - ./volumes/dbdata:/var/lib/postgresql/data
       - ./volumes/dbbackups:/pg_backups
@@ -135,8 +136,8 @@ services:
 
   django:
     restart: unless-stopped
-    image: iws_django:latest
-    #build: .
+    #image: iws_django:latest
+    build: .
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
     # tty: true
@@ -209,8 +210,8 @@ services:
       - celery
       - geoserver
     ports:
-      - 80:80
-      - 443:443
+      - "80"
+      - "443"
     volumes:
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/nginxconf:/etc/nginx/nginxconf
