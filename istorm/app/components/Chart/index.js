@@ -48,16 +48,17 @@ const legendsColors = {
   wmp: theme.palette.custom.waveDirection,
   wsh: theme.palette.custom.wavePeriod
 }
-const legendsItems =
-  ["sea_level","wmd","wmp","wsh"]
-  .sort()
-  .map((item, index) => {
-  return {
-  'id': item,
-  'title': labels.lines[item],
-  'color': legendsColors[item.split('-')[0]],
-  'disabled': index > 0,
-}})
+
+// const legendsItems =
+//   ["sea_level","wmd","wmp","wsh"]
+//   .sort()
+//   .map((item, index) => {
+//   return {
+//   'id': item,
+//   'title': labels[item],
+//   'color': legendsColors[item.split('-')[0]],
+//   'disabled': index > 0,
+// }})
 
 function Chart(props) {
   const [chart, setChartState] = useState(
@@ -66,10 +67,30 @@ function Chart(props) {
       height: 0,
       crosshairValues: [],
       recordclick: {
-        sea_level: true,
-        wmd: false,
-        wmp: false,
-        wsh: false,
+        sea_level: {
+          'id': 'sea_level',
+          'title': labels.sea_level,
+          'color': legendsColors.sea_level,
+          'disabled': false,
+        },
+        wmd: {
+          'id': 'wmd',
+          'title': labels.wmd,
+          'color': legendsColors.wmd,
+          'disabled': true,
+        },
+        wmp: {
+          'id': 'wmp',
+          'title': labels.wmp,
+          'color': legendsColors.wmp,
+          'disabled': true,
+        },
+        wsh: {
+          'id': 'wsh',
+          'title': labels.wsh,
+          'color': legendsColors.wsh,
+          'disabled': true,
+        },
       }
     }
   );
@@ -81,9 +102,16 @@ function Chart(props) {
 
   const setRecordClick = (itemId, clicked) => {
     let tmp = chart.recordclick;
+    if(!clicked) {
+      console.log('clicked', itemId)
       Object.keys(chart.recordclick).map(z=>{
-        tmp[z] = clicked && z == itemId
+        tmp[z].disabled = z !== itemId
       })
+    } else {
+      console.log('else', itemId)
+      tmp[itemId].disabled = true
+    }
+    console.log(tmp)
     setChartState({...chart, recordclick:tmp})
   };
 
@@ -102,22 +130,19 @@ function Chart(props) {
       return {
         x: new Date(x.x),
         y: 0,
+        // y: x.y,
         customComponent: (row, positionInPixels, globalStyle) => {
-          // console.log(row, positionInPixels, globalStyle)
           return (
-            <g className="inner-inner-component" style={{paddingTop: "50%"}}>
-              <text style={{fontSize: "40", transform: `rotateZ(${x.y}deg)`}}>↑</text>
-              <text>
-                <tspan>{parseInt(x.y)}°</tspan>
-              </text>
-            </g>
+              <g className="inner-inner-component">
+                <text style={{fontSize: "40", transform: `rotateZ(${x.y}deg)`}}>↑</text>
+                <text style={{}}>{parseInt(x.y)}°</text>
+              </g>
           );
         }
       }
     })
   }
 
-  const labels = typeof props.data == 'object' ? Object.keys(props.data) : []
   const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
 
   
@@ -151,9 +176,9 @@ function Chart(props) {
                     text: { stroke: 'none', fill: '#ffffff', fontSize: "0.5625rem" },
                     title: {fill: '#698397'}
                 }}/>
+                <VerticalGridLines />
 
-                { !chart.recordclick['wmd'] && [
-                  <VerticalGridLines />,
+                { chart.recordclick['wmd'].disabled && [
                   <HorizontalGridLines />,
                   <YAxis title='value' style={{
                         line: { stroke: '#698397', strokeWidth: 1 },
@@ -164,7 +189,7 @@ function Chart(props) {
                 }
 
                 { Object.keys(props.data)
-                          .filter(name => chart.recordclick[name.replace(/mean|area|max|min|station|-/gi, '')] === undefined || chart.recordclick[name.replace(/mean|area|max|min|station|-/gi, '')])
+                          .filter(name => !chart.recordclick[name.replace(/mean|area|max|min|station|-/gi, '')].disabled)
                           .map(name => {
                             return name.includes('mean') && !name.includes('wmd') ? (
                               <LineSeries 
@@ -199,21 +224,15 @@ function Chart(props) {
                              />
                               ) : (
                               <CustomSVGSeries
-                                className="custom-marking"
-                                customComponent="square"
+                                marginTop={200}
+                                marginLeft={30}
                                 key={name}
                                 data={fixDirection(props.data[name])}
                               />
                             )
                           })
                 }
-                <Crosshair
-                  values={chart.crosshairValues} /* 
-                  itemsFormat={x => x.map((value, index) => { 
-                    console.log(value.y)
-                      return  {title: labels[index], value: value.y}
-                    }) 
-                  }*/>
+                <Crosshair values={chart.crosshairValues}>
                     {chart.crosshairValues !== undefined && chart.crosshairValues.length > 0 &&
                       <Grid container>
                         <Grid item xs={12}>
@@ -232,16 +251,12 @@ function Chart(props) {
                   }
                 </Crosshair>
               </XYPlot>
-              <DiscreteColorLegend 
-                  items={legendsItems}
+              <DiscreteColorLegend
+                  items={Object.values(chart.recordclick)}
                   orientation='horizontal'
                   onItemClick={item => {
-                    setRecordClick(item.id, !chart.recordclick[item.id])
-                    legendsItems.map(legenditem => {
-                      legenditem.disabled = item.id !== legenditem.id || !chart.recordclick[item.id]
-                    })
-
-                  }}   
+                    setRecordClick(item.id, !chart.recordclick[item.id].disabled)
+                  }}
                   >
                 </DiscreteColorLegend>
           </> ||  <CircularProgress />
