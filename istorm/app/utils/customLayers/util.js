@@ -135,7 +135,7 @@ export default class util {
         if (isIMG) return 'img';
         else if (isMP4) return 'video';
         else {
-            console.log(`filetype of ${uri} is not supported`);
+            // console.log(`filetype of ${uri} is not supported`);
             return '';
         }
     }
@@ -220,7 +220,7 @@ export default class util {
         let oldValue = descriptor.value;
 
         descriptor.value = function() {
-            console.log(`Calling "${name}" with`, arguments);
+            // console.log(`Calling "${name}" with`, arguments);
             // descriptor.value refer to the target itself.. func or attri
             return oldValue.apply(null, arguments);
         }

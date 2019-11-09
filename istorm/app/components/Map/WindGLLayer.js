@@ -182,7 +182,7 @@ class WindGLLayer extends BaseControl {
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
     if(source && JSON.stringify(layerInfo) !== JSON.stringify(this.props.layerInfo) || mean != this.props.mean) {
       const wsh_uri = mean && layerInfo ? layerInfo.wsh_mean : layerInfo ? layerInfo.wsh_std : null
-      console.log("wsh_uri", wsh_uri)
+      // console.log("wsh_uri", wsh_uri)
       map.removeLayer("wsh");
       map.removeSource("wsh");
       map.removeLayer(layer.id);

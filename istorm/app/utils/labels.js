@@ -30,7 +30,7 @@ export default {
   "um": {
   "sea_level": "cm",
   "wsh": "m",
-  "wmp": "°",
-  "wmd": "s",
+  "wmp": "s",
+  "wmd": "°",
   }
 }

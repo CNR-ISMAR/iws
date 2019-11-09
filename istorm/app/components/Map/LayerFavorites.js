@@ -36,7 +36,7 @@ class LayerFavorites extends BaseControl {
      const map = this._context.map;
      const {layerInfo} = newProps;
      const source = typeof map.getLayer !== "undefined" ? map.getLayer(layerInfo.id) : null;
-     console.log(newProps.mean == this.props.mean)
+     // console.log(newProps.mean == this.props.mean)
      if (source && JSON.stringify(newProps.layerInfo) !== JSON.stringify(this.props.layerInfo)) {
       let override = {
         source: {

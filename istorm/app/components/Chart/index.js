@@ -89,15 +89,12 @@ function Chart(props) {
   const setRecordClick = (itemId, clicked) => {
     let tmp = chart.recordclick;
     if(!clicked) {
-      // console.log('clicked', itemId)
       Object.keys(chart.recordclick).map(z=>{
         tmp[z].disabled = z !== itemId
       })
     } else {
-      // console.log('else', itemId)
       tmp[itemId].disabled = true
     }
-    // console.log(tmp)
     setChartState({...chart, recordclick:tmp})
   };
 
@@ -193,7 +190,6 @@ function Chart(props) {
                                   onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} />
                               ) : name.includes('area') ? (
                               <AreaSeries
-                                  // className={`area-elevated-series-${name}`}
                                   className='area-elevated-series'
                                   key={name}
                                   color={
@@ -226,8 +222,9 @@ function Chart(props) {
                               <Box p={0} my={1} width="100%">
                                 {
                                   chart.crosshairValues.map((value, index) => {
-                                    return <Typography key={cslabels[index]} variant="body2" style={{fontSize:"0.625rem", padding:"0", margin:"0 0 2px"}}>
-                                      {labels.lines[cslabels[index]]}: <span style={{fontSize:"0.825rem"}}>
+                                    return !chart.recordclick[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')].disabled &&
+                                      <Typography key={cslabels[index]} variant="body2" style={{fontSize:"0.9rem", padding:"0", margin:"0 0 2px"}}>
+                                      {labels.lines[cslabels[index]]}: <span style={{fontSize:"1.1rem"}}>
                                       { cslabels[index].includes("mean") ? value.y.toFixed(0) : `±${(value.y - value.y0).toFixed(0)}` }
                                         {labels.um[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')]}</span>
                                     </Typography>

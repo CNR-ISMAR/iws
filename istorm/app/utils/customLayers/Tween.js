@@ -99,7 +99,7 @@ export let myTween = {
                 if (targets instanceof Object)
                     myTween.objs = Object.assign(myTween.objs, targets);
                 else if (targets instanceof Function)
-                    console.log("execute Func await..");
+                    // console.log("execute Func await..");
                     targets.call(this);
                 res();
             }, duration);

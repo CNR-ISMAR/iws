@@ -73,11 +73,11 @@ function StationChart(props) {
   useInjectReducer({ key: 'chart', reducer });
   useInjectSaga({ key: 'chart', saga });
   const [fadeIn, setFadeIn] = useState(false);
-  console.info("Station Chart");
-  console.info(props);
+  // console.info("Station Chart");
+  // console.info(props);
 
   const log = (wrapper) => { 
-    console.info(wrapper); 
+    // console.info(wrapper);
     return true; 
   };
 

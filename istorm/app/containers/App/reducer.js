@@ -52,6 +52,7 @@ export const initialState = {
     // pitch: 0
   },
   style: {
+    sprite: proxyUrl+'/images/sprite',
     version: 8,
     sources: {
       backgroundLayer: {
@@ -149,23 +150,14 @@ export const initialState = {
       id: "favorites",
       isVisible: false,
       isTimeseries: false,
-      type: 'circle',
+      type: 'symbol',
       source: {
         type: 'geojson',
         data: []
         // data: 'http://iws.inkode.it:4443/openistorm/favorites/geojson',
       },
-      paint: {
-        'circle-color': theme.palette.custom.favoriteIcon,
-        'circle-stroke-color': 'white',
-        'circle-stroke-width': 1,
-        // 'circle-radius': 4,
-        "circle-radius": [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          8,
-          5
-        ]
+      layout: {
+        "icon-image": "favorite",
       },
       loading: false,
       error: null
@@ -175,23 +167,14 @@ export const initialState = {
       id: "stations-sea-level",
       isVisible: true,
       isTimeseries: false,
-      type: 'circle',
+      type: 'symbol',
       source: {
         type: 'geojson',
         // data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
         data: `${BASE_URL}/openistorm/stations/?type=sea_level`,
       },
-      paint: {
-        'circle-color': '#fa0',
-        'circle-stroke-color': 'white',
-        'circle-stroke-width': 1,
-        // 'circle-radius': 4,
-        "circle-radius": [
-          "case",
-          ["boolean", ["feature-state", "hover"], true],
-          6,
-          6
-        ]
+      layout: {
+        "icon-image": "station-sealevel",
       }
     },
     stationsWave: {
@@ -199,23 +182,14 @@ export const initialState = {
       id: "stations-wave",
       isVisible: true,
       isTimeseries: false,
-      type: 'circle',
+      type: 'symbol',
       source: {
         type: 'geojson',
         // data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
         data: `${BASE_URL}/openistorm/stations/?type=waves`,
       },
-      paint: {
-        'circle-color': '#d10000',
-        'circle-stroke-color': 'white',
-        'circle-stroke-width': 1,
-        // 'circle-radius': 4,
-        "circle-radius": [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          6,
-          6
-        ]
+      layout: {
+        "icon-image": "station-wave",
       }
     }
   },
