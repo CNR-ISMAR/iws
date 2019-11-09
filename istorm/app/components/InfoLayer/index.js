@@ -23,12 +23,11 @@ import GradeIcon from '@material-ui/icons/Grade';
 import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { fontSize } from '@material-ui/system';
+import labels from '../../utils/labels.js';
 
 import { LngLat } from 'mapbox-gl';
 
 import { emptyInfoLayer, postFavourite, deleteFavourite, toggleInfoLayer } from "containers/App/actions";
-
-import labels from 'utils/labels.js'
 
 const styles = (theme) => {
     // const offset = theme.sizing.paperWrapperWidth/2
@@ -141,7 +140,7 @@ function InfoLayer(props){
                         <TableRow>
                           <TableCell>mean</TableCell>
                           {info.parameters.map((name) =>
-                            <TableCell key={name + '-mean'}>{parseInt(info.results.mean[name])}</TableCell>
+                            <TableCell key={name + '-mean'}>{parseInt(info.results.mean[name]) + ' ' + labels.um[name]}</TableCell>
                           )}
                         </TableRow>
                       }
@@ -150,7 +149,7 @@ function InfoLayer(props){
                         <TableRow>
                           <TableCell>std</TableCell>
                           {info.parameters.map((name) =>
-                            <TableCell key={name + '-std'}>{parseInt(info.results.std[name])}</TableCell>
+                            <TableCell key={name + '-std'}>{parseInt(info.results.std[name]) + ' ' + labels.um[name]}</TableCell>
                           )}
                         </TableRow>
                       }
@@ -160,7 +159,7 @@ function InfoLayer(props){
                         <TableRow>
                           <TableCell>station</TableCell>
                           { info.parameters.map((name) =>
-                            <TableCell key={name+'-station'}>{ typeof info.results.station[name] == 'number' ? parseInt(info.results.station[name]) : '' }</TableCell>
+                            <TableCell key={name+'-station'}>{ typeof info.results.station[name] == 'number' ? parseInt(info.results.station[name]) + ' ' + labels.um[name] : ''}</TableCell>
                           )}
                         </TableRow>
                       }
