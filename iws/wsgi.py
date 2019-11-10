@@ -36,7 +36,7 @@ framework.
 import os
 import sys
 
-
+# TODO use an env variable for dockerized or virtualenv installation
 # execfile("/opt/VirtEnv/iws/bin/activate_this.py", {'__file__': "/opt/VirtEnv/iws/bin/activate_this.py"})
 
 

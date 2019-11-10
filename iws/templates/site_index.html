@@ -20,6 +20,7 @@ This is where you can override the hero area block. You can simply modify the co
      <img class="home_logo" src="/static/geonode/img/home_logo.png" alt="I-STORMS project logo">
      </div>
      <div class="col-md-8">
+<<<<<<< HEAD
       <h2>I-Storms WEB System </h2>
       <h3>Common Data Sharing Framework</h3>
       </div>
@@ -29,6 +30,29 @@ This is where you can override the hero area block. You can simply modify the co
        I-STORMS aims through transnational cooperation to enhance innovative policies and develop joint strategies to safeguard ADRION 
        area from sea emergencies. {% endblocktrans %}</p>
        <p>{% blocktrans %}This site is devloped and mantained by CNR-ISMAR as part of I-STORMS project.{% endblocktrans %}</p>
+=======
+      <h2>I-STORMS Web System </h2>
+      <h4>Integrated Sea sTORm Management Strategies</h4>
+      <!--<h4>Common Data Sharing Framework</h4>-->
+      </div>
+     <div   class="row">
+       <div class="col-md-8" id="home-content">
+{% if custom_theme.jumbotron_welcome_content %}
+{{ custom_theme.jumbotron_welcome_content }}
+{% else %}
+
+<p>The <a href="https://istorms.adrioninterreg.eu/" target="_blank">I-STORMS project</a> seeks to improve the early warning and civil protection procedures in sea storm emergencies. I-STORMS aims through transnational cooperation to enhance innovative policies and develop joint strategies to safeguard the Adriatic-Ionian area from sea storms.</p>
+<p>
+The I-STORMS Web System is a combination of a common data system for sharing ocean 
+<a href="/dashboards/"> measurements</a> and forecasts, a 
+<a href="/tmes/">multi-model forecasting system</a>, a <a href="/layers/">geoportal</a> and interactive geo-visualization tools to make results available to the general public (<a href="http://www.seastorms.eu/">Open I-STORMS</a>). 
+</p>
+<p>
+This project is supported by the <a href="https://www.adrioninterreg.eu/">Interreg ADRION programme</a> funded under the European Regional Development Fund and IPA II fund.
+</p>
+
+{% endif %}
+>>>>>>> master
        </div>
        <div class="col-md-4" id="home-spacer">
        &nbsp;
@@ -36,6 +60,7 @@ This is where you can override the hero area block. You can simply modify the co
      </div>
     </div>
   </div>
+<<<<<<< HEAD
       <div class="row" id="chooser">
         <div class="col-md-4">
 	    <p><a href="/layers"><i class="fa fa-globe fa-4x"></i></a></p>
@@ -50,6 +75,8 @@ This is where you can override the hero area block. You can simply modify the co
             <p><a class="btn btn-default" href="/sea_storm_atlas" role="button">{% trans "Storm Atlas" %}</a></p>
         </div>
       </div>
+=======
+>>>>>>> master
   {% endblock %}
 
 {% block mainbody %}  

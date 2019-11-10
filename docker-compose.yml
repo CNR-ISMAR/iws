@@ -1,9 +1,10 @@
-version: '2.2'
+version: "2.0"
 services:
 
+
   db:
-    #    image: geonode/postgis:9.6
-    build: ./postgis
+    image: geonode/postgis:10
+    #image: iws_db:modified
     restart: unless-stopped
     container_name: db4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -11,9 +12,11 @@ services:
     labels:
       org.geonode.component: db
       org.geonode.instance.name: geonode
+    ports:
+      - "5432"
     volumes:
-      - dbdata:/var/lib/postgresql/data
-      - dbbackups:/pg_backups
+      - ./volumes/dbdata:/var/lib/postgresql/data
+      - ./volumes/dbbackups:/pg_backups
     env_file:
     - ./.env
     environment:
@@ -21,10 +24,6 @@ services:
       GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
       GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
       GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      DSS_PHAROS: ${DSS_PHAROS_NAME}
-      DSS_PHAROS_PASSWORD: ${DSS_PHAROS_PASSWORD}
-      SEASTORM: ${SEASTORM_NAME}
-      SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
 
   elasticsearch:
     image: elasticsearch:2.4.1
@@ -61,10 +60,11 @@ services:
       - rabbitmq
     # command: celery worker --app=iws.celeryapp:app -B -l INFO
     volumes:
-      - statics:/mnt/volumes/statics
-      - geoserver-data-dir:/geoserver_data/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/statics:/mnt/volumes/statics
+      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     env_file:
-    - ./.env
+    - ./django.env
     environment:
       DJANGO_SETTINGS_MODULE: iws.settings
       GEONODE_INSTANCE_NAME: geonode
@@ -75,10 +75,7 @@ services:
       GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
       GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
       GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      DSS_PHAROS: ${DSS_PHAROS_NAME}
-      DSS_PHAROS_PASSWORD: ${DSS_PHAROS_PASSWORD}
-      SEASTORM: ${SEASTORM_NAME}
-      SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
+      #inkode
       ASYNC_SIGNALS: 'True'
       BROKER_URL: amqp://guest:guest@rabbitmq:5672
       CELERY_CMD: celery worker --app=iws.celeryapp:app --broker=amqp://guest:guest@rabbitmq:5672/ -B -l INFO
@@ -124,7 +121,8 @@ services:
       - rabbitmq
       - data-dir-conf
     volumes:
-      - geoserver-data-dir:/geoserver_data/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     environment:
       # GEOSERVER_ADMIN_PASSWORD: admin
       DOCKERHOST:
@@ -138,6 +136,7 @@ services:
 
   django:
     restart: unless-stopped
+    #image: iws_django:latest
     build: .
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -152,11 +151,11 @@ services:
       - data-dir-conf
     # command: paver start_django -b 0.0.0.0:8000
     volumes:
-      - statics:/mnt/volumes/statics
-      - geoserver-data-dir:/geoserver_data/data
-      - .:/usr/src/iws
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/statics:/mnt/volumes/statics
+      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     env_file:
-    - ./.env
+      - ./django.env
     environment:
       DJANGO_SETTINGS_MODULE: iws.settings
       GEONODE_INSTANCE_NAME: geonode
@@ -167,8 +166,6 @@ services:
       GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
       GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
       GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      SEASTORM: ${SEASTORM_NAME}
-      SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
       ASYNC_SIGNALS: 'True'
       BROKER_URL: amqp://guest:guest@rabbitmq:5672
       DOCKER_ENV: production
@@ -177,11 +174,11 @@ services:
       C_FORCE_ROOT: 1
       SITEURL: http://localhost/
       # replaced with defaults in settings
-      GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
+      # GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
       GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
       OGC_REQUEST_TIMEOUT: 300
-      STATIC_ROOT: /mnt/volumes/statics/static/
-      MEDIA_ROOT: /mnt/volumes/statics/uploaded/
+      STATIC_ROOT: /mnt/volumes/statics/static
+      MEDIA_ROOT: /mnt/volumes/statics/uploaded
       GEOIP_PATH: /mnt/volumes/statics/geoip.db
       ALLOWED_HOSTS: "['*']"
       ADMIN_EMAILS: ''
@@ -199,7 +196,8 @@ services:
       DOCKER_API_VERSION: "1.24"
 
   geonode:
-    image: geonode/nginx:geoserver
+    #image: geonode/nginx:geoserver
+    image: iws_nginx:latest
     restart: unless-stopped
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -212,13 +210,20 @@ services:
       - celery
       - geoserver
     ports:
-      - 80:80
+      - 88:80
     expose:
       - 80
     volumes:
     - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
-    - statics:/mnt/volumes/statics
+    # - statics:/mnt/volumes/statics
     - ./iws/storage:/mnt/volumes/storage
+    # master:
+    - ./volumes/statics:/mnt/volumes/statics
+    - ./volumes/nginxconf:/etc/nginx/nginxconf
+    - /etc/ssl/certs:/etc/ssl/certs
+    - /etc/ssl/private:/etc/ssl/private
+    - /var/www/html:/var/www/html
+
 
 
   data-dir-conf:
@@ -231,7 +236,27 @@ services:
     command: /bin/true
     # command: tail -f /dev/null
     volumes:
-      - geoserver-data-dir:/geoserver_data/data
+      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
+
+  tds:
+    image: unidata/thredds-docker:4.6.12
+    ports:
+      - "82:8080"
+      - "445:8443"
+      - "8445:8443"
+    container_name: tds4${COMPOSE_PROJECT_NAME}
+
+    volumes:
+      - ./volumes/tds/tomcat/logs/:/usr/local/tomcat/logs/
+      - ./volumes/tds/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
+      #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+      - ./volumes/tds/thredds/directory:/usr/local/tomcat/content/thredds
+      #- /usr3/tds/data/:/usr/local/tomcat/content/data
+      - ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
+      #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
+    env_file:
+      - "tds.env"
+
 
 
 volumes:

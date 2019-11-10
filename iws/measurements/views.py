@@ -8,10 +8,13 @@ from .models import Parameter, Location, Sensor, Serie, Network, Measure
 @csrf_exempt
 def write(request):
     rjson = json.loads(request.body)
-    _write(rjson)
-    return JsonResponse(rjson, safe=False)
+    nrecords = _write(rjson)
+    resp = {'success': True,
+            'nrecords': nrecords}
+    return JsonResponse(resp, safe=False)
 
 def _write(rjson):
+    ii = 0
     for r in rjson:
         _location = r['location']
         location, created = Location.objects.get_or_create(label=_location)
@@ -35,3 +38,5 @@ def _write(rjson):
         measure, created = Measure.objects.get_or_create(serie=serie,
                                                          timestamp=timestamp,
                                                          value=value)
+       ii += 1
+    return ii

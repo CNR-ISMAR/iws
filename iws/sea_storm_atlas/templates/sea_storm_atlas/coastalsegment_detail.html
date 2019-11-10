@@ -8,7 +8,7 @@
 
 {% block body_outer %}
   <div class="page-header">
-  <h2>Coastal Segment: {{ object.code }}/{{ object.partition }}</h2>
+  <h2>Region: {{ object.code }}/{{ object.partition }}</h2>
   <h3>{{ object.subregion }}</h3>
   </div>
 
@@ -23,26 +23,26 @@
         <li><strong>Institutional forecasting service: </strong>
         <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.forecasting_service}}.png" width=25 height=25 alt="{{object.forecasting_service}}">
         </li>
-        <li><strong>Specific Civil Protection procedures: </strong> 
+        <li><strong>Specific Civil Protection procedures: </strong>
         <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.cp_procedures}}.png" width=25 height=25 alt="{{object.cp_procedures}}">
         </li>
         <li><strong>Intervention procedures: </strong>
         <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.intervention_procedures}}.png" width=25 height=25 alt="{{object.intervention_procedures}}">
         </li>
         <li><strong>Risk sources of coastal flooding: </strong>{{object.get_cf_risk_sources_display }}</li>
-        
-        
+
+
         <li><strong>Network for marine measurement/observation: </strong>
         <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.network_for_marine_measurement_observation}}.png" width=25 height=25 alt="{{object.network_for_marine_measurement_observation}}">
         </li>
         <li><strong>Post event monitoring system: </strong>
         <img src="{{ STATIC_URL}}/sea_storm_atlas/img/{{object.post_event_monitoring_system}}.png" width=25 height=25 alt="{{object.post_event_monitoring_system}}">
         </li>
-              
+
 
 
     </ul>
-  
+
   {% endblock body %}
       </div>
     <div class="col-md-4">
@@ -53,11 +53,11 @@
         </li>
         <li class="list-group-item">
            <a href='{% url "event-list" segid=object.id  %}' class="btn btn-primary btn-block">Events list</a>
-        </li>        
+        </li>
+        <li class="list-group-item">
+           <a href='/admin/sea_storm_atlas/stormevent/add/?_popup=1' class="btn btn-primary btn-block" target="_blank">Insert new event</a>
+        </li>
     </ul>
   {% endblock sidebar %}
   </div>
 {% endblock body_outer %}
-
-
-

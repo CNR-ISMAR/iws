@@ -4,6 +4,8 @@
 django-ckeditor==5.3.1
 django-bootstrap-breadcrumbs==0.9.1
 django-rest-swagger==2.2.0
+django-extensions
+
 
 pandas==0.24.2
 django-pandas==0.6.0
@@ -18,3 +20,9 @@ wget==3.2
 numpy==1.16.4
 fcm-django==0.2.21
 #pydap==3.2.2
+#sea storm atlas
+django-daterange-filter
+django-searchable-select
+
+django-grappelli==2.7.3
+

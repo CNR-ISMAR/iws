@@ -16,6 +16,7 @@ cd ..
 
 GDAL_VERSION=`gdal-config --version`
 PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9])"
+#PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9] | tail -1)"
 pip install pygdal==$PYGDAL_VERSION
 
 pip uninstall psycopg2

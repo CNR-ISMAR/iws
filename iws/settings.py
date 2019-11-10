@@ -31,8 +31,7 @@ except ImportError:
 # General Django development settings
 #
 PROJECT_NAME = 'iws'
-
-SITENAME = 'iws'
+SITENAME = os.getenv("SITENAME", '{{ project_name }}')
 
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
@@ -62,12 +61,15 @@ MANAGERS = ADMINS = os.getenv('ADMINS', [])
 TIME_ZONE = os.getenv('TIME_ZONE', "Europe/Rome")
 USE_TZ = True
 
-INSTALLED_APPS += (PROJECT_NAME,
+
+INSTALLED_APPS = ('grappelli',) + INSTALLED_APPS + (PROJECT_NAME,
                    PROJECT_NAME + '.sea_storm_atlas',
                    PROJECT_NAME + '.measurements',
                    PROJECT_NAME + '.tmes',
+                   PROJECT_NAME	+ '.dashboards',
                    # 'rest_framework',
                    'rest_framework_swagger',
+                   'django_extensions',
 )
 
 # Location of url mappings
@@ -124,7 +126,7 @@ SOCIALACCOUNT_AUTO_SIGNUP = False
 INSTALLED_APPS += (
 #     'allauth.socialaccount.providers.linkedin_oauth2',
 #     'allauth.socialaccount.providers.facebook',
-     'allauth.socialaccount.providers.google',
+#     'allauth.socialaccount.providers.google',
 )
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -239,8 +241,7 @@ STAMEN_BASEMAPS = os.environ.get('STAMEN_BASEMAPS', False)
 THUNDERFOREST_BASEMAPS = os.environ.get('THUNDERFOREST_BASEMAPS', False)
 MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', '')
 BING_API_KEY = os.environ.get('BING_API_KEY', None)
-GOOGLE_API_KEY = "AIzaSyBqnOPpXk5uRuUNyxwOwB08B9DhTzmg6Gc"
-
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', None)
 
 MAP_BASELAYERS = [{
 
@@ -416,6 +417,8 @@ if MONITORING_ENABLED:
 
 #INSTALLED_APPS += ('geonode.contrib.ows_api',)
 
+X_FRAME_OPTIONS = 'allow-from https://iws.seastorms.eu'
+
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '..', 'GeoLiteCity.dat')
 
 LOGGING = {
@@ -465,7 +468,6 @@ LOGGING = {
             "handlers": ["console"], "level": "DEBUG", },
         },
     }
-
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_PERMISSION_CLASSES': [
@@ -518,3 +520,4 @@ FCM_DJANGO_SETTINGS = {
 SERIALIZATION_MODULES = {
         "favorites_geojson": "openistorm.favorites.gj_serializers",
 }
+GRAPPELLI_ADMIN_TITLE = ''
