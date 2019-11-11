@@ -74,4 +74,7 @@ istorm/node_modules/*
 celerybeat-schedule
 storage/layerdata/*
 /openistorm/migrations/*
-.env
+sd.env
+
+#docker volumes
+volumes
