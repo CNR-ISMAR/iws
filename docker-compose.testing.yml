@@ -7,6 +7,7 @@ services:
 
   django:
     environment:
+      DJANGO_SETTINGS_MODULE: iws.settings
       DEBUG: 'True'
       GEONODE_LB_HOST_IP: localhost
       GEONODE_LB_PORT: 80
@@ -17,6 +18,7 @@ services:
 
   celery:
     environment:
+      DJANGO_SETTINGS_MODULE: iws.settings
       DEBUG: 'True'
       GEONODE_LB_HOST_IP: localhost
       GEONODE_LB_PORT: 80
