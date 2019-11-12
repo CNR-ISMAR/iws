@@ -60,7 +60,7 @@ var tmesWaterLevel_std = L.nonTiledLayer.wms(tmes_wl_WMS, {
     layers: 'sea_level-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,0.4',
+    colorscalerange: '-0.4,0.4',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -89,7 +89,7 @@ var tmesWavesSignificantHeight_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wsh-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,2',
+    colorscalerange: '-2,2',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -115,7 +115,7 @@ var tmesWavesMeanPeriod_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wmp-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,5',
+    colorscalerange: '-5,5',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -128,7 +128,7 @@ var tmesWavesMeanDirection_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wmd-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,10',
+    colorscalerange: '-10,10',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -217,7 +217,7 @@ tmesWaterLevelLegend.onAdd = function(map) {
     var scalerange = tmesWaterLevel.options.colorscalerange.split(",")
     var src = tmes_wl_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg2&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>>=' + scalerange[1] + '</label><br><img src="' + src + '" alt="legend"><br><label><=' + scalerange[0] +'</label>';
+    div.innerHTML += '<label>>=' + scalerange[1] + 'm</label><br><img src="' + src + '" alt="legend"><br><label><=' + scalerange[0] +'m</label>';
     return div;
 };
 
@@ -227,9 +227,10 @@ var tmesWaterLevel_stdLegend = L.control({
 tmesWaterLevel_stdLegend.onAdd = function(map) {
     var layername = tmesWaterLevel_std.options.layers;
     var scalerange = tmesWaterLevel_std.options.colorscalerange.split(",")
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wl_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=redblue&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' +scalerange[1] + 'm</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid +'m</label>';
     return div;
 };
 
@@ -241,7 +242,7 @@ tmesWavesSignificantHeightLegend.onAdd = function(map) {
     var scalerange = tmesWavesSignificantHeight.options.colorscalerange.split(",")
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=occam&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 'm</label><br><img src="' + src + '" alt="legend"><br><label>' + scalerange[0] + 'm</label>';
     return div;
 };
 
@@ -251,9 +252,10 @@ var tmesWavesSignificantHeight_stdLegend = L.control({
 tmesWavesSignificantHeight_stdLegend.onAdd = function(map) {
     var layername = tmesWavesSignificantHeight_std.options.layers;
     var scalerange = tmesWavesSignificantHeight_std.options.colorscalerange.split(",")
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=occam&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 'm</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid +'m</label>';
     return div;
 };
 
@@ -265,7 +267,7 @@ tmesWavesMeanPeriodLegend.onAdd = function(map) {
     var scalerange = tmesWavesMeanPeriod.options.colorscalerange.split(",")
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 's</label><br><img src="' + src + '" alt="legend"><br><label>' + scalerange[0] +' s</label>';
     return div;
 };
 
@@ -275,9 +277,10 @@ var tmesWavesMeanPeriod_stdLegend = L.control({
 tmesWavesMeanPeriod_stdLegend.onAdd = function(map) {
     var layername = tmesWavesMeanPeriod_std.options.layers;
     var scalerange = tmesWavesMeanPeriod_std.options.colorscalerange.split(",")
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 's</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid + 's</label>';
     return div;
 };
 
@@ -289,7 +292,7 @@ tmesWavesMeanDirectionLegend.onAdd = function(map) {
     var scalerange = tmesWavesMeanDirection.options.colorscalerange.split(",")
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=rainbow&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + '°</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 150px;" alt="legend"></div><br><label>' + scalerange[0] + '°</label>';
     return div;
 };
 
@@ -298,10 +301,11 @@ var tmesWavesMeanDirection_stdLegend = L.control({
 });
 tmesWavesMeanDirection_stdLegend.onAdd = function(map) {
     var layername = tmesWavesMeanDirection_std.options.layers;
-    var scalerange = tmesWavesMeanDirection_std.options.colorscalerange.split(",")
+    var scalerange = tmesWavesMeanDirection_std.options.colorscalerange.split(",");
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=rainbow&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + '°</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid + '°</label>';
     return div;
 };
 

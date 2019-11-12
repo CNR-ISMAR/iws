@@ -1,4 +1,4 @@
-version: "2.0"
+version: 2.2"
 services:
 
 
@@ -13,6 +13,9 @@ services:
       org.geonode.component: db
       org.geonode.instance.name: geonode
     ports:
+      - 5432:5432
+    expose:
+      - "5435"
       - "5432"
     volumes:
       - ./volumes/dbdata:/var/lib/postgresql/data
@@ -250,6 +253,18 @@ services:
       #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
     env_file:
       - "tds.env"
+
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    container_name: grafana4${COMPOSE_PROJECT_NAME}
+    ports:
+      - 3300:3000
+    expose:
+      - "3000"
+    environment:
+      GF_SERVER_DOMAIN: iws.ismar.cnr.it
+      GF_SERVER_ROOT_URL: https://iws.imsar.cnr.it/measurements
 
 
 
