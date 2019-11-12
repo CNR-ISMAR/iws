@@ -50,6 +50,7 @@ RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/
 
 COPY . /usr/src/iws
 
+
 RUN chmod +x /usr/src/iws/tasks.py \
     && chmod +x /usr/src/iws/entrypoint.sh
 

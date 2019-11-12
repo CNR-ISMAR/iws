@@ -1,20 +1,13 @@
-# GeoNode
--e git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode
-#aggiunti amedeo
+git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode
 django-ckeditor==5.3.1
 django-bootstrap-breadcrumbs==0.9.1
 django-rest-swagger==2.2.0
-
 pandas==0.24.2
 django-pandas==0.6.0
 django-revproxy==0.9.15
-#awesome-slugify==1.6.5
 git+https://github.com/voronind/awesome-slugify.git
 oauth2-provider==0.0
-
-# OpenIstorm
 netCDF4==1.5.1.2
 wget==3.2
 numpy==1.16.4
 fcm-django==0.2.21
-#pydap==3.2.2

@@ -71,10 +71,6 @@ services:
       GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
       GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
       GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      DSS_PHAROS: ${DSS_PHAROS_NAME}
-      DSS_PHAROS_PASSWORD: ${DSS_PHAROS_PASSWORD}
-      SEASTORM: ${SEASTORM_NAME}
-      SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
       ASYNC_SIGNALS: 'True'
       BROKER_URL: amqp://guest:guest@rabbitmq:5672
       CELERY_CMD: celery worker --app=iws.celeryapp:app --broker=amqp://guest:guest@rabbitmq:5672/ -B -l INFO
@@ -164,8 +160,6 @@ services:
       GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
       GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
       GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      SEASTORM: ${SEASTORM_NAME}
-      SEASTORM_PASSWORD: ${SEASTORM_PASSWORD}
       ASYNC_SIGNALS: 'True'
       BROKER_URL: amqp://guest:guest@rabbitmq:5672
       DOCKER_ENV: production
@@ -230,6 +224,17 @@ services:
     # command: tail -f /dev/null
     volumes:
       - geoserver-data-dir:/geoserver_data/data
+
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    container_name: grafana4${COMPOSE_PROJECT_NAME}
+    ports:
+      - 3300:3000
+    environment:
+      GF_SERVER_DOMAIN: iws.ismar.cnr.it
+      GF_SERVER_ROOT_URL: https://iws.imsar.cnr.it/measurements
+
 
 
 volumes:

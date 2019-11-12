@@ -36,6 +36,8 @@ inst_req = parse_requirements('requirements.txt',
                               session=PipSession())
 REQUIREMENTS = [str(r.req) for r in inst_req]
 
+print(REQUIREMENTS)
+
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
