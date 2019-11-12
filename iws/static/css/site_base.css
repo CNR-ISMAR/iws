@@ -1,1 +1,134 @@
+<<<<<<< HEAD
 .home .jumbotron { background: darkgreen }
+=======
+
+/*colors
+
+#34499c dark blue (european flag
+#98c11b green (bottom)
+#a1abf3 light blue (top of interreg)
+#FFBF00 dark yellow
+#353535 grey
+
+
+*/
+
+/* remove round corners */
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+
+body {
+
+    background: #353535;
+
+}
+
+.navbar-inverse {
+    background-color: #34499c;
+}
+
+.home .navbar-inverse {
+    background-color: #34499c;
+}
+
+
+.navbar-brand {
+    background: url(../img/small_logo.png) 0 0px no-repeat;
+    
+    background-size: 100%;
+    text-indent: -9999px;
+    height: 72px;
+}
+
+.home .navbar-brand {
+    background: #34499c;;
+}
+
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #FFBF00;
+  text-decoration: none;
+  outline: 0;
+  background-color: #34499c;
+}
+
+
+
+
+
+@media(max-width: 400px){
+    .navbar-brand{
+    width: auto;
+    }
+}
+.home_logo {
+    height: 200px;
+    
+}
+.home .jumbotron {
+    background: url(../img/home_bg01.png) right 50px top -200px no-repeat,
+    url(../img/home_bg02.png) left 0px top -200px repeat-x,
+    url(../img/home_bg03.png) left 0px bottom repeat;
+    min-height: 760px;
+    
+}
+
+.home .jumbotron a {
+	color: #34499C;
+        text-shadow: none;
+}
+
+
+
+@media(max-width: 848px){
+    .home .jumbotron{
+    background: url(../img/home_bg02.png) left 0px top -200px repeat-x,url(../img/home_bg03.png) left 0px bottom repeat;
+    }
+ 
+}
+.home .jumbotron h2, h3, h4 { 
+    
+    color: #34499c;
+    }
+
+.home .jumbotron p {
+    padding-top: 60px;
+    padding-bottom: 0;
+    font-weight: 800;
+    /* text-shadow: 2px 2px 12px rgba(0, 0, 0, 1), -2px -2px 12px rgba(0, 0, 0, 1); */
+}
+
+
+#chooser{
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+.home .big-search .btn-default {
+    background: transparent;
+    border: none;
+    color: #FFBF00;
+}
+
+
+footer {
+    background: #34499c ;
+
+}
+
+footer a {
+    color: #FFBF00;
+}
+
+footer a:hover{
+    color: #FFBF00;
+    text-decoration: underline;
+
+}
+>>>>>>> master

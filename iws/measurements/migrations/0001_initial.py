@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+
 import django.contrib.postgres.fields
 import django.contrib.gis.db.models.fields
 
@@ -26,6 +27,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('timestamp', models.DateTimeField(db_index=True)),
                 ('value', models.FloatField()),
+                ('location', models.ForeignKey(to='measurements.Location')),
             ],
         ),
         migrations.CreateModel(
@@ -50,6 +52,7 @@ class Migration(migrations.Migration):
                 ('label', models.CharField(max_length=150)),
             ],
         ),
+
         migrations.CreateModel(
             name='Serie',
             fields=[
@@ -66,5 +69,10 @@ class Migration(migrations.Migration):
             model_name='measure',
             name='serie',
             field=models.ForeignKey(to='measurements.Serie'),
+        migrations.AddField(
+            model_name='measure',
+            name='sensor',
+            field=models.ForeignKey(to='measurements.Sensor'),
+
         ),
     ]

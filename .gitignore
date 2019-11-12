@@ -7,6 +7,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+*.env
+.env
+
 env/
 build/
 develop-eggs/
@@ -22,6 +25,14 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+geonode/
+iws_bk
+
+
+#docker volumes
+volumes
+statics
+dbdata
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -32,6 +43,7 @@ var/
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+startup_log.txt
 
 # Unit test / coverage reports
 htmlcov/
@@ -77,4 +89,11 @@ storage/layerdata/*
 sd.env
 
 #docker volumes
+.env
 volumes
+dump_*
+build_log.txt
+srcgeonode/
+
+
+.bash*

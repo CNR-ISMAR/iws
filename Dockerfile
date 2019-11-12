@@ -5,6 +5,9 @@ COPY wait-for-databases.sh /usr/bin/wait-for-databases
 
 RUN mkdir -p /usr/src/iws
 
+RUN mkdir -p /usr/src/iws
+RUN mkdir -p /usr/src/geonode
+
 WORKDIR /usr/src/iws
 
 # This section is borrowed from the official Django image but adds GDAL and others
