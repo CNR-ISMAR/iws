@@ -466,3 +466,5 @@ LOGGING = {
             "handlers": ["console"], "level": "DEBUG", },
         },
     }
+
+GRAPPELLI_ADMIN_TITLE = ''
