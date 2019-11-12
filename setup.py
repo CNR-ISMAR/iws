@@ -59,8 +59,11 @@ setup(
     packages=['iws',],
     include_package_data=True,
     zip_safe=False,
+    dependency_links=[
+        'git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode',
+        'git+https://github.com/voronind/awesome-slugify.git',
+    ],
     install_requires=[
-        # 'git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode',
         'django-ckeditor==5.3.1',
         'django-bootstrap-breadcrumbs==0.9.1',
         'django-rest-swagger==2.2.0',
@@ -68,7 +71,6 @@ setup(
         'pandas==0.24.2',
         'django-pandas==0.6.0',
         'django-revproxy==0.9.15',
-        # 'git+https://github.com/voronind/awesome-slugify.git',
         'oauth2-provider==0.0',
         'netCDF4==1.5.1.2',
         'wget==3.2',
