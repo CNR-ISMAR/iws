@@ -258,6 +258,8 @@ services:
     container_name: grafana4${COMPOSE_PROJECT_NAME}
     ports:
       - 3300:3000
+    expose:
+      - "3000"
     environment:
       GF_SERVER_DOMAIN: iws.ismar.cnr.it
       GF_SERVER_ROOT_URL: https://iws.imsar.cnr.it/measurements
