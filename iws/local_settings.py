@@ -540,7 +540,15 @@ DISPLAY_WMS_LINKS = True
 # https://docs.djangoproject.com/en/dev/ref/settings
 
 #dss_pharos temporary settings
-INSTALLED_APPS += ('celery', 'openistorm', 'fcm_django', 'dss_pharos', 'ckeditor','ckeditor_uploader', 'django_bootstrap_breadcrumbs',)
+INSTALLED_APPS += (
+    'celery',
+                   'openistorm',
+                   'fcm_django',
+                   # 'dss_pharos',
+                   'ckeditor',
+                   'ckeditor_uploader',
+                   'django_bootstrap_breadcrumbs',
+                   )
 CKEDITOR_UPLOAD_PATH = 'cked_upload'
 
 #set the mapa number for sea storm atlas, used in redirect into urls.py 
