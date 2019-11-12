@@ -43,21 +43,21 @@ services:
 # TODO change name of seastorms.eu certificates
 
 
-  tds:
-    image: unidata/thredds-docker:latest
-    ports:
-    - "82:8080"
-    - "445:8443"
-    - "8445:8443"
-    container_name: tds4${COMPOSE_PROJECT_NAME}
-    volumes:
-    - /usr3/thredds/thredds-production/tomcat/logs/:/usr/local/tomcat/logs/
-    - /usr3/thredds/thredds-production/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
-    #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-    - /usr3/thredds/thredds-production/thredds/directory:/usr/local/tomcat/content/thredds
-    - /usr3/thredds/data/:/usr/local/tomcat/content/data
-    - /usr3/thredds/thredds-production/tomcat/conf:/usr/local/tomcat/conf/
-    #- /usr3/thredds/thredds-production/data/directory1:/path/to/your/data/directory2
-    env_file:
-    - "tds.env"
+#  tds:
+#    image: unidata/thredds-docker:latest
+#    ports:
+#    - "82:8080"
+#    - "445:8443"
+#    - "8445:8443"
+#    container_name: tds4${COMPOSE_PROJECT_NAME}
+#    volumes:
+#    - /usr3/thredds/thredds-production/tomcat/logs/:/usr/local/tomcat/logs/
+#    - /usr3/thredds/thredds-production/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
+#    #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+#    - /usr3/thredds/thredds-production/thredds/directory:/usr/local/tomcat/content/thredds
+#    - /usr3/thredds/data/:/usr/local/tomcat/content/data
+#    - /usr3/thredds/thredds-production/tomcat/conf:/usr/local/tomcat/conf/
+#    #- /usr3/thredds/thredds-production/data/directory1:/path/to/your/data/directory2
+#    env_file:
+#    - "tds.env"
 
