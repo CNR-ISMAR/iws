@@ -1,8 +1,6 @@
 var startDate = new Date();
 startDate.setUTCHours(0, 0, 0, 0);
 
-<<<<<<< HEAD
-=======
 //compute date in YYYYMMDD format
 var rightNow = new Date();
 var todayString = rightNow.toISOString().slice(0,10).replace(/-/g,"");
@@ -17,7 +15,6 @@ var tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 var tomorrowString = newdate.toISOString().slice(0,10).replace(/-/g,"");
 
->>>>>>> master
 var map = L.map('map', {
     zoom: 6,
     fullscreenControl: true,
@@ -30,28 +27,14 @@ var map = L.map('map', {
     },
     timeDimension: true,
     timeDimensionOptions: {
-<<<<<<< HEAD
-        timeInterval: "2018-10-29/2018-10-31",
-        period: "PT1H",
-        currentTime: Date.parse("2018-10-29T00:00:00.000Z")
-=======
         timeInterval: rightNow.toISOString().slice(0,10) + "/" + tomorrow.toISOString().slice(0,10),
         period: "PT1H",
         //currentTime: Date.parse("2018-10-29T00:00:00.000Z")
         currentTime: rightNow
->>>>>>> master
     },
     center: [42.10, 17.90]
 });
 
-<<<<<<< HEAD
-var tmesWMS = "https://iws.ismar.cnr.it/thredds/wms/mean/TMES_sea-level_20181029.nc";
-var tmesWaterLevel = L.nonTiledLayer.wms(tmesWMS, {
-    layers: 'water_level_mean',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '0,1.5',
-=======
 /*colorscale ranges  
 * wsh 0-8 wsh-std 0-2
 * sea-level (cm) -80 +80 dev std 0-40
@@ -67,27 +50,17 @@ var tmesWaterLevel = L.nonTiledLayer.wms(tmes_wl_WMS, {
     format: 'image/png',
     transparent: true,
     colorscalerange: '-0.8,0.8',
->>>>>>> master
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     numcolorbands: 100,
     styles: 'boxfill/alg2'
         // styles: 'areafill/scb_greens'
 });
-<<<<<<< HEAD
-
-var tmesWaterLevel_std = L.nonTiledLayer.wms(tmesWMS, {
-    layers: 'water_level_std',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '-0.5,0.5',
-=======
 var tmesWaterLevel_std = L.nonTiledLayer.wms(tmes_wl_WMS, {
     layers: 'sea_level-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,0.4',
->>>>>>> master
+    colorscalerange: '-0.4,0.4',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -97,9 +70,6 @@ var tmesWaterLevel_std = L.nonTiledLayer.wms(tmes_wl_WMS, {
 });
 
 
-<<<<<<< HEAD
-var proxy = 'server/proxy.php';
-=======
 var tmes_wv_WMS = "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_waves_" + todayString  + ".nc";
 
 //wave significant height
@@ -119,7 +89,7 @@ var tmesWavesSignificantHeight_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wsh-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,2',
+    colorscalerange: '-2,2',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -145,7 +115,7 @@ var tmesWavesMeanPeriod_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wmp-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,5',
+    colorscalerange: '-5,5',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -158,7 +128,7 @@ var tmesWavesMeanDirection_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
     layers: 'wmd-std',
     format: 'image/png',
     transparent: true,
-    colorscalerange: '0,10',
+    colorscalerange: '-10,10',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
     markerscale: 15,
@@ -184,22 +154,15 @@ var tmesWavesMeanDirection = L.nonTiledLayer.wms(tmes_wv_WMS, {
 
 var proxy = 'server/proxy.php';
 //sea level
->>>>>>> master
 var tmesWaterLevelTimeLayer = L.timeDimension.layer.wms(tmesWaterLevel, {
     //proxy: proxy,
     wmsVersion: '1.3.0',
     updateTimeDimension: true
 });
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 var tmesWaterLevel_stdTimeLayer = L.timeDimension.layer.wms(tmesWaterLevel_std, {
     //proxy: proxy
     wmsVersion: '1.3.0',
 });
-<<<<<<< HEAD
-=======
 //waves height
 var tmesWavesSignificantHeightTimeLayer = L.timeDimension.layer.wms(tmesWavesSignificantHeight, {
     //proxy: proxy
@@ -244,7 +207,6 @@ tmesgeneralLegend.onAdd = function(map,layer) {
         div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
     return div;
 };
->>>>>>> master
 
 
 var tmesWaterLevelLegend = L.control({
@@ -253,16 +215,9 @@ var tmesWaterLevelLegend = L.control({
 tmesWaterLevelLegend.onAdd = function(map) {
     var layername = tmesWaterLevel.options.layers;
     var scalerange = tmesWaterLevel.options.colorscalerange.split(",")
-<<<<<<< HEAD
-    var src = tmesWMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg2&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML +=
-        div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
-=======
     var src = tmes_wl_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg2&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>>=' + scalerange[1] + '</label><br><img src="' + src + '" alt="legend"><br><label><=' + scalerange[0] +'</label>';
->>>>>>> master
+    div.innerHTML += '<label>>=' + scalerange[1] + 'm</label><br><img src="' + src + '" alt="legend"><br><label><=' + scalerange[0] +'m</label>';
     return div;
 };
 
@@ -271,51 +226,14 @@ var tmesWaterLevel_stdLegend = L.control({
 });
 tmesWaterLevel_stdLegend.onAdd = function(map) {
     var layername = tmesWaterLevel_std.options.layers;
-<<<<<<< HEAD
-    var scalerange = tmesWaterLevel.options.colorscalerange.split(",")
-    var src = tmesWMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=redblue&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-=======
     var scalerange = tmesWaterLevel_std.options.colorscalerange.split(",")
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wl_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=redblue&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
->>>>>>> master
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' +scalerange[1] + 'm</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid +'m</label>';
     return div;
 };
 
-<<<<<<< HEAD
-
-var overlayMaps = {
-    "TMES - mean water level": tmesWaterLevelTimeLayer,
-    "TMES - standard deviation": tmesWaterLevel_stdTimeLayer,
-    //"SAPO - direction of the peak": sapoPeakDirectionTimeLayer
-};
-
-map.on('overlayadd', function(eventLayer) {
-    if (eventLayer.name == 'TMES - mean water level') {
-        setTimeout(function() {
-        tmesWaterLevel_stdTimeLayer.removeFrom(map)
-        }, 10);
-        tmesWaterLevelLegend.addTo(this);
-    } else if (eventLayer.name == 'TMES - standard deviation') {
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map)
-        }, 10);
-        tmesWaterLevel_stdLegend.addTo(this);
-    }
-});
-
-map.on('overlayremove', function(eventLayer) {
-    if (eventLayer.name == 'TMES - mean water level') {
-        map.removeControl(tmesWaterLevelLegend);
-    } else if (eventLayer.name == 'TMES - standard deviation') {
-        map.removeControl(tmesWaterLevel_stdLegend);
-    }
-});
-
-var baseLayers = getCommonBaseLayers(map); // see baselayers.js
-L.control.layers(baseLayers, overlayMaps).addTo(map);
-=======
 var tmesWavesSignificantHeightLegend = L.control({
     position: 'bottomright'
 });
@@ -324,7 +242,7 @@ tmesWavesSignificantHeightLegend.onAdd = function(map) {
     var scalerange = tmesWavesSignificantHeight.options.colorscalerange.split(",")
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=occam&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 'm</label><br><img src="' + src + '" alt="legend"><br><label>' + scalerange[0] + 'm</label>';
     return div;
 };
 
@@ -334,9 +252,10 @@ var tmesWavesSignificantHeight_stdLegend = L.control({
 tmesWavesSignificantHeight_stdLegend.onAdd = function(map) {
     var layername = tmesWavesSignificantHeight_std.options.layers;
     var scalerange = tmesWavesSignificantHeight_std.options.colorscalerange.split(",")
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=occam&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 'm</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid +'m</label>';
     return div;
 };
 
@@ -348,7 +267,7 @@ tmesWavesMeanPeriodLegend.onAdd = function(map) {
     var scalerange = tmesWavesMeanPeriod.options.colorscalerange.split(",")
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 's</label><br><img src="' + src + '" alt="legend"><br><label>' + scalerange[0] +' s</label>';
     return div;
 };
 
@@ -358,9 +277,10 @@ var tmesWavesMeanPeriod_stdLegend = L.control({
 tmesWavesMeanPeriod_stdLegend.onAdd = function(map) {
     var layername = tmesWavesMeanPeriod_std.options.layers;
     var scalerange = tmesWavesMeanPeriod_std.options.colorscalerange.split(",")
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + 's</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid + 's</label>';
     return div;
 };
 
@@ -372,7 +292,7 @@ tmesWavesMeanDirectionLegend.onAdd = function(map) {
     var scalerange = tmesWavesMeanDirection.options.colorscalerange.split(",")
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=rainbow&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + '°</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 150px;" alt="legend"></div><br><label>' + scalerange[0] + '°</label>';
     return div;
 };
 
@@ -381,10 +301,11 @@ var tmesWavesMeanDirection_stdLegend = L.control({
 });
 tmesWavesMeanDirection_stdLegend.onAdd = function(map) {
     var layername = tmesWavesMeanDirection_std.options.layers;
-    var scalerange = tmesWavesMeanDirection_std.options.colorscalerange.split(",")
+    var scalerange = tmesWavesMeanDirection_std.options.colorscalerange.split(",");
+    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
     var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=rainbow&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
     var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += scalerange[1] + '<br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br>' + scalerange[0];
+    div.innerHTML += '<label>' + scalerange[1] + '°</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid + '°</label>';
     return div;
 };
 
@@ -557,13 +478,9 @@ map.on('overlayremove', function(eventLayer) {
 
 var baseLayers = getCommonBaseLayers(map); // see baselayers.js
 L.control.layers(baseLayers, overlayMaps, {collapsed: false}).addTo(map);
->>>>>>> master
 
 tmesWaterLevelTimeLayer.addTo(map);
 //tmesWaterLevel_stdTimeLayer.addTo(map);
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> master

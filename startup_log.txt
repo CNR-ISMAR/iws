@@ -1,36 +1,19 @@
 Attaching to elasticsearch4iws, rabbitmq4iws, gsconf4iws, db4iws, celery4iws, django4iws, geoserver4iws, nginx4iws
-<<<<<<< HEAD
 [36melasticsearch4iws |[0m [2019-06-30 12:31:17,054][WARN ][bootstrap                ] unable to install syscall filter: seccomp unavailable: your kernel is buggy and you should upgrade
 [36melasticsearch4iws |[0m [2019-06-30 12:31:17,248][INFO ][node                     ] [Ziggy Pig] version[2.4.1], pid[1], build[c67dc32/2016-09-27T18:57:55Z]
 [36melasticsearch4iws |[0m [2019-06-30 12:31:17,248][INFO ][node                     ] [Ziggy Pig] initializing ...
 [36melasticsearch4iws |[0m [2019-06-30 12:31:17,922][INFO ][plugins                  ] [Ziggy Pig] modules [reindex, lang-expression, lang-groovy], plugins [], sites []
 [32mgsconf4iws exited with code 0
 [0m[36melasticsearch4iws |[0m [2019-06-30 12:31:17,946][INFO ][env                      ] [Ziggy Pig] using [1] data paths, mounts [[/usr/share/elasticsearch/data (/dev/sda1)]], net usable_space [13.5gb], net total_space [29.4gb], spins? [possibly], types [ext4]
-=======
-[36melasticsearch4iws |[0m [2019-06-30 12:31:17,054][WARN ][bootstrap                ] unable to install syscall filter: seccomp unavailable: your kernel is buggy and you should upgrade
-[36melasticsearch4iws |[0m [2019-06-30 12:31:17,248][INFO ][node                     ] [Ziggy Pig] version[2.4.1], pid[1], build[c67dc32/2016-09-27T18:57:55Z]
-[36melasticsearch4iws |[0m [2019-06-30 12:31:17,248][INFO ][node                     ] [Ziggy Pig] initializing ...
-[36melasticsearch4iws |[0m [2019-06-30 12:31:17,922][INFO ][plugins                  ] [Ziggy Pig] modules [reindex, lang-expression, lang-groovy], plugins [], sites []
-[32mgsconf4iws exited with code 0
-[0m[36melasticsearch4iws |[0m [2019-06-30 12:31:17,946][INFO ][env                      ] [Ziggy Pig] using [1] data paths, mounts [[/usr/share/elasticsearch/data (/dev/sda1)]], net usable_space [13.5gb], net total_space [29.4gb], spins? [possibly], types [ext4]
->>>>>>> master
 [35mdb4iws           |[0m LOG:  database system was shut down at 2019-06-30 12:30:19 UTC
 [35mdb4iws           |[0m LOG:  MultiXact member wraparound protections are now enabled
 [35mdb4iws           |[0m LOG:  database system is ready to accept connections
 [35mdb4iws           |[0m LOG:  autovacuum launcher started
-<<<<<<< HEAD
 [36melasticsearch4iws |[0m [2019-06-30 12:31:17,946][INFO ][env                      ] [Ziggy Pig] heap size [990.7mb], compressed ordinary object pointers [true]
 [36melasticsearch4iws |[0m [2019-06-30 12:31:20,381][INFO ][node                     ] [Ziggy Pig] initialized
 [36melasticsearch4iws |[0m [2019-06-30 12:31:20,381][INFO ][node                     ] [Ziggy Pig] starting ...
 [36melasticsearch4iws |[0m [2019-06-30 12:31:20,458][INFO ][transport                ] [Ziggy Pig] publish_address {172.23.0.2:9300}, bound_addresses {0.0.0.0:9300}
 [36melasticsearch4iws |[0m [2019-06-30 12:31:20,465][INFO ][discovery                ] [Ziggy Pig] elasticsearch/ElVTAoT8TcCNex_tG__47A
-=======
-[36melasticsearch4iws |[0m [2019-06-30 12:31:17,946][INFO ][env                      ] [Ziggy Pig] heap size [990.7mb], compressed ordinary object pointers [true]
-[36melasticsearch4iws |[0m [2019-06-30 12:31:20,381][INFO ][node                     ] [Ziggy Pig] initialized
-[36melasticsearch4iws |[0m [2019-06-30 12:31:20,381][INFO ][node                     ] [Ziggy Pig] starting ...
-[36melasticsearch4iws |[0m [2019-06-30 12:31:20,458][INFO ][transport                ] [Ziggy Pig] publish_address {172.23.0.2:9300}, bound_addresses {0.0.0.0:9300}
-[36melasticsearch4iws |[0m [2019-06-30 12:31:20,465][INFO ][discovery                ] [Ziggy Pig] elasticsearch/ElVTAoT8TcCNex_tG__47A
->>>>>>> master
 [36;1mgeoserver4iws    |[0m OpenJDK 64-Bit Server VM warning: ignoring option MaxPermSize=512m; support was removed in 8.0
 [36;1mgeoserver4iws    |[0m OpenJDK 64-Bit Server VM warning: ignoring option PermSize=256m; support was removed in 8.0
 [36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:21.820 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.19
@@ -87,7 +70,6 @@ Attaching to elasticsearch4iws, rabbitmq4iws, gsconf4iws, db4iws, celery4iws, dj
 [36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.649 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/manager]
 [36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.672 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/usr/local/tomcat/webapps/manager] has finished in [23] ms
 [36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:22.672 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/usr/local/tomcat/webapps/geoserver]
-<<<<<<< HEAD
 [36melasticsearch4iws |[0m [2019-06-30 12:31:23,551][INFO ][cluster.service          ] [Ziggy Pig] new_master {Ziggy Pig}{ElVTAoT8TcCNex_tG__47A}{172.23.0.2}{172.23.0.2:9300}, reason: zen-disco-join(elected_as_master, [0] joins received)
 [36melasticsearch4iws |[0m [2019-06-30 12:31:23,624][INFO ][http                     ] [Ziggy Pig] publish_address {172.23.0.2:9200}, bound_addresses {0.0.0.0:9200}
 [36melasticsearch4iws |[0m [2019-06-30 12:31:23,624][INFO ][node                     ] [Ziggy Pig] started
@@ -188,108 +170,6 @@ Attaching to elasticsearch4iws, rabbitmq4iws, gsconf4iws, db4iws, celery4iws, dj
 [33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.923 [info] <0.241.0> Running boot step direct_client defined by app rabbit
 [33mrabbitmq4iws     |[0m 2019-06-30 12:31:25.055 [info] <0.8.0> Server startup complete; 0 plugins started.
 [33mrabbitmq4iws     |[0m  completed with 0 plugins.
-=======
-[36melasticsearch4iws |[0m [2019-06-30 12:31:23,551][INFO ][cluster.service          ] [Ziggy Pig] new_master {Ziggy Pig}{ElVTAoT8TcCNex_tG__47A}{172.23.0.2}{172.23.0.2:9300}, reason: zen-disco-join(elected_as_master, [0] joins received)
-[36melasticsearch4iws |[0m [2019-06-30 12:31:23,624][INFO ][http                     ] [Ziggy Pig] publish_address {172.23.0.2:9200}, bound_addresses {0.0.0.0:9200}
-[36melasticsearch4iws |[0m [2019-06-30 12:31:23,624][INFO ][node                     ] [Ziggy Pig] started
-[36melasticsearch4iws |[0m [2019-06-30 12:31:23,633][INFO ][gateway                  ] [Ziggy Pig] recovered [0] indices into cluster_state
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.697 [info] <0.241.0> 
-[33mrabbitmq4iws     |[0m  Starting RabbitMQ 3.7.15 on Erlang 22.0.4
-[33mrabbitmq4iws     |[0m  Copyright (C) 2007-2019 Pivotal Software, Inc.
-[33mrabbitmq4iws     |[0m  Licensed under the MPL.  See https://www.rabbitmq.com/
-[33mrabbitmq4iws     |[0m 
-[33mrabbitmq4iws     |[0m   ##  ##
-[33mrabbitmq4iws     |[0m   ##  ##      RabbitMQ 3.7.15. Copyright (C) 2007-2019 Pivotal Software, Inc.
-[33mrabbitmq4iws     |[0m   ##########  Licensed under the MPL.  See https://www.rabbitmq.com/
-[33mrabbitmq4iws     |[0m   ######  ##
-[33mrabbitmq4iws     |[0m   ##########  Logs: <stdout>
-[33mrabbitmq4iws     |[0m 
-[33mrabbitmq4iws     |[0m               Starting broker...
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.701 [info] <0.241.0> 
-[33mrabbitmq4iws     |[0m  node           : rabbit@1ecc4a2b80a3
-[33mrabbitmq4iws     |[0m  home dir       : /var/lib/rabbitmq
-[33mrabbitmq4iws     |[0m  config file(s) : /etc/rabbitmq/rabbitmq.conf
-[33mrabbitmq4iws     |[0m  cookie hash    : brJqLACNybQMMCyiSt5teA==
-[33mrabbitmq4iws     |[0m  log(s)         : <stdout>
-[33mrabbitmq4iws     |[0m  database dir   : /var/lib/rabbitmq/mnesia/rabbit@1ecc4a2b80a3
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.713 [info] <0.241.0> Running boot step pre_boot defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.713 [info] <0.241.0> Running boot step rabbit_core_metrics defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.713 [info] <0.241.0> Running boot step rabbit_alarm defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.724 [info] <0.277.0> Memory high watermark set to 3187 MiB (3342735769 bytes) of 7969 MiB (8356839424 bytes) total
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.736 [info] <0.283.0> Enabling free disk space monitoring
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.736 [info] <0.283.0> Disk free limit set to 50MB
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.747 [info] <0.241.0> Running boot step code_server_cache defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.747 [info] <0.241.0> Running boot step file_handle_cache defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.286.0> Limiting to approx 1048476 file handles (943626 sockets)
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.287.0> FHC read buffering:  OFF
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.287.0> FHC write buffering: ON
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.748 [info] <0.241.0> Running boot step worker_pool defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.749 [info] <0.241.0> Running boot step database defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.750 [info] <0.241.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.801 [info] <0.241.0> Waiting for Mnesia tables for 30000 ms, 9 retries left
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.801 [info] <0.241.0> Peer discovery backend rabbit_peer_discovery_classic_config does not support registration, skipping registration.
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step database_sync defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step codec_correctness_check defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step external_infrastructure defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_registry defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_auth_mechanism_cr_demo defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_queue_location_random defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.802 [info] <0.241.0> Running boot step rabbit_event defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_auth_mechanism_amqplain defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_auth_mechanism_plain defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_direct defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_fanout defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_headers defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_exchange_type_topic defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.803 [info] <0.241.0> Running boot step rabbit_mirror_queue_mode_all defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_mirror_queue_mode_exactly defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_mirror_queue_mode_nodes defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_priority_queue defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Priority queues enabled, real BQ is rabbit_variable_queue
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_queue_location_client_local defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_queue_location_min_masters defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step kernel_ready defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_sysmon_minder defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.804 [info] <0.241.0> Running boot step rabbit_epmd_monitor defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.815 [info] <0.241.0> Running boot step guid_generator defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.840 [info] <0.241.0> Running boot step rabbit_node_monitor defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.840 [info] <0.313.0> Starting rabbit_node_monitor
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.841 [info] <0.241.0> Running boot step delegate_sup defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.842 [info] <0.241.0> Running boot step rabbit_memory_monitor defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.842 [info] <0.241.0> Running boot step core_initialized defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.842 [info] <0.241.0> Running boot step upgrade_queues defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.871 [info] <0.241.0> Running boot step rabbit_connection_tracking defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.872 [info] <0.241.0> Running boot step rabbit_connection_tracking_handler defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.873 [info] <0.241.0> Running boot step rabbit_exchange_parameters defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.874 [info] <0.241.0> Running boot step rabbit_mirror_queue_misc defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.875 [info] <0.241.0> Running boot step rabbit_policies defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step rabbit_policy defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step rabbit_queue_location_validator defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step rabbit_vhost_limit defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.876 [info] <0.241.0> Running boot step recovery defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.881 [info] <0.342.0> Making sure data directory '/var/lib/rabbitmq/mnesia/rabbit@1ecc4a2b80a3/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L' for vhost '/' exists
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.905 [info] <0.342.0> Starting message stores for vhost '/'
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.905 [info] <0.346.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_transient": using rabbit_msg_store_ets_index to provide index
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.908 [info] <0.342.0> Started message store of type transient for vhost '/'
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.908 [info] <0.349.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": using rabbit_msg_store_ets_index to provide index
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.912 [info] <0.342.0> Started message store of type persistent for vhost '/'
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step empty_db_check defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step rabbit_looking_glass defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step rabbit_core_metrics_gc defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step background_gc defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Running boot step connection_tracking defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.914 [info] <0.241.0> Setting up a table for connection tracking on this node: tracked_connection_on_node_rabbit@1ecc4a2b80a3
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Setting up a table for per-vhost connection counting on this node: tracked_connection_per_vhost_on_node_rabbit@1ecc4a2b80a3
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step routing_ready defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step pre_flight defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step notify_cluster defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.915 [info] <0.241.0> Running boot step networking defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.922 [warning] <0.372.0> Setting Ranch options together with socket options is deprecated. Please use the new map syntax that allows specifying socket options separately from other options.
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.923 [info] <0.386.0> started TCP listener on [::]:5672
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:24.923 [info] <0.241.0> Running boot step direct_client defined by app rabbit
-[33mrabbitmq4iws     |[0m 2019-06-30 12:31:25.055 [info] <0.8.0> Server startup complete; 0 plugins started.
-[33mrabbitmq4iws     |[0m  completed with 0 plugins.
->>>>>>> master
 [36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:29.785 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
 [36;1mgeoserver4iws    |[0m 30-Jun-2019 12:31:30.743 WARNING [main] it.geosolutions.imageio.gdalframework.GDALUtilities.loadGDAL Failed to load the GDAL native libs. This is not a problem unless you need to use the GDAL plugins: they won't be enabled.
 [36;1mgeoserver4iws    |[0m java.lang.UnsatisfiedLinkError: no gdaljni in java.library.path
