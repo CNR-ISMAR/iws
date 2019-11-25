@@ -38,5 +38,5 @@ def _write(rjson):
         measure, created = Measure.objects.get_or_create(serie=serie,
                                                          timestamp=timestamp,
                                                          value=value)
-       ii += 1
+        ii += 1
     return ii

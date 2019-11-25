@@ -38,7 +38,6 @@ urlpatterns += (
 
     #measurements
     url(r'measurements/', include ('iws.measurements.urls')),
-    # url(r'^grafana/(?P<path>.*)$', GraphanaProxyView.as_view(), name='graphana-dashboards'),
     url(r'^dashboards/', include('iws.dashboards.urls')),
     #tmes
     url(r'^tmes/', include('iws.tmes.urls')),
