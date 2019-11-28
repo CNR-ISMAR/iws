@@ -2,7 +2,7 @@ FROM node:8.6-slim
 
 WORKDIR /usr/src
 
-RUN apt-get update; apt-get install git nano -y
+#RUN apt-get update; apt-get install git nano -y
 
 COPY . /usr/src/app
 WORKDIR /usr/src/app

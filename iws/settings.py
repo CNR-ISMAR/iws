@@ -70,7 +70,7 @@ INSTALLED_APPS = INSTALLED_APPS + (PROJECT_NAME,
                    'rest_framework_swagger',
                    'django_extensions',
                    'grappelli',
-                   'django.contrib.admin',
+                   # 'django.contrib.admin',
 )
 
 # Location of url mappings

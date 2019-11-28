@@ -251,6 +251,15 @@ services:
       GF_SERVER_DOMAIN: iws.ismar.cnr.it
       GF_SERVER_ROOT_URL: https://iws.imsar.cnr.it/measurements
 
+  istorm:
+    container_name: frontend4${COMPOSE_PROJECT_NAME}
+    #    image: 'repositories.inkode.it:4567/inkode/iws:latest'
+    build: ./istorm
+    restart: always
+    ports:
+    - 3003:3000
+    expose:
+    - 3000
 
 
 volumes:
