@@ -173,7 +173,7 @@ function Chart(props) {
                 { Object.keys(props.data)
                           .filter(name => !chart.recordclick[name.replace(/mean|area|max|min|station|-/gi, '')].disabled)
                           .map(name => {
-                            return name.includes('mean') && !name.includes('wmd') ? (
+                            return (name.includes('mean') || name.includes('station')) && !name.includes('wmd') ? (
                               <LineSeries 
                                   key={name}
                                   className={name}
@@ -222,10 +222,10 @@ function Chart(props) {
                               <Box p={0} my={1} width="100%">
                                 {
                                   chart.crosshairValues.map((value, index) => {
-                                    return !chart.recordclick[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')].disabled &&
+                                    return value && !chart.recordclick[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')].disabled &&
                                       <Typography key={cslabels[index]} variant="body2" style={{fontSize:"0.9rem", padding:"0", margin:"0 0 2px"}}>
                                       {labels.lines[cslabels[index]]}: <span style={{fontSize:"1.1rem"}}>
-                                      { cslabels[index].includes("mean") ? value.y.toFixed(0) : `±${(value.y - value.y0).toFixed(0)}` }
+                                      { cslabels[index].includes("area") ? `±${(value.y - value.y0).toFixed(0)}` : value.y.toFixed(0) }
                                         {labels.um[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')]}</span>
                                     </Typography>
                                   }) 

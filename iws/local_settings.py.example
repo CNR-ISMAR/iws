@@ -34,7 +34,7 @@ STATIC_ROOT = os.getenv('STATIC_ROOT',
 #SITEURL = "https://150.178.42.78"
 SITEURL = os.getenv('SITE_URL', "https://iws.ismar.cnr.it")
 
-ALLOWED_HOSTS = ['localhost', 'iws.ismar.cnr.it', 'django:8000', 'django', '*']
+ALLOWED_HOSTS = [os.getenv('SITE_HOST'), 'localhost', 'iws.ismar.cnr.it', 'django:8000', 'django', '*']
 
 PROXY_ALLOWED_HOSTS = ('ows.emodnet-bathymetry.eu', 'emodnet-physics.eu', 'data.adriplan.eu', 'atlas.shape-ipaproject.eu')
 DEFAULT_LAYER_FORMAT = "image/png"
@@ -399,7 +399,8 @@ CELERYD_HIJACK_ROOT_LOGGER = True
 CELERYD_CONCURENCY = 1
 # Set this to False to run real async tasks
 CELERY_ALWAYS_EAGER = True
-CELERYD_LOG_FILE = None
+# CELERYD_LOG_FILE = None
+CELERYD_LOG_FILE = '/var/log/celery.log'
 CELERY_REDIRECT_STDOUTS = True
 CELERYD_LOG_LEVEL = 1
 
@@ -539,7 +540,7 @@ DISPLAY_WMS_LINKS = True
 # https://docs.djangoproject.com/en/dev/ref/settings
 
 #dss_pharos temporary settings
-INSTALLED_APPS += ('openistorm', 'fcm_django', 'dss_pharos', 'ckeditor','ckeditor_uploader', 'django_bootstrap_breadcrumbs',)
+INSTALLED_APPS += ('celery', 'fcm_django', 'dss_pharos', 'ckeditor','ckeditor_uploader', 'django_bootstrap_breadcrumbs', 'openistorm',)
 CKEDITOR_UPLOAD_PATH = 'cked_upload'
 
 #set the mapa number for sea storm atlas, used in redirect into urls.py 

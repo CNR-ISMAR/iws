@@ -97,3 +97,5 @@ srcgeonode/
 
 
 .bash*
+/iws/measurements/migrations/*
+/iws/sea_storm_atlas/migrations/*

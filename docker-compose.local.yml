@@ -4,6 +4,16 @@ services:
 #    ports:
 #      - "8432:5432"
 
+  django:
+    environment:
+      DJANGO_SETTINGS_MODULE: iws.settings
+      DEBUG: 'True'
+      GEONODE_LB_HOST_IP: localhost
+      GEONODE_LB_PORT: 80
+      SITEURL: https://iws.ismar.cnr.it
+      # ALLOWED_HOSTS: "['localhost', 'iws.seastorms.eu', 'www.seastorms.eu', 'iws.ismar.cnr.it', 'iws.tools4msp.eu',]"
+      GEOSERVER_PUBLIC_LOCATION: https://iws.ismar.cnr.it/geoserver/
+      CELERY_TASK_ALWAYS_EAGER: 'True'
 
   django:
     environment:
@@ -37,6 +47,7 @@ services:
      - "88:80"
      - "5443:443"
     volumes:
+      - ./nginx_files/nginx.local.conf:/etc/nginx/nginx.conf
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/nginxconf:/etc/nginx/nginxconf
       - /etc/ssl/certs:/etc/ssl/certs
@@ -44,40 +55,22 @@ services:
       - /var/www/html:/var/www/html
 # TODO change name of seastorms.eu certificates
 
-#  tds:
-#    image: unidata/thredds-docker:4.6.12
-#    ports:
-#      - "82:8080"
-#      - "445:8443"
-#      - "8445:8443"
-#    container_name: tds4${COMPOSE_PROJECT_NAME}
-#
-#    volumes:
-#      - ./volumes/tds/tomcat/logs/:/usr/local/tomcat/logs/
-#      - ./volumes/tds/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
-#      #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-#      - ./volumes/tds/thredds/directory:/usr/local/tomcat/content/thredds
-#      #- /usr3/tds/data/:/usr/local/tomcat/content/data
-#      - ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
-#      #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
-#    env_file:
-#      - ./.env
 
-  tds:
-    image: unidata/thredds-docker:latest
-    ports:
-    - "82:8080"
-    - "445:8443"
-    - "8445:8443"
-    container_name: tds4${COMPOSE_PROJECT_NAME}
-    volumes:
-    - /usr3/thredds/thredds-production/tomcat/logs/:/usr/local/tomcat/logs/
-    - /usr3/thredds/thredds-production/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
-    #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-    - /usr3/thredds/thredds-production/thredds/directory:/usr/local/tomcat/content/thredds
-    - /usr3/thredds/data/:/usr/local/tomcat/content/data
-    - /usr3/thredds/thredds-production/tomcat/conf:/usr/local/tomcat/conf/
-    #- /usr3/thredds/thredds-production/data/directory1:/path/to/your/data/directory2
-    env_file:
-    - ./.env
+#  tds:
+#    image: unidata/thredds-docker:latest
+#    ports:
+#    - "82:8080"
+#    - "445:8443"
+#    - "8445:8443"
+#    container_name: tds4${COMPOSE_PROJECT_NAME}
+#    volumes:
+#    - /usr3/thredds/thredds-production/tomcat/logs/:/usr/local/tomcat/logs/
+#    - /usr3/thredds/thredds-production/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
+#    #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+#    - /usr3/thredds/thredds-production/thredds/directory:/usr/local/tomcat/content/thredds
+#    - /usr3/thredds/data/:/usr/local/tomcat/content/data
+#    - /usr3/thredds/thredds-production/tomcat/conf:/usr/local/tomcat/conf/
+#    #- /usr3/thredds/thredds-production/data/directory1:/path/to/your/data/directory2
+#    env_file:
+#    - "tds.env"
 

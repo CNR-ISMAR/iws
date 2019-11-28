@@ -3,8 +3,8 @@ services:
 
 
   db:
-    image: geonode/postgis:10
-    # build: ./postgis
+#    image: geonode/postgis:10
+    build: ./postgis
     #image: iws_db:modified
     restart: unless-stopped
     container_name: db4${COMPOSE_PROJECT_NAME}
@@ -23,8 +23,6 @@ services:
     environment:
       GEONODE_DATABASE: ${GEONODE_DATABASE_NAME}
       GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
-      GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
-      GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
 
   elasticsearch:
     image: elasticsearch:2.4.1
@@ -61,11 +59,12 @@ services:
       - rabbitmq
     # command: celery worker --app=iws.celeryapp:app -B -l INFO
     volumes:
+      - .:/usr/src/iws
       - /var/run/docker.sock:/var/run/docker.sock
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     env_file:
-    - ./django.env
+    - ./.env
     environment:
       DJANGO_SETTINGS_MODULE: iws.settings
       GEONODE_INSTANCE_NAME: geonode
@@ -152,11 +151,12 @@ services:
       - data-dir-conf
     # command: paver start_django -b 0.0.0.0:8000
     volumes:
+      - .:/usr/src/iws
       - /var/run/docker.sock:/var/run/docker.sock
       - ./volumes/statics:/mnt/volumes/statics
       - ./volumes/geoserver-data-dir/data:/geoserver_data/data
     env_file:
-      - ./django.env
+    - ./.env
     environment:
       DJANGO_SETTINGS_MODULE: iws.settings
       GEONODE_INSTANCE_NAME: geonode
@@ -197,8 +197,8 @@ services:
       DOCKER_API_VERSION: "1.24"
 
   geonode:
-    #image: geonode/nginx:geoserver
-    image: iws_nginx:latest
+    image: geonode/nginx:geoserver
+#    image: iws_nginx:latest
     restart: unless-stopped
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -215,7 +215,7 @@ services:
     expose:
       - 80
     volumes:
-    # - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
+    - ./nginx_files/nginx.conf:/etc/nginx/nginx.conf
     # - statics:/mnt/volumes/statics
     - ./iws/storage:/mnt/volumes/storage
     # master:
@@ -239,24 +239,6 @@ services:
     volumes:
       - ./volumes/geoserver-data-dir/data:/geoserver_data/data
 
-#  tds:
-#    image: unidata/thredds-docker:4.6.12
-#    ports:
-#      - "82:8080"
-#      - "445:8443"
-#      - "8445:8443"
-#    container_name: tds4${COMPOSE_PROJECT_NAME}
-#
-#    volumes:
-#      - ./volumes/tds/tomcat/logs/:/usr/local/tomcat/logs/
-#      - ./volumes/tds/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
-#      #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-#      - ./volumes/tds/thredds/directory:/usr/local/tomcat/content/thredds
-#      #- /usr3/tds/data/:/usr/local/tomcat/content/data
-#      - ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
-#      #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
-#    env_file:
-#      - "tds.env"
 
 
   grafana:

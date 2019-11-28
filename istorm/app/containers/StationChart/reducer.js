@@ -27,6 +27,10 @@ const chartReducer = (state = initialState, action) =>
             'wsh-mean': action.result.results['wsh-mean'],
             'wmp-mean': action.result.results['wmp-mean'],
             'wmd-mean': action.result.results['wmd-mean'],
+            'sea_level-station': action.result.results['sea_level-station'] ? action.result.results['sea_level-station'] : [],
+            'wsh-station': action.result.results['wsh-station'] ? action.result.results['wsh-station'] : [],
+            'wmp-station': action.result.results['wmp-station'] ? action.result.results['wmp-station'] : [],
+            'wmd-station': action.result.results['wmd-station'] ? action.result.results['wmd-station'] : [],
 
             'sea_level-area': action.result.results['sea_level-mean'].map((item, index) => {return {
                 x:item.x,

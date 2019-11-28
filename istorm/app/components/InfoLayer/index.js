@@ -155,7 +155,6 @@ function InfoLayer(props){
                       }
                       {
                         typeof info.results.station === 'object' &&
-                        // info.results.std && typeof info.results.std === 'object' &&
                         <TableRow>
                           <TableCell>station</TableCell>
                           { info.parameters.map((name) =>

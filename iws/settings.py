@@ -61,8 +61,7 @@ MANAGERS = ADMINS = os.getenv('ADMINS', [])
 TIME_ZONE = os.getenv('TIME_ZONE', "Europe/Rome")
 USE_TZ = True
 
-
-INSTALLED_APPS = ('grappelli',) + INSTALLED_APPS + (PROJECT_NAME,
+INSTALLED_APPS = INSTALLED_APPS + (PROJECT_NAME,
                    PROJECT_NAME + '.sea_storm_atlas',
                    PROJECT_NAME + '.measurements',
                    PROJECT_NAME + '.tmes',
@@ -70,6 +69,8 @@ INSTALLED_APPS = ('grappelli',) + INSTALLED_APPS + (PROJECT_NAME,
                    # 'rest_framework',
                    'rest_framework_swagger',
                    'django_extensions',
+                   'grappelli',
+                   'django.contrib.admin',
 )
 
 # Location of url mappings
@@ -126,7 +127,7 @@ SOCIALACCOUNT_AUTO_SIGNUP = False
 INSTALLED_APPS += (
 #     'allauth.socialaccount.providers.linkedin_oauth2',
 #     'allauth.socialaccount.providers.facebook',
-#     'allauth.socialaccount.providers.google',
+     'allauth.socialaccount.providers.google',
 )
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -241,7 +242,7 @@ STAMEN_BASEMAPS = os.environ.get('STAMEN_BASEMAPS', False)
 THUNDERFOREST_BASEMAPS = os.environ.get('THUNDERFOREST_BASEMAPS', False)
 MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', '')
 BING_API_KEY = os.environ.get('BING_API_KEY', None)
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', None)
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', 'AIzaSyBqnOPpXk5uRuUNyxwOwB08B9DhTzmg6Gc')
 
 MAP_BASELAYERS = [{
 
@@ -509,13 +510,14 @@ THREDDS_URL = "https://iws.ismar.cnr.it/"
 LAYERDATA_ROOT = os.path.join(PROJECT_ROOT, 'storage', 'layerdata')
 SITE_URL = os.getenv('SITE_URL', 'https://iws.ismar.cnr.it')
 SITE_HOST = os.getenv('SITE_HOST', 'iws.ismar.cnr.it')
-# PROXY_URL=os.getenv('PROXY_URL', 'http://localhost:3000')
-PROXY_URL='http://iws.inkode.it:3000'
+PROXY_URL=os.getenv('PROXY_URL', 'http://iws.inkode.it:3000')
+# PROXY_URL='http://iws.inkode.it:3000'
 LAYERDATA_URL = SITE_URL+'/layerdata/'
 USE_X_FORWARDED_HOST = True
 THREDDS_TO_PROXY = os.getenv('THREDDS_TO_PROXY', 'https://iws.ismar.cnr.it')
 FCM_DJANGO_SETTINGS = {
-        "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY', 'NO KEY..')
+        "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY', 'NO KEY..'),
+        # "DELETE_INACTIVE_DEVICES": False
 }
 SERIALIZATION_MODULES = {
         "favorites_geojson": "openistorm.favorites.gj_serializers",
