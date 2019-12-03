@@ -541,9 +541,6 @@ DISPLAY_WMS_LINKS = True
 
 #dss_pharos temporary settings
 INSTALLED_APPS += (
-    'celery',
-                   'openistorm',
-                   'fcm_django',
                    # 'dss_pharos',
                    'ckeditor',
                    'ckeditor_uploader',

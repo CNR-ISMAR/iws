@@ -62,16 +62,26 @@ TIME_ZONE = os.getenv('TIME_ZONE', "Europe/Rome")
 USE_TZ = True
 
 INSTALLED_APPS = INSTALLED_APPS + (PROJECT_NAME,
-                   PROJECT_NAME + '.sea_storm_atlas',
-                   PROJECT_NAME + '.measurements',
-                   PROJECT_NAME + '.tmes',
-                   PROJECT_NAME	+ '.dashboards',
-                   # 'rest_framework',
-                   'rest_framework_swagger',
-                   'django_extensions',
-                   'grappelli',
-                   # 'django.contrib.admin',
-)
+                                   PROJECT_NAME + '.sea_storm_atlas',
+                                   PROJECT_NAME + '.measurements',
+                                   PROJECT_NAME + '.tmes',
+                                   PROJECT_NAME + '.dashboards',
+                                   # 'rest_framework',
+                                   'rest_framework_swagger',
+                                   # 'django_extensions',
+                                   'grappelli',
+                                   # 'django_extensions',
+                                   'celery',
+                                   'openistorm',
+                                   'fcm_django',
+                                   'django_celery_beat',
+                                   'django_celery_results',
+                                   # 'fcm_django',
+                                   # 'ckeditor',
+                                   # 'ckeditor_uploader',
+                                   # 'django_bootstrap_breadcrumbs'
+                                   # 'django.contrib.admin',
+                                   )
 
 # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
@@ -523,3 +533,5 @@ SERIALIZATION_MODULES = {
         "favorites_geojson": "openistorm.favorites.gj_serializers",
 }
 GRAPPELLI_ADMIN_TITLE = ''
+
+ASYNC_SIGNALS_BROKER_URL="amqp://guest:guest@rabbitmq:5672/"

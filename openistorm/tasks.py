@@ -78,18 +78,26 @@ def fcm_notify(args):
 @app.task(base=BaseTask)
 def check_thresholds_exceed(args):
     print('check_thresholds_exceed')
-    print(args)
-    th = ThresholdsExceed()
-    th.handle()
+    if ImageLayer.objects.filter(created_at__gte=datetime.datetime.combine(datetime.datetime.now(), datetime.time.min)).count() > 0:
+        th = ThresholdsExceed()
+        th.handle()
 
 @app.task(base=BaseTask)
 def import_waves(args):
+    print(import_waves)
     if ImageLayer.objects.filter(created_at__gte=datetime.datetime.combine(datetime.datetime.now(), datetime.time.min)).count() == 0:
         print('ILL TRY NOW')
         NCToImg(**args)
     else:
         print('DONE FOR TODAY')
 
+# @app.task(base=Task)
+# def testcommand(arg):
+#     print(arg)
+#
+# @app.on_after_configure.connect
+# def crontest(sender, **kwargs):
+#     sender.add_periodic_task(5.0, testcommand.s('testcommand TASK'), name='add every 5 seconds')
 
 
 

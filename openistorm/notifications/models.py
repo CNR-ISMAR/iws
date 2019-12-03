@@ -22,11 +22,11 @@ class Notification(models.Model):
         return self.title
 
 @receiver(post_save, sender=Notification)
-def post_save_map(instance, sender, **kwargs):
+def post_save_notification(instance, sender, **kwargs):
     try:
         if kwargs.get('created'):
             fcm_notify(instance)
     except:
         pass
 
-signals.post_save.connect(receiver=post_save_map, sender=Notification)
+signals.post_save.connect(receiver=post_save_notification, sender=Notification)

@@ -50,7 +50,7 @@ services:
       - elasticsearch
       - rabbitmq
       - data-dir-conf
-    command: celery worker --app=${COMPOSE_PROJECT_NAME}.celeryapp:app -B -l INFO --logfile=/var/log/celery.log -E
+    command: celery worker --app=iws.celeryapp:app -B -l DEBUG  -E --concurrency=2
     volumes:
       - .:/usr/src/iws
       - statics:/mnt/volumes/statics
@@ -58,7 +58,7 @@ services:
     env_file:
     - ./.env
     environment:
-      CELERY_CMD: celery worker --app=iws.celeryapp:app --broker=amqp://guest:guest@rabbitmq:5672/ -B -l INFO  --logfile=/var/log/celery.log -E
+      CELERY_CMD: celery worker --app=iws.celeryapp:app -B -l DEBUG  -E --concurrency=2
       DJANGO_SETTINGS_MODULE: ${COMPOSE_PROJECT_NAME}.settings
       GEONODE_INSTANCE_NAME: geonode
       DEFAULT_BACKEND_DATASTORE: datastore

@@ -5,9 +5,6 @@ COPY wait-for-databases.sh /usr/bin/wait-for-databases
 
 RUN mkdir -p /usr/src/iws
 
-RUN mkdir -p /usr/src/iws
-RUN mkdir -p /usr/src/geonode
-
 WORKDIR /usr/src/iws
 
 # This section is borrowed from the official Django image but adds GDAL and others
@@ -53,13 +50,13 @@ RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/
 
 COPY . /usr/src/iws
 
-
 RUN chmod +x /usr/src/iws/tasks.py \
     && chmod +x /usr/src/iws/entrypoint.sh
 
 # app-specific requirements
+RUN pip install celery==4.1.0
 RUN pip install --upgrade --no-cache-dir --src /usr/src -r requirements.txt
-RUN pip install --upgrade -e .
+#RUN pip install --upgrade -e .
 RUN pip install numpy==1.16.4
 #RUN pip install pydap==3.2.2
 
@@ -67,7 +64,7 @@ RUN pip uninstall -y psycopg2
 RUN pip install --no-binary psycopg2 psycopg2==2.7.3.1
 
 RUN pip uninstall -y djangorestframework
-RUN pip install djangorestframework==3.5.4
+RUN pip install djangorestframework==3.5.4 invoke docker
 
 ADD install/libgeos_patch.py /libgeos_patch.py
 RUN patch /usr/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py /libgeos_patch.py
