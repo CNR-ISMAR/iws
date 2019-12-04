@@ -23,9 +23,10 @@ class Notification(models.Model):
 
 @receiver(post_save, sender=Notification)
 def post_save_notification(instance, sender, **kwargs):
+    print('post_save_notification ' + instance.title)
     try:
         if kwargs.get('created'):
-            fcm_notify(instance)
+            fcm_notify.delay(str(instance.pk))
     except:
         pass
 

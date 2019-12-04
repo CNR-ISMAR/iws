@@ -61,26 +61,9 @@ class BaseTask(Task):
 
 
 @app.task(base=BaseTask)
-def fcm_notify(args):
+def fcm_notify(notification):
     from .notifications.utils import FcmNotifyUser
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-    print("NOTIFY")
-
-@app.task(base=BaseTask)
-def check_thresholds_exceed(args):
-    print('check_thresholds_exceed')
-    if ImageLayer.objects.filter(created_at__gte=datetime.datetime.combine(datetime.datetime.now(), datetime.time.min)).count() > 0:
-        th = ThresholdsExceed()
-        th.handle()
+    FcmNotifyUser(notification)
 
 @app.task(base=BaseTask)
 def import_waves(args):
@@ -88,19 +71,18 @@ def import_waves(args):
     if ImageLayer.objects.filter(created_at__gte=datetime.datetime.combine(datetime.datetime.now(), datetime.time.min)).count() == 0:
         print('ILL TRY NOW')
         NCToImg(**args)
+        ThresholdsExceed()
     else:
         print('DONE FOR TODAY')
 
 # @app.task(base=Task)
 # def testcommand(arg):
 #     print(arg)
-#
+
 # @app.on_after_configure.connect
 # def crontest(sender, **kwargs):
 #     sender.add_periodic_task(5.0, testcommand.s('testcommand TASK'), name='add every 5 seconds')
 
-
-
 @app.on_after_configure.connect
 def localcrontest(sender, **kwargs):
-    sender.add_periodic_task(1200.0, import_waves.s({}), name='add every 60 seconds')
+    sender.add_periodic_task(1200.0, import_waves.s({}), name='add every 20 minutes')

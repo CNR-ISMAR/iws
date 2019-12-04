@@ -1,24 +1,24 @@
 {
     "station-sealevel": {
-      "width": 24,
-      "height": 24,
+      "width": 48,
+      "height": 48,
       "x": 0,
       "y": 0,
       "pixelRatio": 1,
       "visible": true
     },
     "station-wave": {
-      "width": 24,
-      "height": 24,
-      "x": 24,
+      "width": 48,
+      "height": 48,
+      "x": 48,
       "y": 0,
       "pixelRatio": 1,
       "visible": true
     },
     "favorite": {
-      "width": 24,
-      "height": 24,
-      "x": 48,
+      "width": 48,
+      "height": 48,
+      "x": 96,
       "y": 0,
       "pixelRatio": 1,
       "visible": true

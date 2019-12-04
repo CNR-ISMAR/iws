@@ -614,10 +614,9 @@ class ThresholdsExceed:
     def handle(self):
         from openistorm.notifications.models import Notification
         for user in self.users:
-            print(user.email)
+            print('USER '+str(user))
             for favorite in user.favorites.all():
-                print(favorite.title)
-
+                print('favorite '+favorite.title)
                 try:
                     BBOX = str(favorite.longitude - 0.001) + ',' +str(favorite.latitude - 0.001) + ',' +str(favorite.longitude + 0.001) + ',' +str(favorite.latitude + 0.001)
 
@@ -643,10 +642,9 @@ class ThresholdsExceed:
                                         + str( int(max(thresholds['results'], key=lambda x:x['y'])['y']) )
                                         + " cm"
                         )
+                        print('user_notification '+user_notification.title)
                         user_notification.save()
                     # print(user_notification.__dict__)
                 except:
-                    print('ERROR ThresholdsExceed')
-                    print('ERROR ThresholdsExceed')
                     print('ERROR ThresholdsExceed')
                     pass
