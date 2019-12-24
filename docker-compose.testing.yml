@@ -88,6 +88,6 @@ services:
     build: ./istorm
     restart: always
     ports:
-    - 3002:3000
+    - 3000:3002
     expose:
     - 3000
