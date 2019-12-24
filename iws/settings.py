@@ -419,7 +419,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 MONITORING_ENABLED = False
 # add following lines to your local settings to enable monitoring
 if MONITORING_ENABLED:
-    INSTALLED_APPS += ('django.contrib.gis', 'geonode.contrib.monitoring',)
+    INSTALLED_APPS += ('geonode.contrib.monitoring',)
     MIDDLEWARE_CLASSES += ('geonode.contrib.monitoring.middleware.MonitoringMiddleware',)
     MONITORING_CONFIG = None
     MONITORING_HOST_NAME = 'localhost'
