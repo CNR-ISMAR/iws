@@ -386,6 +386,10 @@ class NCToImg:
 
         if os.path.isfile(self.nc_filepath):
 
+            ncds = netCDF4.Dataset(self.nc_filepath, "r", format="NETCDF4")
+            time_var = ncds.variables["time"]
+            since = time.mktime(time.strptime(time_var.units.replace('hours since ', '').replace(' 00:00:00', ''), "%Y-%m-%d"))# - 3600
+
             tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
             os.system(
                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
@@ -402,7 +406,7 @@ class NCToImg:
                 ds2 = gdal.Open(tif2filename)
 
 
-                since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d")) - 3600
+                # since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d")) - 3600
 
                 nx = ds1.RasterXSize
                 ny = ds1.RasterYSize
@@ -435,8 +439,9 @@ class NCToImg:
                     arrays = [array1, array2]
                     m = band1.GetMetadata()
 
-                    ts = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%s')
-                    json_time = datetime.fromtimestamp(int(m['NETCDF_DIM_time']) + since).strftime('%Y-%m-%dT%H:%M.000Z')
+                    seconds = int(m['NETCDF_DIM_time']) * 3600
+                    ts = datetime.fromtimestamp(seconds + since).strftime('%s')
+                    json_time = datetime.fromtimestamp(seconds + since).strftime('%Y-%m-%dT%H:%M.000Z')
                     print("json_time "+str(json_time))
 
                     data = []
@@ -614,9 +619,10 @@ class ThresholdsExceed:
     def handle(self):
         from openistorm.notifications.models import Notification
         for user in self.users:
-            print('USER '+str(user))
+            print(user.email)
             for favorite in user.favorites.all():
-                print('favorite '+favorite.title)
+                print(favorite.title)
+
                 try:
                     BBOX = str(favorite.longitude - 0.001) + ',' +str(favorite.latitude - 0.001) + ',' +str(favorite.longitude + 0.001) + ',' +str(favorite.latitude + 0.001)
 
@@ -642,9 +648,10 @@ class ThresholdsExceed:
                                         + str( int(max(thresholds['results'], key=lambda x:x['y'])['y']) )
                                         + " cm"
                         )
-                        print('user_notification '+user_notification.title)
                         user_notification.save()
                     # print(user_notification.__dict__)
                 except:
+                    print('ERROR ThresholdsExceed')
+                    print('ERROR ThresholdsExceed')
                     print('ERROR ThresholdsExceed')
                     pass
