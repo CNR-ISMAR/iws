@@ -11,6 +11,8 @@ from django.conf import settings
 from .models import ImageLayer
 import pytz
 from django.contrib.auth import get_user_model
+import ssl
+
 from collections import defaultdict
 # from operator import itemgetter
 # import pydap.client
@@ -382,6 +384,7 @@ class NCToImg:
             self.transform_waves()
 
     def transform_waves(self):
+        ssl._create_default_https_context = ssl._create_unverified_context
         wget.download(self.url, out=self.nc_filepath, bar=None)
 
         if os.path.isfile(self.nc_filepath):
