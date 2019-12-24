@@ -22,6 +22,7 @@ RUN apt-get install -y \
     libmemcached-dev libsasl2-dev zlib1g-dev \
     python-pylibmc \
     uwsgi uwsgi-plugin-python \
+    libgeoip-dev \
     --no-install-recommends
 
 RUN rm -rf /var/lib/apt/lists/*
