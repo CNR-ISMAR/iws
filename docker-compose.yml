@@ -199,8 +199,8 @@ services:
       DOCKER_API_VERSION: "1.24"
 
   geonode:
-    image: geonode/nginx:geoserver
-#    image: iws_nginx:latest
+#    image: geonode/nginx:geoserver
+    image: iws_nginx:latest
     restart: unless-stopped
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     stdin_open: true
