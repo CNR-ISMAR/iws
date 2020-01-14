@@ -3,8 +3,8 @@ services:
 
 
   db:
-#    image: geonode/postgis:10
-    build: ./postgis
+    image: geonode/postgis:10
+#    build: ./postgis
     #image: iws_db:modified
     restart: unless-stopped
     container_name: db4${COMPOSE_PROJECT_NAME}
