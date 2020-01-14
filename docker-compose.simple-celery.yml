@@ -22,6 +22,7 @@ services:
       org.geonode.component: db
       org.geonode.instance.name: geonode
     volumes:
+#      - dbdata:/var/lib/postgresql/data
       - dbdata:/var/lib/postgresql/data
       - dbbackups:/pg_backups
     env_file:
@@ -38,7 +39,8 @@ services:
 
   celery:
     restart: unless-stopped
-    build: .
+#    build: .
+    image: django4iws
     container_name: celery4${COMPOSE_PROJECT_NAME}
     stdin_open: true
     # tty: true
@@ -102,6 +104,7 @@ services:
     restart: unless-stopped
     build: .
     container_name: django4${COMPOSE_PROJECT_NAME}
+    image: django4iws
     stdin_open: true
     # tty: true
     ports:
@@ -181,7 +184,7 @@ services:
     expose:
       - ${GEONODE_PUBLIC_PORT}
     volumes:
-      - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
+      - ./scripts/misc/nginx_no_geoserver.conf:/etc/nginx/nginx.conf
       - statics:/mnt/volumes/statics
       - ./iws/storage:/mnt/volumes/storage
 
