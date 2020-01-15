@@ -35,7 +35,7 @@ urlpatterns += (
     #url(r'^sea_storm_atlas/', TemplateView.as_view(template_name='maps_sea_storm.html'), name='atlas_map'),
 
     #measurements
-    url(r'measurements/', include ('iws.measurements.urls')),
+    # url(r'measurements/', include ('iws.measurements.urls')),
     # url(r'^grafana/(?P<path>.*)$', GraphanaProxyView.as_view(), name='graphana-dashboards'),
     url(r'^dashboards/', include('iws.dashboards.urls')),
     #tmes

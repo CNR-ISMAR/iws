@@ -63,9 +63,9 @@ var tmesWaterLevel_std = L.nonTiledLayer.wms(tmes_wl_WMS, {
     colorscalerange: '-0.4,0.4',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
-    markerscale: 15,
-    markerspacing: 12,
-    markerclipping: true,
+//    markerscale: 15,
+//    markerspacing: 12,
+//    markerclipping: true,
     styles: 'boxfill/redblue'
 });
 
@@ -143,52 +143,102 @@ var tmesWavesMeanDirection = L.nonTiledLayer.wms(tmes_wv_WMS, {
     colorscalerange: '0,360',
     abovemaxcolor: "extend",
     belowmincolor: "extend",
-    numcolorbands: 100,
+    markerscale: 15,
+    markerspacing: 12,
+    markerclipping: true,
     styles: 'boxfill/rainbow'
         // styles: 'areafill/scb_greens'
 });
 
 
+var markers = [{
+    name: 'VE-PTF',
+    position: [45.31, 12.51],
+    platformName: 'Piattaforma Acqua Alta',
+}];
 
 
-
-var proxy = 'server/proxy.php';
+var proxy = '/proxy';
 //sea level
-var tmesWaterLevelTimeLayer = L.timeDimension.layer.wms(tmesWaterLevel, {
-    //proxy: proxy,
+var tmesWaterLevelTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWaterLevel, {
+    proxy: proxy,
+    cache: 2,
     wmsVersion: '1.3.0',
-    updateTimeDimension: true
+    markers: markers,
+    updateTimeDimension: true,
+    name: "TMES - Sea level mean",
+    units: "m",
+    enableNewMarkers: true
 });
-var tmesWaterLevel_stdTimeLayer = L.timeDimension.layer.wms(tmesWaterLevel_std, {
-    //proxy: proxy
+var tmesWaterLevel_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWaterLevel_std, {
+    proxy: proxy,
     wmsVersion: '1.3.0',
+    markers: markers,
+    updateTimeDimension: true,
+    name: "TMES - Sea level standard deviation",
+    units: "m",
+    enableNewMarkers: true
 });
 //waves height
-var tmesWavesSignificantHeightTimeLayer = L.timeDimension.layer.wms(tmesWavesSignificantHeight, {
-    //proxy: proxy
+var tmesWavesSignificantHeightTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesSignificantHeight, {
+    proxy: proxy,
     wmsVersion: '1.3.0',
+    markers: markers,
+    updateTimeDimension: true,
+    name: "TMES - WSH Waves Significant Height",
+    units: "m",
+    enableNewMarkers: true
+
 });
-var tmesWavesSignificantHeight_stdTimeLayer = L.timeDimension.layer.wms(tmesWavesSignificantHeight_std, {
-    //proxy: proxy
+var tmesWavesSignificantHeight_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesSignificantHeight_std, {
+    proxy: proxy,
     wmsVersion: '1.3.0',
+    markers: markers,
+    updateTimeDimension: true,
+    name: "TMES - WSH standard deviation",
+    units: "m",
+    enableNewMarkers: true
+
 });
 //waves mean direction
-var tmesWavesMeanDirectionTimeLayer = L.timeDimension.layer.wms(tmesWavesMeanDirection, {
-    //proxy: proxy
+var tmesWavesMeanDirectionTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanDirection, {
+    proxy: proxy,
     wmsVersion: '1.3.0',
+    markers: markers,
+    updateTimeDimension: true,
+    name:"TMES - WMD Waves Mean Direction",
+    units: "m",
+    enableNewMarkers: true
 });
-var tmesWavesMeanDirection_stdTimeLayer = L.timeDimension.layer.wms(tmesWavesMeanDirection_std, {
-    //proxy: proxy
+var tmesWavesMeanDirection_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanDirection_std, {
+    proxy: proxy,
     wmsVersion: '1.3.0',
+    markers: markers,
+    updateTimeDimension: true,
+    name:"TMES - WMD standard deviation",
+    units: "m",
+    enableNewMarkers: true
 });
 // waves mean period
-var tmesWavesMeanPeriodTimeLayer = L.timeDimension.layer.wms(tmesWavesMeanPeriod, {
-    //proxy: proxy
+var tmesWavesMeanPeriodTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanPeriod, {
+    proxy: proxy,
     wmsVersion: '1.3.0',
+    markers: markers,
+    updateTimeDimension: true,
+    name: "TMES - WMP Waves Mean Period",
+    units: "m",
+    enableNewMarkers: true
+
 });
-var tmesWavesMeanPeriod_stdTimeLayer = L.timeDimension.layer.wms(tmesWavesMeanPeriod_std, {
-    //proxy: proxy
+var tmesWavesMeanPeriod_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanPeriod_std, {
+    proxy: proxy,
     wmsVersion: '1.3.0',
+    markers: markers,
+    updateTimeDimension: true,
+    name: "TMES - WMP standard deviation",
+    units: "m",
+    enableNewMarkers: true
+
 });
 
 

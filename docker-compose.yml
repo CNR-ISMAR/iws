@@ -1,4 +1,4 @@
-version: 2.2
+version: '2.2'
 services:
 
 
@@ -50,7 +50,8 @@ services:
 
   celery:
     restart: unless-stopped
-    build: .
+    # build: .
+    image: iws_celery:latest
     container_name: celery4${COMPOSE_PROJECT_NAME}
     stdin_open: true
     # tty: true
@@ -110,7 +111,7 @@ services:
       DOCKER_API_VERSION: "1.24"
 
   geoserver:
-    image: geonode/geoserver:2.13.x
+    image: geonode/geoserver:2.14.x
     restart: unless-stopped
     container_name: geoserver4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -139,8 +140,8 @@ services:
 
   django:
     restart: unless-stopped
-    #image: iws_django:latest
-    build: .
+    image: iws_django:latest
+    #build: .
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
     # tty: true
@@ -175,7 +176,7 @@ services:
       UWSGI_CMD: uwsgi --ini /usr/src/iws/uwsgi.ini
       IS_CELERY: 'False'
       C_FORCE_ROOT: 1
-      SITEURL: http://localhost/
+      # SITEURL: http://localhost/
       # replaced with defaults in settings
       # GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
       GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
@@ -255,7 +256,8 @@ services:
       - "tds.env"
 
   grafana:
-    image: grafana/grafana
+    #image: grafana/grafana
+    image: iws_grafana:latest
     restart: unless-stopped
     container_name: grafana4${COMPOSE_PROJECT_NAME}
     ports:
@@ -265,6 +267,16 @@ services:
     environment:
       GF_SERVER_DOMAIN: iws.ismar.cnr.it
       GF_SERVER_ROOT_URL: https://iws.imsar.cnr.it/measurements
+      # true doesn't work value are hard coded in ini file
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_SECURITY_ALLOW_EMBEDDING: 'true'
+      GF_INSTALL_PLUGINS: grafana-worldmap-panel
+    volumes:
+      # - /opt/grafana-data:/var/lib/grafana
+      - grafana-storage:/var/lib/grafana
+      - /var/www/html:/var/www/html
+
+
 
 
 
@@ -278,4 +290,5 @@ volumes:
 #    name: ${COMPOSE_PROJECT_NAME}-dbbackups
   statics:
 #    name: ${COMPOSE_PROJECT_NAME}-statics
+  grafana-storage:
 

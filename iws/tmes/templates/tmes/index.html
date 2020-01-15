@@ -20,6 +20,9 @@
 
 {% block extra_script %}
 {{ block.super }}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+
 <script type="text/javascript" src="{{ STATIC_URL }}tmes/js/NonTiledLayer.js"></script>
 <script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.js"></script>
@@ -28,6 +31,9 @@
 <script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.layer.wms.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.player.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.control.js"></script>
+
+<script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.circlelabelmarker.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}leaflet/time/src/leaflet.timedimension.layer.wms.timeseries.js"></script>
 
 <script type="text/javascript" src="{{ STATIC_URL }}tmes/js/baselayers.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}tmes/js/map.js"></script>
@@ -54,11 +60,19 @@ All numerical model results are interpolated, through a
 distance-weighted average remapping, on a common regular lat-lon grid
 covering the Adriatic-Ionian macro-region with a resolution of 0.02 deg.
 TMES produces results in terms of the ensemble mean and
-standard deviation, accounted for a measure of the forecast uncertainty.</p
+standard deviation, accounted for a measure of the forecast uncertainty.</p>
+<p>
+The map below shows the current TMES using the WMS service provided by the Thredds Data Server. 
+See all services available for TMES at the url: <a href="https://iws.ismar.cnr.it/thredds/catalog.html">https://iws.ismar.cnr.it/thredds/catalog.html</a></p>
+
 <p>&nbsp;</p>
 </div>
     <div id="map" class="map"></div>
 
   </div>
+<p>
+This map visualizer is based on <a href="https://leafletjs.com/">Leaflet JS</a> and
+<a href="http://apps.socib.es/Leaflet.TimeDimension/">Leaflet TimeDimension</a>.</p>
+
 </div>
 {% endblock %}

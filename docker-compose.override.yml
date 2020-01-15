@@ -27,7 +27,8 @@ services:
 
   geonode:
     ports:
-     - 81:80
+     - "80:80"
+     - "443:443"
 
   grafana:
     ports:

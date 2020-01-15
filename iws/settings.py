@@ -468,3 +468,5 @@ LOGGING = {
     }
 
 GRAPPELLI_ADMIN_TITLE = ''
+
+ASYNC_SIGNALS_BROKER_URL="amqp://guest:guest@rabbitmq:5672/"
