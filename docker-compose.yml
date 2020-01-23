@@ -218,7 +218,8 @@ services:
       - "443"
     volumes:
       - ./volumes/statics:/mnt/volumes/statics
-      - ./volumes/nginxconf:/etc/nginx/nginxconf
+      #- ./volumes/nginxconf:/etc/nginx/nginxconf
+      - ./volumes/nginxconf:/etc/nginx/conf.d
       - /etc/ssl/certs:/etc/ssl/certs
       - /etc/ssl/private:/etc/ssl/private
       - /var/www/html:/var/www/html
