@@ -8,6 +8,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 *.env
+.env
 env/
 build/
 develop-eggs/
@@ -24,6 +25,8 @@ var/
 .installed.cfg
 *.egg
 geonode/
+iws_bk
+
 
 #docker volumes
 volumes
@@ -75,6 +78,7 @@ development.db-journal
 local_settings.py
 dss_pharos
 iws/flooding/data/*
+volumes
 dump_*
 build_log.txt
 srcgeonode/
@@ -84,3 +88,5 @@ docker-compose.override.yml
 *.env
 
 .idea/
+
+.bash*

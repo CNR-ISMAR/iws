@@ -23,8 +23,20 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iws.settings')
 
-app = Celery('iws')
+app = Celery('iws', broker="amqp://guest:guest@rabbitmq:5672/")
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
 app.config_from_object('django.conf:settings')
+
+# Using a string here means the worker will not have to
+# pickle the object when using Windows.
+app.config_from_object('django.conf:settings', namespace="CELERY")
+
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS, force=True)
+
+@app.task(bind=True)
+def debug_task(self):
+    print("Request: {!r}".format(self.request))
+

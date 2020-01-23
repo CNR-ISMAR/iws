@@ -59,9 +59,10 @@ MANAGERS = ADMINS = os.getenv('ADMINS', [])
 TIME_ZONE = os.getenv('TIME_ZONE', "Europe/Rome")
 USE_TZ = True
 
-INSTALLED_APPS += (PROJECT_NAME,
+
+INSTALLED_APPS = ('grappelli',) + INSTALLED_APPS + (PROJECT_NAME,
                    PROJECT_NAME + '.sea_storm_atlas',
-                   #PROJECT_NAME + '.measurements',
+                   PROJECT_NAME + '.measurements',
                    PROJECT_NAME + '.tmes',
                    PROJECT_NAME	+ '.dashboards',
                    # 'rest_framework',
@@ -465,3 +466,7 @@ LOGGING = {
             "handlers": ["console"], "level": "DEBUG", },
         },
     }
+
+GRAPPELLI_ADMIN_TITLE = ''
+
+ASYNC_SIGNALS_BROKER_URL="amqp://guest:guest@rabbitmq:5672/"

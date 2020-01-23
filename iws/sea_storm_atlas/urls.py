@@ -22,16 +22,21 @@
 from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView, RedirectView
 
+from geonode.maps.views import map_view
+
 from . import views
 from .models import CoastalSegment, StormEvent, Sea
 from .views import CoastalSegmentListView, CoastalSegmentDetailView,StormEventListView, StormEventDetailView
 
 urlpatterns = (
 	## include your urls here
-	url(r'^map$', RedirectView.as_view(url= '/maps/165/view', permanent=True), name='atlas_map'),
+	#url(r'^map$', RedirectView.as_view(url= '/maps/165/view', permanent=True), name='atlas_map'),
+	url(r'^map$', map_view, {'mapid':'165'}, name='atlas_map'),
+
 	url(r'^atlas$', TemplateView.as_view(template_name='sea_storm_atlas/map_sea_storm.html'), {'mapid':'165'}, name='atlas_map_test'),
 	url(r'^storm_events$', TemplateView.as_view(template_name='sea_storm_atlas/events_sea_storm.html'), name='storm_events'),
 	url(r'^segment/list$', CoastalSegmentListView.as_view(), name='segment-list'),
+        url(r'^segment/listnew$', TemplateView.as_view(template_name='sea_storm_atlas/coastalsegment_list.html'), name='storm_events'),
 	url(r'^segment/(?P<pk>\d+)', views.CoastalSegmentDetailView.as_view(), name='segment-detail'),
     #url(r'^(segments/?P<segid>[^/]+)/edit$', map_edit, name='segment_edit'),
     url(r'^event/list/segment/(?P<segid>\d+)', views.StormEventListView.as_view(),  name='event-list' ),
