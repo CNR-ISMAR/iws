@@ -29,6 +29,15 @@ STATIC_ROOT = os.getenv('STATIC_ROOT',
                         os.path.join(PROJECT_ROOT, "static_root")
                         )
 
+#disable language support
+USE_I18N = 'False'
+USE_L10N = 'False'
+LANGUAGES = (
+    ('en', 'English'),
+)
+
+
+
 # SECRET_KEY = '************************'
 
 #SITEURL = "https://150.178.42.78"
