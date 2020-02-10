@@ -184,7 +184,8 @@ services:
     expose:
       - ${GEONODE_PUBLIC_PORT}
     volumes:
-      - ./scripts/misc/nginx_no_geoserver.conf:/etc/nginx/nginx.conf
+      - ./scripts/misc/nginx.conf:/etc/nginx/nginx.conf
+#      - ./scripts/misc/nginx_no_geoserver.conf:/etc/nginx/nginx.conf
       - statics:/mnt/volumes/statics
       - ./iws/storage:/mnt/volumes/storage
 

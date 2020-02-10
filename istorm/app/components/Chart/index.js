@@ -88,13 +88,18 @@ function Chart(props) {
 
   const setRecordClick = (itemId, clicked) => {
     let tmp = chart.recordclick;
+    // console.log(itemId)
     if(!clicked) {
       Object.keys(chart.recordclick).map(z=>{
         tmp[z].disabled = z !== itemId
+        // if(itemId === 'wmp' && z === 'wmd') {
+        //   tmp[z].disabled = false
+        // }
       })
     } else {
       tmp[itemId].disabled = true
     }
+    // console.log(tmp)
     setChartState({...chart, recordclick:tmp})
   };
 
@@ -116,7 +121,7 @@ function Chart(props) {
         customComponent: (row, positionInPixels, globalStyle) => {
           return (
               <g className="inner-inner-component">
-                <text style={{fontSize: "40", transform: `rotateZ(${x.y}deg)`}}>↑</text>
+                <text style={{fontSize: "40", transform: `rotateZ(${x.y+180}deg)`}}>↑</text>
                 <text style={{}}>{parseInt(x.y)}°</text>
               </g>
           );
@@ -127,12 +132,12 @@ function Chart(props) {
   const cslabels = typeof props.data == 'object' ? Object.keys(props.data) : []
   const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
 
-  
+
   useEffect(updateWidthHeight, [props.data]);
 
   return (
     <div ref={wrapper} className={props.classes.subNav}>
-        { typeof props.data == 'object' && Object.keys(props.data).length > 0 && 
+        { typeof props.data == 'object' && Object.keys(props.data).length > 0 &&
           <>
               <Grid container spacing={2} className={props.classes.myGridContainer} direction="row" justify="flex-start" alignItems="baseline">
                 <Grid item >
@@ -145,16 +150,16 @@ function Chart(props) {
                   <Typography align="center" variant="body2">Time: <span>{props.timeFrom} to: {props.timeTo}</span></Typography>
                 </Grid>
               </Grid>
-              
-              <XYPlot  
+
+              <XYPlot
                 height={chart.height}
                 width={chart.width}
-                xType="time" 
-                yType="linear" 
+                xType="time"
+                yType="linear"
                 onMouseLeave={() => setChartState({...chart, crosshairValues: []})}>
-                
+
                 <XAxis title='time' style={{
-                    line: { stroke: '#698397', strokeWidth: 1 }, 
+                    line: { stroke: '#698397', strokeWidth: 1 },
                     text: { stroke: 'none', fill: '#ffffff', fontSize: "0.5625rem" },
                     title: {fill: '#698397'}
                 }}/>
@@ -174,7 +179,7 @@ function Chart(props) {
                           .filter(name => !chart.recordclick[name.replace(/mean|area|max|min|station|-/gi, '')].disabled)
                           .map(name => {
                             return (name.includes('mean') || name.includes('station')) && !name.includes('wmd') ? (
-                              <LineSeries 
+                              <LineSeries
                                   key={name}
                                   className={name}
                                   color={
@@ -185,7 +190,7 @@ function Chart(props) {
                                   }
                                   opacity={ 1 }
                                   data={fixFormat(props.data[name])}
-                                  curve={'curveMonotoneX'} 
+                                  curve={'curveMonotoneX'}
                                   strokeStyle={name.includes('mean') || name.includes('station') ? 'solid' : 'dashed'}
                                   onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} />
                               ) : name.includes('area') ? (
@@ -222,13 +227,14 @@ function Chart(props) {
                               <Box p={0} my={1} width="100%">
                                 {
                                   chart.crosshairValues.map((value, index) => {
+                                    const fixed = cslabels[index].includes('wsh') ? 1 : 0
                                     return value && !chart.recordclick[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')].disabled &&
                                       <Typography key={cslabels[index]} variant="body2" style={{fontSize:"0.9rem", padding:"0", margin:"0 0 2px"}}>
                                       {labels.lines[cslabels[index]]}: <span style={{fontSize:"1.1rem"}}>
-                                      { cslabels[index].includes("area") ? `±${(value.y - value.y0).toFixed(0)}` : value.y.toFixed(0) }
+                                      { cslabels[index].includes("area") ? `±${(value.y - value.y0).toFixed(fixed)}` : value.y.toFixed(fixed) }
                                         {labels.um[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')]}</span>
                                     </Typography>
-                                  }) 
+                                  })
                                 }
                               </Box>
                           </Paper>
