@@ -31,6 +31,11 @@ RUN rm -rf /var/lib/apt/lists/*
 COPY ./wait-for-databases.sh /usr/bin/wait-for-databases
 RUN chmod +x /usr/bin/wait-for-databases
 
+RUN echo $HTTP_PROXY
+
+RUN git config --global http.http $HTTP_PROXY
+RUN git config --global http.https $HTTP_PROXY
+
 # Upgrade pip
 RUN pip install --upgrade pip
 RUN pip install numpy

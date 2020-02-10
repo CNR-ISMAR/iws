@@ -1,4 +1,4 @@
-#git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode
+git+https://github.com/GeoNode/geonode.git@2.8.x#egg=geonode
 django-ckeditor==5.3.1
 django-bootstrap-breadcrumbs==0.9.1
 django-rest-swagger==2.2.0
@@ -44,4 +44,4 @@ kombu==4.1.0
 django-celery-beat==1.1.1
 django-celery-monitor==1.1.2
 django-celery-results==1.0.1
-GeoNode==2.8
+#GeoNode==2.8
