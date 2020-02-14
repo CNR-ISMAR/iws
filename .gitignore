@@ -27,7 +27,7 @@ var/
 *.egg
 geonode/
 iws_bk
-
+docs
 
 #docker volumes
 volumes

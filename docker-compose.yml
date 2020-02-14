@@ -213,16 +213,18 @@ services:
       - celery
       - geoserver
     ports:
-      - 88:80
+      - 80:80
+      - 443:443
     expose:
       - 80
+      - 443
     volumes:
-    - ./nginx_files/nginx.conf:/etc/nginx/nginx.conf
+    # - ./nginx_files/nginx.conf:/etc/nginx/nginx.conf
     # - statics:/mnt/volumes/statics
     - ./iws/storage:/mnt/volumes/storage
     # master:
     - ./volumes/statics:/mnt/volumes/statics
-    # - ./volumes/nginxconf:/etc/nginx/conf.d
+    - ./volumes/nginxconf:/etc/nginx/conf.d
     - /etc/ssl/certs:/etc/ssl/certs
     - /etc/ssl/private:/etc/ssl/private
     - /var/www/html:/var/www/html
@@ -255,7 +257,7 @@ services:
 
   istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}
-    #    image: 'repositories.inkode.it:4567/inkode/iws:latest'
+    image: 'repositories.inkode.it:4567/inkode/iws:latest'
     build: ./istorm
     restart: always
     ports:

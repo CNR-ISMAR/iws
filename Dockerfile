@@ -37,7 +37,12 @@ RUN git config --global http.http $HTTP_PROXY
 RUN git config --global http.https $HTTP_PROXY
 
 # Upgrade pip
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip
+# Downgrade pip
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py pip==19.3.1
+
+
 RUN pip install numpy
 
 # To understand the next section (the need for requirements.txt and setup.py)

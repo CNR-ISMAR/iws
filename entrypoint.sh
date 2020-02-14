@@ -30,9 +30,9 @@ if [ ${IS_CELERY} = "false" ]  || [ ${IS_CELERY} = "False" ]
     /usr/local/bin/invoke initialized
     echo "initialized"
 
-    echo "refresh static data"
-    /usr/local/bin/invoke statics
-    echo "static data refreshed"
+    #echo "refresh static data"
+    #/usr/local/bin/invoke statics
+    #echo "static data refreshed"
 
 fi
 

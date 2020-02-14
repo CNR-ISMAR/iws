@@ -3,7 +3,7 @@
 from osgeo import gdal
 from datetime import datetime, timedelta, time as timed
 # import datetime
-import time, urllib, wget, math, os, netCDF4, json, requests, pytz, xmltodict
+import time, urllib, wget, math, os, netCDF4, json, requests, pytz, xmltodict, requests
 # import logging
 from PIL import Image
 from dateutil import parser
@@ -12,6 +12,8 @@ from .models import ImageLayer
 import pytz
 from django.contrib.auth import get_user_model
 import ssl
+
+from subprocess import call
 
 from collections import defaultdict
 # from operator import itemgetter
@@ -385,7 +387,19 @@ class NCToImg:
 
     def transform_waves(self):
         ssl._create_default_https_context = ssl._create_unverified_context
-        wget.download(self.url, out=self.nc_filepath, bar=None)
+        if os.getenv("HTTPS_PROXY"):
+		https_proxy = os.environ["HTTPS_PROXY"]
+                http_proxy = os.environ["HTTP_PROXY"]
+		r = requests.get(self.url, stream=True, proxies={"http": https_proxy, "https": https_proxy })
+        else:
+                r = requests.get(self.url, stream=True)
+        with open(self.nc_filepath, 'wb') as f:
+            for chunk in r:
+                f.write(chunk)
+		        
+	#wget.download(self.url, out=self.nc_filepath, bar=None)
+        #cmd_arg = ['wget', '-O', self.nc_filepath, self.url]
+	#call (cmd_arg)
 
         if os.path.isfile(self.nc_filepath):
 

@@ -8,6 +8,7 @@ INITIAL_PATH='/opt/'
 
 
 cd "$INITIAL_PATH"
+echo -e "\nIl mio onesto proxy è $http_proxy"
 pip install -e iws/
 cd "$INITIAL_PATH"iws/install
 patch "$VIRTUAL_ENV"/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py libgeos_patch.py
