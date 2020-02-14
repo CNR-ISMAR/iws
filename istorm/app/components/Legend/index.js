@@ -44,7 +44,8 @@ const styles = (theme) => {
                     <img src={ bar_level } />
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                       <Typography m={0}>{
-                        this.props.type.includes('Sea') && this.props.mean ? '-80cm' : '0cm'
+                        this.props.type.includes('Sea') ? (this.props.mean ? '-80cm' : '0cm')
+                          : '0m'
                       }</Typography>
                       <Typography m={0}>{
                         this.props.type.includes('Sea') ? (this.props.mean ? '+80cm' : '+40cm')
