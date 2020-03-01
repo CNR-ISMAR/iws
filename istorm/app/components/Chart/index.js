@@ -104,6 +104,7 @@ function Chart(props) {
   };
 
   const fixFormat = (ts) => {
+    console.log(ts)
     return ts.map(function (x) {
       return {
         x: new Date(x.x),
@@ -130,7 +131,7 @@ function Chart(props) {
     })
   }
   const cslabels = typeof props.data == 'object' ? Object.keys(props.data) : []
-  const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
+  // const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
 
 
   useEffect(updateWidthHeight, [props.data]);
@@ -188,11 +189,13 @@ function Chart(props) {
                                     name.includes('wmp') && legendsColors.wmp ||
                                     name.includes('wsh') && legendsColors.wsh
                                   }
+                                  boh={console.log(name)}
                                   opacity={ 1 }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'}
                                   strokeStyle={name.includes('mean') || name.includes('station') ? 'solid' : 'dashed'}
-                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} />
+                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})}
+                              />
                               ) : name.includes('area') ? (
                               <AreaSeries
                                   className='area-elevated-series'
@@ -203,6 +206,7 @@ function Chart(props) {
                                     name.includes('wmp') && legendsColors.wmp ||
                                     name.includes('wsh') && legendsColors.wsh
                                   }
+                                  boh={console.log(name)}
                                   opacity={ 0.3 }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'}

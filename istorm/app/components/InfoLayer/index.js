@@ -104,18 +104,24 @@ const styles = (theme) => {
 function InfoLayer(props){
     // console.log('Info Layer')
     // console.log(props)
-    
+
     const [addFavourite, setAddFavourite] = useState((value) => {
       if(addFavourite !== value) {
         return value
       }
     })
-    
+
+  const parseValue = (value, name)=>{
+      if(name !== 'wsh')
+        return parseInt(value)
+    return parseFloat(value).toFixed(1);
+  }
+
     useEffect(() => {
       Object.keys(props.favourites.selected).length > 0 ? setAddFavourite(true)  : setAddFavourite(false)
     }, [props.favourites.selected])
 
-    return ( 
+    return (
       <>
         {props.infos.results.length > 0 && (props.infos.results.filter(x=>x.show).map((info, index) =>
             <Paper key={'info'+index} className={ clsx(props.classes.paperWrapper, {
@@ -138,40 +144,39 @@ function InfoLayer(props){
                       {
                         typeof info.results.mean === 'object' &&
                         <TableRow>
-                          <TableCell>mean</TableCell>
+                          <TableCell>mean forecasts</TableCell>
                           {info.parameters.map((name) =>
-                            <TableCell key={name + '-mean'}>{parseInt(info.results.mean[name]) + ' ' + labels.um[name]}</TableCell>
+                            <TableCell key={name + '-mean'}>{parseValue(info.results.mean[name], name) + ' ' + labels.um[name]}</TableCell>
                           )}
                         </TableRow>
                       }
                       {
                         typeof info.results.std === 'object' &&
                         <TableRow>
-                          <TableCell>std</TableCell>
+                          <TableCell>ensemble std</TableCell>
                           {info.parameters.map((name) =>
-                            <TableCell key={name + '-std'}>{parseInt(info.results.std[name]) + ' ' + labels.um[name]}</TableCell>
+                            <TableCell key={name + '-std'}>{parseValue(info.results.std[name], name) + ' ' + labels.um[name]}</TableCell>
                           )}
                         </TableRow>
                       }
                       {
-                        typeof info.results.station === 'object' &&
+                        typeof info.results.station === 'object' && Object.keys(info.results.station).length > 0 &&
                         <TableRow>
-                          <TableCell>station</TableCell>
+                          <TableCell>{info.results.station.data.station_label} measurements</TableCell>
                           { info.parameters.map((name) =>
-                            <TableCell key={name+'-station'}>{ typeof info.results.station[name] == 'number' ? parseInt(info.results.station[name]) + ' ' + labels.um[name] : ''}</TableCell>
+                            <TableCell key={name+'-station'}>{ typeof info.results.station[name] == 'number' ? parseValue(info.results.station[name], name) + ' ' + labels.um[name] : ''}</TableCell>
                           )}
                         </TableRow>
                       }
                     </TableBody>
                   </Table>
                   <Box textAlign="center" className="buttons" p={1} display="flex" flexDirection="row">
-                    <Button className={props.classes.buttonChart} onClick={ () => { 
+                    <Button className={props.classes.buttonChart} onClick={ () => {
                         const latlon = new LngLat(info.longitude, info.latitude)
                         const bb200 = latlon.toBounds(200)
-                        // console.log(bb200)
                         props.dispatch(toggleInfoLayer(false))
-                        props.dispatch(emptyInfoLayer());  
-                        props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${props.timeline.from}&width=2&height=2&to=${props.timeline.to}&station=${props.station}`)
+                        props.dispatch(emptyInfoLayer());
+                        props.history.push(`/station/?bbox=${bb200._sw.lng},${bb200._sw.lat},${bb200._ne.lng},${bb200._ne.lat}&x=1&y=1&from=${props.timeline.from}&width=2&height=2&to=${props.timeline.to}&station=${props.station ? props.station.id : ''}`)
                       }
                     }>
                       <BarChartIcon></BarChartIcon>
@@ -181,7 +186,7 @@ function InfoLayer(props){
                             onClick={ (e) => {
                               e.preventDefault()
                               if(!addFavourite){
-                                props.dispatch(postFavourite({ 
+                                props.dispatch(postFavourite({
                                   title: "",
                                   address: "",
                                   latitude: info.latitude,
@@ -196,12 +201,12 @@ function InfoLayer(props){
                       {  addFavourite &&
                         <GradeIcon></GradeIcon> || <GradeOutlinedIcon></GradeOutlinedIcon>
                       }
-                    </Button> 
+                    </Button>
                     }
                   </Box>
                 </Box>
-                <Button size={"small"} 
-                        className={props.classes.headerTopClose} 
+                <Button size={"small"}
+                        className={props.classes.headerTopClose}
                         onClick={() => {
                           props.dispatch(toggleInfoLayer(false))
                           setTimeout(() => {
@@ -221,5 +226,5 @@ function InfoLayer(props){
       dispatch,
     }
   }
-  
+
   export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(InfoLayer)));

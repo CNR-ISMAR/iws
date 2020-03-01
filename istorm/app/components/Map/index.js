@@ -26,7 +26,7 @@ import LayerSeaLevel from "./LayerSeaLevel";
 import LayerFavorites from "./LayerFavorites";
 import mapCss from './mapCss.css';
 
-import { requestInfoLayer, 
+import { requestInfoLayer,
   emptyInfoLayer, toggleInfoLayer,
   fillIfIsFavourite,  } from "containers/App/actions";
 
@@ -60,7 +60,7 @@ class Map extends React.Component {
         transitionEasing: easeCubic,
       },
     };
-       
+
     this.flyTo = this.flyTo.bind(this);
     this.flyToBbox = this.flyToBbox.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
@@ -68,7 +68,7 @@ class Map extends React.Component {
     this.onClick = this.onClick.bind(this);
     this.dispatchRequestInfoLayer = this.dispatchRequestInfoLayer.bind(this);
     this.openingTime = this.props.theme.transitions.duration.enteringScreen;
-  
+
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -92,7 +92,7 @@ class Map extends React.Component {
   updateViewport(viewport) {
     this.props.dispatch(setViewport(viewport));
   }
-  
+
   onMapLoad(data) {
     const viewport = this.flyToBbox(this.props.bbox);
     this.setState({...this.state, mapboxIsLoading: false}, () => {
@@ -112,7 +112,7 @@ class Map extends React.Component {
     this.props.dispatch(requestInfoLayer({
       time: this.props.layerInfo.date,
       bounds: bb200,
-      station: this.state.station
+      station: this.state.station ? this.state.station.id : ''
     }));
     selectedFav[0] ? this.props.dispatch(fillIfIsFavourite(selectedFav[0])) : null
   }
@@ -135,7 +135,8 @@ class Map extends React.Component {
         }else {
           const Index = event.features.findIndex(station =>  station.source.includes('station'));
           if(Index !== -1) {
-            this.setState({...this.state, station: event.features[Index].properties.field_1})
+            this.setState({...this.state, station: event.features[Index].properties})
+            // this.setState({...this.state, station: event.features[Index].properties.id})
           }
         }
       }
@@ -176,8 +177,8 @@ class Map extends React.Component {
         id="gis-map"
         ref="map"
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}
-        viewState={this.props.viewport} 
-        mapboxApiAccessToken={mapboxToken} 
+        viewState={this.props.viewport}
+        mapboxApiAccessToken={mapboxToken}
         onViewportChange={this.updateViewport}
         onLoad={this.onMapLoad}
         onClick={this.onClick}
@@ -186,17 +187,17 @@ class Map extends React.Component {
         // disable={true}
         mapStyle={this.props.mapStyle}
         >
-        
+
         {!this.state.mapboxIsLoading && (
           <>
-            {this.props.seaLevel.isVisible && 
-              (<LayerSeaLevel 
+            {this.props.seaLevel.isVisible &&
+              (<LayerSeaLevel
                 layerInfo={this.props.layerInfo}
-                key={'LayerSeaLevel'} 
-                layer={this.props.seaLevel} 
+                key={'LayerSeaLevel'}
+                layer={this.props.seaLevel}
                 mean={this.props.mean}/>)}
 
-            {this.props.WindGLLayer.isVisible && 
+            {this.props.WindGLLayer.isVisible &&
               (<WindGLLayer
                 captureClick={false}
                 captureDoubleClick={false}
@@ -211,24 +212,24 @@ class Map extends React.Component {
 
                 {/*TODO: UPDATE ONLY IF change isVisible*/}
             {Object.keys(this.props.layers).map((layer) => (
-                 <Layer layerInfo={this.props.layerInfo} 
-                        key={"map-layer-" + this.props.layers[layer].id} 
+                 <Layer layerInfo={this.props.layerInfo}
+                        key={"map-layer-" + this.props.layers[layer].id}
                         layer={this.props.layers[layer]}/>))}
 
-            { this.props.isLogged && 
-              this.props.favoritesLayer && 
-              Object.keys(this.props.favoritesLayer.source.data).length > 0  && 
-              this.props.favoritesLayer.isVisible && 
+            { this.props.isLogged &&
+              this.props.favoritesLayer &&
+              Object.keys(this.props.favoritesLayer.source.data).length > 0  &&
+              this.props.favoritesLayer.isVisible &&
               <LayerFavorites layerInfo={this.props.favoritesLayer}/> }
           </>
         )}
         </ReactMapGL>
-        <InfoLayer 
-          timeline={this.props.timeline} 
-          infos={this.props.popups} 
+        <InfoLayer
+          timeline={this.props.timeline}
+          infos={this.props.popups}
           station={this.state.station}
           history={this.props.history}
-          isLogged={this.props.isLogged} 
+          isLogged={this.props.isLogged}
           favourites={this.props.favourites}
           openingTime={this.openingTime}
           />
@@ -241,7 +242,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
   }
-  
+
 }
 
 

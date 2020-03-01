@@ -11,7 +11,7 @@ import { favourites } from 'utils/api';
 export function* infoLayerSaga(options) {
   try {
     const request = yield call(popups, options);
-    // console.log('infoLayerSaga')
+    // console.log('infoLayerSaga',options)
     yield put(requestInfoLayerSuccess(request));
    // yield put(postFavouriteEmpty())
     yield put(toggleInfoLayer(true))
@@ -65,21 +65,21 @@ export function* FavouritesSaga(action) {
   /* const options = {
     method: 'get'
   }; */
-  
+
   try {
     const request = yield call(favourites);
     yield put(requestFavouritesSuccess(request));
-    
+
   } catch(e) {
     yield put(requestError(e.message));
-    
+
   }
 }
 
 export function* deleteFavouriteSaga(action) {
   const options = {
     method: 'delete'
-  }; 
+  };
   try {
     const request = yield call(deleteFavourite, action.id);
     yield put(postFavouriteEmpty())

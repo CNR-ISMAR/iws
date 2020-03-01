@@ -153,7 +153,7 @@ function MapPage(props) {
   // console.info("mapPage");
   // console.info(props);
   useInjectSaga({ key: 'infolayer_favourites', saga });
-  
+
   let layerInfo = null;
   if(props.timeline.current && typeof props.timeline.results[props.timeline.current] !== "undefined") {
     layerInfo = props.timeline.results[props.timeline.current];
@@ -169,19 +169,19 @@ function MapPage(props) {
     }
     if(props.isLogged){
       props.dispatch(requestFavouritesLayer())
-    } 
+    }
   }, [props.isLogged]);
 
   return !props.timeline.loading && layerInfo != null ? (
       <>
-        <Map 
-          timeline={props.timeline} 
-          layerInfo={layerInfo} 
-          viewport={props.mapPage.viewport} 
-          bbox={props.mapPage.bbox} 
-          dispatch={props.dispatch} 
-          mapStyle={props.mapPage.style} 
-          layers={props.mapPage.layers} 
+        <Map
+          timeline={props.timeline}
+          layerInfo={layerInfo}
+          viewport={props.mapPage.viewport}
+          bbox={props.mapPage.bbox}
+          dispatch={props.dispatch}
+          mapStyle={props.mapPage.style}
+          layers={props.mapPage.layers}
           mean={props.mapPage.mean}
           options={props.mapPage.options}
           seaLevel={props.mapPage.seaLevel}
@@ -207,7 +207,7 @@ function MapPage(props) {
             <div item className={props.classes.overlayLayersMap}>
               <div className={props.classes.overlayLayerMapHeader}></div>
               <List className={props.classes.overlayLayerMapList}>
-                  <ListItem button selected={props.mapPage.WindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("wmpMean"))} key={"nav-layer-sea-level"}>
+                  <ListItem button selected={props.mapPage.WindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("waveHeight"))} key={"nav-layer-sea-level"}>
                     <ListItemText primary={props.mapPage.WindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
                       <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
                   </ListItem>
@@ -235,7 +235,7 @@ function MapPage(props) {
             </Box>
             <Box>
               <LatLng />
-              { props.mapPage.seaLevel.isVisible && 
+              { props.mapPage.seaLevel.isVisible &&
                 <Legend type="Sea Level" mean={props.mapPage.mean}/> ||
                 <Legend type="Wind GL Layer" mean={props.mapPage.mean}/> }
             </Box>
@@ -244,7 +244,7 @@ function MapPage(props) {
               <div className={props.classes.overlayMapTimelineScroll}>
                 <Timeline timeline={props.timeline} setCurrentDate={(date) => props.dispatch(setCurrentDate(date))} togglePlay={() => props.dispatch(togglePlay())} />
               </div>
-              </div>) } 
+              </div>) }
       </>
       ) : null;
 }
@@ -258,7 +258,7 @@ const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
   //wmsVisible: makeSelectVisibleWmsLayer(),
   timeline: makeSelectHistoryPage(),
-  
+
 });
 
 function mapDispatchToProps(dispatch) {
