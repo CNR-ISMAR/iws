@@ -11,6 +11,7 @@ from collections import OrderedDict
 from .utils import WmsQueryNew
 import pytz
 from ..stations.utils import find_station, station_timeseries, station_info
+from ..stations.models import Station
 
 
 class ImageLayerList(ListAPIView):
@@ -91,11 +92,11 @@ class Info(views.APIView):
         HEIGHT = request.query_params.get('height')
         TIME = request.query_params.get('time')
         wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME)
-        station = request.query_params.get('station', '')
+        station = find_station(request.query_params.get('station')) if request.query_params.get('station') else ''
         forecasts = wms.get_values()
+        # station = find_station(19)
+        # TIME = "2019-11-04 12:01:01+00"
         if station:
-            station = find_station(station)
-        if type(station) == dict and station['name'] != '':
             forecasts['results']['station'] = station_info(forecasts['results']['station'], station, TIME)
         return Response(forecasts)
 
@@ -110,19 +111,15 @@ class TimeSeries(views.APIView):
         HEIGHT = request.query_params.get('height')
         TIME_FROM = request.query_params.get('from')
         TIME_TO = request.query_params.get('to')
-        station = request.query_params.get('station', '')
-        if station:
-            station = find_station(station)
-            # if station:
-                # BBOX = station.get('bbox')
-                # X = station.get('x')
-                # Y = station.get('y')
-                # WIDTH = station.get('width')
-                # HEIGHT = station.get('height')
+        station = find_station(request.query_params.get('station')) if request.query_params.get('station') else ''
+
+        # station = find_station(19)
+        # TIME_FROM = "2019-11-01 01:01:01+00"
+        # TIME_TO = "2019-11-01 23:01:01+00"
         wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
         forecasts = wms.get_timeseries()
 
-        if type(station) == dict and station['name'] != '':
+        if station:
             # TODO: AGGIUNGI I DATI DALLE STAZIONI
             forecasts = station_timeseries(forecasts, station, TIME_FROM, TIME_TO)
 

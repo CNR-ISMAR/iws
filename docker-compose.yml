@@ -218,8 +218,9 @@ services:
     #  - "443"
     expose:
       - 80
+      - 443
     volumes:
-    #- ./nginx_files/nginx.conf:/etc/nginx/nginx.conf
+    # - ./nginx_files/nginx.conf:/etc/nginx/nginx.conf
     # - statics:/mnt/volumes/statics
     - ./iws/storage:/mnt/volumes/storage
     # master:
@@ -257,7 +258,7 @@ services:
 
   istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}
-    #    image: 'repositories.inkode.it:4567/inkode/iws:latest'
+    image: 'repositories.inkode.it:4567/inkode/iws:latest'
     build: ./istorm
     restart: always
     ports:

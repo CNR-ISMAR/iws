@@ -32,6 +32,8 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     def wsh_url(self, timestamp, layerOptions):
         wmsdate = datetime.datetime.fromtimestamp(timestamp) + datetime.timedelta(hours=1)
         formatted_date = wmsdate.strftime("%Y%m%d")
+        if wmsdate > datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
+            formatted_date = datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0).strftime("%Y%m%d")
         layerFileName =  'TMES_waves_'+formatted_date+'.nc'
         if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
             layerFileName = 'history/'+layerFileName
@@ -50,7 +52,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
             "HEIGHT": "256",
         }
         options.update(layerOptions)
-        return settings.PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
+        return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
 
     def get_wsh_mean(self, instance):
         minmax = ('0', '8')
@@ -74,8 +76,8 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         #TODO: quando si avra' una logica integrarla
         wmsdate = datetime.datetime.fromtimestamp(timestamp) + datetime.timedelta(hours=1)
         formatted_date = wmsdate.strftime("%Y%m%d")
-        if "201502" in formatted_date:
-            formatted_date = "20150205"
+        if wmsdate > datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
+            formatted_date = datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0).strftime("%Y%m%d")
         layerFileName =  'TMES_sea_level_'+formatted_date+'.nc'
         if wmsdate < datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
             layerFileName = 'history/'+layerFileName
@@ -102,7 +104,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
         }
         options.update(layerOptions)
         # return settings.THREDDS_TO_PROXY + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
-        return settings.PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
+        return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
 
     def get_sea_level_mean(self, instance):
         minmax = ('-1', '1')

@@ -17,7 +17,7 @@ const apiToken = apiTokenSingleton();
 
 const defaultOption = {
     headers: new Headers({
-        'Accept': 'application/json', 
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache'
       }),
@@ -44,13 +44,13 @@ export function setToken(token) {
 
 export const oauthOption = {
     grant_type: process.env.GRANT_TYPE,
-    client_id: process.env.CLINET_ID,
+    client_id: process.env.CLIENT_ID,
     client_secret: process.env.CLIENT_SECRET,
 }
 
 export const oauthOptionRefreshToken = {
   grant_type: "refresh_token",
-  client_id: process.env.CLINET_ID,
+  client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
 }
 
@@ -133,7 +133,7 @@ export const chart = (action) => {
   const to = "2019-09-16T23:00:00.000Z" */
   const options = getOption({})
   // console.log(action)
-  
+
   //return request(`${BASE_URL}/openistorm/layers/timeseries/?bbox=18.562486834444055,40.60442396407557,18.56721978760456,40.608017225183865&x=1&y=1&from=2019-09-16T00:00:00.000Z&width=2&height=2&to=2019-09-16T23:00:00.000Z`, options)
   return request(`${BASE_URL}/openistorm/layers/timeseries/?bbox=${bbox}&x=1&y=1&from=${from}&width=2&height=2&to=${to}&station=${station}`, options)
 };
