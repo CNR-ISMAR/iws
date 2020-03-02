@@ -120,6 +120,7 @@ function StationChart(props) {
       <div className={props.classes.wrapper}>
         <Chart
           data={props.chart.results.results}
+          station_name={props.chart.results.station_name}
           latitude={props.chart.results.latitude}
           longitude={props.chart.results.longitude}
           timeFrom={moment(props.timeline.from).format( 'DD/MM/YYYY')}

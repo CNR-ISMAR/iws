@@ -57,6 +57,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from 'theme';
 import useStyles from 'useStyles';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import CreditsPage from "../CreditsPage/Loadable";
 
 
 function App(props) {
@@ -84,14 +85,14 @@ function App(props) {
           <Sidebar auth={props.auth}  isLogged={props.isLogged} />
           <main className={classes.content}>
             <MapPage isLogged={props.isLogged} />
-               <TransitionGroup 
+               <TransitionGroup
                   className="subMenuContent"
-                  exit={ props.routeLocation.pathname !== '/login' 
+                  exit={ props.routeLocation.pathname !== '/login'
                           && props.routeLocation.pathname.split('/').length < 3
-                          && !props.auth.loggingout 
-                          ? true 
+                          && !props.auth.loggingout
+                          ? true
                           : false }
-                  enter={ props.routeLocation.pathname.split('/').length < 3 }                  
+                  enter={ props.routeLocation.pathname.split('/').length < 3 }
                           >
                   <CSSTransition
                     key={props.routeLocation.key}
@@ -106,19 +107,20 @@ function App(props) {
                       <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
                     )}
                     <Route exact path="/"  component={() => null} />
-                    {  props.isLogged && 
+                    {  props.isLogged &&
                       <Route exact path={"/notification/:id?"} component={({match, history, location}) => <NotificationPage  match={match} auth={props.auth} location={location} />  } />
                     }
                     <Route exact path={"/layers"} component={({match}) => <LayersPage auth={props.auth} />} />
                     <Route exact path={"/history"} component={({match}) => <HistoryPage auth={props.auth} />} />
                     <Route exact path={"/storm-events"} component={({match}) => <StormEventsPage auth={props.auth} />} />
-                    { props.isLogged && 
+                    { props.isLogged &&
                       <Route path={"/favourites/:id?"}  component={ ({match, history, location}) => <FavouritesPage auth={props.auth}  match={match} history={history} location={location}/> } />
                     }
-                    <Route exact path={"/station/"} 
+                    <Route exact path={"/station/"}
                             component={({match, history}) => <StationChart timeline={props.timeline} auth={props.auth} history={history} />} />
                     <Route exact path={"/settings"} component={({match}) => <SettingsPage auth={props.auth} />} />
                     <Route exact path={"/info"} component={({match}) => <InfoPage auth={props.auth} />} />
+                    <Route exact path={"/credits"} component={({match}) => <CreditsPage qualcosa={true}/>} />
                     <Route component={NotFoundPage} />
                   </Switch>
                   </CSSTransition>
