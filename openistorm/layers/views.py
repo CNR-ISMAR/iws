@@ -114,7 +114,7 @@ class TimeSeries(views.APIView):
         station = find_station(request.query_params.get('station')) if request.query_params.get('station') else ''
 
         # station = find_station(19)
-        # TIME_FROM = "2019-11-01 01:01:01+00"
+        # TIME_FROM = "2019-11-01 00:01:01+00"
         # TIME_TO = "2019-11-01 23:01:01+00"
         wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
         forecasts = wms.get_timeseries()

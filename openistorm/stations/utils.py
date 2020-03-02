@@ -40,6 +40,7 @@ def hourly_avg(qs):
 
 
 def station_timeseries(forecast, station, TIME_FROM, TIME_TO):
+    forecast['station_name'] = station.station_label
     # TODO: group hourly!
     # forecast['results']['COSE'] = [station.id, TIME_FROM, TIME_TO]
     # forecast['results']['sea_level-station'] = forecast['results']['sea_level-mean']

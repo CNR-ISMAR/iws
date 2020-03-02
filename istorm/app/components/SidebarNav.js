@@ -82,10 +82,10 @@ function SidebarNav(props) {
   console.info("SidebarNav")
   console.info(props);
   const [notify, countNotifyRead] = useState(0)
-  
+
   const linkTo = (path) => {
-    if(isCurrentPage(path)) { 
-      props.history.push("/") 
+    if(isCurrentPage(path)) {
+      props.history.push("/")
     } else {
       props.history.push(`/${path}`)
     }
@@ -139,7 +139,7 @@ function SidebarNav(props) {
           <ListItemIcon className={props.classes.listItemIcon}><HistoryIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"History"} />
         </ListItem>
-        
+
         <Divider className={props.classes.divider} variant={"middle"} />
 
         <ListItem button className={props.classes.listItem} selected={props.layers["stationsWave"].isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("stationsWave"))} key={"nav-station-wind"}>
@@ -167,8 +167,18 @@ function SidebarNav(props) {
           <ListItemIcon className={props.classes.listItemIcon}><FavoriteIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
           <ListItemText primary={props.layers["favorites"].name} />
         </ListItem>
-        
-        
+
+        <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("credits")} onClick={() => linkTo("credits")} key={"nav-credits"}>
+          <ListItemIcon className={props.classes.listItemIcon}><ListIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemText primary={"Credits"} />
+          { isCurrentPage("credits") ?
+            <ArrowLeftIcon className={props.classes.arrow}/>
+            :
+            <ArrowRightIcon className={props.classes.arrow}/>
+          }
+        </ListItem>
+
+
 
         {/*<Divider className={props.classes.divider} variant={"middle"} />*/}
 

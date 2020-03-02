@@ -27,6 +27,25 @@ export default {
   "wsh-station": "Wave Height station",
   },
 
+  crosshair: {
+  "sea_level-area": "Sea Level forecast std",
+  "wsh-area": "Wave Height forecast std",
+  "wmp-area": "Wave Period forecast std",
+  "wmd-area": "Wave Direction forecast std",
+  "sea_level-max": "Sea Level max",
+  "wsh-max": "Wave Height max",
+  "wmp-max": "Wave Period max",
+  "wmd-max": "Wave Direction max",
+  "sea_level-mean": "Sea Level forecast mean",
+  "wsh-mean": "Wave Height forecast mean",
+  "wmp-mean": "Wave Period forecast mean",
+  "wmd-mean": "Wave Direction forecast mean",
+  "sea_level-station": "Sea Level station measure",
+  "wmp-station": "Wave Period station measure",
+  "wmd-station": "Wave Direction station measure",
+  "wsh-station": "Wave Height station measure",
+  },
+
   "um": {
   "sea_level": "cm",
   "wsh": "m",
