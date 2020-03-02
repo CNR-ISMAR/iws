@@ -160,7 +160,7 @@ function InfoLayer(props){
                         </TableRow>
                       }
                       {
-                        typeof info.results.station === 'object' && Object.keys(info.results.station).length > 0 &&
+                        typeof info.results.station === 'object' && (info.results.station.sea_level || info.results.station.wsh || info.results.station.wmd || info.results.station.wmp) &&
                         <TableRow>
                           <TableCell>{info.results.station.data.station_label} measurements</TableCell>
                           { info.parameters.map((name) =>

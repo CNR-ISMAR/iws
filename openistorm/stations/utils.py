@@ -29,6 +29,16 @@ def setDateToUtc(date):
         date = parser.parse(date)
     return date.replace(tzinfo=pytz.timezone('utc'))
 
+def hourly_avg(qs):
+    data = [{"x": v.timestamp.replace(minute=0, second=0, microsecond=0).isoformat()[0:19] + '.000Z', "y": v.value} for v in qs]
+    if data:
+        df = pd.DataFrame(data)
+        df = df.groupby('x', as_index=False).mean()
+        return df.to_dict(orient='records')
+    return data
+
+
+
 def station_timeseries(forecast, station, TIME_FROM, TIME_TO):
     # TODO: group hourly!
     # forecast['results']['COSE'] = [station.id, TIME_FROM, TIME_TO]
@@ -38,22 +48,12 @@ def station_timeseries(forecast, station, TIME_FROM, TIME_TO):
     TIME_FROM = setDateToUtc(TIME_FROM)
     TIME_TO = setDateToUtc(parser.parse(TIME_TO)) if TIME_TO is not None else False
     sd = StationData.objects.using('measurements').filter(location_id=station.id, timestamp__lte=TIME_TO, timestamp__gte=TIME_FROM, parameter='SLEV')
-    forecast['results']['sea_level-station'] = [{"x": v.timestamp.isoformat()[0:19] + '.000Z', "y": v.value} for v in sd]
+    forecast['results']['sea_level-station'] = hourly_avg(sd)
     sd = StationData.objects.using('measurements').filter(location_id=station.id, timestamp__lte=TIME_TO, timestamp__gte=TIME_FROM, parameter='WAVEH')
-    forecast['results']['wsh-station'] = [{"x": v.timestamp.isoformat()[0:19] + '.000Z', "y": v.value} for v in sd]
-    print(sd)
-    print(sd)
-    print(sd)
-    print(sd)
-    print(sd)
-    print(sd)
-    print(sd)
-    # sd = StationData.objects.using('measurements').filter(location_id=station.id, timestamp__lte=TIME_TO, timestamp__gte=TIME_FROM, parameter='wmp')
-    # forecast['results']['wmp-station'] = [{"x": v.timestamp.isoformat()[0:19] + '.000Z', "y": v.value} for v in sd]
+    forecast['results']['wsh-station'] = hourly_avg(sd)
     forecast['wmp'] = []
     sd = StationData.objects.using('measurements').filter(location_id=station.id, timestamp__lte=TIME_TO, timestamp__gte=TIME_FROM, parameter='WAVED')
-    forecast['results']['wmd-station'] = [{"x": v.timestamp.isoformat()[0:19] + '.000Z', "y": v.value} for v in sd]
-    # forecast['results']['sea_level-station'] = forecast['results']['sea_level-mean']
+    forecast['results']['wmd-station'] = hourly_avg(sd)
     return forecast
 
 def station_info(forecast, station, TIME):

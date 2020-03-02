@@ -78,6 +78,17 @@ const AntSwitch = withStyles(theme => ({
   checked: {},
 }))(Switch);
 
+const StyledListItem = withStyles({
+  root: {
+
+      backgroundColor: "rgba(0, 0, 0, .4)",
+    "&$selected": {
+      backgroundColor: "rgba(255,255,255,.4)",
+    }
+  },
+  selected: {}
+})(ListItem);
+
 const styles = (theme) => {
   return {
     mapControl: {
@@ -133,7 +144,7 @@ const styles = (theme) => {
       overflowX: "scroll",
     },
     overlayLayerMapList: {
-      padding: 0
+      padding: 0,
     },
     overlayLayerMapListText: {
       padding: 0,
@@ -207,14 +218,15 @@ function MapPage(props) {
             <div item className={props.classes.overlayLayersMap}>
               <div className={props.classes.overlayLayerMapHeader}></div>
               <List className={props.classes.overlayLayerMapList}>
-                  <ListItem button selected={props.mapPage.WindGLLayer.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("waveHeight"))} key={"nav-layer-sea-level"}>
+                  <StyledListItem button selected={props.mapPage.WindGLLayer.isVisible}
+                            onClick={(e) => props.dispatch(toggleLayerVisibility("waveHeight"))} key={"nav-layer-sea-level"}>
                     <ListItemText primary={props.mapPage.WindGLLayer.name}  className={props.classes.overlayLayerMapListText} />
                       <WaveIcon iconcolor={props.theme.palette.custom.waveIcon} className={props.classes.overlayLayerMapListIcon} />
-                  </ListItem>
-                  <ListItem button selected={props.mapPage.seaLevel.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
+                  </StyledListItem>
+                  <StyledListItem button selected={props.mapPage.seaLevel.isVisible} onClick={(e) => props.dispatch(toggleLayerVisibility("seaLevel"))} key={"nav-layer-wave-level"}>
                     <ListItemText primary={props.mapPage.seaLevel.name} className={props.classes.overlayLayerMapListText} />
                     <SeaLevelIcon iconcolor={props.theme.palette.custom.seaIcon} className={props.classes.overlayLayerMapListIcon} />
-                  </ListItem>
+                  </StyledListItem>
               </List>
               <Typography component="div" align="center" variant="caption">
                 <Grid component="label" container spacing={1}>

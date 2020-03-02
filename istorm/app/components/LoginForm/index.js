@@ -91,7 +91,7 @@ class LoginForm extends React.Component {
       this.setState({ errors: { error: false, text: "" }})
       this.props.login(this.state.formData, this.props.history.push)
     }
-    
+
   };
 
   componentDidMount(){
@@ -102,7 +102,7 @@ class LoginForm extends React.Component {
 
   resetForm() {
     this.setState({formData: this.state.defaultFormData});
-  } 
+  }
 
 
   render () {
@@ -161,7 +161,7 @@ class LoginForm extends React.Component {
               ),
             }}
           />
-         { this.state.errors.error   && 
+         { this.state.errors.error   &&
           <Typography variant="body2" gutterBottom className={this.props.classes.errorBox}>
               {  this.state.errors.text }
           </Typography>
@@ -184,7 +184,7 @@ class LoginForm extends React.Component {
               </Link>
             </Grid>
             <Grid item>
-              <Link color="secondary" href="#" variant="body2">
+              <Link color="secondary" href={process.env.SITE_URL+'/account/signup/'} variant="body2">
                 {"Don't have an account? SIGN UP"}
               </Link>
             </Grid>

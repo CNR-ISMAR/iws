@@ -112,17 +112,10 @@ class TimeSeries(views.APIView):
         TIME_FROM = request.query_params.get('from')
         TIME_TO = request.query_params.get('to')
         station = find_station(request.query_params.get('station')) if request.query_params.get('station') else ''
-        # station = find_station(19)
 
+        # station = find_station(19)
         # TIME_FROM = "2019-11-01 01:01:01+00"
         # TIME_TO = "2019-11-01 23:01:01+00"
-        # TIME = "2019-11-04 12:01:01+00"
-        # if station:
-        #     BBOX = station.get('bbox')
-        #     X = station.get('x')
-        #     Y = station.get('y')
-        #     WIDTH = station.get('width')
-        #     HEIGHT = station.get('height')
         wms = WmsQueryNew(BBOX, X, Y, WIDTH, HEIGHT, TIME_FROM, TIME_TO)
         forecasts = wms.get_timeseries()
 

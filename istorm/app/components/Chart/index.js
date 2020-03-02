@@ -104,7 +104,7 @@ function Chart(props) {
   };
 
   const fixFormat = (ts) => {
-    console.log(ts)
+    // console.log(ts)
     return ts.map(function (x) {
       return {
         x: new Date(x.x),
@@ -131,7 +131,7 @@ function Chart(props) {
     })
   }
   const cslabels = typeof props.data == 'object' ? Object.keys(props.data) : []
-  // const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
+  const data = typeof props.data == 'object' ? Object.keys(props.data).map(name => fixFormat(props.data[name])) : []
 
 
   useEffect(updateWidthHeight, [props.data]);
@@ -189,7 +189,6 @@ function Chart(props) {
                                     name.includes('wmp') && legendsColors.wmp ||
                                     name.includes('wsh') && legendsColors.wsh
                                   }
-                                  boh={console.log(name)}
                                   opacity={ 1 }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'}
@@ -206,7 +205,6 @@ function Chart(props) {
                                     name.includes('wmp') && legendsColors.wmp ||
                                     name.includes('wsh') && legendsColors.wsh
                                   }
-                                  boh={console.log(name)}
                                   opacity={ 0.3 }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'}
