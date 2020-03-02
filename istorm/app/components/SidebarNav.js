@@ -23,7 +23,7 @@ import { Divider } from '@material-ui/core';
 import { toggleLayerVisibility  } from '../containers/App/actions';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
-
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 import { NotificationIcon, StormEventsIcon, LayersIcon, HistoryIcon, StationIcon, ListIcon, FavoriteIcon, SettingsIcon, InfoIcon } from '../utils/icons';
 
@@ -169,7 +169,7 @@ function SidebarNav(props) {
         </ListItem>
 
         <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("credits")} onClick={() => linkTo("credits")} key={"nav-credits"}>
-          <ListItemIcon className={props.classes.listItemIcon}><ListIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemIcon className={props.classes.listItemIcon}><HelpOutlineIcon/></ListItemIcon>
           <ListItemText primary={"Credits"} />
           { isCurrentPage("credits") ?
             <ArrowLeftIcon className={props.classes.arrow}/>
