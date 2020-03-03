@@ -29,14 +29,29 @@ STATIC_ROOT = os.getenv('STATIC_ROOT',
                         os.path.join(PROJECT_ROOT, "static_root")
                         )
 
+#disable language support
+USE_I18N = 'False'
+USE_L10N = 'False'
+LANGUAGES = (
+    ('en', 'English'),
+)
+ 
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = os.getenv('SECRET_KEY', "{{ secret_key }}")
+  
+# per-deployment settings should go here
+SITE_HOST_NAME = os.getenv('SITE_HOST_NAME', "localhost")
+SITE_HOST_PORT = os.getenv('SITE_HOST_PORT', "8000")
+SITEURL = os.getenv('SITEURL', "https://%s:%s/" % (SITE_HOST_NAME, SITE_HOST_PORT))
+
+
 # SECRET_KEY = '************************'
-
 #SITEURL = "https://150.178.42.78"
-SITEURL = os.getenv('SITE_URL', "https://iws.ismar.cnr.it")
+SITEURL = os.getenv('SITE_URL', "https://iws.seastorms.eu")
 
-ALLOWED_HOSTS = [os.getenv('SITE_HOST'), 'localhost', 'iws.ismar.cnr.it', 'django:8000', 'django', '*']
+ALLOWED_HOSTS = [os.getenv('SITE_HOST'), 'localhost', 'iws.ismar.cnr.it', 'django:8000', 'django', 'iws.seastorms.eu', 'www.seastorms.eu']
 
-PROXY_ALLOWED_HOSTS = ('ows.emodnet-bathymetry.eu', 'emodnet-physics.eu', 'data.adriplan.eu', 'atlas.shape-ipaproject.eu')
+PROXY_ALLOWED_HOSTS = ('ows.emodnet-bathymetry.eu', 'emodnet-physics.eu', 'data.adriplan.eu', 'atlas.shape-ipaproject.eu', 'www.seastorms.eu', 'iws.ismar.cnr.it')
 DEFAULT_LAYER_FORMAT = "image/png"
 
 TIME_ZONE = 'Europe/Rome'
@@ -126,6 +141,7 @@ OGC_SERVER = {
         # the entire block has to be overridden in the local_settings
         'PUBLIC_LOCATION': GEOSERVER_PUBLIC_LOCATION,
         'USER': OGC_SERVER_DEFAULT_USER,
+        'WEB_UI_LOCATION': GEOSERVER_PUBLIC_LOCATION,
         'PASSWORD': OGC_SERVER_DEFAULT_PASSWORD,
         'MAPFISH_PRINT_ENABLED': True,
         'PRINT_NG_ENABLED': True,
