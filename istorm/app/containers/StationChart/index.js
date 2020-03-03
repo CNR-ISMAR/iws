@@ -38,7 +38,7 @@ const styles = (theme, style) => {
     subNav: {
       position: "absolute",
       // paddingBottom: 150,
-      width: '100%', 
+      width: '100%',
       zIndex: 1600,
       flexGrow: 1,
       backgroundColor: theme.palette.custom.backgroundOverlay,
@@ -76,9 +76,9 @@ function StationChart(props) {
   // console.info("Station Chart");
   // console.info(props);
 
-  const log = (wrapper) => { 
+  const log = (wrapper) => {
     // console.info(wrapper);
-    return true; 
+    return true;
   };
 
   const fadeTime = 500
@@ -88,10 +88,10 @@ function StationChart(props) {
     if(typeof props.goTo !== "undefined") {
         props.history.push(props.goTo)
       } else {
-        props.history.push("/") 
+        props.history.push("/")
       }
     }, fadeTime)
-   
+
   };
 
   const chartParams = queryString.parse(props.history.location.search)
@@ -118,8 +118,9 @@ function StationChart(props) {
         <Button size={"small"} className={props.classes.headerTopClose} onClick={() => close()} ><HighlightOffIcon/></Button>
       </div>
       <div className={props.classes.wrapper}>
-        <Chart 
+        <Chart
           data={props.chart.results.results}
+          station_name={props.chart.results.station_name}
           latitude={props.chart.results.latitude}
           longitude={props.chart.results.longitude}
           timeFrom={moment(props.timeline.from).format( 'DD/MM/YYYY')}

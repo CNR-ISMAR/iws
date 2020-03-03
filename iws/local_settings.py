@@ -108,6 +108,15 @@ DATABASES = {
         'PASSWORD': os.getenv('DSS_PHAROS_PASSWORD', 'geonode'),
         'HOST': os.getenv('GEONODE_DATABASE_HOST', 'localhost'),
         'PORT': os.getenv('GEONODE_PORT', '5432'),
+    },
+
+    'measurements': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('MEASUREMENTS_GEODATABASE', 'measurements'),
+        'USER': os.getenv('MEASUREMENTS_GEODATABASE', 'geonode'),
+        'PASSWORD': os.getenv('MEASUREMENTS_GEODATABASE_PASSWORD', 'geonode'),
+        'HOST': os.getenv('MEASUREMENTS_DATABASE_HOST', 'localhost'),
+        'PORT': os.getenv('MEASUREMENTS_PORT', '5432'),
     }
 
 }

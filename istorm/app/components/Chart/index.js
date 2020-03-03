@@ -104,6 +104,7 @@ function Chart(props) {
   };
 
   const fixFormat = (ts) => {
+    // console.log(ts)
     return ts.map(function (x) {
       return {
         x: new Date(x.x),
@@ -121,8 +122,8 @@ function Chart(props) {
         customComponent: (row, positionInPixels, globalStyle) => {
           return (
               <g className="inner-inner-component">
-                <text style={{fontSize: "40", transform: `rotateZ(${x.y+180}deg)`}}>↑</text>
-                <text style={{}}>{parseInt(x.y)}°</text>
+                <text style={{fontSize: "30", transform: `translateY(-10px) rotateZ(${x.y+180}deg)`}}>↑</text>
+                <text style={{transform: `translateY(+10px)`}}>{parseInt(x.y)}°</text>
               </g>
           );
         }
@@ -149,6 +150,7 @@ function Chart(props) {
                 <Grid item >
                   <Typography align="center" variant="body2">Time: <span>{props.timeFrom} to: {props.timeTo}</span></Typography>
                 </Grid>
+                { props.station_name && <Grid item ><Typography align="center" variant="body2">Station: <span>{props.station_name}</span></Typography></Grid>}
               </Grid>
 
               <XYPlot
@@ -191,8 +193,9 @@ function Chart(props) {
                                   opacity={ 1 }
                                   data={fixFormat(props.data[name])}
                                   curve={'curveMonotoneX'}
-                                  strokeStyle={name.includes('mean') || name.includes('station') ? 'solid' : 'dashed'}
-                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})} />
+                                  strokeStyle={name.includes('mean') ? 'dashed' : 'solid'}
+                                  onNearestX={(value, {index}) => setChartState({...chart, crosshairValues: data.map(d => d[index])})}
+                              />
                               ) : name.includes('area') ? (
                               <AreaSeries
                                   className='area-elevated-series'
@@ -210,7 +213,8 @@ function Chart(props) {
                              />
                               ) : (
                               <CustomSVGSeries
-                                marginTop={200}
+                                marginTop={100}
+                                marginBottom={100}
                                 marginLeft={30}
                                 key={name}
                                 data={fixDirection(props.data[name])}
@@ -222,17 +226,17 @@ function Chart(props) {
                     {chart.crosshairValues !== undefined && chart.crosshairValues.length > 0 &&
                       <Grid container>
                         <Grid item xs={12}>
-                          <Paper style={{ color:"white", background:"rgba(105, 131, 151, 0.80)", padding:"10px", width:"200px"}}>
+                          <Paper style={{ color:"white", background:"rgba(105, 131, 151, 0.80)", padding:"10px", width:"270px"}}>
                             <Typography variant="body2">Time: { moment(chart.crosshairValues[0].x).utc().format('DD/MM/YYYY HH:mm') }</Typography>
                               <Box p={0} my={1} width="100%">
                                 {
                                   chart.crosshairValues.map((value, index) => {
                                     const fixed = cslabels[index].includes('wsh') ? 1 : 0
                                     return value && !chart.recordclick[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')].disabled &&
-                                      <Typography key={cslabels[index]} variant="body2" style={{fontSize:"0.9rem", padding:"0", margin:"0 0 2px"}}>
-                                      {labels.lines[cslabels[index]]}: <span style={{fontSize:"1.1rem"}}>
-                                      { cslabels[index].includes("area") ? `±${(value.y - value.y0).toFixed(fixed)}` : value.y.toFixed(fixed) }
-                                        {labels.um[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')]}</span>
+                                      <Typography key={cslabels[index]} variant="body2">
+                                        {labels.crosshair[cslabels[index]]}: <span style={{fontSize:"1.05rem"}}>
+                                        { cslabels[index].includes("area") ? `±${(value.y - value.y0).toFixed(fixed)}` : value.y.toFixed(fixed) }
+                                          {labels.um[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')]}</span>
                                     </Typography>
                                   })
                                 }

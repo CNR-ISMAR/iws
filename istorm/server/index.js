@@ -5,6 +5,8 @@ const environment = {
   ...require('dotenv').config({path: __dirname + '/../.env'}).parsed
 };
 
+console.log(environment)
+
 // console.log(process.env)
 
 const express = require('express');

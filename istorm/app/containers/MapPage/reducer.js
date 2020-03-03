@@ -13,11 +13,11 @@ const tomorrow = new Date();
 tomorrow.setDate(currentTime.getDate() + 1);
 const timeInterval = currentTime.toISOString().slice(0,10)+"/"+tomorrow.toISOString().slice(0,10);
 const ncdate = currentTime.toISOString().slice(0,10).replace(/-/g,"");
-const proxyUrl = process.env.PROXY_URL;
+const proxyUrl = process.env.NODE_PROXY_URL;
 
 const waveUrl = proxyUrl+"/thredds/wms/tmes/TMES_waves_"+ncdate+".nc";
 // const waveUrl = 'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190620.nc';
-const wmpMeanUrl = proxyUrl+"/thredds/wms/tmes/TMES_sea_level_"+ncdate+".nc";
+const waveHeightUrl = proxyUrl+"/thredds/wms/tmes/TMES_sea_level_"+ncdate+".nc";
 
 export const initialState = {
   options: {
@@ -31,7 +31,7 @@ export const initialState = {
         timeInterval: timeInterval,
         period: "PT1H",
         currentTime: currentTime.getTime()
-    }, 
+    },
     timeDimensionControl: true,
     minZoom: 2,
      maxBounds: [
@@ -134,7 +134,7 @@ const mapPageReducer = (state = initialState, action) =>
               idx = wmsLayerIndex;
               idx2 = layersIndex;
             })
-          }); 
+          });
           draft.wmsLayers[idx][idx2].isVisible = !action.layer.isVisible;
         break;
     }

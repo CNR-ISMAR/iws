@@ -5,12 +5,12 @@
  */
 import produce from 'immer';
 import moment from 'moment';
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
-  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_POST_FAVOURITE, 
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
+  TOGGLE_LAYER_MEAN, REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS,
+  POST_FAVOURITE, POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_POST_FAVOURITE,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, EMPTY_INFO_LAYER,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_INFO_LAYER,
-  REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
+  REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE,
   FILL_IF_IS_FAVOURITE, SET_LAT_LON  } from './constants';
 
 import theme from 'theme'
@@ -25,11 +25,11 @@ const tomorrow = new Date();
 tomorrow.setDate(currentTime.getDate() + 1);
 const timeInterval = currentTime.toISOString().slice(0,10) + "/" + tomorrow.toISOString().slice(0,10);
 const ncdate = currentTime.toISOString().slice(0,10).replace(/-/g,"");
-const proxyUrl = process.env.PROXY_URL;
+const proxyUrl = process.env.NODE_PROXY_URL;
 
 const waveUrl = proxyUrl + "/thredds/wms/tmes/TMES_waves_" + ncdate + ".nc";
 // const waveUrl = 'http://localhost:3000/thredds/wms/tmes/TMES_waves_20190620.nc';
-const wmpMeanUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".nc";
+const waveHeightUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + ".nc";
 
 const BASE_URL = process.env.API_URL;
 
@@ -44,7 +44,7 @@ export const initialState = {
   },
   viewport: {
     longitude: 12.33265,
-    latitude: 45.43713, 
+    latitude: 45.43713,
     zoom: 7,
     minZoom: 7,
     maxZoom: 14,
@@ -93,13 +93,13 @@ export const initialState = {
   },
   WindGLLayer: {
     name: "Wave",
-    id: "wmpMean",
+    id: "waveHeight",
     isVisible: false,
     isTimeseries: true,
   },
   BackgroundWindLayer: {
     name: "Wave background",
-    id: "wmpMeanBg",
+    id: "waveHeightBg",
     isVisible: false,
     isTimeseries: true,
   },
@@ -174,7 +174,12 @@ export const initialState = {
         data: `${BASE_URL}/openistorm/stations/?type=sea_level`,
       },
       layout: {
+      // 'text-field': ['get', 'station_label'],
+      // 'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+      // 'text-radial-offset': 0.5,
+      // 'text-justify': 'auto',
         "icon-image": "station-sealevel",
+
       }
     },
     stationsWave: {
@@ -186,6 +191,7 @@ export const initialState = {
       source: {
         type: 'geojson',
         // data: 'https://iws.ismar.cnr.it/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3AI_STORMS_monitoring_station_details_station_l&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature',
+        // data: [],
         data: `${BASE_URL}/openistorm/stations/?type=waves`,
       },
       layout: {
@@ -212,8 +218,8 @@ export const initialState = {
   requestError: {
     message: null
   },
-  
-  
+
+
 };
 
 
@@ -229,12 +235,16 @@ const mapPageReducer = (state = initialState, action) =>
         draft.favourites.selected = {};
         break;
       case TOGGLE_LAYER_VISIBILITY:
-          if(action.layer === "wmpMean") {
+          if(action.layer === "waveHeight") {
             draft.WindGLLayer.isVisible = true;
             draft.seaLevel.isVisible = false;
+            // draft.layers["stationsWave"].isVisible = true;
+            // draft.layers["stationsSeaLevel"].isVisible = false;
           } else if(action.layer === "seaLevel") {
             draft.seaLevel.isVisible = true;
             draft.WindGLLayer.isVisible = false;
+            // draft.layers["stationsSeaLevel"].isVisible = true;
+            // draft.layers["stationsWave"].isVisible = false;
           } else {
             draft.layers[action.layer].isVisible = !draft.layers[action.layer].isVisible;
           }
@@ -265,11 +275,18 @@ const mapPageReducer = (state = initialState, action) =>
         //   .reduce((acc, key) => ({
         //       ...acc, [key]: action.result.results[key]
         //   }), {})
-        const results = {...action.result, parameters: action.result.parameters.sort()}
+        const results = {
+          ...action.result,
+          parameters: action.result.parameters.sort(),
+          // results: {
+          //   ...action.result.results,
+          //   // station: Object.values(action.result.results.station).filter((x)=>x).count() > 0 ? action.result.results.station : null
+          // }
+        }
         // console.log('CONV RESULTS')
         // console.log('CONV RESULTS')
         // console.log('CONV RESULTS')
-        // console.log(results)
+        // console.log('REQUEST_INFO_LAYER_SUCCESS', results)
         draft.popups.results = [{...results, show: true}];
       break;
       case REQUEST_FAVOURITES_LAYER:
@@ -282,7 +299,7 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.error = initialState.layers.favorites.error;
           draft.layers.favorites.source.data = action.result;
           draft.layers.favorites.isVisible = true
-        break; 
+        break;
 
       case REQUEST_FAVOURITES:
         draft.favourites.loading = true;
@@ -320,12 +337,12 @@ const mapPageReducer = (state = initialState, action) =>
           draft.loading = false;
           draft.popups.postfavourites.results = []
         break;  */
-        
+
       case REQUEST_ERROR:
         /* draft.popups.loading = false; */
         draft.requestError.message = action.error;
       break;
-      
+
     }
   });
 

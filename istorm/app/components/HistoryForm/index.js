@@ -16,7 +16,7 @@ import Box from '@material-ui/core/Box';
 
 const styles = (theme, style) => {
   return {
-    
+
   }
 };
 
@@ -49,8 +49,8 @@ function HistoryForm(props) {
               format={dateFormat}
               value={formData.from}
               initialFocusedDate={formData.from}
-              maxDate={formData.to.subtract(1, "days")}
-              minDate={formData.min}
+              // maxDate={formData.to.subtract(1, "days")}
+              // minDate={formData.min}
               onChange={(date) => handleDateChange(date, "from")}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
@@ -65,7 +65,7 @@ function HistoryForm(props) {
               format={dateFormat}
               value={formData.to}
               initialFocusedDate={formData.to}
-              minDate={formData.to.add(1, "days")}
+              // minDate={formData.to.add(1, "days")}
               maxDate={formData.max}
               onChange={(date) => handleDateChange(date, "to")}
               KeyboardButtonProps={{
