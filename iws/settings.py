@@ -520,6 +520,7 @@ THREDDS_URL = "https://iws.ismar.cnr.it/"
 LAYERDATA_ROOT = os.path.join(PROJECT_ROOT, 'storage', 'layerdata')
 SITE_URL = os.getenv('SITE_URL', 'https://iws.ismar.cnr.it')
 SITE_HOST = os.getenv('SITE_HOST', 'iws.ismar.cnr.it')
+PROXY_URL=os.getenv('PROXY_URL', 'http://iws.seastorms.eu')
 NODE_PROXY_URL=os.getenv('NODE_PROXY_URL', 'http://iws.inkode.it:3000')
 # PROXY_URL='http://iws.inkode.it:3000'
 LAYERDATA_URL = SITE_URL+'/layerdata/'
