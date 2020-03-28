@@ -15,17 +15,17 @@ import { StormEventsIcon } from '../../utils/icons';
 import SidebarSubNav from 'components/SidebarSubNav';
 
 const styles = (theme, style) => {
-  console.info("themeeeeeeeeeeeeeeeee");
-  console.info(theme, style);
+  // console.log("themeeeeeeeeeeeeeeeee");
+  // console.log(theme, style);
   return {
     subNav: {
-      position: "absolute", 
-      top: 0, 
-      left: 0, 
-      zIndex: 10, 
+      position: "absolute",
+      top: 0,
+      left: 0,
+      zIndex: 10,
       width: 250,
       backgroundColor: "rgba(255,255,255,.8)",
-      
+
     },
   }
 };
@@ -35,8 +35,8 @@ function StormEventsPage(props) {
     <>
       <SidebarSubNav
         location={props.location}
-        title="Sea storm events" 
-        icon={StormEventsIcon} 
+        title="Sea storm events"
+        icon={StormEventsIcon}
         />
     </>
   );

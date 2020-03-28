@@ -109,8 +109,8 @@ const styles = (theme) => {
 
 function Sidebar(props) {
   useInjectReducer({ key: 'sidebar', reducer });
-  console.info("sidebar");
-  console.info(props);
+  // console.log("sidebar");
+  // console.log(props);
   return (
     <Drawer
       //className={props.classes.drawer}

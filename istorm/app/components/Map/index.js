@@ -90,6 +90,7 @@ class Map extends React.Component {
   }
 
   updateViewport(viewport) {
+    // console.log('viewport',viewport)
     this.props.dispatch(setViewport(viewport));
   }
 
@@ -119,6 +120,7 @@ class Map extends React.Component {
 
 
   onClick(event) {
+    // console.log(this.refs.map.getMap())
     if(!this.props.history.location.pathname.includes('station')){
       // console.log('REACT MAP GL onClick(event)')
       const pos = this.refs.map.getMap().unproject(event.offsetCenter)
@@ -139,6 +141,8 @@ class Map extends React.Component {
             // this.setState({...this.state, station: event.features[Index].properties.id})
           }
         }
+      } else {
+            this.setState({...this.state, station: null})
       }
       // ANIMATION OPEN/CLOSE + REQUEST/CLOSE InfoLayer
       if(this.props.popups.open){

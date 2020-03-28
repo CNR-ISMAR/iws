@@ -52,8 +52,9 @@ const styles = (theme) => {
                           : (this.props.mean ? '+8m' : '+2m')
                       }</Typography>
                     </Box>
+                 <Box></Box>
                 </div>
-            </> 
+            </>
         )
     }
 }

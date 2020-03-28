@@ -39,8 +39,8 @@ import {createStructuredSelector} from "reselect";
 import { REQUEST_NOTIFICATION } from './constants'; */
 
 const styles = (theme, style) => {
-  console.info("custom style Notification");
-  console.info(theme, style);
+  // console.log("custom style Notification");
+  // console.log(theme, style);
   return {
     notification:{
       "& p[class^='MuiTypography']":{

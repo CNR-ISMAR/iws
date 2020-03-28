@@ -62,8 +62,8 @@ import CreditsPage from "../CreditsPage/Loadable";
 
 function App(props) {
   const classes = useStyles();
-  console.info("app");
-  console.info(props);
+  // console.log("app");
+  // console.log(props);
 
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());

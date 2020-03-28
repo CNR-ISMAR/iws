@@ -58,8 +58,8 @@ const styles = (theme) => {
 };
 
 function Header(props) {
-  console.info("header");
-  console.info(props);
+  // console.log("header");
+  // console.log(props);
   return (
     <AppBar position="fixed" className={props.classes.appBar}>
       <Toolbar>

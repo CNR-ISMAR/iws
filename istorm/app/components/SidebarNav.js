@@ -79,8 +79,8 @@ const styles = (theme) => {
 };
 
 function SidebarNav(props) {
-  console.info("SidebarNav")
-  console.info(props);
+  // console.log("SidebarNav")
+  // console.log(props);
   const [notify, countNotifyRead] = useState(0)
 
   const linkTo = (path) => {
@@ -168,8 +168,8 @@ function SidebarNav(props) {
           <ListItemText primary={props.layers["favorites"].name} />
         </ListItem>
 
-        <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("credits")} onClick={() => linkTo("credits")} key={"nav-credits"}>
-          <ListItemIcon className={props.classes.listItemIcon}><HelpOutlineIcon/></ListItemIcon>
+        <ListItem button className={props.classes.listItem} selected={isCurrentPage("credits")} onClick={() => linkTo("credits")} key={"nav-credits"}>
+          <ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
           <ListItemText primary={"Credits"} />
           { isCurrentPage("credits") ?
             <ArrowLeftIcon className={props.classes.arrow}/>

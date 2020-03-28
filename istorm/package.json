@@ -83,6 +83,7 @@
     "clsx": "^1.0.4",
     "compression": "1.7.4",
     "connected-react-router": "6.4.0",
+    "cors": "^2.8.5",
     "cross-env": "5.2.0",
     "d3-ease": "^1.0.5",
     "deck.gl": "^7.1.7",

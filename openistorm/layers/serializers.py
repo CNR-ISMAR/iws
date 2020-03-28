@@ -14,10 +14,15 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     sea_level_std = serializers.SerializerMethodField()
     wsh_mean = serializers.SerializerMethodField()
     wsh_std = serializers.SerializerMethodField()
+    info = serializers.SerializerMethodField()
 
+
+    def get_info(self, instance):
+        return instance.info
 
     def get_date(self, instance):
-        return datetime.datetime.fromtimestamp(instance.timestamp).isoformat()+'.000Z'
+        # return datetime.datetime.fromtimestamp(instance.timestamp).isoformat()+'.000Z'
+        return instance.date
 
     def get_wave_metadata(self, instance):
         return instance.metadata
@@ -170,4 +175,4 @@ class ImageLayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ImageLayer
-        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std', 'wsh_mean', 'wsh_std')
+        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std', 'wsh_mean', 'wsh_std', 'info')

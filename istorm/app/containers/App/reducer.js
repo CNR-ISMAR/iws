@@ -34,7 +34,8 @@ const waveHeightUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + 
 const BASE_URL = process.env.API_URL;
 
 export const initialState = {
-  bbox: [[46.0072862623,18.7461364269], [42.7225675413,11.6001372337]],
+  bbox: [[46,18], [42,11]],
+  // bbox: [],
   mean: true,
   options: {
     minPitch: 0,
@@ -43,11 +44,12 @@ export const initialState = {
     touchRotate: false,
   },
   viewport: {
-    longitude: 12.33265,
-    latitude: 45.43713,
-    zoom: 7,
-    minZoom: 7,
+    longitude: 13.56,
+    latitude: 44.36,
+    zoom: 6.25,
+    minZoom: 6.25,
     maxZoom: 14,
+    altitude: 1.5,
     // bearing: 3,
     // pitch: 0
   },
@@ -158,12 +160,13 @@ export const initialState = {
       },
       layout: {
         "icon-image": "favorite",
+        'icon-allow-overlap': true
       },
       loading: false,
       error: null
     },
     stationsSeaLevel: {
-      name: "Station Seal Level",
+      name: "Station Sea Level",
       id: "stations-sea-level",
       isVisible: true,
       isTimeseries: false,
@@ -179,7 +182,7 @@ export const initialState = {
       // 'text-radial-offset': 0.5,
       // 'text-justify': 'auto',
         "icon-image": "station-sealevel",
-
+        'icon-allow-overlap': true
       }
     },
     stationsWave: {
@@ -196,6 +199,7 @@ export const initialState = {
       },
       layout: {
         "icon-image": "station-wave",
+        'icon-allow-overlap': true
       }
     }
   },
