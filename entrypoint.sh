@@ -21,12 +21,12 @@ if [ ${IS_CELERY} = "false" ]  || [ ${IS_CELERY} = "False" ]
     /usr/local/bin/invoke migrations
     echo "migrations task done"
 
-#    if [ ! -e "/mnt/volumes/statics/geonode_init.lock" ]; then
-#        /usr/local/bin/invoke prepare
-#        echo "prepare task done"
-#        /usr/local/bin/invoke fixtures
-#        echo "fixture task done"
-#    fi
+    if [ ! -e "/mnt/volumes/statics/geonode_init.lock" ]; then
+        /usr/local/bin/invoke prepare
+        echo "prepare task done"
+        /usr/local/bin/invoke fixtures
+        echo "fixture task done"
+    fi
     /usr/local/bin/invoke initialized
     echo "initialized"
 
