@@ -52,7 +52,7 @@ const styles = (theme) => {
       paddingTop: 20,
       paddingBottom: 0
     },
-    
+
   }
 };
 
@@ -72,7 +72,7 @@ function ValueLabelComponent(props) {
       popperRef.current.update();
     }
   });
-  
+
   return (
     <CustomTooltip
       PopperProps={{
@@ -137,7 +137,7 @@ function Timeline(props) {
   const days = Object.keys(daysKeys).map((ddd) => {
     timelineWidth = timelineWidth + daysKeys[ddd].width;
     return {
-      label : daysKeys[ddd].value.format("D dddd"), 
+      label : daysKeys[ddd].value.format("D dddd"),
       isoDate: daysKeys[ddd].value.toISOString(),
       value: daysKeys[ddd].value,
       width: daysKeys[ddd].width
@@ -162,7 +162,7 @@ function Timeline(props) {
   const togglePlayStop = (e) => {
     props.togglePlay();
   }
-  
+
   useEffect(() => {
     if(props.timeline.play) {
       if(interval === null) {
@@ -213,7 +213,7 @@ function Timeline(props) {
             />
           </Box>
           <Box display="flex" style={{width: timelineWidth}}>
-            {days.map((day) => 
+            {days.map((day) =>
               <div key={`${day.isoDate}-days`} onClick={(e) => updateCurrentDate(e, day.value)} className={props.classes.timelineItem} style={{width: day.width}}>{day.label}</div>
             )}
           </Box>

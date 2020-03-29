@@ -514,7 +514,7 @@ class NCToImg:
                     arrays = [array1, array2]
                     m = band1.GetMetadata()
 
-                    seconds = int(m['NETCDF_DIM_time']) * 3600
+                    seconds = (int(m['NETCDF_DIM_time'])) * 3600
                     ts = datetime.fromtimestamp(seconds + since).strftime('%s')
                     json_time = datetime.fromtimestamp(seconds + since).strftime('%Y-%m-%dT%H:%M.000Z')
                     print("json_time "+str(json_time))

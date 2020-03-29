@@ -4,13 +4,13 @@
  *
  */
 
-import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT, 
-  TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS, 
-  POST_FAVOURITE,  POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_POST_FAVOURITE, 
+import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
+  TOGGLE_LAYER_MEAN,REQUEST_INFO_LAYER, REQUEST_INFO_LAYER_SUCCESS,
+  POST_FAVOURITE,  POST_FAVOURITE_SUCCESS, POST_FAVOURITE_EMPTY, DELETE_POST_FAVOURITE,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, EMPTY_INFO_LAYER, TOGGLE_INFO_LAYER,
-  REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE, 
-   DELETE_FAVOURITE_SUCCESS, FILL_IF_IS_FAVOURITE, SET_LAT_LON } from './constants';
+  REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE,
+   DELETE_FAVOURITE_SUCCESS, FILL_IF_IS_FAVOURITE, SET_LAT_LON, DISMISS_CREDITS } from './constants';
 
 
 export function toggleInfoLayer(open) {
@@ -63,7 +63,7 @@ export function requestInfoLayer(options) {
 export function requestFavouritesLayer() {
   return {
     type: REQUEST_FAVOURITES_LAYER,
-    
+
   };
 }
 
@@ -96,13 +96,13 @@ export function postFavouriteSuccess(results) {
     type: POST_FAVOURITE_SUCCESS,
     results: results,
   };
-} 
+}
 
 
 export function postFavouriteEmpty() {
   return {
     type: POST_FAVOURITE_EMPTY,
-    
+
   };
 }
 
@@ -160,8 +160,19 @@ export function emptyInfoLayer() {
 export function getLatLon(latitude, longitude) {
   return {
     type: SET_LAT_LON,
-    latitude: latitude, 
+    latitude: latitude,
     longitude: longitude
+  };
+}
+
+export function dismissCredits() {
+  return {
+    type: DISMISS_CREDITS
+  };
+}
+export function syncDismiss() {
+  return {
+    type: SYNC_DISMISS
   };
 }
 

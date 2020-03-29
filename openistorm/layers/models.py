@@ -32,9 +32,17 @@ class ImageLayer(models.Model):
         return json.loads(self.textinfo) if self.textinfo else None
 
     @property
+    def timestamp_tz(self):
+        return self.timestamp - 3600
+
+    @property
     def date(self):
+        # # return datetime.datetime.utcfromtimestamp(self.timestamp).isoformat()+'.000Z'
+        # # return datetime.datetime.fromtimestamp(self.timestamp).isoformat()+'.000Z'
+        # # return datetime.datetime.fromtimestamp(self.timestamp).replace(tzinfo=pytz.utc).astimezone(pytz.timezone('Europe/Rome')).isoformat()+'.000Z'
         # return datetime.datetime.fromtimestamp(self.timestamp).replace(tzinfo=pytz.timezone('Europe/Rome')).isoformat()+'.000Z'
-        return datetime.datetime.fromtimestamp(self.timestamp).isoformat()+'.000Z'
+        # return datetime.datetime.fromtimestamp(self.timestamp).isoformat()+'.000Z'
+        return datetime.datetime.fromtimestamp(self.timestamp_tz).isoformat()+'.000Z'
 
     def __unicode__(self):
         return self.dataset + '_' + str(self.timestamp)

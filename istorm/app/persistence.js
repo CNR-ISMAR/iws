@@ -4,9 +4,12 @@ import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import { toggleDrawer } from 'containers/Sidebar/actions';
 import { syncAuth, requestRefresh } from "containers/AuthProvider/actions";
+import { syncCredits } from "containers/App/actions";
 import { setToken } from 'utils/api';
 import { isMobileOrTablet } from 'utils/mobileDetector';
 import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_REFRESH, REQUEST_PROFILE_SUCCESS } from 'containers/AuthProvider/constants';
+import { DISMISS_CREDITS } from 'containers/App/constants';
+import {push, getLocation} from "connected-react-router";
 
 const SKIP_REFRESH = [REQUEST_REFRESH, REQUEST_LOGIN, REQUEST_LOGOUT];
 const SYNC_PERSISTANCE_REQUEST = "persitance/SYNC_PERSISTANCE_REQUEST";
@@ -46,7 +49,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-export const persitanceReducer = (state = initialState, action) => 
+export const persitanceReducer = (state = initialState, action) =>
   produce(state, ( draft ) => {
     switch (action.type) {
       case SYNC_PERSISTANCE_REQUEST:
@@ -71,6 +74,7 @@ export const persitanceMiddleWare = store => next => action => {
     case REQUEST_REFRESH_SUCCESS:
     case REQUEST_PROFILE_SUCCESS:
       const state = store.getState();
+      // console.log(state)
       if(state.auth) {
         persistore.set("auth", state.auth);
       }
@@ -78,13 +82,24 @@ export const persitanceMiddleWare = store => next => action => {
     case REQUEST_LOGOUT_SUCCESS:
         persistore.delete("auth");
       break;
+    case DISMISS_CREDITS:
+        const appState = store.getState();
+        // console.log(appState)
+        persistore.set("credits", appState.mapPage.dismiss_credits);
+      break;
   }
 }
 
 export function* refreshPersistance() {
   const authStore = persistore.get("auth");
-  // console.log('authStore')
-  // console.log(authStore)
+  const dismiss_credits = persistore.get("credits");
+  if(dismiss_credits) {
+    yield put(dismissCredits());
+  } else {
+    if(window.location.pathname !== '/credits') {
+      yield put(push("/credits"));
+    }
+  }
   if(authStore) {
     setToken(authStore.oauth.token);
     yield put(syncAuth(authStore))

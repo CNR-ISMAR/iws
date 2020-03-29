@@ -25,6 +25,7 @@ import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
 import LayerFavorites from "./LayerFavorites";
 import mapCss from './mapCss.css';
+import mapStyle from './mapStyle';
 
 import { requestInfoLayer,
   emptyInfoLayer, toggleInfoLayer,
@@ -94,11 +95,13 @@ class Map extends React.Component {
     this.props.dispatch(setViewport(viewport));
   }
 
-  onMapLoad(data) {
+  onMapLoad(event) {
     const viewport = this.flyToBbox(this.props.bbox);
     this.setState({...this.state, mapboxIsLoading: false}, () => {
       this.props.dispatch(setViewport({...this.state.viewport, ...this.props.viewport, ...viewport}));
     });
+    // console.log('MAP LOAD ', event)
+    // event.target.setMaxBounds(this.props.options.maxBounds);
   }
 
   componentWillUnmount() {
@@ -120,6 +123,7 @@ class Map extends React.Component {
 
 
   onClick(event) {
+    // console.log(event.features)
     // console.log(this.refs.map.getMap())
     if(!this.props.history.location.pathname.includes('station')){
       // console.log('REACT MAP GL onClick(event)')
@@ -178,6 +182,7 @@ class Map extends React.Component {
         maxPitch={this.props.options.maxPitch}
         dragRotate={this.props.options.dragRotate}
         touchRotate={this.props.options.touchRotate}
+        maxBounds={this.props.options.maxBounds}
         id="gis-map"
         ref="map"
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}
@@ -190,6 +195,8 @@ class Map extends React.Component {
         onMouseMove={(event) => this.onMouseMove(event, this.refs) }
         // disable={true}
         mapStyle={this.props.mapStyle}
+        // mapStyle={'https://nose-cnr-backend.arpa.sicilia.it/styles/dark-nose/style.json'}
+        // mapStyle={mapStyle}
         >
 
         {!this.state.mapboxIsLoading && (

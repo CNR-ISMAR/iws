@@ -11,7 +11,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, EMPTY_INFO_LAYER,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_INFO_LAYER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE,
-  FILL_IF_IS_FAVOURITE, SET_LAT_LON  } from './constants';
+  FILL_IF_IS_FAVOURITE, SET_LAT_LON, DISMISS_CREDITS,SYNC_DISMISS  } from './constants';
 
 import theme from 'theme'
 
@@ -42,6 +42,11 @@ export const initialState = {
     maxPitch: 0,
     dragRotate: false,
     touchRotate: false,
+    maxBounds: [
+      [10, 40], // [west, south]
+      [23, 26],  // [east, north]
+    ],
+    // maxBounds: [[60, 10], [20, 30]],
   },
   viewport: {
     longitude: 13.56,
@@ -53,6 +58,14 @@ export const initialState = {
     // bearing: 3,
     // pitch: 0
   },
+  /*
+
+    mapStyle: `${process.env.MAPSERVER}/styles/blue-nose/style.json`,
+    style: {
+      version: 8,
+      glyphs: `${process.env.MAPSERVER}/fonts/{fontstack}/{range}.pbf`
+    },
+   */
   style: {
     sprite: proxyUrl+'/images/sprite',
     version: 8,
@@ -74,22 +87,33 @@ export const initialState = {
           // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
         ],
         tileSize: 256,
+      transparent: true
       },
     },
     layers: [
-      {
-        id: "backgroundLayer",
-        type: "raster",
-        source: "backgroundLayer",
-        minzoom: 0,
-        maxzoom: 22
+    {
+      "id": "background",
+      "paint": {
+        "background-color": "rgba(50, 50, 50, 0.2)"
       },
+      "type": "background"
+    },
+      // {
+      //   id: "backgroundLayer",
+      //   type: "raster",
+      //   source: "backgroundLayer",
+      //   minzoom: 0,
+      //   maxzoom: 22
+      // },
       {
         id: "cover",
         type: "raster",
         source: "cover",
         minzoom: 0,
-        maxzoom: 22
+        maxzoom: 22,
+        paint: {
+          // "raster-brightness-max": 0.2
+        }
       }
     ]
   },
@@ -222,6 +246,7 @@ export const initialState = {
   requestError: {
     message: null
   },
+  dismiss_credits: false,
 
 
 };
@@ -346,6 +371,14 @@ const mapPageReducer = (state = initialState, action) =>
         /* draft.popups.loading = false; */
         draft.requestError.message = action.error;
       break;
+      case DISMISS_CREDITS:
+        /* draft.popups.loading = false; */
+        draft.dismiss_credits = true;
+      break;
+      case SYNC_DISMISS:
+        /* draft.popups.loading = false; */
+        draft.dismiss_credits = true;
+      break;
 
     }
   });
@@ -362,7 +395,13 @@ const latLngReducer = (state = initialState, action) =>
   }
 })
 
+const creditsReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+  }
+})
+
 
 export default mapPageReducer;
-export { latLngReducer }
+export { latLngReducer, creditsReducer}
 
