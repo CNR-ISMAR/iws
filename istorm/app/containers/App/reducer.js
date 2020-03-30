@@ -11,7 +11,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, EMPTY_INFO_LAYER,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_INFO_LAYER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE,
-  FILL_IF_IS_FAVOURITE, SET_LAT_LON, DISMISS_CREDITS,SYNC_DISMISS  } from './constants';
+  FILL_IF_IS_FAVOURITE, SET_LAT_LON, DISMISS_CREDITS, SYNC_DISMISS, SET_POINT_POPUP  } from './constants';
 
 import theme from 'theme'
 
@@ -67,6 +67,7 @@ export const initialState = {
     },
    */
   style: {
+    glyphs: "https://nose-cnr-backend.arpa.sicilia.it/fonts/{fontstack}/{range}.pbf",
     sprite: proxyUrl+'/images/sprite',
     version: 8,
     sources: {
@@ -201,12 +202,18 @@ export const initialState = {
         data: `${BASE_URL}/openistorm/stations/?type=sea_level`,
       },
       layout: {
-      // 'text-field': ['get', 'station_label'],
-      // 'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-      // 'text-radial-offset': 0.5,
+      'text-field': ['get', 'station_label'],
+      // 'text-field':  ["concat", ['get', 'station_label'], ' - ', ['get', 'code']],
+      'text-anchor': 'top',
+      'text-size': 12,
+      'icon-anchor': 'bottom',
+      // 'text-color': '#ffffff',
       // 'text-justify': 'auto',
         "icon-image": "station-sealevel",
-        'icon-allow-overlap': true
+        'icon-allow-overlap': true,
+      },
+      paint: {
+      'text-color': '#ffffff',
       }
     },
     stationsWave: {
@@ -222,8 +229,18 @@ export const initialState = {
         data: `${BASE_URL}/openistorm/stations/?type=waves`,
       },
       layout: {
+      'text-field': ['get', 'station_label'],
+      // 'text-field':  ["concat", ['get', 'station_label'], ' - ', ['get', 'code']],
+      'text-anchor': 'top',
+      'text-size': 12,
+      'icon-anchor': 'bottom',
+      // 'text-color': '#ffffff',
+      // 'text-justify': 'auto',
         "icon-image": "station-wave",
-        'icon-allow-overlap': true
+        'icon-allow-overlap': true,
+      },
+      paint: {
+      'text-color': '#ffffff',
       }
     }
   },
@@ -247,6 +264,17 @@ export const initialState = {
     message: null
   },
   dismiss_credits: false,
+  pointPopup: {
+    latitude: null,
+    longitude: null,
+    title: '',
+    show: false,
+    closeButton: true,
+    closeOnClick: true,
+    anchor: "top",
+    // dynamicPosition: false,
+    // dynamicPosition: true,
+  },
 
 
 };
@@ -328,6 +356,10 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.error = initialState.layers.favorites.error;
           draft.layers.favorites.source.data = action.result;
           draft.layers.favorites.isVisible = true
+        break;
+
+      case SET_POINT_POPUP:
+          draft.pointPopup = action.popup;
         break;
 
       case REQUEST_FAVOURITES:

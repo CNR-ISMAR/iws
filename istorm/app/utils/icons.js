@@ -74,6 +74,17 @@ export function WaveIcon(props) {
     )
 }
 
+ export function HelpIcon(props) {
+    return (
+       <SvgIcon {...props}>
+           <g>
+               {/*<path fill={props.iconcolor} d="M12.5.031A12.5,12.5,0,1,0,25,12.531,12.5,12.5,0,0,0,12.5.031Zm0,23.355A10.855,10.855,0,1,1,23.355,12.531h0A10.864,10.864,0,0,1,12.5,23.386Z" transform="translate(0 -0.031)"/>*/}
+               <path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z" fill={props.iconcolor}/>
+           </g>
+       </SvgIcon>
+    )
+}
+
  export function SettingsIcon(props) {
     return (
        <SvgIcon {...props}>

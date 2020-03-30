@@ -19,7 +19,7 @@ import { easeCubic } from 'd3-ease';
 import Layer from "./Layer";
 import { setViewport,  getLatLon } from "../../containers/App/actions";
 
-import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, Popup } from 'react-map-gl';
 import { LngLat } from 'mapbox-gl';
 import WindGLLayer from "./WindGLLayer";
 import LayerSeaLevel from "./LayerSeaLevel";
@@ -29,7 +29,7 @@ import mapStyle from './mapStyle';
 
 import { requestInfoLayer,
   emptyInfoLayer, toggleInfoLayer,
-  fillIfIsFavourite,  } from "containers/App/actions";
+  fillIfIsFavourite, setPointPopup } from "containers/App/actions";
 
 import InfoLayer from 'components/InfoLayer';
 
@@ -69,7 +69,8 @@ class Map extends React.Component {
     this.onClick = this.onClick.bind(this);
     this.dispatchRequestInfoLayer = this.dispatchRequestInfoLayer.bind(this);
     this.openingTime = this.props.theme.transitions.duration.enteringScreen;
-
+    this.closePopup = this.closePopup.bind(this);
+    this.showPopup = this.showPopup.bind(this);
   }
 
   flyTo(latitude, longitude, zoom) {
@@ -122,6 +123,38 @@ class Map extends React.Component {
   }
 
 
+
+  showPopup(event) {
+    // console.log(this.props)
+    // console.log(event.features);
+    const stationFeatures = event.features.filter((f) => f.source.includes("station"))
+    if (stationFeatures.length > 0) {
+      const station = stationFeatures[0]
+      const popup = {
+        latitude: station.geometry.coordinates[0],
+        longitude: station.geometry.coordinates[1],
+        title: `Station ${station.properties.station_label}`,
+        text: `(${stationFeatures.filter((s) => s.properties.station_label === station.properties.station_label).map((s) => s.properties.code).join(', ')})`,
+        show: true,
+        closeButton: true,
+        closeOnClick: true,
+        anchor: "top",
+        dynamicPosition: false,
+      }
+      // this.setState({...this.state, popup: popup});
+      this.props.dispatch(setPointPopup(popup));
+      // console.log(popup);
+    } else {
+      if(this.props.pointPopup.show)
+        this.props.dispatch(setPointPopup({show: false}));
+    }
+  }
+
+  closePopup() {
+    // this.setState({...this.state, popup: {...popup, show: false}});
+      this.props.dispatch(setPointPopup({show: false}));
+  }
+
   onClick(event) {
     // console.log(event.features)
     // console.log(this.refs.map.getMap())
@@ -168,13 +201,9 @@ class Map extends React.Component {
   }
 
   render () {
-    // console.log('React Map')
-    // console.log(this.props)
-
     return (
       <>
       <ReactMapGL
-        // onWheel={(e)=>{setTimeout(function(){ console.log(e); }, 1000)}}
         disableTokenWarning={true}
         width={this.state.viewport.width}
         height={this.state.viewport.height}
@@ -191,9 +220,9 @@ class Map extends React.Component {
         onViewportChange={this.updateViewport}
         onLoad={this.onMapLoad}
         onClick={this.onClick}
+        // onHover={this.showPopup}
         onTap={this.onClick}
         onMouseMove={(event) => this.onMouseMove(event, this.refs) }
-        // disable={true}
         mapStyle={this.props.mapStyle}
         // mapStyle={'https://nose-cnr-backend.arpa.sicilia.it/styles/dark-nose/style.json'}
         // mapStyle={mapStyle}
@@ -244,6 +273,17 @@ class Map extends React.Component {
           favourites={this.props.favourites}
           openingTime={this.openingTime}
           />
+        {this.props.pointPopup.show && (
+          <Popup {...this.props.pointPopup}
+            onClose={() => this.closePopup()}
+          >
+          <div>
+            {this.props.pointPopup.title}
+            {this.props.pointPopup.text}
+          </div>
+          </Popup>
+
+        )}
       </>
     )
   }

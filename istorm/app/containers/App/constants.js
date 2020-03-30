@@ -39,6 +39,7 @@ export const TOGGLE_INFO_LAYER = 'app/App/TOGGLE_INFO_LAYER';
 export const EMPTY_INFO_LAYER = 'app/App/EMPTY_INFO_LAYER';
 export const DISMISS_CREDITS = 'app/App/DISMISS_CREDITS';
 export const SYNC_DISMISS = 'app/App/SYNC_DISMISS';
+export const SET_POINT_POPUP = 'app/App/SET_POINT_POPUP';
 
 
 

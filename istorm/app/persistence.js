@@ -4,7 +4,7 @@ import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import { toggleDrawer } from 'containers/Sidebar/actions';
 import { syncAuth, requestRefresh } from "containers/AuthProvider/actions";
-import { syncCredits } from "containers/App/actions";
+import { syncCredits, dismissCredits } from "containers/App/actions";
 import { setToken } from 'utils/api';
 import { isMobileOrTablet } from 'utils/mobileDetector';
 import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_REFRESH, REQUEST_PROFILE_SUCCESS } from 'containers/AuthProvider/constants';
@@ -94,7 +94,8 @@ export function* refreshPersistance() {
   const authStore = persistore.get("auth");
   const dismiss_credits = persistore.get("credits");
   if(dismiss_credits) {
-    yield put(dismissCredits());
+    // yield put(dismissCredits());
+    yield put(syncCredits);
   } else {
     if(window.location.pathname !== '/credits') {
       yield put(push("/credits"));

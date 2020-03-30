@@ -207,6 +207,7 @@ function MapPage(props) {
           isLogged={props.isLogged}
           favoritesLayer={props.mapPage.layers.favorites}
           favourites={props.mapPage.favourites}
+          pointPopup={props.mapPage.pointPopup}
           />
         <div className={props.classes.mapControl}>
           <Box display="flex" alignItems="flex-end" flexDirection="column">

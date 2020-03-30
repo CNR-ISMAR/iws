@@ -20,6 +20,16 @@ class Layer extends BaseControl {
       // }
     if(layer.isVisible) {
       map.addLayer(layer);
+      const layerOnMap = map.getLayer(layer.id);
+      // console.log(layerOnMap)
+      // // if(layerOnMap) {
+      //   layerOnMap.on('mouseover', function(e) {
+      //       e.layer.openPopup();
+      //   });
+      //   layerOnMap.on('mouseout', function(e) {
+      //       e.layer.closePopup();
+      //   });
+      // // }
     }
   }
 

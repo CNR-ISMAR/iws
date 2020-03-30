@@ -25,7 +25,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
-import { NotificationIcon, StormEventsIcon, LayersIcon, HistoryIcon, StationIcon, ListIcon, FavoriteIcon, SettingsIcon, InfoIcon } from '../utils/icons';
+import { NotificationIcon, StormEventsIcon, LayersIcon, HistoryIcon, StationIcon, ListIcon, FavoriteIcon, SettingsIcon, InfoIcon, HelpIcon } from '../utils/icons';
 
 const styles = (theme) => {
   return {
@@ -176,6 +176,11 @@ function SidebarNav(props) {
             :
             <ArrowRightIcon className={props.classes.arrow}/>
           }
+
+        </ListItem>
+        <ListItem button component="a" className={props.classes.listItem} target={'_blank'} href="https://iws.seastorms.eu/static/docs/html/open_istorms/about_open_istorms.html" key={"nav-manual"}>
+          <ListItemIcon className={props.classes.listItemIcon}><HelpIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
+          <ListItemText primary={"Instructions"} />
         </ListItem>
 
 

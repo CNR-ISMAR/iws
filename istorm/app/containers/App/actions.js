@@ -10,7 +10,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, EMPTY_INFO_LAYER, TOGGLE_INFO_LAYER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE,
-   DELETE_FAVOURITE_SUCCESS, FILL_IF_IS_FAVOURITE, SET_LAT_LON, DISMISS_CREDITS } from './constants';
+   DELETE_FAVOURITE_SUCCESS, FILL_IF_IS_FAVOURITE, SET_LAT_LON, DISMISS_CREDITS, SET_POINT_POPUP } from './constants';
 
 
 export function toggleInfoLayer(open) {
@@ -173,6 +173,13 @@ export function dismissCredits() {
 export function syncDismiss() {
   return {
     type: SYNC_DISMISS
+  };
+}
+
+export function setPointPopup(popup) {
+  return {
+    type: SET_POINT_POPUP,
+    popup: popup
   };
 }
 
