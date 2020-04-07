@@ -31,7 +31,7 @@ class WSHLayer {
 class WindLayer {
   constructor(id, ctx, windImageSrc, windImageMeta) {
     this.id = id;
-    this.loading = false; 
+    this.loading = false;
     this.type = 'custom';
     this.ctx = ctx;
     this.renderingMode = '2d';
@@ -85,7 +85,7 @@ class WindLayer {
   render(gl, matrix) {
     const map = this.state.map;
     const wind = this.state.wind;
-    
+
     this.updateWindScale(wind, map)
   }
 
@@ -138,6 +138,7 @@ class WindGLLayer extends BaseControl {
   }
 
   getLayerBefore(map) {
+    // return 'place';
     return 'cover';
     if(map.getLayer('favorites'))
       return 'favorites';
@@ -163,7 +164,7 @@ class WindGLLayer extends BaseControl {
         map.removeLayer(layer.id);
       }
       if (this._ctx && this._ctx instanceof WebGLRenderingContext && wsh) {
-        const wsh_uri = mean && layerInfo ? layerInfo.wsh_mean : layerInfo ? layerInfo.wsh_std : null
+        const wsh_uri = mean && layerInfo ? layerInfo.wsh_mean.url : layerInfo ? layerInfo.wsh_std.url : null
       const afterLayer = this.getLayerBefore(map);
         map.addLayer(new WSHLayer(wsh.id, this._ctx, wsh, wsh_uri), afterLayer);
         map.addLayer(new WindLayer(layer.id, this._ctx, layerInfo.wave_image, layerInfo.wave_metadata), afterLayer);
@@ -181,7 +182,7 @@ class WindGLLayer extends BaseControl {
     const { layer, layerInfo, mean, wsh } = newProps;
     const source = typeof map.getLayer !== "undefined" ? map.getLayer(layer.id) : null;
     if(source && JSON.stringify(layerInfo) !== JSON.stringify(this.props.layerInfo) || mean != this.props.mean) {
-      const wsh_uri = mean && layerInfo ? layerInfo.wsh_mean : layerInfo ? layerInfo.wsh_std : null
+      const wsh_uri = mean && layerInfo ? layerInfo.wsh_mean.url : layerInfo ? layerInfo.wsh_std.url : null
       // console.log("wsh_uri", wsh_uri)
       map.removeLayer("wsh");
       map.removeSource("wsh");

@@ -11,7 +11,7 @@ import { TOGGLE_LAYER_VISIBILITY, ZOOM_IN, ZOOM_OUT, SET_VIEWPORT,
   DELETE_POST_FAVOURITE_SUCCESS, REQUEST_ERROR, EMPTY_INFO_LAYER,
   REQUEST_FAVOURITES_LAYER, REQUEST_FAVOURITES_LAYER_SUCCESS, TOGGLE_INFO_LAYER,
   REQUEST_FAVOURITES, REQUEST_FAVOURITES_SUCCESS, DELETE_FAVOURITE,
-  FILL_IF_IS_FAVOURITE, SET_LAT_LON  } from './constants';
+  FILL_IF_IS_FAVOURITE, SET_LAT_LON, DISMISS_CREDITS, SYNC_DISMISS, SET_POINT_POPUP  } from './constants';
 
 import theme from 'theme'
 
@@ -34,24 +34,40 @@ const waveHeightUrl = proxyUrl + "/thredds/wms/tmes/TMES_sea_level_" + ncdate + 
 const BASE_URL = process.env.API_URL;
 
 export const initialState = {
-  bbox: [[46.0072862623,18.7461364269], [42.7225675413,11.6001372337]],
+  bbox: [[46,18], [42,11]],
+  // bbox: [],
   mean: true,
   options: {
     minPitch: 0,
     maxPitch: 0,
     dragRotate: false,
     touchRotate: false,
+    maxBounds: [
+      [10, 40], // [west, south]
+      [23, 26],  // [east, north]
+    ],
+    // maxBounds: [[60, 10], [20, 30]],
   },
   viewport: {
-    longitude: 12.33265,
-    latitude: 45.43713,
-    zoom: 7,
-    minZoom: 7,
+    longitude: 13.56,
+    latitude: 44.36,
+    zoom: 6.25,
+    minZoom: 6.25,
     maxZoom: 14,
+    altitude: 1.5,
     // bearing: 3,
     // pitch: 0
   },
+  /*
+
+    mapStyle: `${process.env.MAPSERVER}/styles/blue-nose/style.json`,
+    style: {
+      version: 8,
+      glyphs: `${process.env.MAPSERVER}/fonts/{fontstack}/{range}.pbf`
+    },
+   */
   style: {
+    glyphs: "https://nose-cnr-backend.arpa.sicilia.it/fonts/{fontstack}/{range}.pbf",
     sprite: proxyUrl+'/images/sprite',
     version: 8,
     sources: {
@@ -72,22 +88,33 @@ export const initialState = {
           // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
         ],
         tileSize: 256,
+      transparent: true
       },
     },
     layers: [
-      {
-        id: "backgroundLayer",
-        type: "raster",
-        source: "backgroundLayer",
-        minzoom: 0,
-        maxzoom: 22
+    {
+      "id": "background",
+      "paint": {
+        "background-color": "rgba(50, 50, 50, 0.2)"
       },
+      "type": "background"
+    },
+      // {
+      //   id: "backgroundLayer",
+      //   type: "raster",
+      //   source: "backgroundLayer",
+      //   minzoom: 0,
+      //   maxzoom: 22
+      // },
       {
         id: "cover",
         type: "raster",
         source: "cover",
         minzoom: 0,
-        maxzoom: 22
+        maxzoom: 22,
+        paint: {
+          // "raster-brightness-max": 0.2
+        }
       }
     ]
   },
@@ -158,12 +185,13 @@ export const initialState = {
       },
       layout: {
         "icon-image": "favorite",
+        'icon-allow-overlap': true
       },
       loading: false,
       error: null
     },
     stationsSeaLevel: {
-      name: "Station Seal Level",
+      name: "Station Sea Level",
       id: "stations-sea-level",
       isVisible: true,
       isTimeseries: false,
@@ -174,12 +202,18 @@ export const initialState = {
         data: `${BASE_URL}/openistorm/stations/?type=sea_level`,
       },
       layout: {
-      // 'text-field': ['get', 'station_label'],
-      // 'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-      // 'text-radial-offset': 0.5,
+      'text-field': ['get', 'station_label'],
+      // 'text-field':  ["concat", ['get', 'station_label'], ' - ', ['get', 'code']],
+      'text-anchor': 'top',
+      'text-size': 12,
+      'icon-anchor': 'bottom',
+      // 'text-color': '#ffffff',
       // 'text-justify': 'auto',
         "icon-image": "station-sealevel",
-
+        'icon-allow-overlap': true,
+      },
+      paint: {
+      'text-color': '#ffffff',
       }
     },
     stationsWave: {
@@ -195,7 +229,18 @@ export const initialState = {
         data: `${BASE_URL}/openistorm/stations/?type=waves`,
       },
       layout: {
+      'text-field': ['get', 'station_label'],
+      // 'text-field':  ["concat", ['get', 'station_label'], ' - ', ['get', 'code']],
+      'text-anchor': 'top',
+      'text-size': 12,
+      'icon-anchor': 'bottom',
+      // 'text-color': '#ffffff',
+      // 'text-justify': 'auto',
         "icon-image": "station-wave",
+        'icon-allow-overlap': true,
+      },
+      paint: {
+      'text-color': '#ffffff',
       }
     }
   },
@@ -217,6 +262,18 @@ export const initialState = {
   },
   requestError: {
     message: null
+  },
+  dismiss_credits: false,
+  pointPopup: {
+    latitude: null,
+    longitude: null,
+    title: '',
+    show: false,
+    closeButton: true,
+    closeOnClick: true,
+    anchor: "top",
+    // dynamicPosition: false,
+    // dynamicPosition: true,
   },
 
 
@@ -301,6 +358,10 @@ const mapPageReducer = (state = initialState, action) =>
           draft.layers.favorites.isVisible = true
         break;
 
+      case SET_POINT_POPUP:
+          draft.pointPopup = action.popup;
+        break;
+
       case REQUEST_FAVOURITES:
         draft.favourites.loading = true;
         draft.favourites.error = initialState.favourites.error;
@@ -342,6 +403,14 @@ const mapPageReducer = (state = initialState, action) =>
         /* draft.popups.loading = false; */
         draft.requestError.message = action.error;
       break;
+      case DISMISS_CREDITS:
+        /* draft.popups.loading = false; */
+        draft.dismiss_credits = true;
+      break;
+      case SYNC_DISMISS:
+        /* draft.popups.loading = false; */
+        draft.dismiss_credits = true;
+      break;
 
     }
   });
@@ -358,7 +427,13 @@ const latLngReducer = (state = initialState, action) =>
   }
 })
 
+const creditsReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+  }
+})
+
 
 export default mapPageReducer;
-export { latLngReducer }
+export { latLngReducer, creditsReducer}
 

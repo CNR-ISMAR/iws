@@ -20,7 +20,7 @@ class CustomMarker extends BaseControl {
   componentDidMount() {
     const map = this._context.map;
     map.on('load', function() {
-      //console.info("map loaded");
+      //console.log("map loaded");
       map.addLayer({
         'id': 'wms-test-layer',
         'type': 'raster',
@@ -45,18 +45,18 @@ class CustomMarker extends BaseControl {
     if(map) {
       map.removeLayer("wms-test-layer");
     }
-    
+
     //const { map } = this.context;
     //const { layer } = this.props;
     //layer.removeFrom(map);
     //map.removeLayer(layer)
   }
-  
+
   _render() {
     const {longitude, latitude} = this.props;
 
     const [x, y] = this._context.viewport.project([longitude, latitude]);
-    
+
     const markerStyle = {
       position: 'absolute',
       background: '#000',
@@ -79,7 +79,7 @@ class CustomMarker extends BaseControl {
 //let TileLayers = ({ layers }) => layers.map((type, typeIndex) => <Layer key={"tail-layers-" + typeIndex} layer={ L.tileLayer.apply(L, tileOptions[type]) } />);
 
 //TileLayers.displayName = 'tileOptions';
-/* 
+/*
 TileLayers.propTypes = {
   layers: PropTypes.array
 }; */

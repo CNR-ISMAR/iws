@@ -43,7 +43,7 @@ const styles = (theme) => {
       backgroundColor: theme.palette.custom.darkBackground,
       textAlign: 'right',
     },
-    
+
     divider: {
       backgroundColor: theme.palette.custom.contrastText,
     },
@@ -60,18 +60,18 @@ const styles = (theme) => {
       paddingRight: theme.palette.custom.paddingSide,
     }
     /* HeaderBar:{
-      
+
     }  */
-    
+
   }
 };
 
 function HeaderBar(props) {
-  console.info("SidebarNav HeaderBar")
-  console.info(props);
+  // console.log("SidebarNav HeaderBar")
+  // console.log(props);
 
   const close = () => {
-    props.history.push("/")   
+    props.history.push("/")
   };
 
   return (
@@ -91,6 +91,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
   }
-  
+
 }
 export default connect(null, mapDispatchToProps)(withRouter(withStyles(styles, {withTheme: true})(HeaderBar)));

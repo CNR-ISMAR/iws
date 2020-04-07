@@ -2,23 +2,14 @@
 
 from osgeo import gdal
 from datetime import datetime, timedelta, time as timed
-# import datetime
-import time, urllib, wget, math, os, netCDF4, json, requests, pytz, xmltodict, requests
-# import logging
+import time, urllib, wget, math, os, netCDF4, json, requests, pytz, xmltodict, requests, ssl
 from PIL import Image
 from dateutil import parser
 from django.conf import settings
 from .models import ImageLayer
-import pytz
 from django.contrib.auth import get_user_model
-import ssl
-
-from subprocess import call
-
-from collections import defaultdict
-# from operator import itemgetter
-# import pydap.client
-# import xml.etree.ElementTree as ET
+from xmljson import parker, Parker
+from xml.etree.ElementTree import fromstring
 
 def setDateToUtc(date):
     if not isinstance(date, datetime):
@@ -27,6 +18,10 @@ def setDateToUtc(date):
 
 
 class WmsQueryNew:
+    history_datasets = {
+        'sea_level' : 'tmes_sea_level_frmc/TMES_sea_level_collection_best.ncd',
+        'waves' : 'tmes_wv_frmc/TMES_waves_collection_best.ncd'
+    }
     def __init__(self, BBOX, X=1, Y=1, WIDTH=2, HEIGHT=2, time_from=None, time_to=None, dataset=('waves', 'sea_level')):
         self.time_from = parser.parse(time_from) if time_from is not None else datetime.combine(datetime.now(), timed.min)
         self.time_from = setDateToUtc(self.time_from)
@@ -70,13 +65,28 @@ class WmsQueryNew:
             "version": "1.3.0",
             "request": "GetCapabilities",
         }
-        layerFileName = self.history + 'TMES_' + dataset + '_' + self.formatted_date + '.nc'
-        url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(capabilitiesOptions)
+        layerFileName = 'tmes/TMES_' + dataset + '_' + self.formatted_date + '.nc' if not self.history else self.history_datasets[dataset]
+        url = settings.THREDDS_URL + 'thredds/wms/' + layerFileName + '?' + urllib.urlencode(capabilitiesOptions)
         r = requests.get(url=url)
         times = xmltodict.parse(r.content)['WMS_Capabilities']['Capability']['Layer']['Layer']['Layer'][0]['Dimension']['#text'].split(',')
-        self.time_to = setDateToUtc(parser.parse(max(times)))
-        if not preserve_from:
-            self.time_from = setDateToUtc(parser.parse(min(times)))
+        times = filter(lambda x: not x.startswith('-'), times)
+
+        # print(parser.parse(max(times)))
+        # print(parser.parse(min(times)))
+
+        max_t = parser.parse(max(times))
+        min_t = parser.parse(min(times))
+        # print [
+        #     "TIMERANGE",self.time_from, self.time_to, max_t, min_t
+        # ]
+        print("PRIOMA: ", self.time_to, self.time_from)
+        if max_t < self.time_to:
+            self.time_to = max_t
+        # if not preserve_from or min_t > self.time_from:
+        if min_t > self.time_from:
+            self.time_from = min_t
+        print("NUOVI: ", self.time_to, self.time_from)
+
 
     def getnextSeaLevelMinMax(self):
         self.setTimeRange('sea_level', True)
@@ -131,7 +141,8 @@ class WmsQueryNew:
                         data = queryResponse['FeatureInfoResponse']['FeatureInfo']
                         result["results"][value_type][layer] = float(data['value']) * 100 if dataset=='sea_level' else float(data['value'])
                     except:
-                        print(queryResponse)
+                        # print(queryResponse)
+                        pass
                         # raise Exception(json.dumps(queryResponse)+"\n")
 
         try:
@@ -141,12 +152,14 @@ class WmsQueryNew:
             result['parameters'] = result["results"]['mean'].keys()
         except:
             print(queryResponse)
+            pass
             # raise Exception(json.dumps(queryResponse)+"\n")
         return result
 
     def get_timeseries(self):
 
         self.setTimeRange()
+        self.setTimeRange("waves")
 
         datasets = {
             'waves': [
@@ -165,15 +178,24 @@ class WmsQueryNew:
         result = {
             'results': {}
         }
+        # print [
+        #     "TIMERANGE",self.time_from, self.time_to
+        # ]
         for dataset in datasets.keys():
             for layer in datasets[dataset]:
                 layerdata = self.query(dataset, layer, self.time_from, self.time_to, True)
+                # print(json.dumps(layerdata['FeatureInfoResponse']['FeatureInfo']))
+                # result['results'][layer] = list(
+                #     {"x": x['time'], "y": float(x['value']) * 100 if dataset == 'sea_level' else float(x['value'])}
+                #     for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
                 try:
                     result['results'][layer] = list(
                         {"x": x['time'], "y": float(x['value']) * 100 if dataset == 'sea_level' else float(x['value'])}
                         for x in layerdata['FeatureInfoResponse']['FeatureInfo'])
                 except:
                     print(layerdata)
+                    pass
+        print(json.dumps(layerdata))
 
         result['latitude'] = float(layerdata['FeatureInfoResponse']['latitude'])
         result['longitude'] = float(layerdata['FeatureInfoResponse']['longitude'])
@@ -287,12 +309,12 @@ class WmsQueryNew:
 
     def query(self, dataset, layer, time_from, time_to=None, raw=False):
         options = self.default_options
-        layerFileName = self.history + 'TMES_' + dataset + '_' + self.formatted_date + '.nc'
+        layerFileName = 'tmes/TMES_' + dataset + '_' + self.formatted_date + '.nc' if not self.history else self.history_datasets[dataset]
         options.update({
             "TIME": time_from.isoformat()[0:19] + '.000Z' if time_to is None else time_from.isoformat()[0:19] + '.000Z' + '/' + time_to.isoformat()[0:19] + '.000Z',
             "QUERY_LAYERS": layer,
         })
-        url = settings.THREDDS_URL + 'thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options)
+        url = settings.THREDDS_URL + 'thredds/wms/' + layerFileName + '?' + urllib.urlencode(options)
         r = requests.get(url=url)
         queryData = xmltodict.parse(r.content)
         if not raw:
@@ -339,6 +361,8 @@ class WmsQueryNew:
 
 class NCToImg:
 
+    info = None
+
     def __init__(self, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean","wsh-mean")):
 
         if not os.path.exists(settings.LAYERDATA_ROOT):
@@ -374,6 +398,9 @@ class NCToImg:
                    + self.time_to \
                    + "T23%3A00%3A00Z&timeStride=1&accept=netcdf"
 
+        self.meta_url = settings.THREDDS_URL + 'thredds/ncml/tmes/' + history + self.nc_filename
+
+
         # history = 'history/' if parser.parse(time_from) < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) else ''
         # self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/' + history \
         #            + self.nc_filename \
@@ -384,16 +411,46 @@ class NCToImg:
         print("\n\n"+self.url+"\n\n")
 
         if self.dataset == 'waves':
+            self.get_meta()
             self.transform_waves()
 
+    def get_meta(self):
+        if os.path.isfile(self.nc_filepath):
+            os.remove(self.nc_filepath)
+        try:
+            print self.meta_url
+            ssl._create_default_https_context = ssl._create_unverified_context
+            if os.getenv("HTTPS_PROXY"):
+                https_proxy = os.environ["HTTPS_PROXY"]
+                http_proxy = os.environ["HTTP_PROXY"]
+                r = requests.get(self.meta_url, stream=True, proxies={"http": http_proxy, "https": https_proxy })
+            else:
+                r = requests.get(self.meta_url, stream=True)
+            with open(self.nc_filepath, 'wb') as f:
+                for chunk in r:
+                    f.write(chunk)
+            with open(self.nc_filepath, 'r') as myfile:
+                data = myfile.read()
+            data = xmltodict.parse(data)
+            self.info = json.dumps({
+                "ensemble": filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
+                "creation": filter(lambda x: x["@name"]=="metadata_creation",filter(lambda x: x["@name"]=="NCISOMetadata",data["ncml:netcdf"]["group"])[0]["attribute"])[0]["@value"],
+            })
+            print(self.info)
+        except Exception as e:
+            print(e)
+            pass
+
     def transform_waves(self):
+        if os.path.isfile(self.nc_filepath):
+            os.remove(self.nc_filepath)
         ssl._create_default_https_context = ssl._create_unverified_context
         if os.getenv("HTTPS_PROXY"):
-		https_proxy = os.environ["HTTPS_PROXY"]
-                http_proxy = os.environ["HTTP_PROXY"]
-		r = requests.get(self.url, stream=True, proxies={"http": https_proxy, "https": https_proxy })
+            https_proxy = os.environ["HTTPS_PROXY"]
+            http_proxy = os.environ["HTTP_PROXY"]
+            r = requests.get(self.url, stream=True, proxies={"http": http_proxy, "https": https_proxy })
         else:
-                r = requests.get(self.url, stream=True)
+            r = requests.get(self.url, stream=True)
         with open(self.nc_filepath, 'wb') as f:
             for chunk in r:
                 f.write(chunk)
@@ -457,7 +514,7 @@ class NCToImg:
                     arrays = [array1, array2]
                     m = band1.GetMetadata()
 
-                    seconds = int(m['NETCDF_DIM_time']) * 3600
+                    seconds = (int(m['NETCDF_DIM_time'])) * 3600
                     ts = datetime.fromtimestamp(seconds + since).strftime('%s')
                     json_time = datetime.fromtimestamp(seconds + since).strftime('%Y-%m-%dT%H:%M.000Z')
                     print("json_time "+str(json_time))
@@ -522,7 +579,14 @@ class NCToImg:
                     output_prefix = self.dataset + '_' + ts
                     self.generate_wave_image_and_meta_from_json(tsfile_path, os.path.join(settings.LAYERDATA_ROOT,output_prefix))
                     # TODO: save in database
-                    image_layer, result = ImageLayer.objects.update_or_create(dataset=self.dataset, timestamp=ts,)
+                    layerData = {
+                        "dataset": self.dataset,
+                        "timestamp": ts,
+                        "textinfo": self.info,
+                        # dataset = self.dataset, timestamp = ts, textinfo = self.info
+                    }
+                    print(layerData)
+                    image_layer, result = ImageLayer.objects.update_or_create(**layerData)
 
                     os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
 

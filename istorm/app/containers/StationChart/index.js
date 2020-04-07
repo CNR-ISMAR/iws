@@ -32,8 +32,8 @@ import queryString from 'query-string'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const styles = (theme, style) => {
-  // console.info("themeeeeeeeeeeeeeeeee");
-  // console.info(theme, style);
+  // console.log("themeeeeeeeeeeeeeeeee");
+  // console.log(theme, style);
   return {
     subNav: {
       position: "absolute",
@@ -73,11 +73,11 @@ function StationChart(props) {
   useInjectReducer({ key: 'chart', reducer });
   useInjectSaga({ key: 'chart', saga });
   const [fadeIn, setFadeIn] = useState(false);
-  // console.info("Station Chart");
-  // console.info(props);
+  // console.log("Station Chart");
+  // console.log(props);
 
   const log = (wrapper) => {
-    // console.info(wrapper);
+    // console.log(wrapper);
     return true;
   };
 
@@ -123,8 +123,8 @@ function StationChart(props) {
           station_name={props.chart.results.station_name}
           latitude={props.chart.results.latitude}
           longitude={props.chart.results.longitude}
-          timeFrom={moment(props.timeline.from).format( 'DD/MM/YYYY')}
-          timeTo={moment(props.timeline.max).format( 'DD/MM/YYYY')}
+          timeFrom={moment(props.chart.results.from).format( 'DD/MM/YYYY')}
+          timeTo={moment(props.chart.results.max).format( 'DD/MM/YYYY')}
         />
       </div>
     </div>

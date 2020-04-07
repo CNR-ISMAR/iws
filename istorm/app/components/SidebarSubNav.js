@@ -13,13 +13,13 @@ import { inherits } from 'util';
 
 
 const styles = (theme, style) => {
-    console.info("Styles SidebarSubNav");
-    console.info(theme, style);
+    // console.log("Styles SidebarSubNav");
+    // console.log(theme, style);
     return {
       subNav: {
-        position: "absolute", 
+        position: "absolute",
         height: "100%",
-        zIndex: 1000, 
+        zIndex: 1000,
         width: 250,
         maxWidth: 300,
         overflowY: "auto",
@@ -28,7 +28,7 @@ const styles = (theme, style) => {
         backgroundColor: theme.palette.custom.panelLightBk,
         transition: theme.transitions.create('transform', {
           duration: theme.transitions.duration.enteringScreen
-        }), 
+        }),
         '&.slide-enter':{
           transform: 'translateX(-260px)'
         },
@@ -105,7 +105,7 @@ const styles = (theme, style) => {
     }
   };
 
-  
+
 
   function SidebarSubNav(props){
     // console.log('SidebarSubNav')
@@ -125,24 +125,24 @@ const styles = (theme, style) => {
     return (
       <div className={ `${props.classes.subNav} ${props.mainClass ? props.mainClass : ''}` }>
             <HeaderBar headerTopClose={`${props.classes.headerTopClose}`} title={props.title} icon={props.icon}  />
-            { 
+            {
               props.content && props.content()
             }
-            { Items && Items.length > 0 && 
-            
+            { Items && Items.length > 0 &&
+
               <List>
                   {Items.map((listItem) => {
                   return (
-                    <ListItem 
-                          button 
-                          className={`${props.classes.listItem} ${listItem.read ? 'read' : '' }`} 
-                          key={"nav-stormtestents-"+listItem.id} 
+                    <ListItem
+                          button
+                          className={`${props.classes.listItem} ${listItem.read ? 'read' : '' }`}
+                          key={"nav-stormtestents-"+listItem.id}
                           selected={isCurrentPage(`/${props.category}/${listItem.id}`)}>
-                          <Link to={`/${props.category}/${listItem.id}`} 
-                                onClick={(e) => { 
+                          <Link to={`/${props.category}/${listItem.id}`}
+                                onClick={(e) => {
                                     props.clickEvent ? props.clickEvent(listItem.id, listItem) : null
                                 } } >
-                              <ListItemText primary={`${listItem.title}`} /> 
+                              <ListItemText primary={`${listItem.title}`} />
                               { props.listItemContent && props.listItemContent(`${listItem.description}`) }
                           </Link>
                           <Button size={"small"} className={props.classes.headerTopClose} onClick={() => props.deleteFunc ? props.deleteFunc(listItem.id) : null} ><HighlightOffIcon/></Button>
@@ -152,8 +152,8 @@ const styles = (theme, style) => {
                   }
               </List>
             }
-            
-        </div> 
+
+        </div>
     );
   }
 

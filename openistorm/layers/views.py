@@ -26,7 +26,8 @@ class ImageLayerList(ListAPIView):
         fromdate = self.request.query_params.get('from', '')
         todate = self.request.query_params.get('to', '')
 
-        fromdate = parser.parse(fromdate).replace(tzinfo=pytz.timezone('utc')) if fromdate != '' else datetime.datetime.now().replace(tzinfo=pytz.timezone('utc')) - datetime.timedelta(days=1)
+        # fromdate = parser.parse(fromdate).replace(tzinfo=pytz.timezone('utc')) if fromdate != '' else datetime.datetime.now().replace(tzinfo=pytz.timezone('utc')) - datetime.timedelta(days=1)
+        fromdate = parser.parse(fromdate).replace(tzinfo=pytz.timezone('utc')) if fromdate != '' else datetime.datetime.today().replace(tzinfo=pytz.timezone('utc'))
         todate = parser.parse(todate).replace(tzinfo=pytz.timezone('utc')) if todate != '' else datetime.datetime.now().replace(tzinfo=pytz.timezone('utc')) + datetime.timedelta(days=2)
 
         fromdate = datetime.datetime.combine(fromdate, datetime.time.min).strftime('%s')

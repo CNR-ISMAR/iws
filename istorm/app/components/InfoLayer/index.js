@@ -28,6 +28,7 @@ import labels from '../../utils/labels.js';
 import { LngLat } from 'mapbox-gl';
 
 import { emptyInfoLayer, postFavourite, deleteFavourite, toggleInfoLayer } from "containers/App/actions";
+import EnsembleInfo from "../EnsembleInfo";
 
 const styles = (theme) => {
     // const offset = theme.sizing.paperWrapperWidth/2
@@ -117,6 +118,7 @@ function InfoLayer(props){
     return parseFloat(value).toFixed(1);
   }
 
+
     useEffect(() => {
       Object.keys(props.favourites.selected).length > 0 ? setAddFavourite(true)  : setAddFavourite(false)
     }, [props.favourites.selected])
@@ -127,9 +129,10 @@ function InfoLayer(props){
             <Paper key={'info'+index} className={ clsx(props.classes.paperWrapper, {
                 [props.classes.paperOpen]: props.infos.open,
                 }) } display="flex">
-                <Typography align="center" width="100%" >
+                <Typography align="center" width="100%" variant={"subtitle1"}>
                   {moment(info.time).utc().format('DD/MM/YYYY HH:mm')} - lat {info.latitude.toFixed(4)}  lon {info.longitude.toFixed(4)}
                 </Typography>
+                {props.timeline.current && <EnsembleInfo current={props.timeline.current} results={props.timeline.results}/>}
                 <Box pt={2} display="flex" flexDirection="column" justifyContent="center" width="100%">
                   <Table>
                     <TableHead>

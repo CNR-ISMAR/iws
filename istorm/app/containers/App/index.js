@@ -48,7 +48,7 @@ import {requestNotification} from '../AuthProvider/actions'
 
 import makeSelectHistoryPage from '../History/selectors';
 
-import {makeSelectLocation} from './selectors';
+import {makeSelectLocation, makeSelectCredits} from './selectors';
 
 import GlobalStyle from '../../global-styles';
 
@@ -62,8 +62,8 @@ import CreditsPage from "../CreditsPage/Loadable";
 
 function App(props) {
   const classes = useStyles();
-  console.info("app");
-  console.info(props);
+  // console.log("app");
+  // console.log(props);
 
   useEffect(() => {
     props.dispatch(syncPersistanceRequest());
@@ -100,9 +100,9 @@ function App(props) {
                     classNames="slide"
                   >
                   <Switch location={props.routeLocation}>
-                    {/*props.isLogged && (
-                      <Route exact path="/" component={() => <HomePage auth={props.auth} />} />
-                    )*/}
+                    {/*{!props.dismissCredits && (*/}
+                    {/*  <Route exact path="/" component={({history}) => <CreditsPage/>} />*/}
+                    {/*)}*/}
                     {!props.isLogged && (
                       <Route exact path="/login" component={({history}) => <LoginPage auth={props.auth} history={history} />} />
                     )}
@@ -139,7 +139,6 @@ App.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  // notifications: makeSelectNotifications(),
   routeLocation: makeSelectLocation(),
   timeline: makeSelectHistoryPage(),
   //wmsVisible: makeSelectVisibleWmsLayer()

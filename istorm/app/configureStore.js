@@ -10,6 +10,7 @@ import createReducer from './reducers';
 import authSaga from './containers/AuthProvider/saga';
 import historySaga from './containers/History/saga';
 import mapSaga from './containers/App/saga';
+import creditsSaga from './containers/CreditsPage/saga';
 
 export default function configureStore(initialState = {}, history) {
   let composeEnhancers = compose;
@@ -45,11 +46,12 @@ export default function configureStore(initialState = {}, history) {
     initialState,
     composeEnhancers(...enhancers),
   );
-  
+
   sagaMiddleware.run(persistanceSaga);
   sagaMiddleware.run(authSaga);
   sagaMiddleware.run(historySaga);
   sagaMiddleware.run(mapSaga);
+  sagaMiddleware.run(creditsSaga);
   // Extensions
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
@@ -59,7 +61,7 @@ export default function configureStore(initialState = {}, history) {
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      
+
       store.replaceReducer(() => {
         return createReducer(store.injectedReducers);
       });

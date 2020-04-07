@@ -25,7 +25,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
-import { NotificationIcon, StormEventsIcon, LayersIcon, HistoryIcon, StationIcon, ListIcon, FavoriteIcon, SettingsIcon, InfoIcon } from '../utils/icons';
+import { NotificationIcon, StormEventsIcon, LayersIcon, HistoryIcon, StationIcon, ListIcon, FavoriteIcon, SettingsIcon, InfoIcon, HelpIcon } from '../utils/icons';
 
 const styles = (theme) => {
   return {
@@ -79,8 +79,8 @@ const styles = (theme) => {
 };
 
 function SidebarNav(props) {
-  console.info("SidebarNav")
-  console.info(props);
+  // console.log("SidebarNav")
+  // console.log(props);
   const [notify, countNotifyRead] = useState(0)
 
   const linkTo = (path) => {
@@ -168,14 +168,19 @@ function SidebarNav(props) {
           <ListItemText primary={props.layers["favorites"].name} />
         </ListItem>
 
-        <ListItem button className={props.classes.listItem} disabled={!props.isLogged} selected={isCurrentPage("credits")} onClick={() => linkTo("credits")} key={"nav-credits"}>
-          <ListItemIcon className={props.classes.listItemIcon}><HelpOutlineIcon/></ListItemIcon>
+        <ListItem button className={props.classes.listItem} selected={isCurrentPage("credits")} onClick={() => linkTo("credits")} key={"nav-credits"}>
+          <ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
           <ListItemText primary={"Credits"} />
           { isCurrentPage("credits") ?
             <ArrowLeftIcon className={props.classes.arrow}/>
             :
             <ArrowRightIcon className={props.classes.arrow}/>
           }
+
+        </ListItem>
+        <ListItem button component="a" className={props.classes.listItem} target={'_blank'} href="https://iws.seastorms.eu/static/docs/html/open_istorms/about_open_istorms.html" key={"nav-manual"}>
+          <ListItemIcon className={props.classes.listItemIcon}><HelpIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
+          <ListItemText primary={"Instructions"} />
         </ListItem>
 
 

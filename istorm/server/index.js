@@ -12,6 +12,8 @@ console.log(environment)
 const express = require('express');
 const logger = require('./logger');
 const proxy = require('express-http-proxy');
+var cors = require('cors');
+
 
 const argv = require('./argv');
 // const port = require('./port');
@@ -24,6 +26,10 @@ const ngrok =
     : false;
 const { resolve } = require('path');
 const app = express();
+app.use(cors({
+  origin: '*'
+}));
+
 // const proxyHost = 'https://iws.ismar.cnr.it';
 // const proxyHost = environment.THREDDS_TO_PROXY;
 const proxyHost = environment.THREDDS_TO_PROXY;

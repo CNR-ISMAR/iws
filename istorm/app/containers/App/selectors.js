@@ -9,7 +9,10 @@ const selectMapPageDomain = state => state.mapPage || initialState;
 
 const selectRouter = state => state.router;
 
+
 const selectLatLng = state => state.latLng || initialState;
+
+const selectCredits = state => state.dismiss_credits || initialState;
 
 
 /**
@@ -24,12 +27,16 @@ const makeSelectLocation = () =>
 const makeSelectLatLng = () =>
   createSelector(
     selectLatLng,
-    substate =>  substate.LatLon
+    substate => substate.LatLon
+  );
+const makeSelectCredits = () =>
+  createSelector(
+    selectCredits,
+    substate => substate.dismiss_credits
   );
 /**
  * Default selector used by MapPage
  */
-
 
 const makeSelectMapPage = () =>
   createSelector(
@@ -52,4 +59,4 @@ const makeSelectLayers = () =>
 
 
 export default makeSelectMapPage;
-export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers, makeSelectLatLng };
+export { selectMapPageDomain, makeSelectVisibleWmsLayer, makeSelectLocation, makeSelectLayers, makeSelectLatLng, selectCredits, makeSelectCredits };

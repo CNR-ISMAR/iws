@@ -12,7 +12,12 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import makeSelectMapPage, { makeSelectVisibleWmsLayer, makeSelectVisibleWindGLLayer,makeSelectFavourites } from '../App/selectors';
+import makeSelectMapPage, {
+  makeSelectVisibleWmsLayer,
+  makeSelectVisibleWindGLLayer,
+  makeSelectFavourites,
+  makeSelectCredits
+} from '../App/selectors';
 import makeSelectHistoryPage from '../History/selectors';
 import { setCurrentDate, togglePlay } from '../History/actions';
 import { zoomIn, zoomOut, toggleLayerVisibility, toggleLayerMean, requestFavouritesLayer, requestFavourites } from '../App/actions';
@@ -161,8 +166,8 @@ const styles = (theme) => {
 };
 
 function MapPage(props) {
-  // console.info("mapPage");
-  // console.info(props);
+  // console.log("mapPage", props);
+  // console.log(props);
   useInjectSaga({ key: 'infolayer_favourites', saga });
 
   let layerInfo = null;
@@ -202,6 +207,7 @@ function MapPage(props) {
           isLogged={props.isLogged}
           favoritesLayer={props.mapPage.layers.favorites}
           favourites={props.mapPage.favourites}
+          pointPopup={props.mapPage.pointPopup}
           />
         <div className={props.classes.mapControl}>
           <Box display="flex" alignItems="flex-end" flexDirection="column">
@@ -247,9 +253,10 @@ function MapPage(props) {
             </Box>
             <Box>
               <LatLng />
-              { props.mapPage.seaLevel.isVisible &&
-                <Legend type="Sea Level" mean={props.mapPage.mean}/> ||
-                <Legend type="Wind GL Layer" mean={props.mapPage.mean}/> }
+              <Legend layerInfo={layerInfo} layer={props.mapPage.seaLevel.isVisible ? 'sea_level' : 'wsh'}  mean={props.mapPage.mean}/>
+              {/*{ props.mapPage.seaLevel.isVisible &&*/}
+              {/*  <Legend type="Sea Level" mean={props.mapPage.mean}/> ||*/}
+              {/*  <Legend type="Wind GL Layer" mean={props.mapPage.mean}/> }*/}
             </Box>
           </div>
           { (props.mapPage.WindGLLayer.isVisible || props.mapPage.seaLevel.isVisible) && (<div className={props.classes.overlayMapTimeline}>
@@ -270,6 +277,7 @@ const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
   //wmsVisible: makeSelectVisibleWmsLayer(),
   timeline: makeSelectHistoryPage(),
+  dismissCredits: makeSelectCredits(),
 
 });
 

@@ -14,10 +14,15 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     sea_level_std = serializers.SerializerMethodField()
     wsh_mean = serializers.SerializerMethodField()
     wsh_std = serializers.SerializerMethodField()
+    info = serializers.SerializerMethodField()
 
+
+    def get_info(self, instance):
+        return instance.info
 
     def get_date(self, instance):
-        return datetime.datetime.fromtimestamp(instance.timestamp).isoformat()+'.000Z'
+        # return datetime.datetime.fromtimestamp(instance.timestamp_tz).isoformat()+'.000Z'
+        return instance.date
 
     def get_wave_metadata(self, instance):
         return instance.metadata
@@ -28,9 +33,9 @@ class ImageLayerSerializer(serializers.ModelSerializer):
     def get_wave_image_background(self, instance):
         return instance.image_background
 
-
-    def wsh_url(self, timestamp, layerOptions):
-        wmsdate = datetime.datetime.fromtimestamp(timestamp) + datetime.timedelta(hours=1)
+    def wsh_url(self, timestamp, layerOptions, legend=False):
+        bbox = '&BBOX={bbox-epsg-3857}' if not legend else ''
+        wmsdate = datetime.datetime.fromtimestamp(timestamp)
         formatted_date = wmsdate.strftime("%Y%m%d")
         if wmsdate > datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
             formatted_date = datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0).strftime("%Y%m%d")
@@ -50,31 +55,78 @@ class ImageLayerSerializer(serializers.ModelSerializer):
             "SRS": "EPSG:3857",
             "WIDTH": "256",
             "HEIGHT": "256",
+            # "BBOX": "{bbox-epsg-3857}",
         }
-        options.update(layerOptions)
-        return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
+        if not legend:
+            options.update(layerOptions)
+        else:
+            options = layerOptions
+        return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + bbox
 
     def get_wsh_mean(self, instance):
         minmax = ('0', '8')
-        return self.wsh_url(instance.timestamp, {
+        # return self.wsh_url(instance.timestamp_tz, {
+        #         'LAYERS': 'wsh-mean',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '80',
+        #     })
+        return {
+            "url": self.wsh_url(instance.timestamp_tz, {
                 'LAYERS': 'wsh-mean',
                 'STYLES': 'boxfill/sst_36',
                 'COLORSCALERANGE': ','.join(minmax),
                 'NUMCOLORBANDS': '80',
-            })
+            }),
+            "legend": self.wsh_url(instance.timestamp_tz, {
+                'LAYER': 'wsh-mean',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+                'REQUEST': 'GetLegendGraphic',
+                'COLORBARONLY': 'true',
+                "WIDTH": "10",
+                "HEIGHT": "200",
+                "PALETTE": "sst_36",
+            }, True),
+            'min': minmax[0],
+            'max': minmax[1],
+        }
     def get_wsh_std(self, instance):
         minmax = ('0', '2')
-        return self.wsh_url(instance.timestamp, {
+        # return self.wsh_url(instance.timestamp_tz, {
+        #         'LAYERS': 'wsh-std',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '80',
+        #     })
+        return {
+            "url": self.wsh_url(instance.timestamp_tz, {
                 'LAYERS': 'wsh-std',
                 'STYLES': 'boxfill/sst_36',
                 'COLORSCALERANGE': ','.join(minmax),
                 'NUMCOLORBANDS': '80',
-            })
+            }),
+            "legend": self.wsh_url(instance.timestamp_tz, {
+                'LAYER': 'sea_level-mean',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+                'REQUEST': 'GetLegendGraphic',
+                'COLORBARONLY': 'true',
+                "WIDTH": "10",
+                "HEIGHT": "200",
+                "PALETTE": "sst_36",
+            }, True),
+            'min': minmax[0],
+            'max': minmax[1],
+        }
 
-    def sea_level_url(self, timestamp, layerOptions):
+    def sea_level_url(self, timestamp, layerOptions, legend=False):
+        bbox = '&BBOX={bbox-epsg-3857}' if not legend else ''
         #TODO: manage missing current data!!!!!
         #TODO: quando si avra' una logica integrarla
-        wmsdate = datetime.datetime.fromtimestamp(timestamp) + datetime.timedelta(hours=1)
+        wmsdate = datetime.datetime.fromtimestamp(timestamp)
         formatted_date = wmsdate.strftime("%Y%m%d")
         if wmsdate > datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0):
             formatted_date = datetime.datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0).strftime("%Y%m%d")
@@ -98,76 +150,77 @@ class ImageLayerSerializer(serializers.ModelSerializer):
             "REQUEST": "GetMap",
             "FORMAT": "image/png",
             "SRS": "EPSG:3857",
-            # "BBOX": "{bbox-epsg-3857}",
             "WIDTH": "256",
             "HEIGHT": "256",
+            # "BBOX": "{bbox-epsg-3857}",
         }
-        options.update(layerOptions)
-        # return settings.THREDDS_TO_PROXY + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
-        return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + '&BBOX={bbox-epsg-3857}'
+        if not legend:
+            options.update(layerOptions)
+        else:
+            options = layerOptions
+        return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + bbox
 
     def get_sea_level_mean(self, instance):
         minmax = ('-1', '1')
-        return self.sea_level_url(instance.timestamp, {
+        # return self.sea_level_url(instance.timestamp_tz, {
+        #         'LAYERS': 'sea_level-mean',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '80',
+        #     })
+        return {
+            "url": self.sea_level_url(instance.timestamp_tz, {
                 'LAYERS': 'sea_level-mean',
                 'STYLES': 'boxfill/sst_36',
                 'COLORSCALERANGE': ','.join(minmax),
                 'NUMCOLORBANDS': '80',
-            })
-        # return {
-        #     "url": self.sea_level_url(instance.timestamp, {
-        #         'LAYERS': 'sea_level-mean',
-        #         'STYLES': 'boxfill/sst_36',
-        #         'COLORSCALERANGE': ','.join(minmax),
-        #         'NUMCOLORBANDS': '80',
-        #     }),
-        #     "legend": self.sea_level_url(instance.timestamp, {
-        #         'LAYERS': 'sea_level-mean',
-        #         'STYLES': 'boxfill/sst_36',
-        #         'COLORSCALERANGE': ','.join(minmax),
-        #         'NUMCOLORBANDS': '80',
-        #         'REQUEST': 'GetLegendGraphic',
-        #         'COLORBARONLY': 'false',
-        #         "WIDTH": "10",
-        #         "HEIGHT": "200",
-        #         "PALETTE": "sst_36",
-        #     }),
-        #     'min': minmax[0],
-        #     'max': minmax[1],
-        # }
+            }),
+            "legend": self.sea_level_url(instance.timestamp_tz, {
+                'LAYER': 'sea_level-mean',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+                'REQUEST': 'GetLegendGraphic',
+                'COLORBARONLY': 'true',
+                "WIDTH": "10",
+                "HEIGHT": "200",
+                "PALETTE": "sst_36",
+            }, True),
+            'min': minmax[0],
+            'max': minmax[1],
+        }
 
     def get_sea_level_std(self, instance):
         minmax = ('0', '0.4')
-        return self.sea_level_url(instance.timestamp, {
+        # return self.sea_level_url(instance.timestamp_tz, {
+        #         'LAYERS': 'sea_level-std',
+        #         'STYLES': 'boxfill/sst_36',
+        #         'COLORSCALERANGE': ','.join(minmax),
+        #         'NUMCOLORBANDS': '80',
+        #     })
+        return {
+            "url": self.sea_level_url(instance.timestamp_tz, {
                 'LAYERS': 'sea_level-std',
                 'STYLES': 'boxfill/sst_36',
                 'COLORSCALERANGE': ','.join(minmax),
                 'NUMCOLORBANDS': '80',
-            })
-        # minmax = ('0', '1')
-        # return {
-        #     "url": self.sea_level_url(instance.timestamp, {
-        #         'LAYERS': 'sea_level-std',
-        #         'STYLES': 'boxfill/sst_36',
-        #         'COLORSCALERANGE': ','.join(minmax),
-        #         'NUMCOLORBANDS': '20',
-        #     }),
-        #     "legend": self.sea_level_url(instance.timestamp, {
-        #         'LAYER': 'sea_level-std',
-        #         'STYLES': 'boxfill/sst_36',
-        #         'COLORSCALERANGE': ','.join(minmax),
-        #         'NUMCOLORBANDS': '80',
-        #         'REQUEST': 'GetLegendGraphic',
-        #         'COLORBARONLY': 'false',
-        #         "WIDTH": "10",
-        #         "HEIGHT": "200",
-        #         "PALETTE": "sst_36",
-        #     }),
-        #     'min': minmax[0],
-        #     'max': minmax[1],
-        # }
+            }),
+            "legend": self.sea_level_url(instance.timestamp_tz, {
+                'LAYER': 'sea_level-std',
+                'STYLES': 'boxfill/sst_36',
+                'COLORSCALERANGE': ','.join(minmax),
+                'NUMCOLORBANDS': '80',
+                'REQUEST': 'GetLegendGraphic',
+                'COLORBARONLY': 'true',
+                "WIDTH": "10",
+                "HEIGHT": "200",
+                "PALETTE": "sst_36",
+            }, True),
+            'min': minmax[0],
+            'max': minmax[1],
+        }
 
 
     class Meta:
         model = ImageLayer
-        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std', 'wsh_mean', 'wsh_std')
+        fields = ('dataset','timestamp','date','wave_metadata','wave_image','wave_image_background','sea_level_mean','sea_level_std', 'wsh_mean', 'wsh_std', 'info')

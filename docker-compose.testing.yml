@@ -1,8 +1,8 @@
 version: '2.2'
 services:
-#  db:
-#    ports:
-#      - "8432:5432"
+  db:
+    ports:
+      - "8432:5432"
 
 
   django:
@@ -35,33 +35,15 @@ services:
   geonode:
     ports:
      - "88:80"
-     - "5443:443"
+     - "8443:443"
     volumes:
       - ./volumes/statics:/mnt/volumes/statics
-      - ./volumes/nginxconf:/etc/nginx/nginxconf
+      - ./volumes/nginxconf:/etc/nginx/conf.d
       - /etc/ssl/certs:/etc/ssl/certs
       - /etc/ssl/private:/etc/ssl/private
       - /var/www/html:/var/www/html
 # TODO change name of seastorms.eu certificates
 
-#  tds:
-#    image: unidata/thredds-docker:4.6.12
-#    ports:
-#      - "82:8080"
-#      - "445:8443"
-#      - "8445:8443"
-#    container_name: tds4${COMPOSE_PROJECT_NAME}
-#
-#    volumes:
-#      - ./volumes/tds/tomcat/logs/:/usr/local/tomcat/logs/
-#      - ./volumes/tds/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
-#      #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-#      - ./volumes/tds/thredds/directory:/usr/local/tomcat/content/thredds
-#      #- /usr3/tds/data/:/usr/local/tomcat/content/data
-#      - ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
-#      #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
-#    env_file:
-#      - ./.env
 
   tds:
     image: unidata/thredds-docker:latest

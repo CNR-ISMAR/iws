@@ -29,9 +29,9 @@ import { setViewport } from '../App/actions';
 import SidebarSubNav from 'components/SidebarSubNav';
 
 function FavouritesPage(props) {
-  // console.info("Favourite Page");
+  // console.log("Favourite Page");
   // console.log(props)
-  const [open, setOpen] = useState(false) 
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     if(props.match.params.id && props.mapPage.favourites.results.length > 0){
@@ -43,43 +43,43 @@ function FavouritesPage(props) {
         props.dispatch(setViewport({...props.mapPage.viewport, longitude: selectedFav[0].longitude, latitude: selectedFav[0].latitude, zoom: 8}))
         // console.log('dispatch set viewport fav')
       }else{
-        props.history.push(`/favourites`) 
+        props.history.push(`/favourites`)
       }
     }
     /* if(props.mapPage.favourites.results.length > 0){
       props.dispatch(toggleSidePanel(true))
     }  */
   }, [props.match.params])
-  
+
 
   return (
      <>
-       <SidebarSubNav 
+       <SidebarSubNav
         category="favourites"
         location={props.location}
         deleteFunc={(id) => props.dispatch(deleteFavourite(id))}
-        title="Favourites List" 
-        icon={ListIcon} 
+        title="Favourites List"
+        icon={ListIcon}
         listItems={props.mapPage.favourites.results}
-        
-        //toggle={props.mapPage.toggleSidePanel} 
+
+        //toggle={props.mapPage.toggleSidePanel}
         />
     </>
   );
-}  
- 
+}
+
 
 const mapStateToProps = createStructuredSelector({
   mapPage: makeSelectMapPage(),
-  
-  
-}) 
+
+
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
   }
-  
+
 }
 
 const withConnect = connect(

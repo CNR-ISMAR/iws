@@ -8,14 +8,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from "clsx";
 
-import { Link as LinkRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { FormattedMessage } from 'react-intl';
+import {Link as LinkRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
+import {FormattedMessage} from 'react-intl';
 import messages from './messages';
 
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -25,9 +25,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 
-import { requestLogout } from '../AuthProvider/actions';
-import { makeSelectDrawerOpen } from '../Sidebar/selectors';
-import { toggleDrawer } from '../Sidebar/actions';
+import {requestLogout} from '../AuthProvider/actions';
+import {makeSelectDrawerOpen} from '../Sidebar/selectors';
+import {toggleDrawer} from '../Sidebar/actions';
 
 const styles = (theme) => {
   return {
@@ -58,31 +58,38 @@ const styles = (theme) => {
 };
 
 function Header(props) {
-  console.info("header");
-  console.info(props);
+  // console.log("header");
+  // console.log(props);
   return (
     <AppBar position="fixed" className={props.classes.appBar}>
       <Toolbar>
         <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={(e) =>props.dispatch(toggleDrawer(e))}
-            edge="start"
-            className={clsx(props.classes.menuButton, {
-              [props.classes.hide]: props.drawerOpen,
-            })}
-          >
-          <MenuIcon />
+          color="inherit"
+          aria-label="Open drawer"
+          onClick={(e) => props.dispatch(toggleDrawer(e))}
+          edge="start"
+          className={clsx(props.classes.menuButton, {
+            [props.classes.hide]: props.drawerOpen,
+          })}
+        >
+          <MenuIcon/>
         </IconButton>
         <Typography variant="h6" noWrap>
-          <Link to="/" component={LinkRouter}><img src={require('images/logo_scritta.svg')} className={props.classes.logoImage} /></Link>
+          <Link to="/" component={LinkRouter}><img src={require('images/logo_scritta.svg')}
+                                                   className={props.classes.logoImage}/></Link>
         </Typography>
         <Box pl={4}>
-          <Link href="http://iws.seastorms.eu/" target="_blank" variant="button">IWS</Link>
+          <Button variant="outlined" color="primary" href="http://iws.seastorms.eu/" target="_blank">
+            <Typography variant="button" noWrap>
+              IWS
+            </Typography>
+          </Button>
         </Box>
-        <div className={props.classes.spacer} />
-        {!props.isLogged && (<Link to="/login" component={LinkRouter} className={props.classes.menuButton}>Login</Link>)}
-        {props.isLogged && (<Button color={"secondary"} onClick={(e) => props.dispatch(requestLogout(e))}  className={props.classes.menuButton}>Logout</Button>)}
+        <div className={props.classes.spacer}/>
+        {!props.isLogged && (
+          <Link to="/login" component={LinkRouter} className={props.classes.menuButton}>Login</Link>)}
+        {props.isLogged && (<Button color={"secondary"} onClick={(e) => props.dispatch(requestLogout(e))}
+                                    className={props.classes.menuButton}>Logout</Button>)}
       </Toolbar>
     </AppBar>
   )
