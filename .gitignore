@@ -75,7 +75,7 @@ uploaded/
 static_root/
 development.db
 development.db-journal
-local_settings.py
+iws/local_settings.py
 dss_pharos
 iws/flooding/data/*
 
