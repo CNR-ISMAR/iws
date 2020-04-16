@@ -80,7 +80,7 @@ class WmsQueryNew:
         #     "TIMERANGE",self.time_from, self.time_to, max_t, min_t
         # ]
         print("PRIOMA: ", self.time_to, self.time_from)
-        if max_t < self.time_to:
+        if type(self.time_to) is bool or max_t < self.time_to:
             self.time_to = max_t
         # if not preserve_from or min_t > self.time_from:
         if min_t > self.time_from:
@@ -90,6 +90,7 @@ class WmsQueryNew:
 
     def getnextSeaLevelMinMax(self):
         self.setTimeRange('sea_level', True)
+        self.setTimeRange('waves', True)
         # starts from next hour
         if self.time_to > (self.time_from + timedelta(hours=1)):
             self.time_from = self.time_from + timedelta(hours=1)
@@ -102,10 +103,11 @@ class WmsQueryNew:
         ### GET MAX MEASURE (MEAN + STD)
         queryResponseStd = self.query('sea_level', 'sea_level-std', self.time_from, self.time_to)['FeatureInfo']
         for key, value in enumerate(queryResponse):
-            queryResponse[key] = {
-                "time": value["time"],
-                "value": float(value["value"]) + float(queryResponseStd[key]["value"])
-            }
+            if value["value"].isdigit() and queryResponseStd[key]["value"].isdigit():
+                queryResponse[key] = {
+                    "time": value["time"],
+                    "value": float(value["value"]) + float(queryResponseStd[key]["value"])
+                }
 
         ordered = sorted(queryResponse, key=lambda i: (i['value']))
         return {
@@ -205,6 +207,7 @@ class WmsQueryNew:
 
     def get_mobile_timeseries(self):
 
+        self.setTimeRange('waves')
         self.setTimeRange()
 
         datasets = {
@@ -224,9 +227,16 @@ class WmsQueryNew:
         result = {
             'results': {}
         }
+        # raw = []
         for dataset in datasets.keys():
             for layer in datasets[dataset]:
                 layerdata = self.query(dataset, layer, self.time_from, self.time_to, True)
+                # raw.append({
+                #     "result": layerdata,
+                #     "dataset": dataset,
+                #     "from": self.time_from,
+                #     "to": self.time_to,
+                # })
                 try:
                     result['results'][layer] = list(
                         {"x": x['time'], "y": float(x['value']) * 100 if dataset == 'sea_level' else float(x['value'])}
@@ -239,26 +249,28 @@ class WmsQueryNew:
         result['from'] = self.time_from.isoformat()[0:19] + '.000Z'
         result['to'] = self.time_to.isoformat()[0:19] + '.000Z'
 
+        # return [raw]
+
 
         result['results'] = {
             'sea_level': list(
                 {"x": x['x'], "y": x['y']+result['results']['sea_level-std'][i]['y']}
-                for i, x in enumerate(result['results']['sea_level-mean'])
+                for i, x in enumerate(result['results']['sea_level-mean'] if 'sea_level-mean' in result['results'] else [])
             ),
             # wave_period
             'wmp': list(
                 {"x": x['x'], "y": x['y']+result['results']['wmp-std'][i]['y']}
-                for i, x in enumerate(result['results']['wmp-mean'])
+                for i, x in enumerate(result['results']['wmp-mean'] if 'wmp-mean' in result['results'] else [])
             ),
             # wave_height
             'wsh': list(
                 {"x": x['x'], "y": x['y']+result['results']['wsh-std'][i]['y']}
-                for i, x in enumerate(result['results']['wsh-mean'])
+                for i, x in enumerate(result['results']['wsh-mean'] if 'wsh-mean' in result['results'] else [])
             ),
             # wave_direction
             'wmd': list(
                 {"x": x['x'], "y": int(x['y']+180) % 360 }
-                for i, x in enumerate(result['results']['wmd-mean'])
+                for i, x in enumerate(result['results']['wmd-mean'] if 'wmd-mean' in result['results'] else [])
             ),
         }
         return result
