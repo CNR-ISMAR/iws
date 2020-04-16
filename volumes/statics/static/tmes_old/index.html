@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet TimeDimension</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <link rel="stylesheet" href="../leaflet/leaflet.css" />
+        <link rel="stylesheet" href="../leaflet/time/leaflet.timedimension.control.min.css" />
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div class="container">
+          <div id="map" class="map"></div>
+          <iframe src="https://iws.ismar.cnr.it/grafana/d-solo/7x5PZB_mk/embedded-panels?panelId=2&orgId=1&from=1540753882781&to=1540948756177&tab=general&theme=light"
+                  height="450"
+                  frameborder="0" style="width: 100%"></iframe>
+        </div>
+
+        <script type="text/javascript" src="../leaflet/leaflet.js"></script>
+
+        <script type="text/javascript" src="js/NonTiledLayer.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
+
+        <script type="text/javascript" src="../leaflet/time/src/leaflet.timedimension.js"></script>
+        <script type="text/javascript" src="../leaflet/time/src/leaflet.timedimension.util.js"></script>
+        <script type="text/javascript" src="../leaflet/time/src/leaflet.timedimension.layer.js"></script>
+        <script type="text/javascript" src="../leaflet/time/src/leaflet.timedimension.layer.wms.js"></script>
+        <script type="text/javascript" src="../leaflet/time/src/leaflet.timedimension.player.js"></script>
+        <script type="text/javascript" src="../leaflet/time/src/leaflet.timedimension.control.js"></script>
+        <script type="text/javascript" src="js/baselayers.js"></script>
+        <script type="text/javascript" src="js/map.js"></script>
+
+
+    </body>
+</html>

@@ -9,7 +9,6 @@ __pycache__/
 .Python
 *.env
 .env
-
 env/
 build/
 develop-eggs/
@@ -35,7 +34,6 @@ volumes/dbbackups
 volumes/geoserver-data-dir
 volumes/*.tar
 volumes/tds
-volumes/dbdata
 volumes/grafana-data
 volumes/nginxconf
 #statics
@@ -83,7 +81,6 @@ static_root/
 development.db
 development.db-journal
 iws/local_settings.py
-dss_pharos
 iws/flooding/data/*
 
 .idea/
@@ -95,12 +92,6 @@ storage/layerdata/*
 /openistorm/migrations/*
 sd.env
 
-#docker volumes
-.env
-volumes
-dump_*
-build_log.txt
-srcgeonode/
 
 
 .bash*
