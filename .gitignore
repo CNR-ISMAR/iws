@@ -30,9 +30,16 @@ iws_bk
 docs
 
 #docker volumes
-volumes
-statics
-dbdata
+volumes/dbdata
+volumes/dbbackups
+volumes/geoserver-data-dir
+volumes/*.tar
+volumes/tds
+volumes/dbdata
+volumes/grafana-data
+volumes/nginxconf
+#statics
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
