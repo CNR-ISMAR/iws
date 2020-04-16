@@ -2,17 +2,3 @@
     margin-top: 13px;
     height: 500px;
 }
-
-.info  {
-
-# -webkit-transform: rotate(-90deg);
-# -moz-transform: rotate(-90deg);
-
-}
-
-.info label {
-# -webkit-transform: rotate(90deg);
-# -moz-transform: rotate(90deg);
-    background-color: white;
-
-}

@@ -1,0 +1,170 @@
+[
+        {   
+        "name": "VE-PTF", 
+        "position": [45.31, 12.51],
+        "platformName": "Piattaforma Acqua Alta"
+        },
+        
+        {
+        "name": "Aigio",
+        "position": [38.26, 22.08],
+        "platformName": "Aigio"
+        },
+        
+        {  
+        "name": "Panormos",
+        "position": [38.359995, 22.253942 ],
+        "platformName": "Panormos"
+        },  
+
+        {  
+        "name": "Katakolo",
+        "position": [37.64045, 21.319233],
+        "platformName": "Katakolo"
+        },  
+
+        {  
+        "name": "Ancona",
+        "position": [43.624766666667, 13.506516666667],
+        "platformName": "Ancona"
+        },
+
+        {  
+        "name": "Itea",
+        "position": [38.43, 22.42],
+        "platformName": "Itea"
+        },
+
+        {  
+        "name": "Crotone",
+        "position": [39.083580555556, 17.137055555556],
+        "platformName": "Crotone"
+        },
+
+        {  
+        "name": "Kerkyra, Corfu",
+        "position": [39.79, 19.91],
+        "platformName": "Kerkyra Corfu"
+        },
+
+        {  
+        "name": "Otranto",
+        "position": [40.1464, 18.4969],
+        "platformName": "Otranto"
+        },
+
+        {  
+        "name": "Sobra",
+        "position": [42.793, 17.62],
+        "platformName": "Sobra"
+        },
+
+        {  
+        "name": "S. Benedetto Del Tronto",
+        "position": [42.955122222222, 13.889758333333],
+        "platformName": "S. Benedetto Del Tronto"
+        },
+
+        {  
+        "name": "Vela Luka",
+        "position": [42.962, 16.715],
+        "platformName": "Vela Luka"
+        },
+
+        {  
+        "name": "Stari Grad",
+        "position": [43.181, 16.576],
+        "platformName": "Stari Grad"
+        },
+
+        {  
+        "name": "Chioggia Vigo",
+        "position": [45.22, 12.28],
+        "platformName": "Chioggia Vigo"
+        },
+
+        {  
+        "name": "Chioggia porto",
+        "position": [45.23, 12.28],
+        "platformName": "Chioggia porto"
+        },
+
+        {  
+        "name": "Diga sud Chioggia",
+        "position": [45.23, 12.31],
+        "platformName": "Diga sud Chioggia"
+        },
+
+        {  
+        "name": "Diga nord Malamocco",
+        "position": [45.33, 12.34],
+        "platformName": "Diga nord Malamocco"
+        },
+
+        {  
+        "name": "Malamocco porto",
+        "position": [45.34, 12.29],
+        "platformName": "Malamocco porto"
+        },
+
+        {  
+        "name": "Fusina",
+        "position": [45.41, 12.26],
+        "platformName": "Fusina"
+        },
+
+        {  
+        "name": "Venice",
+        "position": [45.418219, 12.426528],
+        "platformName": "Venice"
+        },
+
+        {  
+        "name": "Diga sud Lido",
+        "position": [45.42, 12.43],
+        "platformName": "Diga sud Lido"
+        },
+
+        {  
+        "name": "Punta Salute Canale Giudecca",
+        "position": [45.43, 12.34],
+        "platformName": "Punta Salute Canale Giudecca"
+        },
+
+        {  
+        "name": "Punta Salute Canal Grande",
+        "position": [45.43, 12.34],
+        "platformName": "Punta Salute Canal Grande"
+        },
+
+        {  
+        "name": "Venezia Misericordia",
+        "position": [45.45, 12.34],
+        "platformName": "Venezia Misericordia"
+        },
+
+        {  
+        "name": "Burano",
+        "position": [45.48, 12.42],
+        "platformName": "Burano"
+        },
+
+        {     
+        "name": "Laguna nord Saline",
+        "position": [45.5, 12.47],
+        "platformName": "Laguna nord Saline"
+        },
+
+        {  
+        "name": "Koper - kapitanija",
+        "position": [45.54839, 13.72915],
+        "platformName": "Koper - kapitanija"
+        },
+
+        {  
+        "name": "Trieste",
+        "position": [45.6544, 13.7561],
+        "platformName": "Trieste"
+        }
+ ]       
+

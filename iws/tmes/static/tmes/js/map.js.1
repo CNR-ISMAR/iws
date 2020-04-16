@@ -225,17 +225,15 @@ var tmesWavesMeanDirection = L.nonTiledLayer.wms(tmes_wv_WMS, {
 
 
 $.getJSON("/static/tmes/js/stations.json", function(markers){
-	//console.log(markers);
+	console.log(markers);
 
 var proxy = '/proxy';
-var markerspane = 'topPane';
 //sea level
 var tmesWaterLevelTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWaterLevel, {
     proxy: proxy,
     cache: 2,
     wmsVersion: '1.3.0',
     markers: markers,
-    markerspane: markerspane,
     updateTimeDimension: true,
     name: "TMES - Sea level mean",
     units: "m",
