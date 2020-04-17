@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+{% load i18n %}
+
+{% comment %}
+Remove tabs from home page 
+{% endcomment %}
+{% block tabs %}
+
+{{ block.super }}
+{% endblock %}
+
+{% comment %}
+This is where you can override the hero area block. You can simply modify the content below or replace it wholesale to meet your own needs. 
+{% endcomment %}
+
+  {% block hero %}
+  <div class="jumbotron">
+    <div class="container">
+     <div class="col-md-4">
+     <img class="home_logo" src="/static/geonode/img/home_logo.png" alt="I-STORMS project logo">
+     </div>
+     <div class="col-md-8">
+      <h2>I-Storms WEB System </h2>
+      <h3>Common Data Sharing Framework</h3>
+      </div>
+     <div   class="row">
+       <div class="col-md-8" id="home-content">
+       <p>{% blocktrans %}I-STORMS (Integrated Sea sTORm Management Strategies)  seeks  to  improve  the  early  warning  and  civil  protection procedures in sea storm emergencies.<br> 
+       I-STORMS aims through transnational cooperation to enhance innovative policies and develop joint strategies to safeguard ADRION 
+       area from sea emergencies. {% endblocktrans %}</p>
+       <p>{% blocktrans %}This site is devloped and mantained by CNR-ISMAR as part of I-STORMS project.{% endblocktrans %}</p>
+       </div>
+       <div class="col-md-4" id="home-spacer">
+       &nbsp;
+       </div>
+     </div>
+    </div>
+  </div>
+  {% endblock %}
+
+{% block mainbody %}  
+{{ block.super }}
+  {% block datasets %}{% endblock %}
+
+  {% block bigsearch %} {% endblock %}
+  {% block showcase %}{% endblock %}
+ 
+{% endblock %}
