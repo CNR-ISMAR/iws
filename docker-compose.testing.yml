@@ -2,7 +2,7 @@ version: '2.2'
 services:
   db:
     ports:
-      - 8432:5432
+      - "8432:5432"
 
 
   django:

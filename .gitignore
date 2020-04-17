@@ -9,7 +9,6 @@ __pycache__/
 .Python
 *.env
 .env
-
 env/
 build/
 develop-eggs/
@@ -30,12 +29,15 @@ iws_bk
 docs
 
 #docker volumes
+volumes/dbdata
 volumes/dbbackups
-volumes/*.tar
 volumes/geoserver-data-dir
+volumes/*.tar
 volumes/tds
+volumes/grafana-data
+volumes/nginxconf
 #statics
-dbdata
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -78,8 +80,7 @@ uploaded/
 static_root/
 development.db
 development.db-journal
-local_settings.py
-dss_pharos
+iws/local_settings.py
 iws/flooding/data/*
 
 .idea/
@@ -91,12 +92,6 @@ storage/layerdata/*
 /openistorm/migrations/*
 sd.env
 
-#docker volumes
-.env
-volumes
-dump_*
-build_log.txt
-srcgeonode/
 
 
 .bash*

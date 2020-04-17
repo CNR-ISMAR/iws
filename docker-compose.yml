@@ -13,8 +13,8 @@ services:
     labels:
       org.geonode.component: db
       org.geonode.instance.name: geonode
-#    ports:
-#      - 5432:5432
+    ports:
+      - 5432:5432
     volumes:
       - ./volumes/dbdata:/var/lib/postgresql/data
       - ./volumes/dbbackups:/pg_backups
@@ -202,8 +202,8 @@ services:
 
   geonode:
 #    image: geonode/nginx:geoserver
-#    image: iws_nginx:latest
-    build: ./nginx_files
+    image: iws_nginx:latest
+#    build: ./nginx_files
     restart: unless-stopped
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -215,9 +215,8 @@ services:
       - django
       - celery
       - geoserver
-    #ports:
-    #  - "80"
-    #  - "443"
+    ports:
+      - 80:80
     expose:
       - 80
       - 443
@@ -271,13 +270,21 @@ services:
 
   istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}
-    image: 'repositories.inkode.it:4567/inkode/iws:latest'
+    #image: 'repositories.inkode.it:4567/inkode/iws:latest'
     build: ./istorm
     restart: always
     ports:
     - 3003:3000
     expose:
     - 3000
+    volumes:
+    - ${PWD}/istorm/app:/usr/src/app/app
+    - ${PWD}/istorm/build:/usr/src/app/build
+    - ${PWD}/istorm/internals:/usr/src/app/internals
+    - ${PWD}/istorm/package.json:/usr/src/app/package.json
+    - ${PWD}/istorm/babel.config.js:/usr/src/app/babel.config.js
+    - ${PWD}/istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
+    - ${PWD}/istorm/.gitfake /usr/src/app/.git
 
 
 volumes:
