@@ -99,6 +99,7 @@ app.use('/api', proxy(proxyHostApi, {
     return opts;
   },
   proxyReqPathResolver: function (req) {
+    console.log(req);
     return req.url;//.replace('/wms/', '/thredds/wms/');
   }
 }));

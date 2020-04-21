@@ -271,10 +271,16 @@ services:
   istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}
     #image: 'repositories.inkode.it:4567/inkode/iws:latest'
-    build: ./istorm
+    build:
+      context: ./istorm
+      dockerfile: Dockerfile
+      args:
+        HTTPS_PROXY: ${HTTPS_PROXY}
+        HTTP_PROXY: ${HTTP_PROXY}
     restart: always
     ports:
     - 3003:3000
+  #  command: npm run buildstart:docker
     expose:
     - 3000
     volumes:
