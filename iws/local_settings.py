@@ -49,7 +49,7 @@ SITEURL = os.getenv('SITEURL', "https://%s:%s/" % (SITE_HOST_NAME, SITE_HOST_POR
 #SITEURL = "https://150.178.42.78"
 SITEURL = os.getenv('SITE_URL', "https://iws.seastorms.eu")
 
-ALLOWED_HOSTS = [os.getenv('SITE_HOST'), 'localhost', 'iws.ismar.cnr.it', 'django:8000', 'django', 'iws.seastorms.eu', 'www.seastorms.eu', 'cyber.goats.se']
+ALLOWED_HOSTS = [os.getenv('SITE_HOST'), 'localhost', 'iws.ismar.cnr.it', 'django:8000', 'django', 'iws.seastorms.eu', 'www.seastorms.eu', 'cyber.goats.se', 'seastorms.eu']
 
 PROXY_ALLOWED_HOSTS = ('ows.emodnet-bathymetry.eu', 'emodnet-physics.eu', 'data.adriplan.eu', 'atlas.shape-ipaproject.eu', 'www.seastorms.eu', 'iws.ismar.cnr.it')
 DEFAULT_LAYER_FORMAT = "image/png"
