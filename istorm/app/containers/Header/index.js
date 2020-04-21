@@ -46,7 +46,7 @@ const styles = (theme) => {
       //fontWeight: 600
     },
     logoImage: {
-      width: 120,
+      width: 200,
     },
     hide: {
       display: 'none',
