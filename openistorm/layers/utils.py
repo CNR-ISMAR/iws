@@ -26,8 +26,9 @@ class WmsQueryNew:
         self.time_from = parser.parse(time_from) if time_from is not None else datetime.combine(datetime.now(), timed.min)
         self.time_from = setDateToUtc(self.time_from)
         self.time_to = setDateToUtc(parser.parse(time_to)) if time_to is not None else False
-        self.history = 'history/' if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
-                                                      tzinfo=pytz.timezone('utc')) else ''
+        # self.history = 'history/' if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
+        #                                               tzinfo=pytz.timezone('utc')) else ''
+        self.history = True
         self.formatted_date = self.time_from.strftime("%Y%m%d")  if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
                                                       tzinfo=pytz.timezone('utc')) + timedelta(days=1) else datetime.utcnow().strftime("%Y%m%d")
 
