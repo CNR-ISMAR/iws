@@ -1,25 +1,28 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT, 
+import { REQUEST_LOGIN, REQUEST_REFRESH, REQUEST_LOGOUT, REQUEST_UPDATE_SETTINGS, REQUEST_SETTINGS,
         REQUEST_PROFILE, REQUEST_NOTIFICATION, DELETE_NOTIFICATION, UPDATE_NOTIFICATION } from 'containers/AuthProvider/constants';
-import { requestError, 
-  requestLoginSuccess, 
-  requestLogoutSuccess, 
+import { requestError,
+  requestLoginSuccess,
+  requestLogoutSuccess,
   requestProfileSuccess,
   requestNotificationSuccess,
   deleteNotificationSuccess,
+  updateSettingsSuccess,
+  settingsSuccess,
   stopLoading } from '../../containers/AuthProvider/actions';
 import makeSelectAuth, { tokensExistsExpired  } from '../../containers/AuthProvider/selectors';
 import { push } from 'connected-react-router';
-import {  login, loginRefresh, oauthOption, 
-          setToken, oauthOptionRefreshToken, getProfile, 
-          notification, deleteNotification, updateNotification } from 'utils/api';
+import {  login, loginRefresh, oauthOption,
+          setToken, oauthOptionRefreshToken, getProfile,
+          notification, deleteNotification, updateNotification,
+          getSettings, updateSettings} from 'utils/api';
 import {enqueueSuccess,enqueueRemove} from "containers/NotificationSnake/actions";
  //import {  } from 'containers/Auth/selectors';
 
 // Individual exports for testing
 export function* loginAuthSaga(action) {
   // See example in containers/HomePage/saga.js
-  const loginOption = { 
+  const loginOption = {
     method: 'post',
     body: {...oauthOption, ...{
       username: action.request.email,
@@ -31,6 +34,7 @@ export function* loginAuthSaga(action) {
     setToken(request.access_token);
     yield put(requestLoginSuccess(request));
     yield call(userProfileSaga);
+    yield call(requestSettingsSaga);
     yield put(push("/"));
   } catch(e) {
     yield put(requestError(e.message));
@@ -50,11 +54,35 @@ export function* userProfileSaga() {
     yield call(logoutAuthSaga);
   }
 }
+export function* requestSettingsSaga() {
+  const options = {
+    method: 'get'
+  };
+  try {
+    const request = yield call(getSettings, options);
+    yield put(settingsSuccess(request));
+  } catch(e) {
+    yield put(requestError(e.message));
+  }
+}
+
+export function* requestUpdateSettingsSaga(action) {
+  const options = {
+    method: 'PUT',
+    body: action.request
+  };
+  try {
+    const request = yield call(updateSettings, options);
+    yield put(updateSettingsSuccess(request));
+  } catch(e) {
+    yield put(requestError(e.message));
+  }
+}
 
 export function* notificationSaga() {
   const options = {
     method: 'get'
-  }; 
+  };
   // console.log('notificationSaga')
   try {
     const request = yield call(notification, options);
@@ -99,7 +127,7 @@ export function* refreshAuthSaga() {
 
   if(tokensExpired) {
     const authDomain = yield select(makeSelectAuth())
-    const loginOption = { 
+    const loginOption = {
       method: 'post',
       body: Object.assign(oauthOptionRefreshToken, {
         refresh_token: authDomain.oauth.refreshToken
@@ -111,6 +139,7 @@ export function* refreshAuthSaga() {
       yield put(requestLoginSuccess(request));
       yield call(userProfileSaga);
       yield call(notificationSaga);
+    yield call(requestSettingsSaga);
     } catch(e) {
       yield put(requestError(e.message));
       yield call(logoutAuthSaga);
@@ -135,4 +164,6 @@ export default function* authSaga() {
   yield takeLatest(REQUEST_NOTIFICATION, notificationSaga);
   yield takeLatest(DELETE_NOTIFICATION, deleteNotificationSaga);
   yield takeLatest(UPDATE_NOTIFICATION, updateNotificationSaga);
+  yield takeLatest(REQUEST_UPDATE_SETTINGS, requestUpdateSettingsSaga);
+  yield takeLatest(REQUEST_SETTINGS, requestSettingsSaga);
 }

@@ -4,12 +4,13 @@
  *
  */
 
-import { SYNC_AUTH, REQUEST_NOTIFICATION, REQUEST_NOTIFICATION_SUCCESS, 
+import { SYNC_AUTH, REQUEST_NOTIFICATION, REQUEST_NOTIFICATION_SUCCESS,
         DELETE_NOTIFICATION, DELETE_NOTIFICATION_SUCCESS, UPDATE_NOTIFICATION,
-        REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS ,STOP_LOADING, 
-        REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH, 
-        REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, 
-        REQUEST_REFRESH_SUCCESS, REQUEST_ERROR } from './constants';
+        REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS ,STOP_LOADING,
+        REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_REFRESH,
+        REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS,
+        REQUEST_UPDATE_SETTINGS, UPDATE_SETTINGS_SUCCESS,
+        REQUEST_REFRESH_SUCCESS, REQUEST_ERROR, SETTINGS_SUCCESS, REQUEST_SETTINGS } from './constants';
 
 export function stopLoading(request) {
   return {
@@ -115,5 +116,32 @@ export function requestError(errorMessage) {
   return {
     type: REQUEST_ERROR,
     error: errorMessage
+  };
+}
+
+export function requestUpdateSettings(request) {
+  return {
+    type: REQUEST_UPDATE_SETTINGS,
+    request: request
+  };
+}
+
+export function updateSettingsSuccess(result) {
+  return {
+    type: UPDATE_SETTINGS_SUCCESS,
+    result: result
+  };
+}
+
+export function requestSettings() {
+  return {
+    type: REQUEST_SETTINGS,
+  };
+}
+
+export function settingsSuccess(result) {
+  return {
+    type: SETTINGS_SUCCESS,
+    result: result
   };
 }

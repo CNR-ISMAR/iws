@@ -124,17 +124,16 @@ function SidebarNav(props) {
               <ArrowRightIcon className={props.classes.arrow}/>
             }
         </ListItem>
-      {/*TODO: si attiva se si leggono decentemente i dati*/}
-        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("storm-events")} onClick={() => linkTo("storm-events")} key={"nav-storm-events"}>*/}
-          {/*<ListItemIcon className={props.classes.listItemIcon}><StormEventsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
-          {/*<ListItemText primary={"Sea storm events"} />*/}
-        {/*</ListItem>*/}
 
-      {/*TODO: si attiva se si leggono decentemente i dati*/}
-        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("layers")} onClick={() => linkTo("layers")} key={"nav-layers"}>*/}
-          {/*<ListItemIcon className={props.classes.listItemIcon}><LayersIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
-          {/*<ListItemText primary={"Layers"} />*/}
-        {/*</ListItem>*/}
+        <ListItem button className={props.classes.listItem}  disabled={!props.isLogged} selected={isCurrentPage("settings")} onClick={() => linkTo("settings")} key={"nav-settings"}>
+          <ListItemIcon className={props.classes.listItemIcon}><SettingsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemText primary={"Settings"} />
+        </ListItem>
+        <ListItem button className={props.classes.listItem} selected={isCurrentPage("info")} onClick={() => linkTo("info")} key={"nav-info"}>
+          <ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
+          <ListItemText primary={"Info"} />
+        </ListItem>
+
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("history")} onClick={() => linkTo("history")} key={"nav-history"}>
           <ListItemIcon className={props.classes.listItemIcon}><HistoryIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"History"} />
@@ -168,6 +167,10 @@ function SidebarNav(props) {
           <ListItemText primary={props.layers["favorites"].name} />
         </ListItem>
 
+
+
+        <Divider className={props.classes.divider} variant={"middle"} />
+
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("credits")} onClick={() => linkTo("credits")} key={"nav-credits"}>
           <ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
           <ListItemText primary={"Credits"} />
@@ -182,19 +185,6 @@ function SidebarNav(props) {
           <ListItemIcon className={props.classes.listItemIcon}><HelpIcon iconcolor={props.theme.palette.custom.contrastText} primarycolor={props.theme.palette.custom.favoriteIcon} /></ListItemIcon>
           <ListItemText primary={"Instructions"} />
         </ListItem>
-
-
-
-        {/*<Divider className={props.classes.divider} variant={"middle"} />*/}
-
-        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("settings")} onClick={() => linkTo("settings")} key={"nav-settings"}>*/}
-          {/*<ListItemIcon className={props.classes.listItemIcon}><SettingsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
-          {/*<ListItemText primary={"Settings"} />*/}
-        {/*</ListItem>*/}
-        {/*<ListItem button className={props.classes.listItem} selected={isCurrentPage("info")} onClick={() => linkTo("info")} key={"nav-info"}>*/}
-          {/*<ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>*/}
-          {/*<ListItemText primary={"Info"} />*/}
-        {/*</ListItem>*/}
     </List>
   );
 }

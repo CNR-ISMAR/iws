@@ -116,6 +116,17 @@ export const updateNotification = (id) => {
   return request(`${BASE_URL}/openistorm/notifications/${id}/markasread/`, options)
 }
 
+export const updateSettings = (data) => {
+  const options = getOption(data);
+  return request(`${BASE_URL}/openistorm/settings/`, options)
+}
+
+export const getSettings = () => {
+  const options = getOption({})
+  return request(`${BASE_URL}/openistorm/settings/`, options)
+};
+
+
 export const popups = (action) => {
   const bounds = action.parameters.bounds
   const station = action.parameters.station

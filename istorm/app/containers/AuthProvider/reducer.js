@@ -6,6 +6,7 @@
 import produce from 'immer';
 import moment from "moment";
 import { STOP_LOADING, SYNC_AUTH, REQUEST_LOGIN,
+      UPDATE_SETTINGS_SUCCESS, REQUEST_UPDATE_SETTINGS, REQUEST_SETTINGS, SETTINGS_SUCCESS,
       REQUEST_LOGOUT, REQUEST_PROFILE, REQUEST_PROFILE_SUCCESS,
       REQUEST_REFRESH, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS,
       REQUEST_ERROR, REQUEST_REFRESH_SUCCESS, REQUEST_NOTIFICATION,
@@ -17,6 +18,7 @@ export const initialState = {
   user: {
     email: ""
   },
+  settings: {},
   error: null,
   oauth: {
     token: null,
@@ -40,6 +42,7 @@ const authReducer = (state = initialState, action) =>
       case SYNC_AUTH:
           draft.oauth = action.request.oauth;
           draft.user = action.request.user;
+          draft.settings = action.request.settings;
         break;
       case REQUEST_LOGIN:
           draft.loading = true;
@@ -100,6 +103,19 @@ const authReducer = (state = initialState, action) =>
       case REQUEST_ERROR:
           draft.loading = false;
           draft.error = action.error;
+      case REQUEST_UPDATE_SETTINGS:
+          draft.loading = true;
+        break;
+      case UPDATE_SETTINGS_SUCCESS:
+          draft.loading = false;
+          draft.settings = action.result;
+        break;
+      case REQUEST_SETTINGS:
+          draft.loading = true;
+        break;
+      case SETTINGS_SUCCESS:
+          draft.loading = false;
+          draft.settings = action.result;
         break;
     }
   });

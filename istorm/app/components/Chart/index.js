@@ -107,7 +107,7 @@ function Chart(props) {
     // console.log(ts)
     return ts.map(function (x) {
       return {
-        x: new Date(x.x),
+        x: moment(x.x).add(new Date(x.x).getTimezoneOffset(), "minutes"),
         y: x.y,
         y0: x.y0,
       }
@@ -227,7 +227,7 @@ function Chart(props) {
                       <Grid container>
                         <Grid item xs={12}>
                           <Paper style={{ color:"white", background:"rgba(105, 131, 151, 0.80)", padding:"10px", width:"270px"}}>
-                            <Typography variant="body2">Time: { moment(chart.crosshairValues[0].x).utc().format('DD/MM/YYYY HH:mm') }</Typography>
+                            <Typography variant="body2">Time: { chart.crosshairValues[0].x.format('DD/MM/YYYY HH:mm') }</Typography>
                               <Box p={0} my={1} width="100%">
                                 {
                                   chart.crosshairValues.map((value, index) => {
@@ -235,7 +235,7 @@ function Chart(props) {
                                     return value && !chart.recordclick[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')].disabled &&
                                       <Typography key={cslabels[index]} variant="body2">
                                         {labels.crosshair[cslabels[index]]}: <span style={{fontSize:"1.05rem"}}>
-                                        { cslabels[index].includes("area") ? `±${(value.y - value.y0).toFixed(fixed)}` : value.y.toFixed(fixed) }
+                                        { cslabels[index].includes("area") ? `±${((value.y - value.y0)/2).toFixed(fixed)}` : value.y.toFixed(fixed) }
                                           {labels.um[cslabels[index].replace(/mean|area|max|min|station|-/gi, '')]}</span>
                                     </Typography>
                                   })

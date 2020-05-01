@@ -4,10 +4,10 @@ import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import { toggleDrawer } from 'containers/Sidebar/actions';
 import { syncAuth, requestRefresh } from "containers/AuthProvider/actions";
-import { syncCredits, dismissCredits } from "containers/App/actions";
+import { syncDismiss } from "containers/App/actions";
 import { setToken } from 'utils/api';
 import { isMobileOrTablet } from 'utils/mobileDetector';
-import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_REFRESH, REQUEST_PROFILE_SUCCESS } from 'containers/AuthProvider/constants';
+import { REQUEST_LOGIN, REQUEST_LOGOUT, REQUEST_LOGIN_SUCCESS, REQUEST_LOGOUT_SUCCESS, REQUEST_REFRESH_SUCCESS, REQUEST_REFRESH, REQUEST_PROFILE_SUCCESS, SETTINGS_SUCCESS } from 'containers/AuthProvider/constants';
 import { DISMISS_CREDITS } from 'containers/App/constants';
 import {push, getLocation} from "connected-react-router";
 
@@ -73,6 +73,7 @@ export const persitanceMiddleWare = store => next => action => {
     case REQUEST_LOGIN_SUCCESS:
     case REQUEST_REFRESH_SUCCESS:
     case REQUEST_PROFILE_SUCCESS:
+    case SETTINGS_SUCCESS:
       const state = store.getState();
       // console.log(state)
       if(state.auth) {
@@ -94,8 +95,7 @@ export function* refreshPersistance() {
   const authStore = persistore.get("auth");
   const dismiss_credits = persistore.get("credits");
   if(dismiss_credits) {
-    // yield put(dismissCredits());
-    yield put(syncCredits);
+    yield put(syncDismiss());
   } else {
     if(window.location.pathname !== '/credits') {
       yield put(push("/credits"));
