@@ -14,7 +14,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { SettingsIcon } from '../../utils/icons';
 import SidebarSubNav from 'components/SidebarSubNav';
-import {requestUpdateSettings} from 'containers/AuthProvider/actions';
+import {requestUpdateSettings, requestSettings} from 'containers/AuthProvider/actions';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
@@ -35,6 +35,10 @@ const styles = (theme, style) => {
 
 function SettingsPage(props) {
 
+  React.useEffect(() => {
+    if(!props.auth.settings && !props.auth.loading)
+    props.dispatch(requestSettings());
+  }, []);
   return (
     <>
       <SidebarSubNav
