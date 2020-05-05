@@ -123,8 +123,8 @@ function StationChart(props) {
           station_name={props.chart.results.station_name}
           latitude={props.chart.results.latitude}
           longitude={props.chart.results.longitude}
-          timeFrom={moment(props.chart.results.from).format( 'DD/MM/YYYY')}
-          timeTo={moment(props.chart.results.max).format( 'DD/MM/YYYY')}
+          timeFrom={moment(props.chart.results.from).add('2', "hours").format( 'DD/MM/YYYY')}
+          timeTo={moment(props.chart.results.to).subtract('2', "hours").format( 'DD/MM/YYYY')}
         />
       </div>
     </div>

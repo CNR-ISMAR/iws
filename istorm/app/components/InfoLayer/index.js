@@ -114,8 +114,8 @@ function InfoLayer(props){
 
   const parseValue = (value, name)=>{
       if(name !== 'wsh')
-        return parseInt(value)
-    return parseFloat(value).toFixed(1);
+        return Math.round(value)
+    return Math.round(value).toFixed(1);
   }
 
 
