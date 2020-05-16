@@ -266,6 +266,7 @@ class Map extends React.Component {
         </ReactMapGL>
         <InfoLayer
           timeline={this.props.timeline}
+          layer={this.props.seaLevel.isVisible ? 'sea_level' : 'waves'}
           infos={this.props.popups}
           station={this.state.station}
           history={this.props.history}

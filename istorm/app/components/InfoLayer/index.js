@@ -19,6 +19,7 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import GradeIcon from '@material-ui/icons/Grade';
 import GradeOutlinedIcon from '@material-ui/icons/GradeOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
@@ -103,6 +104,7 @@ const styles = (theme) => {
   };
 
 function InfoLayer(props){
+  const [showEnsemble, setShowEnsemble] = useState(false)
     // console.log('Info Layer')
     // console.log(props)
 
@@ -132,7 +134,6 @@ function InfoLayer(props){
                 <Typography align="center" width="100%" variant={"subtitle1"}>
                   {moment(info.time).utc().format('DD/MM/YYYY HH:mm')} - lat {info.latitude.toFixed(4)}  lon {info.longitude.toFixed(4)}
                 </Typography>
-                {props.timeline.current && <EnsembleInfo current={props.timeline.current} results={props.timeline.results}/>}
                 <Box pt={2} display="flex" flexDirection="column" justifyContent="center" width="100%">
                   <Table>
                     <TableHead>
@@ -206,7 +207,20 @@ function InfoLayer(props){
                       }
                     </Button>
                     }
+                    <Button className={props.classes.buttonChart} onClick={ () => {setShowEnsemble(!showEnsemble)}
+                    }>
+                      <InfoOutlinedIcon></InfoOutlinedIcon>
+                    </Button>
                   </Box>
+                  {
+                    showEnsemble && <>
+
+                    {props.timeline.current && <EnsembleInfo current={props.timeline.current} results={props.timeline.results} layer={props.layer}/>}
+                <Typography align="center" width="100%" variant={"subtitle2"}>
+                  Other infos..
+                </Typography>
+                    </>
+                  }
                 </Box>
                 <Button size={"small"}
                         className={props.classes.headerTopClose}

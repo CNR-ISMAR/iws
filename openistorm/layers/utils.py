@@ -432,27 +432,44 @@ class NCToImg:
             os.remove(self.nc_filepath)
         try:
             print self.meta_url
+            data = self.request_meta(self.meta_url)
+            meta = {
+                "ensemble": filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
+                "ensemble_waves": filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
+                "creation": filter(lambda x: x["@name"]=="metadata_creation",filter(lambda x: x["@name"]=="NCISOMetadata",data["ncml:netcdf"]["group"])[0]["attribute"])[0]["@value"],
+                "creation_waves": filter(lambda x: x["@name"]=="metadata_creation",filter(lambda x: x["@name"]=="NCISOMetadata",data["ncml:netcdf"]["group"])[0]["attribute"])[0]["@value"],
+            }
+            self.info = json.dumps(meta)
+            data = self.request_meta(self.meta_url.replace("waves", "sea_level"))
+            meta["ensemble_sea_level"] = filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"]
+            meta["creation_sea_level"] = filter(lambda x: x["@name"] == "metadata_creation",
+                                    filter(lambda x: x["@name"] == "NCISOMetadata", data["ncml:netcdf"]["group"])[0][
+                                        "attribute"])[0]["@value"]
+            self.info = json.dumps(meta)
+        except Exception as e:
+            print(e)
+            pass
+
+    def request_meta(self, meta_url):
+        data = {}
+        try:
             ssl._create_default_https_context = ssl._create_unverified_context
             if os.getenv("HTTPS_PROXY"):
                 https_proxy = os.environ["HTTPS_PROXY"]
                 http_proxy = os.environ["HTTP_PROXY"]
-                r = requests.get(self.meta_url, stream=True, proxies={"http": http_proxy, "https": https_proxy })
+                r = requests.get(meta_url, stream=True, proxies={"http": http_proxy, "https": https_proxy})
             else:
-                r = requests.get(self.meta_url, stream=True)
+                r = requests.get(meta_url, stream=True)
             with open(self.nc_filepath, 'wb') as f:
                 for chunk in r:
                     f.write(chunk)
             with open(self.nc_filepath, 'r') as myfile:
                 data = myfile.read()
             data = xmltodict.parse(data)
-            self.info = json.dumps({
-                "ensemble": filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
-                "creation": filter(lambda x: x["@name"]=="metadata_creation",filter(lambda x: x["@name"]=="NCISOMetadata",data["ncml:netcdf"]["group"])[0]["attribute"])[0]["@value"],
-            })
-            print(self.info)
-        except Exception as e:
-            print(e)
+        except:
             pass
+        return data
+
 
     def transform_waves(self):
         if os.path.isfile(self.nc_filepath):

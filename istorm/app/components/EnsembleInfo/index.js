@@ -6,12 +6,18 @@ import {withStyles} from '@material-ui/core/styles';
 function EnsembleInfo(props) {
 
   const result = props.current && props.results ? props.results[props.current] : null
-    // console.log(result)
+
+  const ensembleInfo = (info, attribute, layer) => {
+    if(`${attribute}_${layer}` in info) {
+      return info[`${attribute}_${layer}`];
+    }
+    return info[attribute];
+  }
 
 return (result && result.info && (
     <>
-      <Typography width="80%" variant={"subtitle2"}>
-        {result.info.ensemble} on {result.info.creation}
+      <Typography width="80%" variant={"subtitle1"}>
+        {ensembleInfo(result.info, 'ensemble', props.layer).replace(/\,/g, ', ')} on {ensembleInfo(result.info, 'creation', props.layer)}
       </Typography>
     </>
   ) || <></>)

@@ -129,10 +129,6 @@ function SidebarNav(props) {
           <ListItemIcon className={props.classes.listItemIcon}><SettingsIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
           <ListItemText primary={"Settings"} />
         </ListItem>
-        <ListItem button className={props.classes.listItem} selected={isCurrentPage("info")} onClick={() => linkTo("info")} key={"nav-info"}>
-          <ListItemIcon className={props.classes.listItemIcon}><InfoIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
-          <ListItemText primary={"Info"} />
-        </ListItem>
 
         <ListItem button className={props.classes.listItem} selected={isCurrentPage("history")} onClick={() => linkTo("history")} key={"nav-history"}>
           <ListItemIcon className={props.classes.listItemIcon}><HistoryIcon iconcolor={props.theme.palette.custom.contrastText}/></ListItemIcon>
