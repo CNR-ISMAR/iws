@@ -17,7 +17,7 @@ fcm-django==0.2.21
 django-daterange-filter
 django-searchable-select
 django-grappelli==2.7.3
-Django==1.8.19
+Django==1.11.29
 six==1.10.0
 django-cuser==2017.3.16
 django-model-utils==3.1.1
