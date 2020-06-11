@@ -11,13 +11,21 @@ function EnsembleInfo(props) {
     if(`${attribute}_${layer}` in info) {
       return info[`${attribute}_${layer}`];
     }
-    return info[attribute];
+    if(attribute in info)
+    {
+      return info[attribute];
+    }
+    return '';
   }
 
 return (result && result.info && (
     <>
       <Typography width="80%" variant={"subtitle1"}>
         {ensembleInfo(result.info, 'ensemble', props.layer).replace(/\,/g, ', ')} on {ensembleInfo(result.info, 'creation', props.layer)}
+      </Typography>
+
+      <Typography align="center" width="100%" variant={"subtitle2"}>
+        {ensembleInfo(result.info, 'comment', props.layer).replace(/\,/g, ', ')}
       </Typography>
     </>
   ) || <></>)

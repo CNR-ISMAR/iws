@@ -436,12 +436,15 @@ class NCToImg:
             meta = {
                 "ensemble": filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
                 "ensemble_waves": filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
+                "comment": filter(lambda x: x["@name"]=="comment",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
+                "comment_waves": filter(lambda x: x["@name"]=="comment",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
                 "creation": filter(lambda x: x["@name"]=="metadata_creation",filter(lambda x: x["@name"]=="NCISOMetadata",data["ncml:netcdf"]["group"])[0]["attribute"])[0]["@value"],
                 "creation_waves": filter(lambda x: x["@name"]=="metadata_creation",filter(lambda x: x["@name"]=="NCISOMetadata",data["ncml:netcdf"]["group"])[0]["attribute"])[0]["@value"],
             }
             self.info = json.dumps(meta)
             data = self.request_meta(self.meta_url.replace("waves", "sea_level"))
             meta["ensemble_sea_level"] = filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"]
+            meta["comment_sea_level"] = filter(lambda x: x["@name"]=="comment",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"]
             meta["creation_sea_level"] = filter(lambda x: x["@name"] == "metadata_creation",
                                     filter(lambda x: x["@name"] == "NCISOMetadata", data["ncml:netcdf"]["group"])[0][
                                         "attribute"])[0]["@value"]

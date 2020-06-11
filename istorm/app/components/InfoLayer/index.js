@@ -216,9 +216,6 @@ function InfoLayer(props){
                     showEnsemble && <>
 
                     {props.timeline.current && <EnsembleInfo current={props.timeline.current} results={props.timeline.results} layer={props.layer}/>}
-                <Typography align="center" width="100%" variant={"subtitle2"}>
-                  Other infos..
-                </Typography>
                     </>
                   }
                 </Box>
