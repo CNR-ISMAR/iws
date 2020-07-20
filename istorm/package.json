@@ -100,7 +100,7 @@
     "iso8601-js-period": "^0.2.1",
     "leaflet": "^1.5.1",
     "leaflet-timedimension": "^1.1.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.19",
     "minimist": "1.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.28",
