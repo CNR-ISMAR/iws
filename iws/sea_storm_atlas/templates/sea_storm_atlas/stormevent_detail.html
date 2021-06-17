@@ -83,6 +83,11 @@
         <li class="list-group-item">
            <a href='{% url "event-list" segid=object.coastalsegment_id %}' class="btn btn-primary btn-block">Back to events list</a>
         </li>
+	{% if user.is_superuser or user.is_staff %}
+        <li class="list-group-item">
+           <a href="/admin/sea_storm_atlas/stormevent/{{ object.id }}" class="btn btn-primary btn-block">Edit event</a>
+        </li>
+	{% endif %}
     </ul>
   {% endblock sidebar %}
   </div>
