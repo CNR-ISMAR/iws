@@ -266,7 +266,7 @@ services:
       # - /opt/grafana-data:/var/lib/grafana
       - grafana-storage:/var/lib/grafana
       - /var/www/html:/var/www/html
-
+      - /home/gordini/thredds-panel/dist:/var/lib/grafana/plugins/thredds
 
   istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}
