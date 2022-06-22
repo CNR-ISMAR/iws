@@ -10,7 +10,7 @@ git+https://github.com/voronind/awesome-slugify.git
 oauth2-provider==0.0
 netCDF4==1.5.1.2
 wget==3.2
-numpy==1.16.4
+numpy==1.22.0
 fcm-django==0.2.21
 #pydap==3.2.2
 #sea storm atlas
