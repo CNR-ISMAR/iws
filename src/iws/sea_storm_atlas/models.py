@@ -19,7 +19,7 @@ class CoastalSegment(models.Model):
     # sea = models.CharField(max_length=30, blank=True, null=True)
     code = models.CharField(max_length=5, blank=True, null=True)
     partition = models.CharField(max_length=2, blank=True, null=True)
-    ews = models.NullBooleanField()
+    ews = models.BooleanField(null=True)
     HAZARD_CHOICES = (
         ('W', 'Wave Storm'),
         ('T', 'Tide Storm'),
@@ -28,12 +28,12 @@ class CoastalSegment(models.Model):
         ('WTM', 'Wave and Tide Storm, Meteotsunami'),
     ) 
     ews_hazard_type = models.CharField(max_length=3, choices=HAZARD_CHOICES, null=True)
-    forecasting_service = models.NullBooleanField()
-    cp_procedures = models.NullBooleanField()
-    intervention_procedures = models.NullBooleanField()
+    forecasting_service = models.BooleanField(null=True)
+    cp_procedures = models.BooleanField(null=True)
+    intervention_procedures = models.BooleanField(null=True)
     cf_risk_sources = models.CharField(max_length=3, choices=HAZARD_CHOICES, null=True)
-    network_for_marine_measurement_observation = models.NullBooleanField()
-    post_event_monitoring_system = models.NullBooleanField()
+    network_for_marine_measurement_observation = models.BooleanField(null=True)
+    post_event_monitoring_system = models.BooleanField(null=True)
     
     objects = models.GeoManager()
     

@@ -20,12 +20,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coastalsegment',
             name='cp_procedures',
-            field=models.NullBooleanField(),
+            field=models.BooleanField(null=True),
         ),
         migrations.AddField(
             model_name='coastalsegment',
             name='ews',
-            field=models.NullBooleanField(),
+            field=models.BooleanField(null=True),
         ),
         migrations.AddField(
             model_name='coastalsegment',
@@ -36,21 +36,21 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coastalsegment',
             name='forecasting_service',
-            field=models.NullBooleanField(),
+            field=models.BooleanField(null=True),
         ),
         migrations.AddField(
             model_name='coastalsegment',
             name='intervention_procedures',
-            field=models.NullBooleanField(),
+            field=models.BooleanField(null=True),
         ),
         migrations.AddField(
             model_name='coastalsegment',
             name='network_for_marine_measurement_observation',
-            field=models.NullBooleanField(),
+            field=models.BooleanField(null=True),
         ),
         migrations.AddField(
             model_name='coastalsegment',
             name='post_event_monitoring_system',
-            field=models.NullBooleanField(),
+            field=models.BooleanField(null=True),
         ),
     ]
