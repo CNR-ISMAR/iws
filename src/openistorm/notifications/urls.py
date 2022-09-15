@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from rest_framework import routers
-from views import NotificationList, NotificationDetail
+from .views import NotificationList, NotificationDetail
 
 
 app_name = 'notification'

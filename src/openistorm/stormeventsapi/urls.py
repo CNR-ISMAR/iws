@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from views import StormEventListGeoJson, StormEventList
+from .views import StormEventListGeoJson, StormEventList
 
 
 app_name = 'stormevents'

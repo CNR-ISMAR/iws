@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Notification
+from .models import Notification
 from django.contrib.gis.geos import Point
 import datetime
 

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from rest_framework import routers
-from views import SettingList
+from .views import SettingList
 
 
 app_name = 'settings'

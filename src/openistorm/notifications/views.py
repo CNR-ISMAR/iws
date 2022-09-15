@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework import status
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import action
 from .models import Notification
 from .serializers import NotificationSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -50,7 +50,7 @@ class NotificationDetail(RetrieveUpdateDestroyAPIView,GenericViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Notification.objects.all()
 
-    @detail_route(methods=['put'])
+    @action(methods=['put'], detail=True)
     def markasread(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.read = True

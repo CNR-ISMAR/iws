@@ -10,8 +10,12 @@ awesome-slugify==1.6.5
 oauth2-provider==0.0
 netCDF4==1.5.1.2
 wget==3.2
-fcm-django==0.2.21
+fcm-django==0.3.3
 
 
 #sea storm atlas
 pycsw==2.6.1
+
+
+django-leaflet
+django-braces==1.15.0

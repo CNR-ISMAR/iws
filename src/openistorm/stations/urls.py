@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from views import StationList
+from .views import StationList
 
 
 app_name = 'stations'

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from rest_framework import routers
-from views import FavoriteList, FavoriteListGeoJson, FavoriteDetail
+from .views import FavoriteList, FavoriteListGeoJson, FavoriteDetail
 
 
 app_name = 'favorites'

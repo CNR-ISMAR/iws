@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from views import ImageLayerList, ImageLayerBoundaries, Info, TimeSeries, SeaLevelMixMax, MobileTimeSeries#, Stations
+from .views import ImageLayerList, ImageLayerBoundaries, Info, TimeSeries, SeaLevelMixMax, MobileTimeSeries#, Stations
 
 
 app_name = 'imagelayers'

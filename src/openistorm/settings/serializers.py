@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Setting
+from .models import Setting
 
 class SettingSerializer(serializers.ModelSerializer):
     # sl_reference = serializers.IntegerField
