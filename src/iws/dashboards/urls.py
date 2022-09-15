@@ -1,6 +1,6 @@
-from django.conf.urls import url
+from django.urls import path
 from .views import Dashboards
 
 urlpatterns = [
-    url(r'^$', Dashboards.as_view(), name='dashboards'),
+    path('', Dashboards.as_view(), name='dashboards'),
 ]
