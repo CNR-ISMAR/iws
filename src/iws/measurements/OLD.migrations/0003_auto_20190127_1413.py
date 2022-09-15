@@ -15,9 +15,9 @@ class Migration(migrations.Migration):
             name='Serie',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('location', models.ForeignKey(to='measurements.Location')),
-                ('parameter', models.ForeignKey(to='measurements.Parameter')),
-                ('sensor', models.ForeignKey(to='measurements.Sensor')),
+                ('location', models.ForeignKey(to='measurements.Location', on_delete=models.DO_NOTHING)),
+                ('parameter', models.ForeignKey(to='measurements.Parameter', on_delete=models.DO_NOTHING)),
+                ('sensor', models.ForeignKey(to='measurements.Sensor', on_delete=models.DO_NOTHING)),
             ],
         ),
         migrations.RemoveField(
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='measure',
             name='serie',
-            field=models.ForeignKey(default=1, to='measurements.Serie'),
+            field=models.ForeignKey(default=1, to='measurements.Serie', on_delete=models.DO_NOTHING),
             preserve_default=False,
         ),
     ]

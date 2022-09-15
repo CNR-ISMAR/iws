@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coastalsegment',
             name='region',
-            field=models.ForeignKey(default=1, to='base.Region'),
+            field=models.ForeignKey(default=1, to='base.Region', on_delete=models.DO_NOTHING),
             preserve_default=False,
         ),
     ]

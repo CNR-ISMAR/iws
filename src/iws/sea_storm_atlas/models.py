@@ -11,9 +11,9 @@ class Sea(models.Model):
 
 class CoastalSegment(models.Model):
     geom = models.MultiLineStringField(srid=3035)
-    region = models.ForeignKey(Region)
+    region = models.ForeignKey(Region, on_delete=models.DO_NOTHING)
     subregion = models.CharField(max_length=40)
-    sea = models.ForeignKey(Sea)    
+    sea = models.ForeignKey(Sea, on_delete=models.DO_NOTHING)    
     seg_name = models.CharField(max_length=100, blank=True, null=True)
     # adm1 = models.CharField(max_length=40, blank=True, null=True)
     # sea = models.CharField(max_length=30, blank=True, null=True)
@@ -52,6 +52,7 @@ class CoastalSegment(models.Model):
 
 class StormEvent(models.Model):
     coastalsegment = models.ForeignKey(CoastalSegment,
+                                       on_delete=models.DO_NOTHING,
                                        verbose_name="Coastal segment")
     geom = models.PointField(srid=3035, blank=True, null=True,
                              verbose_name='Event location',

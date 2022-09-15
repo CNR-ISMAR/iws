@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('value', models.FloatField()),
-                ('location', models.ForeignKey(to='measurements.Location')),
+                ('location', models.ForeignKey(to='measurements.Location', on_delete=models.DO_NOTHING)),
             ],
         ),
         migrations.CreateModel(
@@ -45,11 +45,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='measure',
             name='parameter',
-            field=models.ForeignKey(to='measurements.Parameter'),
+            field=models.ForeignKey(to='measurements.Parameter', on_delete=models.DO_NOTHING),
         ),
         migrations.AddField(
             model_name='measure',
             name='sensor',
-            field=models.ForeignKey(to='measurements.Sensor'),
+            field=models.ForeignKey(to='measurements.Sensor', on_delete=models.DO_NOTHING),
         ),
     ]

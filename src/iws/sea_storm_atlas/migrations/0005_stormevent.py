@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('lat', models.CharField(max_length=255, null=True, blank=True)),
                 ('lon', models.CharField(max_length=255, null=True, blank=True)),
                 ('geom', django.contrib.gis.db.models.fields.PointField(srid=3035, null=True, blank=True)),
-                ('coastalsegment', models.ForeignKey(to='sea_storm_atlas.CoastalSegment')),
+                ('coastalsegment', models.ForeignKey(to='sea_storm_atlas.CoastalSegment', on_delete=models.DO_NOTHING)),
             ],
         ),
     ]

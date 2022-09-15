@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coastalsegment',
             name='sea',
-            field=models.ForeignKey(default=1, to='sea_storm_atlas.Sea'),
+            field=models.ForeignKey(default=1, to='sea_storm_atlas.Sea', on_delete=models.DO_NOTHING),
             preserve_default=False,
         ),
     ]

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='serie',
             name='network',
-            field=models.ForeignKey(default=1, to='measurements.Network'),
+            field=models.ForeignKey(default=1, to='measurements.Network', on_delete=models.DO_NOTHING),
             preserve_default=False,
         ),
     ]

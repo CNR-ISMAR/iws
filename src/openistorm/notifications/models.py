@@ -9,14 +9,14 @@ from ..tasks import fcm_notify
 
 
 class Notification(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=190)
     description = models.TextField(blank=True, null=True)
     type = models.CharField(max_length=190, default='auto')
     position = gismodel.PointField(srid=3857, blank=False, null=False)
     read = models.BooleanField(default=False)
     time = models.DateTimeField(null=True, blank=True)
-    favorite = models.ForeignKey(Favorite, null=True, blank=True)
+    favorite = models.ForeignKey(Favorite, null=True, blank=True, on_delete=models.DO_NOTHING)
 
     def __unicode__(self):
         return self.title

@@ -34,10 +34,10 @@ class Network(models.Model):
 
 
 class Serie(models.Model):
-    parameter = models.ForeignKey(Parameter)
-    sensor = models.ForeignKey(Sensor)
-    location = models.ForeignKey(Location)
-    network = models.ForeignKey(Network)
+    parameter = models.ForeignKey(Parameter, on_delete=models.DO_NOTHING)
+    sensor = models.ForeignKey(Sensor, on_delete=models.DO_NOTHING)
+    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING)
+    network = models.ForeignKey(Network, on_delete=models.DO_NOTHING)
     # add below additional fields
     stats_mean =models.FloatField(null=True)
     stats_outliers = ArrayField(models.IntegerField(), null=True)
@@ -61,6 +61,6 @@ class Serie(models.Model):
 
 
 class Measure(models.Model):
-    serie = models.ForeignKey(Serie)
+    serie = models.ForeignKey(Serie, on_delete=models.DO_NOTHING)
     timestamp = models.DateTimeField(db_index=True)
     value = models.FloatField()
