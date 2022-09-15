@@ -26,13 +26,13 @@ from geonode.urls import path, urlpatterns
 urlpatterns += (
 ## include your urls here
     # Oauth2 views
-    # url(r'^', include('openistorm.urls')),
+    path('', include('openistorm.urls')),
     #pinaxnotifications
     # url(r"^notifications/", include("pinax.notifications.urls", namespace="pinax_notifications")),
     # invitations
     # url(r'invitations/', include ('invitations.urls')),
     #sea storm atlas
-    # url(r'^sea_storm_atlas/', include('iws.sea_storm_atlas.urls')),
+    path('sea_storm_atlas/', include('iws.sea_storm_atlas.urls')),
     #url(r'^sea_storm_atlas/', RedirectView.as_view(url= '/maps/165/view', permanent=True), name='sea_storm_atlas'),
     #url(r'^sea_storm_atlas/', TemplateView.as_view(template_name='maps_sea_storm.html'), name='atlas_map'),
 
@@ -40,6 +40,6 @@ urlpatterns += (
     path('measurements/', include ('iws.measurements.urls')),
     path('dashboards/', include('iws.dashboards.urls')),
     #tmes
-    # url(r'^tmes/', include('iws.tmes.urls')),
+    path('tmes/', include('iws.tmes.urls')),
     # url(r'grappelli/', include('grappelli.urls')),
 )

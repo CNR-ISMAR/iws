@@ -59,6 +59,19 @@ LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', "en")
 if PROJECT_NAME not in INSTALLED_APPS:
     INSTALLED_APPS += (PROJECT_NAME,)
 
+
+INSTALLED_APPS = INSTALLED_APPS + (
+    'fcm_django',
+    'openistorm',
+    'rest_framework_swagger',
+    PROJECT_NAME + '.sea_storm_atlas',
+    PROJECT_NAME + ".measurements",
+    PROJECT_NAME + '.tmes',
+    PROJECT_NAME + ".dashboards",
+    PROJECT_NAME + ".polls",
+)
+
+
 # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
 
