@@ -1,17 +1,15 @@
-{% extends "site_base.html" %}
+{% extends "page.html" %}
 {% load pagination_tags %}
-{% load staticfiles %}
+{% load static %}
 {% load i18n %}
-{% load leaflet_tags %}
-{% load i18n %}
-
+{# {% load leaflet_tags %} #}
 
 {% block title %} {% trans "TMES" %} - {{ block.super }} {% endblock %}
 
 {% block extra_head %}
 {{ block.super }}
-{% leaflet_js %}
-{% leaflet_css %}
+{# {% leaflet_js %} #}
+{# {% leaflet_css %} #}
 
 <link rel="stylesheet" href="{{ STATIC_URL }}/leaflet/time/leaflet.timedimension.control.min.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}tmes/css/style.css" />
@@ -41,7 +39,7 @@
 
 {% block body_class %}TMES{% endblock %}
 
-{% block body_outer %}
+{% block container %}
 <div class="row" id="contain-map">
   <div class="col-md-12">
 
