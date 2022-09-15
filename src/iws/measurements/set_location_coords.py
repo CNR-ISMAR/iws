@@ -71,7 +71,7 @@ stations = (
     )
 
 for label, geo in stations:
-    print label
+    print(label)
     l = Location.objects.get(label=label)
     l.geo = geo
     l.save()

@@ -93,7 +93,7 @@ def syncarso():
                 t = p.find(tag)
                 if t is not None and t.string is not None:
                     _value = float(t.string)
-                    print location, parameter, _value
+                    print(location, parameter, _value)
                     if parameter == 'SLEV':
                         _value = _value / 100.
                         baselevel = float(p.attrs['kota_0'])
@@ -110,7 +110,7 @@ def syncarso():
                         }
                         _write([rjson])
                     except TypeError as e:
-                        print str(e)
+                        print(str(e))
                         pass
 
 
@@ -142,7 +142,7 @@ def syncioc():
         location = s[0]
         code = s[1]
 
-        print IOC.format(code)
+        print(IOC.format(code))
         r = requests.get(IOC.format(code))
         soup = BeautifulSoup(r.text)
         table = soup.find("table")

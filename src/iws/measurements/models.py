@@ -51,7 +51,7 @@ class Serie(models.Model):
         difference = np.abs(df['value'] - df['pandas'])
         outlier_idx = difference > threshold
 
-        print df.loc[outlier_idx, 'value'].shape
+        print(df.loc[outlier_idx, 'value'].shape)
         self.stats_mean = df.loc[~outlier_idx, 'value'].mean()
         self.save()
         return self.stats_mean

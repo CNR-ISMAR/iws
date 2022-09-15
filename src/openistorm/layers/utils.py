@@ -431,7 +431,7 @@ class NCToImg:
         if os.path.isfile(self.nc_filepath):
             os.remove(self.nc_filepath)
         try:
-            print self.meta_url
+            print(self.meta_url)
             ssl._create_default_https_context = ssl._create_unverified_context
             if os.getenv("HTTPS_PROXY"):
                 https_proxy = os.environ["HTTPS_PROXY"]
