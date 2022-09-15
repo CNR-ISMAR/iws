@@ -6,6 +6,7 @@ from geonode.documents.models import Document
 
 class Sea(models.Model):
     label = models.CharField(max_length=100)
+    
     def __unicode__(self):
         return self.label
 
@@ -35,7 +36,7 @@ class CoastalSegment(models.Model):
     network_for_marine_measurement_observation = models.BooleanField(null=True)
     post_event_monitoring_system = models.BooleanField(null=True)
     
-    objects = models.GeoManager()
+    objects = models.Manager()
     
     def __unicode__(self):
         return "{} {} ({})".format(self.code, self.partition, self.subregion)
@@ -75,8 +76,9 @@ class StormEvent(models.Model):
     evts_documents =  models.ManyToManyField(Document, blank=True, null=True) 
     lat = models.CharField(max_length=255, blank=True, null=True)
     lon = models.CharField(max_length=255, blank=True, null=True)
-    objects = models.GeoManager()
+    objects = models.Manager()
+    
     def get_boolvalue(self, fieldname):
-	return bool(self.fieldname)
+	    return bool(self.fieldname)
 
 
