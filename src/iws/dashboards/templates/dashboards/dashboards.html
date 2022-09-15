@@ -1,8 +1,6 @@
 {% extends "site_base.html" %}
 {% load pagination_tags %}
-{% load staticfiles %}
-{% load i18n %}
-{% load leaflet_tags %}
+{% load static %}
 {% load i18n %}
 
 
@@ -10,8 +8,6 @@
 
 {% block extra_head %}
 {{ block.super }}
-{% leaflet_js %}
-{% leaflet_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}tmes/css/style.css" />
 
 {% endblock %}
