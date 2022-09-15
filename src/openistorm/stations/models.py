@@ -5,11 +5,11 @@ from django.conf import settings
 from django.contrib.gis.db.models.fields import PointField
 
 class Station(models.Model):
-    id = models.IntegerField(editable=False)
-    location_label = models.CharField(editable=False)
-    station_code = models.CharField(editable=False)
-    station_label = models.CharField(editable=False)
-    code = models.CharField(editable=False)
+    id = models.IntegerField(editable=False, primary_key=True)
+    location_label = models.TextField(editable=False)
+    station_code = models.TextField(editable=False)
+    station_label = models.TextField(editable=False)
+    code = models.TextField(editable=False)
     parameter_id = models.IntegerField(editable=False)
     geo = PointField(editable=False, srid=4326)
     class Meta:
@@ -22,11 +22,11 @@ class StationData(models.Model):
     timestamp = models.DateTimeField(editable=False, primary_key=True)
     value = models.FloatField(editable=False)
     value_norm = models.FloatField(editable=False)
-    location = models.CharField(editable=False)
+    location = models.TextField(editable=False)
     location_id = models.IntegerField(editable=False)
-    parameter = models.CharField(editable=False)
+    parameter = models.TextField(editable=False)
     parameter_id = models.IntegerField(editable=False)
-    network = models.CharField(editable=False)
+    network = models.TextField(editable=False)
 
     class Meta:
         db_table = 'measurements_grafana_view'
