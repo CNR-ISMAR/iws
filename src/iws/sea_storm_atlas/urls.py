@@ -19,10 +19,10 @@
 #
 #########################################################################
 
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 from django.views.generic import TemplateView, RedirectView
 
-from geonode.maps.views import map_view
+from geonode.maps.views import map_embed
 
 from . import views
 from .models import CoastalSegment, StormEvent, Sea
@@ -31,7 +31,7 @@ from .views import CoastalSegmentListView, CoastalSegmentDetailView,StormEventLi
 urlpatterns = (
 	## include your urls here
 	#url(r'^map$', RedirectView.as_view(url= '/maps/165/view', permanent=True), name='atlas_map'),
-	url(r'^map$', map_view, {'mapid':'165'}, name='atlas_map'),
+	url(r'^map$', map_embed, {'mapid':'165'}, name='atlas_map'),
 
 	url(r'^atlas$', TemplateView.as_view(template_name='sea_storm_atlas/map_sea_storm.html'), {'mapid':'165'}, name='atlas_map_test'),
 	url(r'^storm_events$', TemplateView.as_view(template_name='sea_storm_atlas/events_sea_storm.html'), name='storm_events'),
