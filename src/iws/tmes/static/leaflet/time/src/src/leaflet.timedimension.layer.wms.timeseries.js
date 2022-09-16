@@ -275,7 +275,7 @@ L.TimeDimension.Layer.WMS.TimeSeries = L.TimeDimension.Layer.WMS.extend({
     },
 
     _createChart: function() {
-        var mapContainerParent = this._map.getContainer().parentNode;
+        var mapContainerParent = this._map.getContainer().parentNode.parentNode.parentNode;
         var chart_wrapper = mapContainerParent.querySelector('.chart-wrapper');
         if (!chart_wrapper) {
             var wrapper = document.createElement("div");

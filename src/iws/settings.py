@@ -64,6 +64,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'fcm_django',
     'openistorm',
     'rest_framework_swagger',
+    'leaflet',
     PROJECT_NAME + '.sea_storm_atlas',
     PROJECT_NAME + ".measurements",
     PROJECT_NAME + '.tmes',
