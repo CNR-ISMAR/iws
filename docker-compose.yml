@@ -203,6 +203,10 @@ services:
     ports:
     - 3003:3000
   #  command: npm run buildstart:docker
+    env_file:
+      - istorm/.env
+    profiles:
+      - istorm
     expose:
     - 3000
     volumes:
@@ -213,6 +217,18 @@ services:
     - ./istorm/babel.config.js:/usr/src/app/babel.config.js
     - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
     - ./istorm/.gitfake /usr/src/app/.git
+
+  doc:
+    image: ${COMPOSE_PROJECT_NAME}_doc
+    build:
+      context: ./docker/documentation/
+      dockerfile: Dockerfile
+    container_name: doc${COMPOSE_PROJECT_NAME}
+    profiles:
+      - doc
+    volumes:
+      - statics:/mnt/volumes/statics
+
 
 volumes:
   jenkins_data:
