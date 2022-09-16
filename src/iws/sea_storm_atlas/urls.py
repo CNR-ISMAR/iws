@@ -21,6 +21,7 @@
 
 from django.conf.urls import url, include
 from django.views.generic import TemplateView, RedirectView
+from django.urls import path, re_path
 
 from geonode.maps.views import map_embed
 
@@ -30,19 +31,16 @@ from .views import CoastalSegmentListView, CoastalSegmentDetailView,StormEventLi
 
 urlpatterns = (
 	## include your urls here
-	#url(r'^map$', RedirectView.as_view(url= '/maps/165/view', permanent=True), name='atlas_map'),
-	url(r'^map$', map_embed, {'mapid':'165'}, name='atlas_map'),
+	path('map/', RedirectView.as_view(url= '/catalogue/#/map/2'), name='atlas_map'),
+	# ('map/', map_embed, {'mapid':'2'}, name='atlas_map'),
 
-	url(r'^atlas$', TemplateView.as_view(template_name='sea_storm_atlas/map_sea_storm.html'), {'mapid':'165'}, name='atlas_map_test'),
-	url(r'^storm_events$', TemplateView.as_view(template_name='sea_storm_atlas/events_sea_storm.html'), name='storm_events'),
-	url(r'^segment/list$', CoastalSegmentListView.as_view(), name='segment-list'),
-        url(r'^segment/listnew$', TemplateView.as_view(template_name='sea_storm_atlas/coastalsegment_list.html'), name='storm_events'),
-	url(r'^segment/(?P<pk>\d+)', views.CoastalSegmentDetailView.as_view(), name='segment-detail'),
-    #url(r'^(segments/?P<segid>[^/]+)/edit$', map_edit, name='segment_edit'),
-    url(r'^event/list/segment/(?P<segid>\d+)', views.StormEventListView.as_view(),  name='event-list' ),
-    
-    url(r'^event/(?P<pk>\d+)', views.StormEventDetailView.as_view(), name='event-detail'),
-
-
+	path('atlas/', TemplateView.as_view(template_name='sea_storm_atlas/map_sea_storm.html'), {'mapid':'2'}, name='atlas_map_test'),
+	path('storm_events/', TemplateView.as_view(template_name='sea_storm_atlas/events_sea_storm.html'), name='storm_events'),
+	path('segment/list/', CoastalSegmentListView.as_view(), name='segment-list'),
+    #     url(r'^segment/listnew$', TemplateView.as_view(template_name='sea_storm_atlas/coastalsegment_list.html'), name='storm_events'),
+	path('segment/<int:pk>/', views.CoastalSegmentDetailView.as_view(), name='segment-detail'),
+    # path('segments/<segid:int>/edit/', map_edit, name='segment_edit'),
+    path('event/list/segment/<int:segid>/', views.StormEventListView.as_view(),  name='event-list'),
+    path('^event/<int:pk>/', views.StormEventDetailView.as_view(), name='event-detail'),
 )
 
