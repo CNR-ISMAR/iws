@@ -19,22 +19,16 @@
 #
 #########################################################################
 
-from django.conf.urls import url, include
 from django.views.generic import TemplateView, RedirectView
-from django.urls import path, re_path
-
-from geonode.maps.views import map_embed
+from django.urls import path
+from django.conf import settings
 
 from . import views
-from .models import CoastalSegment, StormEvent, Sea
-from .views import CoastalSegmentListView, CoastalSegmentDetailView,StormEventListView, StormEventDetailView
+from .views import CoastalSegmentListView
+
 
 urlpatterns = (
-	## include your urls here
-	path('map/', RedirectView.as_view(url= '/catalogue/#/map/2'), name='atlas_map'),
-	# ('map/', map_embed, {'mapid':'2'}, name='atlas_map'),
-
-	path('atlas/', TemplateView.as_view(template_name='sea_storm_atlas/map_sea_storm.html'), {'mapid':'2'}, name='atlas_map_test'),
+	path('map/', RedirectView.as_view(url= f'/catalogue/#/map/{settings.STORM_ATLAS_MAP_ID}'), name='atlas_map'),
 	path('storm_events/', TemplateView.as_view(template_name='sea_storm_atlas/events_sea_storm.html'), name='storm_events'),
 	path('segment/list/', CoastalSegmentListView.as_view(), name='segment-list'),
     #     url(r'^segment/listnew$', TemplateView.as_view(template_name='sea_storm_atlas/coastalsegment_list.html'), name='storm_events'),

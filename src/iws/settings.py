@@ -155,3 +155,11 @@ if LDAP_ENABLED and 'geonode_ldap' not in INSTALLED_APPS:
 
 # Add your specific LDAP configuration after this comment:
 # https://docs.geonode.org/en/master/advanced/contrib/#configuration
+
+
+
+
+# Project specific configurations
+
+# STORM ATLAS
+STORM_ATLAS_MAP_ID = os.get_env('STORM_ATLAS_MAP_ID', 1)
