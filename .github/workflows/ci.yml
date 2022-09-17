@@ -30,4 +30,4 @@ jobs:
     - name: Earthly version
       run: earthly --version
     - name: Run build
-      run: earthly --ci --push +django --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
+      run: earthly --push +django --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
