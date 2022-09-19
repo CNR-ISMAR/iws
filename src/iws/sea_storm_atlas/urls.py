@@ -35,6 +35,6 @@ urlpatterns = (
 	path('segment/<int:pk>/', views.CoastalSegmentDetailView.as_view(), name='segment-detail'),
     # path('segments/<segid:int>/edit/', map_edit, name='segment_edit'),
     path('event/list/segment/<int:segid>/', views.StormEventListView.as_view(),  name='event-list'),
-    path('^event/<int:pk>/', views.StormEventDetailView.as_view(), name='event-detail'),
+    path('event/<int:pk>/', views.StormEventDetailView.as_view(), name='event-detail'),
 )
 
