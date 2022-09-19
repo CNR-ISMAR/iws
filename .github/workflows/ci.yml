@@ -32,7 +32,7 @@ jobs:
     - name: Build django
       run: earthly --ci --push +django --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
 
-  geonode:
+  nginx:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
@@ -60,12 +60,66 @@ jobs:
       run: earthly --version
     - name: build nginx
       run: earthly --ci --push +nginx --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
-    - name: build postgis
-      run: earthly --ci --push +postgis --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
+
+  geoserver:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
+    steps:
+    - uses: actions/checkout@v3
+    - name: Put back the git branch into git (Earthly uses it for tagging)
+      run: |
+        branch=""
+        if [ -n "$GITHUB_HEAD_REF" ]; then
+          branch="$GITHUB_HEAD_REF"
+        else
+          branch="${GITHUB_REF##*/}"
+        fi
+        git checkout -b "$branch" || true
+    -
+      name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download latest earthly
+      run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.23/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+    - name: Earthly version
+      run: earthly --version
     - name: build geoserver
       run: earthly --ci --push +geoserver --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
 
-  tools:
+  postgis:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
+    steps:
+    - uses: actions/checkout@v3
+    - name: Put back the git branch into git (Earthly uses it for tagging)
+      run: |
+        branch=""
+        if [ -n "$GITHUB_HEAD_REF" ]; then
+          branch="$GITHUB_HEAD_REF"
+        else
+          branch="${GITHUB_REF##*/}"
+        fi
+        git checkout -b "$branch" || true
+    -
+      name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download latest earthly
+      run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.23/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+    - name: Earthly version
+      run: earthly --version
+    - name: build postgis
+      run: earthly --ci --push +postgis --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
+
+  letsencrypt:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
@@ -93,12 +147,38 @@ jobs:
       run: earthly --version
     - name: build letsencrypt
       run: earthly --ci --push +letsencrypt --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
+
+  jenkins:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
+    steps:
+    - uses: actions/checkout@v3
+    - name: Put back the git branch into git (Earthly uses it for tagging)
+      run: |
+        branch=""
+        if [ -n "$GITHUB_HEAD_REF" ]; then
+          branch="$GITHUB_HEAD_REF"
+        else
+          branch="${GITHUB_REF##*/}"
+        fi
+        git checkout -b "$branch" || true
+    -
+      name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download latest earthly
+      run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.23/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+    - name: Earthly version
+      run: earthly --version
     - name: build jenkins
       run: earthly --ci --push +jenkins --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
-    - name: build documentation
-      run: earthly --ci --push +documentation --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
 
-  custom:
+
+  thredds:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
@@ -155,3 +235,32 @@ jobs:
       run: earthly --version
     - name: build istorm
       run: earthly --ci --push +istorm --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
+
+  documentation:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
+    steps:
+    - uses: actions/checkout@v3
+    - name: Put back the git branch into git (Earthly uses it for tagging)
+      run: |
+        branch=""
+        if [ -n "$GITHUB_HEAD_REF" ]; then
+          branch="$GITHUB_HEAD_REF"
+        else
+          branch="${GITHUB_REF##*/}"
+        fi
+        git checkout -b "$branch" || true
+    -
+      name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download latest earthly
+      run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.23/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+    - name: Earthly version
+      run: earthly --version
+    - name: build documentation
+      run: earthly --ci --push +documentation --BRANCH=$GITHUB_REF_NAME --USER=${GITHUB_REPOSITORY_OWNER,,}
