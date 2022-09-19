@@ -8,3 +8,93 @@ django:
     FROM DOCKERFILE .
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+documentation:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/documentation/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+geoserver:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/geoserver/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+nginx:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/nginx/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+istorm:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./istorm/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+jenkins:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/jenkins/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+postgis:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/postgis/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+documentation:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/documentation/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+thredds:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/thredds/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+
+
+letsencrypt:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./docker/letsencrypt/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
