@@ -50,16 +50,6 @@ istorm:
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
 
 
-jenkins:
-    ARG EARTHLY_GIT_HASH
-    ARG EARTHLY_TARGET_NAME
-    ARG BRANCH
-    ARG USER
-    FROM DOCKERFILE ./docker/jenkins/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
-
-
 postgis:
     ARG EARTHLY_GIT_HASH
     ARG EARTHLY_TARGET_NAME
