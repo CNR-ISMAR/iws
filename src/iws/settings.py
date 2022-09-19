@@ -175,26 +175,15 @@ MEDIA_FIXTURES_FILES_DIRS = [
 # STORM ATLAS
 STORM_ATLAS_MAP_ID = os.getenv('STORM_ATLAS_MAP_ID', 1)
 
-SEASTORM_DATABASE_URL = os.getenv('SEASTORM_DATABASE_URL')
-DATABASES['seastorm'] = dj_database_url.parse(
-    SEASTORM_DATABASE_URL,
-    conn_max_age=GEONODE_DB_CONN_MAX_AGE)
+DATABASES['seastorm'] = DATABASES['default'].copy()
+DATABASES['seastorm']['name'] = os.getenv('SEASTORM_NAME')
+DATABASES['seastorm']['user'] = os.getenv('SEASTORM_NAME')
+DATABASES['seastorm']['password'] = os.getenv('SEASTORM_PASSWORD')
 
-if 'CONN_TOUT' in DATABASES['seastorm']:
-    DATABASES['seastorm']['CONN_TOUT'] = GEONODE_DB_CONN_TOUT
-if 'postgresql' in SEASTORM_DATABASE_URL or 'postgis' in SEASTORM_DATABASE_URL:
-    if 'OPTIONS' not in DATABASES['seastorm']:
-        DATABASES['seastorm']['OPTIONS'] = {}
-    DATABASES['seastorm']['OPTIONS'].update({
-        'connect_timeout': GEONODE_DB_CONN_TOUT,
-    })
-
-
-# DSS PHAROS
-DSS_PHAROS_DATABASE_URL = os.getenv('DSS_PHAROS_DATABASE_URL')
-DATABASES['dss_pharos_db'] = dj_database_url.parse(
-    DSS_PHAROS_DATABASE_URL,
-    conn_max_age=GEONODE_DB_CONN_MAX_AGE)
+DATABASES['dss_pharos_db'] = DATABASES['default'].copy()
+DATABASES['dss_pharos_db']['name'] = os.getenv('DSS_PHAROS_NAME')
+DATABASES['dss_pharos_db']['user'] = os.getenv('DSS_PHAROS_NAME')
+DATABASES['dss_pharos_db']['password'] = os.getenv('DSS_PHAROS_PASSWORD')
 
 # MEASUREMENTS
 MEASUREMENTS_DATABASE_URL = os.getenv('MEASUREMENTS_DATABASE_URL')
