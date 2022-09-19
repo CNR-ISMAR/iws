@@ -21,6 +21,7 @@
 # Django settings for the GeoNode project.
 import os
 import ast
+import dj_database_url
 
 try:
     from urllib.parse import urlparse, urlunparse
@@ -161,6 +162,9 @@ if LDAP_ENABLED and 'geonode_ldap' not in INSTALLED_APPS:
 
 
 # Project specific configurations
+CORS_ORIGIN_ALLOW_ALL = True
+UPLOADER['SUPPORTED_CRS'] += ['EPSG:900913',]
+PROXY_ALLOWED_HOSTS += ('nominatim.openstreetmap.org',)
 
 # MEDIA FIXTURES
 MEDIA_FIXTURES_FILES_DIRS = [
@@ -171,8 +175,113 @@ MEDIA_FIXTURES_FILES_DIRS = [
 # STORM ATLAS
 STORM_ATLAS_MAP_ID = os.getenv('STORM_ATLAS_MAP_ID', 1)
 
+SEASTORM_DATABASE_URL = os.getenv('SEASTORM_DATABASE_URL')
+DATABASES['seastorm'] = dj_database_url.parse(
+    SEASTORM_DATABASE_URL,
+    conn_max_age=GEONODE_DB_CONN_MAX_AGE)
+
+if 'CONN_TOUT' in DATABASES['seastorm']:
+    DATABASES['seastorm']['CONN_TOUT'] = GEONODE_DB_CONN_TOUT
+if 'postgresql' in SEASTORM_DATABASE_URL or 'postgis' in SEASTORM_DATABASE_URL:
+    if 'OPTIONS' not in DATABASES['seastorm']:
+        DATABASES['seastorm']['OPTIONS'] = {}
+    DATABASES['seastorm']['OPTIONS'].update({
+        'connect_timeout': GEONODE_DB_CONN_TOUT,
+    })
+
+
+# DSS PHAROS
+DSS_PHAROS_DATABASE_URL = os.getenv('DSS_PHAROS_DATABASE_URL')
+DATABASES['dss_pharos_db'] = dj_database_url.parse(
+    DSS_PHAROS_DATABASE_URL,
+    conn_max_age=GEONODE_DB_CONN_MAX_AGE)
+
+# MEASUREMENTS
+MEASUREMENTS_DATABASE_URL = os.getenv('MEASUREMENTS_DATABASE_URL')
+DATABASES['measurements'] = dj_database_url.parse(
+    MEASUREMENTS_DATABASE_URL,
+    conn_max_age=GEONODE_DB_CONN_MAX_AGE)
+
+
 # FORECASTS
 THREDDS_URL = os.getenv('THREDDS_URL', "https://iws.ismar.cnr.it/")
 
 
+# SOCIAL
+INSTALLED_APPS += (
+#     'allauth.socialaccount.providers.linkedin_oauth2',
+#     'allauth.socialaccount.providers.facebook',
+     'allauth.socialaccount.providers.google',
+)
 
+SOCIALACCOUNT_PROVIDERS = {
+    'linkedin_oauth2': {
+        'SCOPE': [
+            'r_emailaddress',
+            'r_basicprofile',
+        ],
+        'PROFILE_FIELDS': [
+            'emailAddress',
+            'firstName',
+            'headline',
+            'id',
+            'industry',
+            'lastName',
+            'pictureUrl',
+            'positions',
+            'publicProfileUrl',
+            'location',
+            'specialties',
+            'summary',
+        ]
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': [
+            'email',
+            'public_profile',
+        ],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+        ]
+    },
+}
+
+SOCIALACCOUNT_PROFILE_EXTRACTORS = {
+    "facebook": "geonode.people.profileextractors.FacebookExtractor",
+    "linkedin_oauth2": "geonode.people.profileextractors.LinkedInExtractor",
+}
+
+# NOTIFICATIONS
+
+# notification settings
+NOTIFICATION_ENABLED = True
+
+# notifications backends
+_EMAIL_BACKEND = "pinax.notifications.backends.email.EmailBackend"
+PINAX_NOTIFICATIONS_BACKENDS = [
+    ("email", _EMAIL_BACKEND),
+]
+
+# Queue non-blocking notifications.
+PINAX_NOTIFICATIONS_QUEUE_ALL = False
+PINAX_NOTIFICATIONS_LOCK_WAIT_TIMEOUT = -1
+
+# pinax.notifications
+# or notification
+NOTIFICATIONS_MODULE = 'pinax.notifications'
+
+
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY', 'NO KEY..'),
+        # "DELETE_INACTIVE_DEVICES": False
+}
