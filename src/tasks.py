@@ -198,6 +198,7 @@ def statics(ctx):
     try:
         ctx.run('mkdir -p /mnt/volumes/statics/{static,uploads}')
         ctx.run(f"python manage.py collectstatic --noinput --settings={_localsettings()}", pty=True)
+        ctx.run(f"python manage.py collectmedia --noinput --settings={_localsettings()}", pty=True)
     except Exception:
         import traceback
         traceback.print_exc()
