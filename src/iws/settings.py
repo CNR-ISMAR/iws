@@ -65,6 +65,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'openistorm',
     'rest_framework_swagger',
     'leaflet',
+    'django_media_fixtures',
     PROJECT_NAME + '.sea_storm_atlas',
     PROJECT_NAME + ".measurements",
     PROJECT_NAME + '.tmes',
@@ -161,5 +162,17 @@ if LDAP_ENABLED and 'geonode_ldap' not in INSTALLED_APPS:
 
 # Project specific configurations
 
+# MEDIA FIXTURES
+MEDIA_FIXTURES_FILES_DIRS = [
+    os.path.join(LOCAL_ROOT, "media_fixtures"),
+]
+
+
 # STORM ATLAS
-STORM_ATLAS_MAP_ID = os.get_env('STORM_ATLAS_MAP_ID', 1)
+STORM_ATLAS_MAP_ID = os.getenv('STORM_ATLAS_MAP_ID', 1)
+
+# FORECASTS
+THREDDS_URL = os.getenv('THREDDS_URL', "https://iws.ismar.cnr.it/")
+
+
+

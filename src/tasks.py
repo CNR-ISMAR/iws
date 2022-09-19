@@ -247,6 +247,12 @@ def fixtures(ctx):
 --settings={0}".format(_localsettings()), pty=True)
 #     ctx.run("python manage.py set_all_datasets_metadata -d \
 # --settings={0}".format(_localsettings()), pty=True)
+    ctx.run("python manage.py loaddata /usr/src/iws/fixtures/theme.json \
+--settings={0}".format(_localsettings()), pty=True)
+
+
+    ctx.run(f"django-admin.py collectmedia --noinput \
+--settings={_localsettings()}", pty=True)
 
 
 @task
@@ -254,7 +260,15 @@ def collectstatic(ctx):
     print("************************static artifacts******************************")
     ctx.run(f"django-admin.py collectstatic --noinput \
 --settings={_localsettings()}", pty=True)
+    ctx.run(f"django-admin.py collectmedia --noinput \
+--settings={_localsettings()}", pty=True)
 
+
+@task
+def collectmedia(ctx):
+    print("************************media artifacts******************************")
+    ctx.run(f"django-admin.py collectmedia --noinput \
+--settings={_localsettings()}", pty=True)
 
 @task
 def geoserverfixture(ctx):
