@@ -45,3 +45,7 @@
 #gn-hero .jumbotron {
     max-width: 70vw;
 }
+
+.msgapi .modal-fixed {
+    z-index: 9000000 !important;
+}
