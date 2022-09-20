@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load client_version %}
+{% load static %}
+
+{% block html_class %}msgapi{% endblock %}
+
+{% block extra_head %}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="{% static 'mapstore/dist/themes/geonode.css' %}?{% client_version %}" rel="stylesheet" />
+    <link href="{% static 'lib/css/bootstrap-select.css' %}?{% client_version %}" rel="stylesheet" />
+    {% include './geonode-mapstore-client/snippets/custom_theme.html' %}
+    
+{% endblock %}
+
+
+{% block body_extra_class %}gn-legacy gn-theme {% if request.user_agent.is_mobile %}gn-mobile{% else %}gn-desktop{% endif %}{% endblock %}
+
+{% block header %}
+{% include './geonode-mapstore-client/snippets/header.html' %}
+{% endblock %}
+
+{% block footer %}
+{% include './geonode-mapstore-client/snippets/footer.html' %}
+{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript">
+        // enable dropdown functionalities
+        $('.dropdown-toggle').dropdown();
+    </script>
+{% endblock extra_script %}
