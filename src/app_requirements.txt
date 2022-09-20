@@ -2,7 +2,6 @@
 
 django-ckeditor==5.3.1
 django-bootstrap-breadcrumbs==0.9.1
-django-rest-swagger==2.2.0
 django-extensions
 django-pandas==0.6.0
 django-revproxy==0.9.15

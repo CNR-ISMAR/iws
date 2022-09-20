@@ -64,7 +64,6 @@ if PROJECT_NAME not in INSTALLED_APPS:
 INSTALLED_APPS = INSTALLED_APPS + (
     'fcm_django',
     'openistorm',
-    'rest_framework_swagger',
     'leaflet',
     'django_media_fixtures',
     PROJECT_NAME + '.sea_storm_atlas',
