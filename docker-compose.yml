@@ -8,7 +8,7 @@ x-common-django:
   env_file:
     - .env
   volumes:
-    # - './src:/usr/src/iws'
+    - './src:/usr/src/iws'
     - statics:/mnt/volumes/statics
     - geoserver-data-dir:/geoserver_data/data
     - backup-restore:/backup_restore

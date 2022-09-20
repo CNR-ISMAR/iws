@@ -60,16 +60,6 @@ postgis:
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
 
 
-thredds:
-    ARG EARTHLY_GIT_HASH
-    ARG EARTHLY_TARGET_NAME
-    ARG BRANCH
-    ARG USER
-    FROM DOCKERFILE ./docker/thredds/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
-
-
 letsencrypt:
     ARG EARTHLY_GIT_HASH
     ARG EARTHLY_TARGET_NAME
