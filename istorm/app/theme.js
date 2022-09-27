@@ -1,5 +1,5 @@
 import red from '@material-ui/core/colors/red';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
 import MetropolisWoff2 from 'images/Metropolis-Regular.woff2';
 
@@ -18,7 +18,7 @@ const metropolis = {
 
 // A custom theme for this app
 // https://material-ui.com/customization/default-theme/
-const theme = createMuiTheme({
+const theme = createTheme({
   /* typography: {
     useNextVariants: true,
   }, */
@@ -44,7 +44,7 @@ const theme = createMuiTheme({
       listSelected: "#698397",
       paddingSide: 25,
     },
-    
+
     type: 'light',
     primary: {
       dark: "#0B303A",
@@ -66,7 +66,7 @@ const theme = createMuiTheme({
   },
   sizing: {
     drawerWidth: 250,
-    paperWrapperWidth: 500, 
+    paperWrapperWidth: 500,
   },
   typography: {
     useNextVariants: true,

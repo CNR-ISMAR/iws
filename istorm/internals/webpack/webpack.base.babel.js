@@ -98,7 +98,7 @@ module.exports = options => ({
                 optimizationLevel: 7,
               },
               pngquant: {
-                quality: '65-90',
+                quality: [0.65, 0.90],
                 speed: 4,
               },
             },
@@ -127,7 +127,11 @@ module.exports = options => ({
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       ...app_env
-    })
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
+
   ]),
   resolve: {
     modules: ['node_modules', 'app'],
