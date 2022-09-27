@@ -110,6 +110,7 @@ class Map extends React.Component {
   }
 
   shouldComponentUpdate(newProps) {
+    return true;
     return JSON.stringify(newProps) !== JSON.stringify(this.props);
   }
 
