@@ -29,6 +29,7 @@ iws_bk
 docs/_build
 
 #docker volumes
+volumes/*
 volumes/dbdata
 volumes/dbbackups
 volumes/geoserver-data-dir
@@ -36,6 +37,11 @@ volumes/*.tar
 volumes/tds
 volumes/grafana-data
 volumes/nginxconf
+volumes/statics/geonode_init.lock
+
+# docker images
+images
+
 #statics
 
 

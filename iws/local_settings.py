@@ -520,19 +520,19 @@ EMAIL_ENABLE = True
 
 if EMAIL_ENABLE:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    #EMAIL_HOST = 'localhost'
-    EMAIL_HOST = 'email.ismar.cnr.it'
+    EMAIL_HOST = os.getenv('EMAIL_HOST', 'host.sbagliato')
+    #EMAIL_HOST = 'email.ismar.cnr.it'
     DEFAULT_FROM_EMAIL = 'admin-noreply@iws.ismar.cnr.it'
-    SERVER_EMAIL = DEFAULT_FROM_EMAIL
-    #EMAIL_PORT = 25
-    #EMAIL_HOST_USER = ''
-    #EMAIL_HOST_PASSWORD = ''
-    #EMAIL_USE_TLS = False
+    #SERVER_EMAIL = DEFAULT_FROM_EMAIL
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = 'iws.seastorms.eu@gmail.com'
+    EMAIL_HOST_PASSWORD = 'NETcdf14models'
+    EMAIL_USE_TLS = True
     #DEFAULT_FROM_EMAIL = 'Example.com <no-reply@localhost>'
-
+# smtp.gmail.com iws.seastorms.eu@gmail.com NETcdf14models 587
 # REGISTRATION
 
-THEME_ACCOUNT_CONTACT_EMAIL = 'amedeo.fadini@ve.ismar.cnr.it'
+THEME_ACCOUNT_CONTACT_EMAIL = 'iws.seastorms.eu@gmail.com'
 
 ACCOUNT_OPEN_SIGNUP = False
 ACCOUNT_EMAIL_CONFIRMATION_EMAIL = True
@@ -576,3 +576,4 @@ CKEDITOR_UPLOAD_PATH = 'cked_upload'
 #set the mapa number for sea storm atlas, used in redirect into urls.py 
 STORM_ATLAS_MAP = 165
 
+LOGOUT_REDIRECT_URL = '/'
