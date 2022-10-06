@@ -12,26 +12,27 @@ import { withRouter } from "react-router-dom";
 
 import { connect } from 'react-redux';
 
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { easeCubic } from 'd3-ease';
 
 import Layer from "./Layer";
 import { setViewport,  getLatLon } from "../../containers/App/actions";
 
-import ReactMapGL, { FlyToInterpolator, Popup } from 'react-map-gl';
-import { LngLat } from 'mapbox-gl';
-import WindGLLayer from "./WindGLLayer";
-import LayerSeaLevel from "./LayerSeaLevel";
-import LayerFavorites from "./LayerFavorites";
+// import ReactMapGL, { FlyToInterpolator, Popup } from 'react-map-gl';
+import maplibregl, { LngLat } from 'maplibre-gl';
+// import WindGLLayer from "./WindGLLayer";
+// import LayerSeaLevel from "./LayerSeaLevel";
+// import LayerFavorites from "./LayerFavorites";
 import mapCss from './mapCss.css';
 import mapStyle from './mapStyle';
+
 
 import { requestInfoLayer,
   emptyInfoLayer, toggleInfoLayer,
   fillIfIsFavourite, setPointPopup } from "containers/App/actions";
 
-import InfoLayer from 'components/InfoLayer';
+// import InfoLayer from 'components/InfoLayer';
 
 const mapboxToken = process.env.MAPBOX_TOKEN;
 
@@ -57,7 +58,7 @@ class Map extends React.Component {
         width: window.document.body.offsetWidth,
         height: window.document.body.offsetHeight,
         transitionDuration: 1000,
-        transitionInterpolator: new FlyToInterpolator(),
+        // transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic,
       },
     };
@@ -205,6 +206,7 @@ class Map extends React.Component {
     return (
       <>
       <ReactMapGL
+        mapLib={maplibregl}
         disableTokenWarning={true}
         width={this.state.viewport.width}
         height={this.state.viewport.height}
@@ -231,25 +233,25 @@ class Map extends React.Component {
 
         {!this.state.mapboxIsLoading && (
           <>
-            {this.props.seaLevel.isVisible &&
-              (<LayerSeaLevel
-                layerInfo={this.props.layerInfo}
-                key={'LayerSeaLevel'}
-                layer={this.props.seaLevel}
-                mean={this.props.mean}/>)}
+            {/*{this.props.seaLevel.isVisible &&*/}
+            {/*  (<LayerSeaLevel*/}
+            {/*    layerInfo={this.props.layerInfo}*/}
+            {/*    key={'LayerSeaLevel'}*/}
+            {/*    layer={this.props.seaLevel}*/}
+            {/*    mean={this.props.mean}/>)}*/}
 
-            {this.props.WindGLLayer.isVisible &&
-              (<WindGLLayer
-                captureClick={false}
-                captureDoubleClick={false}
-                captureDrag={false}
-                captureScroll={false}
-                layerInfo={this.props.layerInfo}
-                key={'LayerWave'}
-                layer={this.props.WindGLLayer}
-                wsh={this.props.wsh}
-                mean={this.props.mean}
-              />)}
+            {/*{this.props.WindGLLayer.isVisible &&*/}
+            {/*  (<WindGLLayer*/}
+            {/*    captureClick={false}*/}
+            {/*    captureDoubleClick={false}*/}
+            {/*    captureDrag={false}*/}
+            {/*    captureScroll={false}*/}
+            {/*    layerInfo={this.props.layerInfo}*/}
+            {/*    key={'LayerWave'}*/}
+            {/*    layer={this.props.WindGLLayer}*/}
+            {/*    wsh={this.props.wsh}*/}
+            {/*    mean={this.props.mean}*/}
+            {/*  />)}*/}
 
                 {/*TODO: UPDATE ONLY IF change isVisible*/}
             {Object.keys(this.props.layers).map((layer) => (
@@ -257,35 +259,35 @@ class Map extends React.Component {
                         key={"map-layer-" + this.props.layers[layer].id}
                         layer={this.props.layers[layer]}/>))}
 
-            { this.props.isLogged &&
-              this.props.favoritesLayer &&
-              Object.keys(this.props.favoritesLayer.source.data).length > 0  &&
-              this.props.favoritesLayer.isVisible &&
-              <LayerFavorites layerInfo={this.props.favoritesLayer}/> }
+            {/*{ this.props.isLogged &&*/}
+            {/*  this.props.favoritesLayer &&*/}
+            {/*  Object.keys(this.props.favoritesLayer.source.data).length > 0  &&*/}
+            {/*  this.props.favoritesLayer.isVisible &&*/}
+            {/*  <LayerFavorites layerInfo={this.props.favoritesLayer}/> }*/}
           </>
         )}
         </ReactMapGL>
-        <InfoLayer
-          timeline={this.props.timeline}
-          layer={this.props.seaLevel.isVisible ? 'sea_level' : 'waves'}
-          infos={this.props.popups}
-          station={this.state.station}
-          history={this.props.history}
-          isLogged={this.props.isLogged}
-          favourites={this.props.favourites}
-          openingTime={this.openingTime}
-          />
-        {this.props.pointPopup.show && (
-          <Popup {...this.props.pointPopup}
-            onClose={() => this.closePopup()}
-          >
-          <div>
-            {this.props.pointPopup.title}
-            {this.props.pointPopup.text}
-          </div>
-          </Popup>
+        {/*<InfoLayer*/}
+        {/*  timeline={this.props.timeline}*/}
+        {/*  layer={this.props.seaLevel.isVisible ? 'sea_level' : 'waves'}*/}
+        {/*  infos={this.props.popups}*/}
+        {/*  station={this.state.station}*/}
+        {/*  history={this.props.history}*/}
+        {/*  isLogged={this.props.isLogged}*/}
+        {/*  favourites={this.props.favourites}*/}
+        {/*  openingTime={this.openingTime}*/}
+        {/*  />*/}
+        {/*{this.props.pointPopup.show && (*/}
+        {/*  <Popup {...this.props.pointPopup}*/}
+        {/*    onClose={() => this.closePopup()}*/}
+        {/*  >*/}
+        {/*  <div>*/}
+        {/*    {this.props.pointPopup.title}*/}
+        {/*    {this.props.pointPopup.text}*/}
+        {/*  </div>*/}
+        {/*  </Popup>*/}
 
-        )}
+        {/*)}*/}
       </>
     )
   }
