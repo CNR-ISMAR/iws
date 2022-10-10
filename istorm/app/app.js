@@ -16,6 +16,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import "outdated-browser-rework/dist/style.css";
 import outdatedBrowserRework from "outdated-browser-rework";
+import { createRoot } from 'react-dom/client';
 
 outdatedBrowserRework({
 	browserSupport: {
@@ -33,7 +34,7 @@ outdatedBrowserRework({
 		'IE': false
 	},
 	requireChromeOnAndroid: false,
-	isUnknownBrowserOK: true, 
+	isUnknownBrowserOK: true,
 	messages: {
     it: {
 			outOfDate: "Spiacenti ma il tuo browser è troppo vecchio",
@@ -87,7 +88,7 @@ import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
-import { initializeReactGA } from './ga';
+// import { initializeReactGA } from './ga';
 import configureStore from './configureStore';
 
 // Import i18n messages
@@ -97,12 +98,14 @@ import { translationMessages } from './i18n';
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
-const MOUNT_NODE = document.getElementById('app');
+const container = document.getElementById('app');
 // import theme from './theme';
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+
 
 const render = messages => {
-  initializeReactGA(history);
-  ReactDOM.render(
+  // initializeReactGA(history);
+  root.render(
     <Provider store={store.store}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
 	  	<LanguageProvider messages={messages}>
@@ -115,9 +118,7 @@ const render = messages => {
 		</ConnectedRouter>
 		</LanguageProvider>
 	</MuiPickersUtilsProvider>
-    </Provider>,
-    MOUNT_NODE,
-  );
+    </Provider>);
 };
 
 if (module.hot) {
@@ -125,7 +126,7 @@ if (module.hot) {
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
   module.hot.accept(['./i18n', 'containers/App'], () => {
-    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+    // ReactDOM.unmountComponentAtNode(MOUNT_NODE);
     render(translationMessages);
   });
 }
