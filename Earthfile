@@ -37,7 +37,6 @@ nginx:
     ARG USER
     FROM DOCKERFILE ./docker/nginx/
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
 istorm:
