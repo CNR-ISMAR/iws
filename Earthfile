@@ -6,8 +6,8 @@ django:
     ARG BRANCH
     ARG USER
     FROM DOCKERFILE .
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
 documentation:
@@ -16,8 +16,8 @@ documentation:
     ARG BRANCH
     ARG USER
     FROM DOCKERFILE ./docker/documentation/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
 geoserver:
@@ -26,8 +26,8 @@ geoserver:
     ARG BRANCH
     ARG USER
     FROM DOCKERFILE ./docker/geoserver/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
 nginx:
@@ -36,8 +36,8 @@ nginx:
     ARG BRANCH
     ARG USER
     FROM DOCKERFILE ./docker/nginx/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
 istorm:
@@ -46,8 +46,8 @@ istorm:
     ARG BRANCH
     ARG USER
     FROM DOCKERFILE ./istorm/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
 postgis:
@@ -56,8 +56,8 @@ postgis:
     ARG BRANCH
     ARG USER
     FROM DOCKERFILE ./docker/postgis/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
 letsencrypt:
@@ -66,5 +66,5 @@ letsencrypt:
     ARG BRANCH
     ARG USER
     FROM DOCKERFILE ./docker/letsencrypt/
-    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
