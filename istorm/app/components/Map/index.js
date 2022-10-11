@@ -68,6 +68,8 @@ function Map (props) {
       },
     });
 
+  const openingTime = props.theme.transitions.duration.enteringScreen;
+
   // constructor(props) {
   //   super(props);
   //   state = {
@@ -114,7 +116,7 @@ function Map (props) {
   }
 
   const updateViewport = (viewport) => {
-    // console.log('viewport',viewport)
+    console.log('viewport',viewport);
     dispatch(setViewport(viewport));
   }
 
@@ -223,10 +225,10 @@ function Map (props) {
     }
   }
 
-  const onMouseMove = (event, refs) => {
+  const onMouseMove = (event) => {
     // console.log('onMouseMove', event)
-    if(refs.current) {
-      const pos = refs.current.getMap().unproject(event.point)
+    if(refMap.current) {
+      const pos = refMap.current.getMap().unproject(event.point)
       const latlon = new LngLat(pos.lng,pos.lat)
       // dispatch(getLatLon(latlon.lat, latlon.lng))
     }
@@ -247,17 +249,16 @@ function Map (props) {
         id="gis-map"
         ref={refMap}
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}
-        viewState={viewport}
+        initialViewState={viewport} // TODO: check for new viewState control
         mapboxApiAccessToken={mapboxToken}
         onViewportChange={updateViewport}
         onLoad={onMapLoad}
         onClick={onClick}
         // onHover={showPopup}
         onTap={onClick}
-        onMouseMove={(event) => onMouseMove(event, refMap) }
-        // mapStyle={mapStyle}
-        mapStyle={'https://nose-cnr-backend.arpa.sicilia.it/styles/dark-nose/style.json'}
-        // mapStyle={mapStyle}
+        onMouseMove={(event) => onMouseMove(event) }
+        mapStyle={mapStyle}
+        // mapStyle={'https://nose-cnr-backend.arpa.sicilia.it/styles/dark-nose/style.json'}
         >
 
           <>

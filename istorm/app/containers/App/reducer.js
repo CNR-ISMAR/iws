@@ -84,8 +84,8 @@ export const initialState = {
         tiles: [
           // 'https://www.informare-er.it/istorms/base/{z}/{x}/{y}.png'
           // proxyUrl + '/istorms/base/{z}/{x}/{y}.png'
-          proxyUrl + '/istorms/istorms/base/{z}/{x}/{y}.png'
-          // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+          // proxyUrl + '/istorms/istorms/base/{z}/{x}/{y}.png'
+          "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
         ],
         tileSize: 256,
       transparent: true

@@ -208,7 +208,7 @@ function MapPage(props) {
           favoritesLayer={props.mapPage.layers.favorites}
           favourites={props.mapPage.favourites}
           pointPopup={props.mapPage.pointPopup}
-          transformRequest={(a,b,c) => console.log('transformRequest', a,b,c)}
+          // transformRequest={(a,b,c) => console.log('transformRequest', a,b,c)}
         />
         <div className={props.classes.mapControl}>
           <Box display="flex" alignItems="flex-end" flexDirection="column">
