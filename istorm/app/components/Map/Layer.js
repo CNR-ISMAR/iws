@@ -29,7 +29,6 @@ const Layer = ({layer, map}) => {
   }, [layer]);
 
 
-  return null;
   // return source && (<Source id={layer.id} type={source.type} data={source.data}>
   //   {layer.isVisible && (<BaseLayer {...layer}/>)}
   //   </Source>)

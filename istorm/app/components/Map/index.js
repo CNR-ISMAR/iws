@@ -22,7 +22,7 @@ import { setViewport,  getLatLon } from "../../containers/App/actions";
 import ReactMapGL, { FlyToInterpolator, Popup, MapRef } from 'react-map-gl';
 import maplibregl, { LngLat } from 'maplibre-gl';
 // import WindGLLayer from "./WindGLLayer";
-// import LayerSeaLevel from "./LayerSeaLevel";
+import LayerSeaLevel from "./LayerSeaLevel";
 // import LayerFavorites from "./LayerFavorites";
 import mapCss from './mapCss.css';
 import mapStyle from './mapStyle';
@@ -264,12 +264,13 @@ function Map (props) {
         >
 
           <>
-            {/*{props.seaLevel.isVisible &&*/}
-            {/*  (<LayerSeaLevel*/}
-            {/*    layerInfo={layerInfo}*/}
-            {/*    key={'LayerSeaLevel'}*/}
-            {/*    layer={props.seaLevel}*/}
-            {/*    mean={props.mean}/>)}*/}
+            {refMap?.current?.getMap() && props.seaLevel.isVisible &&
+              (<LayerSeaLevel
+                map={refMap?.current?.getMap()}
+                layerInfo={layerInfo}
+                key={'LayerSeaLevel'}
+                layer={props.seaLevel}
+                mean={props.mean}/>)}
 
             {/*{props.WindGLLayer.isVisible &&*/}
             {/*  (<WindGLLayer*/}
