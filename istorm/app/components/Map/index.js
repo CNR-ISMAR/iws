@@ -250,6 +250,8 @@ function Map (props) {
         ref={refMap}
         style={{ position: "fixed", top: 0, left: 0, height: '100vh', width: '100vw', minHeight: '100%', minWidth: '100vw' }}
         initialViewState={viewport} // TODO: check for new viewState control
+        // viewState={viewport} // TODO: check for new viewState control
+        onMove={evt => dispatch(setViewport(evt.viewState))}
         mapboxApiAccessToken={mapboxToken}
         onViewportChange={updateViewport}
         onLoad={onMapLoad}
