@@ -1,0 +1,51 @@
+:root {
+    --gn-primary: #34499C !important;
+    --gn-button-primary-color: white !important;
+    --gn-button-primary-bg: #34499C !important;
+    --gn-button-primary-border-color: #34499C !important;
+  }
+
+.custom-jumbotron {
+    background: url(../img/home_bg03.png) left 0px bottom repeat;
+    padding: 2rem 0;
+}
+
+#gn-hero { 
+    color: #34499c !important;
+}
+
+#gn-hero {
+    background: white !important;
+}
+
+.custom-jumbotron p {
+    padding-top: 20px;
+    padding-bottom: 0;
+    font-weight: 800;
+    color: white;
+    font-size: 1.4rem;
+    text-align: center;
+    /* text-shadow: 2px 2px 12px rgba(0, 0, 0, 1), -2px -2px 12px rgba(0, 0, 0, 1); */
+}
+
+
+#gn-hero .gn-hero-description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#gn-hero .interreg_logo {
+    max-width: 20vw;    
+    margin-right: 3rem;
+    margin-bottom: 1rem;
+}
+
+#gn-hero .jumbotron {
+    max-width: 70vw;
+}
+
+.msgapi .modal-fixed {
+    z-index: 9000000 !important;
+}
