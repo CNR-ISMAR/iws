@@ -1,0 +1,22 @@
+# Specific requirements for iws
+
+django-ckeditor==5.3.1
+django-bootstrap-breadcrumbs==0.9.1
+django-extensions
+django-pandas==0.6.0
+django-revproxy==0.9.15
+awesome-slugify==1.6.5
+oauth2-provider==0.0
+netCDF4==1.5.1.2
+wget==3.2
+fcm-django==0.3.3
+
+
+#sea storm atlas
+pycsw==2.6.1
+
+
+django-leaflet
+django-braces==1.15.0
+
+django-media-fixtures==1.0.0

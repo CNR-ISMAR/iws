@@ -1,264 +1,176 @@
-version: '2.2'
+version: '3.9'
+
+# Common Django template for GeoNode and Celery services below
+x-common-django:
+  &default-common-django
+  image: ${COMPOSE_PROJECT_NAME}_django:4.0
+  restart: on-failure
+  env_file:
+    - .env
+  volumes:
+    - './src:/usr/src/iws'
+    - statics:/mnt/volumes/statics
+    - geoserver-data-dir:/geoserver_data/data
+    - backup-restore:/backup_restore
+    - data:/data
+    - tmp:/tmp
+  depends_on:
+    db:
+      condition: service_healthy
+    geoserver:
+      condition: service_healthy
+
 services:
 
-
-  db:
-    image: geonode/postgis:10
-    #image: iws_db:modified
-    restart: unless-stopped
-    container_name: db4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    # tty: true
-    labels:
-      org.geonode.component: db
-      org.geonode.instance.name: geonode
-    ports:
-      - 5432:5432
-    expose:
-      - "5435"
-      - "5432"
-    volumes:
-      - ./volumes/dbdata:/var/lib/postgresql/data
-      - ./volumes/dbbackups:/pg_backups
-    env_file:
-    - ./.env
-    environment:
-      GEONODE_DATABASE: ${GEONODE_DATABASE_NAME}
-      GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
-      GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
-      GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-
-  elasticsearch:
-    image: elasticsearch:2.4.1
-    restart: unless-stopped
-    container_name: elasticsearch4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    tty: true
-    labels:
-        org.geonode.component: elasticsearch
-        org.geonode.instance.name: geonode
-
-  rabbitmq:
-    image: rabbitmq
-    restart: unless-stopped
-    container_name: rabbitmq4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    tty: true
-    labels:
-        org.geonode.component: rabbitmq
-        org.geonode.instance.name: geonode
-
-  celery:
-    restart: unless-stopped
-    # build: .
-    image: iws_celery:latest
-    container_name: celery4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    # tty: true
-    labels:
-        org.geonode.component: celery
-        org.geonode.instance.name: geonode
-    depends_on:
-      - db
-      - elasticsearch
-      - rabbitmq
-    # command: celery worker --app=iws.celeryapp:app -B -l INFO
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./volumes/statics:/mnt/volumes/statics
-      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
-    env_file:
-    - ./django.env
-    environment:
-      DJANGO_SETTINGS_MODULE: iws.settings
-      GEONODE_INSTANCE_NAME: geonode
-      GEONODE_LB_HOST_IP:
-      GEONODE_LB_PORT:
-      DEFAULT_BACKEND_DATASTORE: datastore
-      GEONODE_DATABASE: ${GEONODE_DATABASE_NAME}
-      GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
-      GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
-      GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      ASYNC_SIGNALS: 'True'
-      BROKER_URL: amqp://guest:guest@rabbitmq:5672
-      CELERY_CMD: celery worker --app=iws.celeryapp:app --broker=amqp://guest:guest@rabbitmq:5672/ -B -l INFO
-      #CELERY_CMD: celery worker --app=iws.celeryapp:app --broker=memory:// -B -l INFO
-      DOCKER_ENV: production
-      IS_CELERY: 'True'
-      C_FORCE_ROOT: 1
-      #SITEURL: http://localhost/
-      SITEURL: ${SITEURL}
-      # replaced with defaults in settings
-      #GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
-      GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
-      OGC_REQUEST_TIMEOUT: 300
-      STATIC_ROOT: /mnt/volumes/statics/static
-      MEDIA_ROOT: /mnt/volumes/statics/uploaded
-      GEOIP_PATH: /mnt/volumes/statics/geoip.db
-      ALLOWED_HOSTS: "['*']"
-      ADMIN_EMAILS: ''
-      DEFAULT_BACKEND_UPLOADER: geonode.importer
-      TIME_ENABLED: 'True'
-      MOSAIC_ENABLED: 'False'
-      GEOGIG_ENABLED: 'False'
-      HAYSTACK_SEARCH: 'False'
-      HAYSTACK_ENGINE_URL: http://elasticsearch:9200/
-      HAYSTACK_ENGINE_INDEX_NAME: haystack
-      HAYSTACK_SEARCH_RESULTS_PER_PAGE: 200
-      # GEOSERVER_ADMIN_PASSWORD: admin
-      # See https://github.com/geosolutions-it/geonode-generic/issues/28
-      # to see why we force API version to 1.24
-      DOCKER_API_VERSION: "1.24"
-
-  geoserver:
-    image: geonode/geoserver:2.14.x
-    restart: unless-stopped
-    container_name: geoserver4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    # tty: true
-    labels:
-        org.geonode.component: geoserver
-        org.geonode.instance.name: geonode
-    depends_on:
-      - db
-      - elasticsearch
-      - rabbitmq
-      - data-dir-conf
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
-    environment:
-      # GEOSERVER_ADMIN_PASSWORD: admin
-      DOCKERHOST:
-      DOCKER_HOST_IP:
-      GEONODE_DATABASE_HOST_IP:
-      GEONODE_LB_HOST_IP:
-      GEONODE_LB_PORT:
-      PUBLIC_PORT: 80
-      NGINX_BASE_URL:
-      GEOSERVER_JAVA_OPTS: "-Djava.awt.headless=true -XX:MaxPermSize=512m -XX:PermSize=256m -Xms512m -Xmx2048m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelGCThreads=4 -Dfile.encoding=UTF8 -Duser.timezone=GMT -Djavax.servlet.request.encoding=UTF-8 -Djavax.servlet.response.encoding=UTF-8 -Duser.timezone=GMT -Dorg.geotools.shapefile.datetime=true"
-
+  # Our custom django application. It includes Geonode.
   django:
-    restart: unless-stopped
-    image: iws_django:latest
-    #build: .
+    << : *default-common-django
+    build:
+      context: ./
+      dockerfile: Dockerfile
     container_name: django4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    # tty: true
-    labels:
-      org.geonode.component: django
-      org.geonode.instance.name: geonode
-    depends_on:
-      - db
-      - elasticsearch
-      - rabbitmq
-      - data-dir-conf
-    # command: paver start_django -b 0.0.0.0:8000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./volumes/statics:/mnt/volumes/statics
-      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
-    env_file:
-      - ./django.env
+    healthcheck:
+      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/"
+      start_period: 60s
+      interval: 60s
+      timeout: 10s
+      retries: 10
     environment:
-      DJANGO_SETTINGS_MODULE: iws.settings
-      GEONODE_INSTANCE_NAME: geonode
-      GEONODE_LB_HOST_IP:
-      GEONODE_LB_PORT:
-      DEFAULT_BACKEND_DATASTORE: datastore
-      GEONODE_DATABASE: ${GEONODE_DATABASE_NAME}
-      GEONODE_DATABASE_PASSWORD: ${GEONODE_DATABASE_PASSWORD}
-      GEONODE_GEODATABASE: ${GEONODE_GEODATABASE}
-      GEONODE_GEODATABASE_PASSWORD: ${GEONODE_GEODATABASE_PASSWORD}
-      ASYNC_SIGNALS: 'True'
-      BROKER_URL: amqp://guest:guest@rabbitmq:5672
-      DOCKER_ENV: production
-      UWSGI_CMD: uwsgi --ini /usr/src/iws/uwsgi.ini
-      IS_CELERY: 'False'
-      C_FORCE_ROOT: 1
-      # SITEURL: http://localhost/
-      # replaced with defaults in settings
-      # GEOSERVER_PUBLIC_LOCATION: http://localhost/gs/
-      GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
-      OGC_REQUEST_TIMEOUT: 300
-      STATIC_ROOT: /mnt/volumes/statics/static
-      MEDIA_ROOT: /mnt/volumes/statics/uploaded
-      GEOIP_PATH: /mnt/volumes/statics/geoip.db
-      ALLOWED_HOSTS: "['*']"
-      ADMIN_EMAILS: ''
-      DEFAULT_BACKEND_UPLOADER: geonode.importer
-      TIME_ENABLED: 'True'
-      MOSAIC_ENABLED: 'False'
-      GEOGIG_ENABLED: 'False'
-      HAYSTACK_SEARCH: 'False'
-      HAYSTACK_ENGINE_URL: http://elasticsearch:9200/
-      HAYSTACK_ENGINE_INDEX_NAME: haystack
-      HAYSTACK_SEARCH_RESULTS_PER_PAGE: 200
-      # GEOSERVER_ADMIN_PASSWORD: admin
-      # See https://github.com/geosolutions-it/geonode-generic/issues/28
-      # to see why we force API version to 1.24
-      DOCKER_API_VERSION: "1.24"
+      - IS_CELERY=False
+    entrypoint: ["/usr/src/iws/entrypoint.sh"]
+    command: "uwsgi --ini /usr/src/iws/uwsgi.ini"
 
-  geonode:
-    #image: geonode/nginx:geoserver
-    image: iws_nginx:latest
-    restart: unless-stopped
-    container_name: nginx4${COMPOSE_PROJECT_NAME}
-    stdin_open: true
-    # tty: true
-    labels:
-        org.geonode.component: nginx
-        org.geonode.instance.name: geonode
+  # Celery worker that executes celery tasks created by Django.
+  celery:
+    << : *default-common-django
+    image: ${COMPOSE_PROJECT_NAME}_django:4.0
+    container_name: celery4${COMPOSE_PROJECT_NAME}
     depends_on:
       - django
-      - celery
-      - geoserver
-    ports:
-      - "80"
-      - "443"
-    volumes:
-      - ./volumes/statics:/mnt/volumes/statics
-      #- ./volumes/nginxconf:/etc/nginx/nginxconf
-      - ./volumes/nginxconf:/etc/nginx/conf.d
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
-      - /var/www/html:/var/www/html
+    environment:
+      - IS_CELERY=True
+    entrypoint: ["/usr/src/iws/entrypoint.sh"]
+    command: "celery-cmd"
 
+  # Nginx is serving django static and media files and proxies to django and geonode
+  geonode:
+    image: geonode/nginx:4.0
+    build: ./docker/nginx/
+    container_name: nginx4${COMPOSE_PROJECT_NAME}
+    environment:
+      - HTTPS_HOST=${HTTPS_HOST}
+      - HTTP_HOST=${HTTP_HOST}
+      - HTTPS_PORT=${HTTPS_PORT}
+      - HTTP_PORT=${HTTP_PORT}
+      - LETSENCRYPT_MODE=${LETSENCRYPT_MODE}
+      - RESOLVER=127.0.0.11
+    ports:
+      - "${HTTP_PORT}:80"
+      - "${HTTPS_PORT}:443"
+    volumes:
+      - nginx-confd:/etc/nginx
+      - nginx-certificates:/geonode-certificates
+      - statics:/mnt/volumes/statics
+    restart: on-failure
+
+  # Gets and installs letsencrypt certificates
+  letsencrypt:
+    image: geonode/letsencrypt:4.0
+    build: ./docker/letsencrypt/
+    container_name: letsencrypt4${COMPOSE_PROJECT_NAME}
+    environment:
+      - HTTPS_HOST=${HTTPS_HOST}
+      - HTTP_HOST=${HTTP_HOST}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - LETSENCRYPT_MODE=${LETSENCRYPT_MODE}
+    volumes:
+      - nginx-certificates:/geonode-certificates
+    restart: on-failure
+
+  # Geoserver backend
+  geoserver:
+    image: geonode/geoserver:2.20.5
+    build: ./docker/geoserver/
+    container_name: geoserver4${COMPOSE_PROJECT_NAME}
+    healthcheck:
+      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver/rest/workspaces/geonode.html"
+      start_period: 60s
+      interval: 60s
+      timeout: 10s
+      retries: 10
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - statics:/mnt/volumes/statics
+      - geoserver-data-dir:/geoserver_data/data
+      - backup-restore:/backup_restore
+      - data:/data
+      - tmp:/tmp
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      data-dir-conf:
+        condition: service_healthy
 
   data-dir-conf:
-    image: geonode/geoserver_data:2.13.x
-    restart: on-failure
+    image: geonode/geoserver_data:2.20.5
     container_name: gsconf4${COMPOSE_PROJECT_NAME}
-    labels:
-        org.geonode.component: conf
-        org.geonode.instance.name: geonode
-    command: /bin/true
-    # command: tail -f /dev/null
+    entrypoint: sleep infinity
     volumes:
-      - ./volumes/geoserver-data-dir/data:/geoserver_data/data
+      - geoserver-data-dir:/geoserver_data/data
+    restart: on-failure
+    healthcheck:
+      test: "ls -A '/geoserver_data/data' | wc -l"
 
-  tds:
-    image: unidata/thredds-docker:4.6.12
-    ports:
-      - "82:8080"
-      - "445:8443"
-      - "8445:8443"
-    container_name: tds4${COMPOSE_PROJECT_NAME}
-
-    volumes:
-      - ./volumes/tds/tomcat/logs/:/usr/local/tomcat/logs/
-      - ./volumes/tds/thredds/logs/:/usr/local/tomcat/content/thredds/logs/
-      #- /path/to/your/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-      - ./volumes/tds/thredds/directory:/usr/local/tomcat/content/thredds
-      #- /usr3/tds/data/:/usr/local/tomcat/content/data
-      - ./volumes/tds/tomcat/conf:/usr/local/tomcat/conf/
-      #- ./volumes/tds/data/directory1:/path/to/your/data/directory2
+  # PostGIS database.
+  db:
+    # use geonode official postgis 13 image
+    image: geonode/postgis:13
+    command: postgres -c "max_connections=${POSTGRESQL_MAX_CONNECTIONS}"
+    container_name: db4${COMPOSE_PROJECT_NAME}
     env_file:
-      - "tds.env"
+      - .env
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - dbbackups:/pg_backups
+    restart: on-failure
+    healthcheck:
+      test: "pg_isready -d postgres -U postgres"
+    # uncomment to enable remote connections to postgres
+    #ports:
+    #  - "5432:5432"
+
+  # Vanilla RabbitMQ service. This is needed by celery
+  rabbitmq:
+    image: rabbitmq:3.7-alpine
+    container_name: rabbitmq4${COMPOSE_PROJECT_NAME}
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    restart: on-failure
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    # image: istresearch/jenkins:latest
+    container_name: jenkins4${COMPOSE_PROJECT_NAME}
+    user: jenkins
+    ports:
+      - '${JENKINS_HTTP_PORT}:${JENKINS_HTTP_PORT}'
+      - '${JENKINS_HTTPS_PORT}:${JENKINS_HTTPS_PORT}'
+      - '50000:50000'
+    # network_mode: "host"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - backup-restore:/backup_restore
+      - data:/data
+    environment:
+      - 'JENKINS_OPTS=--httpPort=${JENKINS_HTTP_PORT} --httpsPort=${JENKINS_HTTPS_PORT} --prefix=/jenkins'
+    restart: on-failure
 
   grafana:
-    #image: grafana/grafana
-    image: iws_grafana:latest
+    image: grafana/grafana
     restart: unless-stopped
     container_name: grafana4${COMPOSE_PROJECT_NAME}
     ports:
@@ -266,8 +178,8 @@ services:
     expose:
       - "3000"
     environment:
-      GF_SERVER_DOMAIN: iws.ismar.cnr.it
-      GF_SERVER_ROOT_URL: https://iws.imsar.cnr.it/measurements
+      GF_SERVER_DOMAIN: iws.seastorms.eu
+      GF_SERVER_ROOT_URL: https://iws.seastorms.eu/measurements
       # true doesn't work value are hard coded in ini file
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
       GF_SECURITY_ALLOW_EMBEDDING: 'true'
@@ -276,20 +188,67 @@ services:
       # - /opt/grafana-data:/var/lib/grafana
       - grafana-storage:/var/lib/grafana
       - /var/www/html:/var/www/html
+      - /home/gordini/thredds-panel/dist:/var/lib/grafana/plugins/thredds
 
+  istorm:
+    container_name: frontend4${COMPOSE_PROJECT_NAME}
+    #image: 'repositories.inkode.it:4567/inkode/iws:latest'
+    build:
+      context: ./istorm
+      dockerfile: Dockerfile
+      args:
+        HTTPS_PROXY: ${HTTPS_PROXY}
+        HTTP_PROXY: ${HTTP_PROXY}
+    restart: always
+    ports:
+    - 3003:3000
+  #  command: npm run buildstart:docker
+    env_file:
+      - istorm/.env
+    profiles:
+      - istorm
+    expose:
+    - 3000
+    volumes:
+    - ./istorm/app:/usr/src/app/app
+    - ./istorm/build:/usr/src/app/build
+    - ./istorm/internals:/usr/src/app/internals
+    - ./istorm/package.json:/usr/src/app/package.json
+    - ./istorm/babel.config.js:/usr/src/app/babel.config.js
+    - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
+    - ./istorm/.gitfake /usr/src/app/.git
 
-
-
+  doc:
+    image: ${COMPOSE_PROJECT_NAME}_doc
+    build:
+      context: ./docker/documentation/
+      dockerfile: Dockerfile
+    container_name: doc${COMPOSE_PROJECT_NAME}
+    profiles:
+      - doc
+    volumes:
+      - statics:/mnt/volumes/statics
 
 volumes:
-  geoserver-data-dir:
-#    name: ${COMPOSE_PROJECT_NAME}-gsdatadir
-  dbdata:
-#    name: ${COMPOSE_PROJECT_NAME}-dbdata
-  dbbackups:
-#     driver: ${BACKUPS_VOLUME_DRIVER}
-#    name: ${COMPOSE_PROJECT_NAME}-dbbackups
+  jenkins_data:
+    driver: local
   statics:
-#    name: ${COMPOSE_PROJECT_NAME}-statics
-  grafana-storage:
-
+    name: ${COMPOSE_PROJECT_NAME}-statics
+  nginx-confd:
+    name: ${COMPOSE_PROJECT_NAME}-nginxconfd
+  nginx-certificates:
+    name: ${COMPOSE_PROJECT_NAME}-nginxcerts
+  geoserver-data-dir:
+    name: ${COMPOSE_PROJECT_NAME}-gsdatadir
+  dbdata:
+    name: ${COMPOSE_PROJECT_NAME}-dbdata
+  dbbackups:
+    name: ${COMPOSE_PROJECT_NAME}-dbbackups
+  backup-restore:
+    name: ${COMPOSE_PROJECT_NAME}-backup-restore
+  data:
+    name: ${COMPOSE_PROJECT_NAME}-data
+  tmp:
+    name: ${COMPOSE_PROJECT_NAME}-tmp
+  rabbitmq:
+    name: ${COMPOSE_PROJECT_NAME}-rabbitmq

@@ -1,0 +1,126 @@
+.mapboxgl-popup-tip{
+    display: none
+}
+
+.mapboxgl-popup-content{
+    padding: 0;
+    width: 300px;
+    height: auto;
+    background: transparent;
+}
+
+.mapboxgl-popup-content .buttons button{
+    line-height: 14px
+}
+
+
+.mapboxgl-popup-content .btn{
+    font-size: 2rem;
+}
+
+.mapboxgl-popup-close-button{
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    bottom: auto;
+    right: 0;
+    top: 0;
+    background: #0b303a;
+    color: white;
+    font-size: 1rem;
+}
+
+*[class *='MuiTableCell']{
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    line-height: 14px;
+}
+
+tr td:nth-child(1){
+    color:rgba(0, 0, 0, 0.54)
+}
+
+span[class *='legend-item__title']{
+    color: white
+}
+
+div[class *='color-legend']{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart_subtitle{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 30px
+}
+
+.chart_subtitle h2, .chart_subtitle h3{
+    margin: 0
+}
+
+.ChartContent{
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    position: absolute;
+    /* height: 100vh; */
+    top: 40%;
+    right: 0;
+    left: 0;
+}
+
+
+
+.rv-discrete-color-legend .rv-discrete-color-legend-item.clickable:hover{
+    border: none;
+    background: transparent;
+}
+
+.rv-discrete-color-legend-item.disabled .rv-discrete-color-legend-item__color__path {
+    stroke: #698397
+}
+
+.rv-discrete-color-legend-item.disabled .rv-discrete-color-legend-item__title {
+    opacity: 0.7;
+}
+
+
+
+.rv-discrete-color-legend .rv-discrete-color-legend-item{
+    /* width: calc(100vw / 8); */
+    flex-basis: 33% 
+}
+
+
+
+div[class *='color-legend'] {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.rv-xy-plot__grid-lines__line {
+    stroke:#698397!important;
+    stroke-width: 0.5;
+    stroke-dasharray: 1,1
+}
+
+.rv-discrete-color-legend-item__title {
+    margin-left: 10px!important;
+    display: inline!important;
+}
+
+.rv-crosshair__line {
+    background: white!important;
+    width: 2px!important;
+}
+
+.rv-crosshair {
+    
+    background-color: white;
+    position: absolute;
+    font-size: 11px;
+    pointer-events: none;
+  }

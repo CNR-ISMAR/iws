@@ -26,12 +26,24 @@ var/
 *.egg
 geonode/
 iws_bk
-
+docs/_build
 
 #docker volumes
-volumes
-statics
-dbdata
+volumes/*
+volumes/dbdata
+volumes/dbbackups
+volumes/geoserver-data-dir
+volumes/*.tar
+volumes/tds
+volumes/grafana-data
+volumes/nginxconf
+volumes/statics/geonode_init.lock
+
+# docker images
+images
+
+#statics
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -43,7 +55,6 @@ dbdata
 pip-log.txt
 pip-delete-this-directory.txt
 startup_log.txt
-
 
 # Unit test / coverage reports
 htmlcov/
@@ -70,19 +81,24 @@ target/
 
 # Downstream Project
 downloaded/
-geoserver/
 uploaded/
 static_root/
 development.db
 development.db-journal
-local_settings.py
-dss_pharos
+iws/local_settings.py
 iws/flooding/data/*
-volumes
-dump_*
-build_log.txt
-srcgeonode/
 
 .idea/
+istorm/node_modules/*
+#istorm/build/*
+
+celerybeat-schedule
+storage/layerdata/*
+/openistorm/migrations/*
+sd.env
+
+
 
 .bash*
+/iws/measurements/migrations/*
+/iws/sea_storm_atlas/migrations/*
