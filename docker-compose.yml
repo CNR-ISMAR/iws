@@ -184,11 +184,11 @@ services:
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
       GF_SECURITY_ALLOW_EMBEDDING: 'true'
       GF_INSTALL_PLUGINS: grafana-worldmap-panel
-    volumes:
+    # volumes:
       # - /opt/grafana-data:/var/lib/grafana
-      - grafana-storage:/var/lib/grafana
-      - /var/www/html:/var/www/html
-      - /home/gordini/thredds-panel/dist:/var/lib/grafana/plugins/thredds
+      # - grafana-storage:/var/lib/grafana
+      # - /var/www/html:/var/www/html
+      # - /home/gordini/thredds-panel/dist:/var/lib/grafana/plugins/thredds
 
   istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}

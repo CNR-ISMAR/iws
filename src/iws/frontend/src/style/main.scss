@@ -1,0 +1,21 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+
+
+#app, .bs5 {
+    @import "~bootstrap/scss/bootstrap";
+
+    .operators-buttons {
+        button.btn {
+            font-size: 1.8rem !important;
+            margin: .2rem !important;
+            min-width: 2rem !important;
+        }
+    }
+    
+}
+
+@import '~leaflet/dist/leaflet.css';
+@import 'sweetalert2/src/sweetalert2.scss';

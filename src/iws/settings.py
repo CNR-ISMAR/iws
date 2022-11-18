@@ -52,6 +52,7 @@ SITENAME = os.getenv("SITENAME", 'iws')
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
 LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.basename(__file__)))
 
 WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 
@@ -274,4 +275,10 @@ NOTIFICATIONS_MODULE = 'pinax.notifications'
 FCM_DJANGO_SETTINGS = {
         "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY', 'NO KEY..'),
         # "DELETE_INACTIVE_DEVICES": False
+}
+
+WEBPACK_LOADER = {
+  'DEFAULT': {
+    'STATS_FILE': os.path.join(PROJECT_ROOT, 'frontend', 'webpack-stats.json')
+  }
 }

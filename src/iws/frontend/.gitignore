@@ -1,0 +1,3 @@
+static/frontend/
+webpack-stats.json
+node_modules
