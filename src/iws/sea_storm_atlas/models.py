@@ -82,3 +82,44 @@ class StormEvent(models.Model):
 	    return bool(self.fieldname)
 
 
+class Origin(models.Model):
+    name = models.CharField(max_length=250)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class DamageCategory(models.Model):
+    name = models.CharField(max_length=250)
+    eu_code = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class StormEventEntry(models.Model):
+    name = models.CharField(max_length=500)
+    area_code = models.CharField(max_length=5, blank=True, null=True)
+    area_partition = models.CharField(max_length=2, blank=True, null=True)
+    date_start = models.DateTimeField(auto_now=False)
+    date_end = models.DateTimeField(auto_now=False, blank=True, null=True)
+    is_aggregated = models.BooleanField(default=False)
+    origins = models.ManyToManyField(Origin, blank=True)
+    description = models.TextField(blank=True, null=True)
+    coastalsegment = models.ForeignKey(CoastalSegment,
+                                       on_delete=models.PROTECT,
+                                       verbose_name="Coastal segment")
+    
+    def __str__(self):
+        return self.name
+
+
+class StormEventEffect(models.Model):
+    description = models.TextField(blank=True, null=True)
+    geom = models.PointField(srid=3035, blank=True, null=True,
+                            verbose_name='Event location',
+                            help_text='Insert a reference point related to the sea storm events')
+    damage = models.IntegerField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True)
+    damage_categories = models.ManyToManyField(DamageCategory, blank=True)
