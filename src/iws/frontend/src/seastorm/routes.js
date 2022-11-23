@@ -7,7 +7,7 @@ import {
 
 export default function AppRoutes() {
     return (
-        <BrowserRouter path="seastorm-atlas">
+        <BrowserRouter path="sea_storm_atlas">
             <Routes>
                 
             </Routes>

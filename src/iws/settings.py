@@ -74,6 +74,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     PROJECT_NAME + '.tmes',
     PROJECT_NAME + ".dashboards",
     PROJECT_NAME + ".polls",
+    'webpack_loader',
 )
 
 
@@ -279,6 +280,6 @@ FCM_DJANGO_SETTINGS = {
 
 WEBPACK_LOADER = {
   'DEFAULT': {
-    'STATS_FILE': os.path.join(PROJECT_ROOT, 'frontend', 'webpack-stats.json')
+    'STATS_FILE': os.path.join(LOCAL_ROOT, 'frontend', 'webpack-stats.json')
   }
 }
