@@ -123,3 +123,4 @@ class StormEventEffect(models.Model):
     damage = models.IntegerField(blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)
     damage_categories = models.ManyToManyField(DamageCategory, blank=True)
+    event = models.ForeignKey(StormEventEntry, on_delete=models.PROTECT, related_name="effects")
