@@ -27,6 +27,7 @@ class Command(BaseCommand):
                         geom=event.geom,
                         event=entry,
                         date=entry.date_start,
+                        flooding_level=event.flooding_level,
                     )
 
                     if event.evts_coast_erosion and count < event.evts_coast_erosion:

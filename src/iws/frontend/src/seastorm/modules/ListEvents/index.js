@@ -10,7 +10,7 @@ export default function ListEvents() {
     let [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page')) || 1
 
-    const { data, isLoading, isError, isSuccess } = useGetEventsQuery(`?page=${page}`);
+    const { data, isLoading, isError, isSuccess } = useGetEventsQuery(`?page=${page}&filter{coastalsegment_id}=${id}`);
 
     const pagination = usePagination({
         totPages: (data && Math.ceil(data.total / data.page_size)) || 1,
@@ -31,7 +31,7 @@ export default function ListEvents() {
                                 <h3>{moment(e.date_start).format('DD/MM/YYYY hh:mm')} <Badge pill>{e.effects_count}</Badge></h3>
                                 {e.name && <h4>{e.name}</h4>}
                                 <p>{e.description}</p>
-                                <Button as={Link} to={`/casestudies/${id}/runs/${e.id}/`}>Open</Button>
+                                <Button as={Link} to={`/sea_storm_atlas/events/${e.id}/`}>Open</Button>
                             </Card.Body>
                         </Card>))}
                     {!data.total && <p>No events found</p>}

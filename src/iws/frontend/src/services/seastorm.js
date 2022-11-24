@@ -17,8 +17,12 @@ export const seastormApi = createApi({
             query: (params = '') => `stormevent/${params}`,
             providesTags: () => [{ type: 'events', id: 'LIST' }],
         }),
+        getEvent: builder.query({
+            query: ({ id, params = '' }) => `stormevent/${id}/${params}`,
+            providesTags: (req) => [{ type: 'events', id: req.id }],
+        }),
         getEffects: builder.query({
-            query: (params = '') => `stormevent/${params}`,
+            query: (params = '') => `stormeffect/${params}`,
             providesTags: () => [{ type: 'events', id: 'LIST' }],
         }),
         getOrigins: builder.query({
@@ -36,6 +40,7 @@ export const {
     useGetSegmentsQuery,
     useGetSegmentQuery,
     useGetEventsQuery,
+    useGetEventQuery,
     useGetEffectsQuery,
     useLazyGetOriginsQuery,
     useLazyGetCategoriesQuery,

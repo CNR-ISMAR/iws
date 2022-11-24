@@ -104,8 +104,6 @@ class DamageCategory(models.Model):
 
 class StormEventEntry(models.Model):
     name = models.CharField(max_length=500, blank=True, null=True)
-    area_code = models.CharField(max_length=5, blank=True, null=True)
-    area_partition = models.CharField(max_length=2, blank=True, null=True)
     date_start = models.DateTimeField(auto_now=False)
     date_end = models.DateTimeField(auto_now=False, blank=True, null=True)
     is_aggregated = models.BooleanField(default=False)
@@ -125,6 +123,13 @@ class StormEventEffect(models.Model):
                             verbose_name='Event location',
                             help_text='Insert a reference point related to the sea storm events')
     damage = models.IntegerField(blank=True, null=True)
+    flooding_level = models.DecimalField(max_digits=4, decimal_places=2, null=True)
     date = models.DateTimeField(blank=True, null=True)
     damage_categories = models.ManyToManyField(DamageCategory, blank=True)
     event = models.ForeignKey(StormEventEntry, on_delete=models.PROTECT, related_name="effects")
+
+    @property
+    def geom_4326(self):
+        if not self.geom:
+            return None
+        return self.geom.transform(4326)

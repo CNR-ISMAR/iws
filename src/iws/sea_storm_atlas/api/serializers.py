@@ -48,21 +48,52 @@ class StormEventEntrySerializer(DynamicModelSerializer):
             'description',
             'origins',
             'is_aggregated',
-            'effects_count'
+            'effects_count',
+            'coastalsegment',
+            'coastalsegment_id',
         )
 
-    origins = DynamicRelationField('StormOriginSerializer', many=True)
+    origins = DynamicRelationField('StormOriginSerializer', many=True, embed=True)
+    coastalsegment = DynamicRelationField('CostalSegmentSerializer', embed=True)
     
     def get_effects_count(self, obj):
         return obj.effects.all().count()
 
 
 class StormEventEffectSerializer(DynamicModelSerializer):
+    lat = serializers.SerializerMethodField()
+    lon = serializers.SerializerMethodField()
+
     class Meta:
         model = StormEventEffect
         fields = (
             'id',
+            'date',
+            'event',
+            'damage_categories',
+            'flooding_level',
+            'damage',
+            'description',
+            'event_id',
+            'lat',
+            'lon',
         )
+
+    event = DynamicRelationField('StormEventEntrySerializer', embed=True)
+    damage_categories = DynamicRelationField('DamageCategorySerializer', many=True, embed=True)
+    
+    def get_lat(self, obj):
+        if not obj.geom:
+            return None
+        obj.geom.transform(4326)
+        return '%.6f' % obj.geom.centroid.y
+
+    def get_lon(self, obj):
+        if not obj.geom:
+            return None
+        obj.geom.transform(4326)
+        return '%.6f' % obj.geom.centroid.x
+
 
 class StormOriginSerializer(DynamicModelSerializer):
     class Meta:
