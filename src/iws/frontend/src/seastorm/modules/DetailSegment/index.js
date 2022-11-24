@@ -6,6 +6,7 @@ import { useGetSegmentQuery } from "../../../services/seastorm";
 import False from '../../assets/False.png'
 import True from '../../assets/True.png'
 import None from '../../assets/None.png'
+import ListEvents from '../ListEvents';
 
 function IconRender(value) {
     const style = { width: '2rem' }
@@ -93,6 +94,7 @@ export default function SegmentPage() {
                         <Col>
                         </Col>
                     </Row>
+                    <ListEvents />
                 </>
             )}
             
