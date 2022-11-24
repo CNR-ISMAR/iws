@@ -5,11 +5,13 @@ import { store } from './store';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthLoader from './modules/Auth';
 
 const App = () => {
   return (
     <>
       <Provider store={store}>
+        <AuthLoader />
         <AppRoutes />
       </Provider>
       <ToastContainer 
