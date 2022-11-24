@@ -13,7 +13,7 @@ export default function ListEvents() {
     const { data, isLoading, isError, isSuccess } = useGetEventsQuery(`?page=${page}`);
 
     const pagination = usePagination({
-        totPages: (data && Math.ceil(data.total / data.pageSize)) || 1,
+        totPages: (data && Math.ceil(data.total / data.page_size)) || 1,
         page,
         loadPage: p => setSearchParams(`page=${p}`)
     })
@@ -25,11 +25,13 @@ export default function ListEvents() {
             {isError && <p className="text-danger">{data.error.message}</p>}
             {isSuccess && (
                 <>
-                    {data.storm_event_entries.map(r => (
-                        <Card key={r.id} className="my-3">
+                    {data.storm_event_entries.map(e => (
+                        <Card key={e.id} className="my-3">
                             <Card.Body>
-                                <h2></h2>
-                                <Button as={Link} to={`/casestudies/${id}/runs/${r.id}/`}>Open</Button>
+                                <h3>{moment(e.date_start).format('DD/MM/YYYY hh:mm')} <Badge pill>{e.effects_count}</Badge></h3>
+                                {e.name && <h4>{e.name}</h4>}
+                                <p>{e.description}</p>
+                                <Button as={Link} to={`/casestudies/${id}/runs/${e.id}/`}>Open</Button>
                             </Card.Body>
                         </Card>))}
                     {!data.total && <p>No events found</p>}

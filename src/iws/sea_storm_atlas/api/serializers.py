@@ -36,11 +36,25 @@ class CostalSegmentSerializer(DynamicModelSerializer):
 
 
 class StormEventEntrySerializer(DynamicModelSerializer):
+    effects_count = serializers.SerializerMethodField()
+
     class Meta:
         model = StormEventEntry
         fields = (
             'id',
+            'name',
+            'date_start',
+            'date_end',
+            'description',
+            'origins',
+            'is_aggregated',
+            'effects_count'
         )
+
+    origins = DynamicRelationField('StormOriginSerializer', many=True)
+    
+    def get_effects_count(self, obj):
+        return obj.effects.all().count()
 
 
 class StormEventEffectSerializer(DynamicModelSerializer):
