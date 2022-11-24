@@ -89,6 +89,8 @@ class Origin(models.Model):
     def __str__(self):
         return self.name
 
+    # TODO: add unique on name
+
 
 class DamageCategory(models.Model):
     name = models.CharField(max_length=250)
@@ -97,9 +99,11 @@ class DamageCategory(models.Model):
     def __str__(self):
         return self.name
 
+    # TODO: add unique on name
+
 
 class StormEventEntry(models.Model):
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, blank=True, null=True)
     area_code = models.CharField(max_length=5, blank=True, null=True)
     area_partition = models.CharField(max_length=2, blank=True, null=True)
     date_start = models.DateTimeField(auto_now=False)
@@ -112,7 +116,7 @@ class StormEventEntry(models.Model):
                                        verbose_name="Coastal segment")
     
     def __str__(self):
-        return self.name
+        return self.name or self.date_start.strftime('%d/%m/%Y, %H:%M:%S')
 
 
 class StormEventEffect(models.Model):
