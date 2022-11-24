@@ -6,8 +6,12 @@ export const seastormApi = createApi({
     tagTypes: ['segments', 'events', 'effects', 'origins', 'categories'],
     endpoints: (builder) => ({
         getSegments: builder.query({
-            query: (params = '') => `coastalsegments/${params}`,
+            query: (params = '') => `coastalsegment/${params}`,
             providesTags: () => [{ type: 'segments', id: 'LIST' }],
+        }),
+        getSegment: builder.query({
+            query: ({ id, params = '' }) => `coastalsegment/${id}/${params}`,
+            providesTags: (req) => [{ type: 'segments', id: req.id }],
         }),
         getEvents: builder.query({
             query: (params = '') => `stormevent/${params}`,
@@ -30,6 +34,7 @@ export const seastormApi = createApi({
 
 export const { 
     useGetSegmentsQuery,
+    useGetSegmentQuery,
     useGetEventsQuery,
     useGetEffectsQuery,
     useLazyGetOriginsQuery,
