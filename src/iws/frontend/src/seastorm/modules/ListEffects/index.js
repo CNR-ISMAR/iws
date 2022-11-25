@@ -29,23 +29,31 @@ export default function ListEffects({ segment, extent }) {
                         <Table bordered striped>
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Date</th>
                                     <th>Flooding level</th>
-                                    <th>Damage</th>
+                                    <th>Damage (€)</th>
                                     <th>Damage Type</th>
                                     <th>Coordinates</th>
                                     <th>Description</th>
+                                    {isAuthenticated && <th>Actions</th>}
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.storm_event_effects.map(e => (
                                     <tr key={e.id}>
+                                        <td>{e.id}</td>
                                         <td>{e.date}</td>
                                         <td>{e.flooding_level}</td>
                                         <td>{e.damage}</td>
                                         <td>{e.damage_categories.map(d => d.name).join(', ')}</td>
                                         <td>{e.lat && e.lon ? `${e.lat},${e.lon}` : null}</td>
                                         <td>{e.description}</td>
+                                        {isAuthenticated && (<td>
+                                            <Button as={Link} to={`/sea_storm_atlas/events/${id}/effects/${e.id}/`} className="me-1" title="edit"><i className="fa fa-edit" /></Button>
+                                            <Button className="me-1" title="clone"><i className="fa fa-clone" /></Button>
+                                            <Button className="ms-3" variant="danger" title="delete"><i className="fa fa-trash" /></Button>
+                                        </td>)}
                                     </tr>
                                 ))}
                             </tbody>

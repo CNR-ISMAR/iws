@@ -33,9 +33,24 @@ export const seastormApi = createApi({
             }),
             invalidatesTags: [{ type: 'events', id: 'LIST' }]
         }),
+        updateEvent: builder.mutation({
+            query: ({ id, ...body }) => ({
+                url: `stormevent/${id}/`,
+                method: 'PATCH',
+                body,
+                headers: {
+                    'X-CSRFToken': getCSRF(),
+                }
+            }),
+            invalidatesTags: (req) => [{ type: 'events', id: req.id }, { type: 'events', id: 'LIST' }]
+        }),
         getEffects: builder.query({
             query: (params = '') => `stormeffect/${params}`,
             providesTags: () => [{ type: 'effects', id: 'LIST' }],
+        }),
+        getEffect: builder.query({
+            query: ({ id, params = '' }) => `stormeffect/${id}/${params}`,
+            providesTags: (req) => [{ type: 'effect', id: req.id }],
         }),
         createEffect: builder.mutation({
             query: (body) => ({
@@ -47,6 +62,17 @@ export const seastormApi = createApi({
                 }
             }),
             invalidatesTags: [{ type: 'effects', id: 'LIST' }]
+        }),
+        updateEffect: builder.mutation({
+            query: ({ id, ...body }) => ({
+                url: `stormeffect/${id}/`,
+                method: 'PATCH',
+                body,
+                headers: {
+                    'X-CSRFToken': getCSRF(),
+                }
+            }),
+            invalidatesTags: (req) => [{ type: 'effects', id: 'LIST' }, { type: 'effects', id: req.id }]
         }),
         getOrigins: builder.query({
             query: (params = '') => `origin/${params}`,
@@ -65,8 +91,11 @@ export const {
     useGetEventsQuery,
     useGetEventQuery,
     useGetEffectsQuery,
+    useGetEffectQuery,
     useLazyGetOriginsQuery,
     useLazyGetCategoriesQuery,
     useCreateEventMutation,
     useCreateEffectMutation,
+    useUpdateEventMutation,
+    useUpdateEffectMutation,
 } = seastormApi;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, Col, Container, Row, Spinner, Table } from "react-bootstrap";
+import { Breadcrumb, Button, Col, Container, Row, Spinner, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import moment from 'moment';
 import { useGetEventQuery } from "../../../services/seastorm";
@@ -8,6 +8,8 @@ import False from '../../assets/False.png'
 import True from '../../assets/True.png'
 import None from '../../assets/None.png'
 import ListEffects from '../ListEffects';
+import { useSelector } from 'react-redux';
+import { authSelectors } from '../../store/auth.slice';
 
 function IconRender(value) {
     const style = { width: '2rem' }
@@ -22,6 +24,8 @@ function IconRender(value) {
 export default function EventPage() {
     const { id } = useParams()
     const { data, isLoading, isError, isSuccess, error } = useGetEventQuery({ id, params: '?include[]=origins&include[]=coastalsegment.geom' });
+
+    const isAuthenticated = useSelector(authSelectors.isAuthenticated);
 
     return (
         <>
@@ -41,6 +45,7 @@ export default function EventPage() {
                         </div>
                         
                         <div className='ms-auto d-flex align-items-start'>
+                            {isAuthenticated && <Button as={Link} to={`/sea_storm_atlas/events/${id}/edit/`}>Edit</Button>}
                         </div>
                     </div>
                     <hr />
@@ -54,6 +59,10 @@ export default function EventPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td className="text-center">{data.storm_event_entry.name}</td>
+                                    </tr>
                                     <tr>
                                         <td>Date start</td>
                                         <td className="text-center">{data.storm_event_entry.date_start}</td>

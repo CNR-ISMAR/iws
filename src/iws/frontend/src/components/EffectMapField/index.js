@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-    MapContainer, TileLayer, GeoJSON, FeatureGroup, LayersControl
+    MapContainer, TileLayer, GeoJSON, FeatureGroup, LayersControl, Circle, Marker
 } from 'react-leaflet';
 import { EditControl } from "react-leaflet-draw"
 import { useField } from 'formik';
@@ -11,8 +11,9 @@ import LeafletControlGeocoder from '../Geocoder';
 
 export default function EffectMapField({ label, height = '350px', extent, segment, as, controlId, md, ...props }) {
     const ref = React.useRef(null);
-    const [canDraw, setCanDraw] = useState(true);
     const [field, meta, { setValue }] = useField(props);
+
+    const [canDraw, setCanDraw] = useState(!field.value);
 
     const coordinates = useMemo(() => {
         if (!field.value) {
@@ -23,7 +24,7 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
     }, [field.value])
 
     const bounds = extent ? [
-        [extent[1], extent[0]], 
+        [extent[1], extent[0]],
         [extent[3], extent[2]],
     ] : null
 
@@ -61,15 +62,15 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
                             <GeoJSON data={segment} pathOptions={{ fillColor: 'yellow', color: 'red', fillOpacity: 0.5, opacity: 0.7 }} />
                         </LayersControl.Overlay>
                         <LayersControl.Overlay checked name="Effect point">
-                        <FeatureGroup ref={ref}>
+                        <FeatureGroup ref={ref} color="yellow">
                             <EditControl
                                 position='bottomright'
                                 onEdited={onEdited}
                                 onCreated={onCreated}
                                 draw={{
-                                    marker: false,
+                                    marker: canDraw,
                                     polyline: false,
-                                    circlemarker: canDraw,
+                                    circlemarker: false,
                                     circle: false,
                                     polygon: false,
                                     rectangle: false,
@@ -78,6 +79,9 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
                                     remove: false,
                                 }}
                             />
+                            {field.value && (
+                                <Marker position={[field.value.coordinates[1], field.value.coordinates[0]]} />
+                            )}
                         </FeatureGroup>
                         </LayersControl.Overlay>
                     </LayersControl>
