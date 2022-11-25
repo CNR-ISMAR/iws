@@ -15,6 +15,7 @@
     "classnames": "^2.3.1",
     "formik": "^2.2.9",
     "leaflet": "^1.8.0",
+    "leaflet-control-geocoder": "^2.4.0",
     "leaflet-draw": "^1.0.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

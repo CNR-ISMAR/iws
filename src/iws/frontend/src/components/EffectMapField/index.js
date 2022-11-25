@@ -6,6 +6,7 @@ import { EditControl } from "react-leaflet-draw"
 import { useField } from 'formik';
 
 import { Form } from 'react-bootstrap';
+import LeafletControlGeocoder from '../Geocoder';
 
 
 export default function EffectMapField({ label, height = '350px', extent, segment, as, controlId, md, ...props }) {
@@ -54,6 +55,7 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />  
+                    <LeafletControlGeocoder />
                     <LayersControl position="topright">
                         <LayersControl.Overlay checked name="Coastal Segment">
                             <GeoJSON data={segment} pathOptions={{ fillColor: 'yellow', color: 'red', fillOpacity: 0.5, opacity: 0.7 }} />

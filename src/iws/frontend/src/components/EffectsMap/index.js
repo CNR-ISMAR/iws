@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
     MapContainer, TileLayer, GeoJSON, FeatureGroup, LayersControl
 } from 'react-leaflet';
+import LeafletControlGeocoder from '../Geocoder';
 
 
 
@@ -30,7 +31,8 @@ export default function EffectsMap({ extent, segment, effects, height='350px' })
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />  
+                />
+                <LeafletControlGeocoder />
                 <LayersControl position="topright">
                     <LayersControl.Overlay checked name="Coastal Segment">
                         <GeoJSON data={segment} pathOptions={{ fillColor: 'yellow', color: 'red', fillOpacity: 0.5, opacity: 0.7 }} />
