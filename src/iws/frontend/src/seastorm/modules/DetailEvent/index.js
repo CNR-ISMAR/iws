@@ -21,7 +21,7 @@ function IconRender(value) {
 
 export default function EventPage() {
     const { id } = useParams()
-    const { data, isLoading, isError, isSuccess, error } = useGetEventQuery({ id, params: '?include[]=origins' });
+    const { data, isLoading, isError, isSuccess, error } = useGetEventQuery({ id, params: '?include[]=origins&include[]=coastalsegment.geom' });
 
     return (
         <>
@@ -80,7 +80,7 @@ export default function EventPage() {
                             </Table>
                         </Col>
                     </Row>
-                    <ListEffects />
+                    <ListEffects segment={data.storm_event_entry.coastalsegment.geom} extent={data.storm_event_entry.coastalsegment.geom.bbox} />
                 </>
             )}
             

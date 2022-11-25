@@ -2,24 +2,30 @@ from iws.sea_storm_atlas.models import StormEventEntry, StormEventEffect, Coasta
 from dynamic_rest.serializers import DynamicModelSerializer, DynamicRelationField
 from rest_framework import serializers
 from rest_framework_gis.fields import GeoJsonDict
+from django.contrib.gis.geos import GEOSGeometry
+import json
 
-
-class GeometryBBOXSerializerMethodField(serializers.SerializerMethodField):
+class GeometryBBOX4326SerializerMethodField(serializers.Field):
     def to_representation(self, value):
-        value = super().to_representation(value)
         if value is None:
             return value
-        
+
+        value.transform(4326)
         geojson = GeoJsonDict(value.geojson)
         geojson["bbox"] = value.extent
 
         return geojson
 
+    def to_internal_value(self, data):
+        point = GEOSGeometry(json.dumps(data), 4326)
+        point.transform(3035)
+        return point
+
 
 class CostalSegmentSerializer(DynamicModelSerializer):
     ews_hazard_type__name = serializers.SerializerMethodField()
     sea = DynamicRelationField('StormSeaSerializer', embed=True)
-    geom = GeometryBBOXSerializerMethodField()
+    geom = GeometryBBOX4326SerializerMethodField()
 
     class Meta:
         model = CoastalSegment
@@ -47,10 +53,6 @@ class CostalSegmentSerializer(DynamicModelSerializer):
 
     def get_ews_hazard_type__name(self, obj):
         return obj.get_ews_hazard_type_display()
-
-    def get_geom(self, obj):
-        obj.geom.transform(4326)
-        return obj.geom
 
 
 class StormEventEntrySerializer(DynamicModelSerializer):
@@ -81,6 +83,7 @@ class StormEventEntrySerializer(DynamicModelSerializer):
 class StormEventEffectSerializer(DynamicModelSerializer):
     lat = serializers.SerializerMethodField()
     lon = serializers.SerializerMethodField()
+    geom = GeometryBBOX4326SerializerMethodField()
 
     class Meta:
         model = StormEventEffect
@@ -95,6 +98,7 @@ class StormEventEffectSerializer(DynamicModelSerializer):
             'event_id',
             'lat',
             'lon',
+            'geom',
         )
 
     event = DynamicRelationField('StormEventEntrySerializer', embed=True)

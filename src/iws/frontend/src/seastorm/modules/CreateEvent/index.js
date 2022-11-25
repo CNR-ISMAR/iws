@@ -10,8 +10,6 @@ import DateField from '../../../components/DateField';
 
 const FORM_VALIDATION = values => {
     const errors = {}
-    console.log(values);
-    console.log('here');
     if (values && !values.date_start) {
         errors.date_start = 'Required'
     }
@@ -47,7 +45,6 @@ export default function CreateEvent() {
 
 
     async function runCreate(values, helpers) {
-        console.log(values)
         try {
             const result = await create({ 
                 ...values,
@@ -70,11 +67,8 @@ export default function CreateEvent() {
 
             {error && error.data && (
                 <Alert variant="danger" animation={null} show transition={null}>
-                    <h3 className='fw-bold'>{error.data.code}</h3>
-                    <div className="ps-5">
-                        
-                        {/* {error.data.error.details.filter(d => d.target).map(d => <li key={d.target}>{d.target}: {d.descriptions.join('')}</li>)} */}
-                    </div>
+                    <h5 className='fw-bold'>{error.data.code}</h5>
+                    <div className="ps-5"></div>
                 </Alert>
             )}
             <Formik

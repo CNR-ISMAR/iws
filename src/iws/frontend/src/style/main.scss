@@ -13,9 +13,21 @@
             margin: .2rem !important;
             min-width: 2rem !important;
         }
-    }
-    
+    }    
+}
+
+.was-validated #app .input-group .form-control:valid, 
+#app .input-group .form-control.is-valid, 
+.was-validated #app .input-group .form-select:valid, 
+#app .input-group .form-select.is-valid, 
+.was-validated .bs5 .input-group .form-control:valid, 
+.bs5 .input-group .form-control.is-valid, 
+.was-validated .bs5 .input-group .form-select:valid, 
+.bs5 .input-group .form-select.is-valid,
+.msgapi #app .input-group .form-control {
+    z-index: 0 !important;
 }
 
 @import '~leaflet/dist/leaflet.css';
-@import 'sweetalert2/src/sweetalert2.scss';
+@import '~sweetalert2/src/sweetalert2.scss';
+@import '~leaflet-draw/dist/leaflet.draw.css'

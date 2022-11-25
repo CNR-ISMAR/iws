@@ -35,7 +35,18 @@ export const seastormApi = createApi({
         }),
         getEffects: builder.query({
             query: (params = '') => `stormeffect/${params}`,
-            providesTags: () => [{ type: 'events', id: 'LIST' }],
+            providesTags: () => [{ type: 'effects', id: 'LIST' }],
+        }),
+        createEffect: builder.mutation({
+            query: (body) => ({
+                url: `stormeffect/`,
+                method: 'POST',
+                body,
+                headers: {
+                    'X-CSRFToken': getCSRF(),
+                }
+            }),
+            invalidatesTags: [{ type: 'effects', id: 'LIST' }]
         }),
         getOrigins: builder.query({
             query: (params = '') => `origin/${params}`,
@@ -57,4 +68,5 @@ export const {
     useLazyGetOriginsQuery,
     useLazyGetCategoriesQuery,
     useCreateEventMutation,
+    useCreateEffectMutation,
 } = seastormApi;

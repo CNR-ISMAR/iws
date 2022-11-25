@@ -30,7 +30,7 @@ const DateField = ({
                 showTimeSelect
                 dateFormat="dd/MM/yyyy HH:mm"
                 {...field}
-                selected={field.value}
+                selected={(field.value && new Date(field.value)) || null}
                 value={(field.value && new Date(field.value)) || null}
                 onChange={(val) => form.setFieldValue(field.name, val)}
               />

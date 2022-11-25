@@ -128,8 +128,3 @@ class StormEventEffect(models.Model):
     damage_categories = models.ManyToManyField(DamageCategory, blank=True)
     event = models.ForeignKey(StormEventEntry, on_delete=models.PROTECT, related_name="effects")
 
-    @property
-    def geom_4326(self):
-        if not self.geom:
-            return None
-        return self.geom.transform(4326)

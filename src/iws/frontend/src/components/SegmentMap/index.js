@@ -1,11 +1,7 @@
 import React from 'react';
 import {
-    MapContainer, TileLayer, GeoJSON, FeatureGroup, LayersControl
+    MapContainer, TileLayer, GeoJSON, LayersControl
 } from 'react-leaflet';
-import { EditControl } from "react-leaflet-draw"
-
-import 'leaflet/dist/leaflet.css'
-import 'leaflet-draw/dist/leaflet.draw.css'
 
 
 export default function SegmentMap({ extent, segment, ...props }) {
