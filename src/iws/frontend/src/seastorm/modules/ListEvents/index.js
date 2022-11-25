@@ -4,11 +4,15 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import moment from 'moment';
 import { useGetEventsQuery } from "../../../services/seastorm";
 import { usePagination } from '../../../libs/usePagination';
+import { useSelector } from "react-redux";
+import { authSelectors } from "../../store/auth.slice";
 
 export default function ListEvents() {
     const { id } = useParams()
     let [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page')) || 1
+
+    const isAuthenticated = useSelector(authSelectors.isAuthenticated)
 
     const { data, isLoading, isError, isSuccess } = useGetEventsQuery(`?page=${page}&filter{coastalsegment_id}=${id}`);
 
@@ -20,7 +24,12 @@ export default function ListEvents() {
 
     return (
         <div className="mt-4">
-            <h5>Storm Events {isSuccess && <Badge pill>{data.total}</Badge>}</h5>
+            <div className="d-flex align-items-center justify-content-between">
+                <h5>Storm Events {isSuccess && <Badge pill>{data.total}</Badge>}</h5>
+                <div class="d-flex align-items-center">
+                    {isAuthenticated && <Button as={Link} to={`/sea_storm_atlas/segments/${id}/create-event/`}>Create</Button>}
+                </div>
+            </div>
             {isLoading && <Spinner animation="border" />}
             {isError && <p className="text-danger">{data.error.message}</p>}
             {isSuccess && (

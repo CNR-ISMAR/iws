@@ -20,7 +20,7 @@ const SelectField = ({
   return (
     <Field
       name={name}
-      render={({ field, form }) => {
+    >{({ field, form }) => {
         const isValid = !form.errors[field.name];
         const isInvalid = form.touched[field.name] && !isValid;
 
@@ -39,6 +39,7 @@ const SelectField = ({
                 {...field}
                 onChange={value => form.setFieldValue(name, value)}
               />
+              
               {form.errors[field.name] && (
                 <Form.Control.Feedback type="invalid" className="d-block">
                   {form.errors[field.name]}
@@ -48,7 +49,7 @@ const SelectField = ({
           </Form.Group>
         );
       }}
-    />
+    </Field>
   );
 };
 

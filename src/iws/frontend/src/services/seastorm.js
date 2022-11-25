@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getCSRF } from './csrf';
 
 export const seastormApi = createApi({
     reducerPath: 'seastormApi',
@@ -21,12 +22,23 @@ export const seastormApi = createApi({
             query: ({ id, params = '' }) => `stormevent/${id}/${params}`,
             providesTags: (req) => [{ type: 'events', id: req.id }],
         }),
+        createEvent: builder.mutation({
+            query: (body) => ({
+                url: `stormevent/`,
+                method: 'POST',
+                body,
+                headers: {
+                    'X-CSRFToken': getCSRF(),
+                }
+            }),
+            invalidatesTags: [{ type: 'events', id: 'LIST' }]
+        }),
         getEffects: builder.query({
             query: (params = '') => `stormeffect/${params}`,
             providesTags: () => [{ type: 'events', id: 'LIST' }],
         }),
         getOrigins: builder.query({
-            query: (params = '') => `origins/${params}`,
+            query: (params = '') => `origin/${params}`,
             providesTags: () => [{ type: 'origins', id: 'LIST' }],
         }),
         getCategories: builder.query({
@@ -44,4 +56,5 @@ export const {
     useGetEffectsQuery,
     useLazyGetOriginsQuery,
     useLazyGetCategoriesQuery,
+    useCreateEventMutation,
 } = seastormApi;

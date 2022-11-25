@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 )
 
                 if event.origin:
-                    origins = [ o.lower().replace('?', '') for o in event.origin.split(',')]
+                    origins = [ o.lower().replace('?', '').strip() for o in event.origin.split(',')]
                     for o in origins:
                         origin, _ = Origin.objects.get_or_create(name=o)
                         entry.origins.add(origin)
