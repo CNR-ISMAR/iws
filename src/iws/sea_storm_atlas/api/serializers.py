@@ -1,11 +1,25 @@
 from iws.sea_storm_atlas.models import StormEventEntry, StormEventEffect, CoastalSegment, Origin, Sea, DamageCategory
 from dynamic_rest.serializers import DynamicModelSerializer, DynamicRelationField
 from rest_framework import serializers
+from rest_framework_gis.fields import GeoJsonDict
+
+
+class GeometryBBOXSerializerMethodField(serializers.SerializerMethodField):
+    def to_representation(self, value):
+        value = super().to_representation(value)
+        if value is None:
+            return value
+        
+        geojson = GeoJsonDict(value.geojson)
+        geojson["bbox"] = value.extent
+
+        return geojson
 
 
 class CostalSegmentSerializer(DynamicModelSerializer):
     ews_hazard_type__name = serializers.SerializerMethodField()
     sea = DynamicRelationField('StormSeaSerializer', embed=True)
+    geom = GeometryBBOXSerializerMethodField()
 
     class Meta:
         model = CoastalSegment
@@ -33,6 +47,10 @@ class CostalSegmentSerializer(DynamicModelSerializer):
 
     def get_ews_hazard_type__name(self, obj):
         return obj.get_ews_hazard_type_display()
+
+    def get_geom(self, obj):
+        obj.geom.transform(4326)
+        return obj.geom
 
 
 class StormEventEntrySerializer(DynamicModelSerializer):

@@ -7,6 +7,7 @@ import False from '../../assets/False.png'
 import True from '../../assets/True.png'
 import None from '../../assets/None.png'
 import ListEvents from '../ListEvents';
+import SegmentMap from '../../../components/SegmentMap';
 
 function IconRender(value) {
     const style = { width: '2rem' }
@@ -20,7 +21,9 @@ function IconRender(value) {
 
 export default function SegmentPage() {
     const { id } = useParams()
-    const { data, isLoading, isError, isSuccess, error } = useGetSegmentQuery({ id, params: '?include[]=sea' });
+    const { data, isLoading, isError, isSuccess, error } = useGetSegmentQuery({ id, params: '?include[]=sea&include[]=geom' });
+
+    console.log(data);
 
     return (
         <>
@@ -92,6 +95,7 @@ export default function SegmentPage() {
                             </Table>
                         </Col>
                         <Col>
+                            <SegmentMap extent={data.coastal_segment.geom.bbox} segment={data.coastal_segment.geom} />
                         </Col>
                     </Row>
                     <ListEvents />
