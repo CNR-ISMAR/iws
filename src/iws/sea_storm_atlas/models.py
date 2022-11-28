@@ -128,3 +128,10 @@ class StormEventEffect(models.Model):
     damage_categories = models.ManyToManyField(DamageCategory, blank=True)
     event = models.ForeignKey(StormEventEntry, on_delete=models.PROTECT, related_name="effects")
 
+
+class StormEventEffectComplete(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sea_storm_atlas_effect_complete'
