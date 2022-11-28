@@ -10,6 +10,7 @@ import None from '../../assets/None.png'
 import ListEffects from '../ListEffects';
 import { useSelector } from 'react-redux';
 import { authSelectors } from '../../store/auth.slice';
+import { toDateTimeString } from '../../../libs/toDateString';
 
 export function IconRender(value) {
     const style = { width: '2rem' }
@@ -65,11 +66,11 @@ export default function EventPage() {
                                     </tr>
                                     <tr>
                                         <td>Date start</td>
-                                        <td className="text-center">{data.storm_event_entry.date_start}</td>
+                                        <td className="text-center">{toDateTimeString(data.storm_event_entry.date_start)}</td>
                                     </tr>
                                     <tr>
                                         <td>Date end</td>
-                                        <td className="text-center">{data.storm_event_entry.date_end}</td>
+                                        <td className="text-center">{toDateTimeString(data.storm_event_entry.date_end)}</td>
                                     </tr>
 
                                     <tr>

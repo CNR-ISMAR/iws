@@ -7,6 +7,7 @@ import { usePagination } from '../../../libs/usePagination';
 import { useSelector } from "react-redux";
 import { authSelectors } from "../../store/auth.slice";
 import { IconRender } from "../DetailEvent";
+import { toDateTimeString } from "../../../libs/toDateString";
 
 export default function ListEvents() {
     const { id } = useParams()
@@ -54,8 +55,8 @@ export default function ListEvents() {
                                 {data.storm_event_entries.map(e => (
                                     <tr key={e.id}>
                                         <td>{e.id}</td>
-                                        <td>{e.date_start}</td>
-                                        <td>{e.date_end}</td>
+                                        <td>{toDateTimeString(e.date_start)}</td>
+                                        <td>{toDateTimeString(e.date_end)}</td>
                                         <td>{e.description}</td>
                                         <td>{e.effects_count}</td>
                                         <td>{e.origins.map(d => d.name).join(', ')}</td>

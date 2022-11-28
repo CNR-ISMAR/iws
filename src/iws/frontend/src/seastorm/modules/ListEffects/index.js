@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { authSelectors } from '../../store/auth.slice';
 import EffectsMap from "../../../components/EffectsMap";
+import { toDateTimeString } from "../../../libs/toDateString";
 
 export default function ListEffects({ segment, extent }) {
     const { id } = useParams()
@@ -70,7 +71,7 @@ export default function ListEffects({ segment, extent }) {
                                 {data.storm_event_effects.map(e => (
                                     <tr key={e.id}>
                                         <td>{e.id}</td>
-                                        <td>{e.date}</td>
+                                        <td>{toDateTimeString(e.date)}</td>
                                         <td>{e.flooding_level}</td>
                                         <td>{e.damage}</td>
                                         <td>{e.damage_categories.map(d => d.name).join(', ')}</td>
