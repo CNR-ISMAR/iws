@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import {
-    MapContainer, FeatureGroup, LayersControl, Marker
+    MapContainer, FeatureGroup, LayersControl, Marker, GeoJSON
 } from 'react-leaflet';
 import { EditControl } from "react-leaflet-draw"
 import { useField } from 'formik';
