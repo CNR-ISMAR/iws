@@ -2,8 +2,9 @@ import React from "react"
 import { Badge, Button, Card, Spinner, Table } from "react-bootstrap";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import moment from 'moment';
-import { useGetEffectsQuery } from "../../../services/seastorm";
+import { useCloneEffectMutation, useDeleteEffectMutation, useGetEffectsQuery } from "../../../services/seastorm";
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import { authSelectors } from '../../store/auth.slice';
 import EffectsMap from "../../../components/EffectsMap";
 
@@ -11,6 +12,32 @@ export default function ListEffects({ segment, extent }) {
     const { id } = useParams()
     const { data, isLoading, isError, isSuccess } = useGetEffectsQuery(`?page=1&filter{event_id}=${id}&page_size=100000000000000`);
     const isAuthenticated = useSelector(authSelectors.isAuthenticated);
+
+    const [clone, { isLoading: isCloning }] = useCloneEffectMutation();
+    const [remove, { isLoading: isRemoving }] = useDeleteEffectMutation();
+
+    async function runClone(id) {
+        const response = await clone({ id })
+        console.log(response)
+    }
+
+    async function runRemove(id) {
+        const res = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+        })
+
+        if (res.isConfirmed) {
+            const response = await remove({ id })
+            console.log(response)
+        }
+
+    }
 
     return (
         <div className="mt-4">
@@ -51,8 +78,8 @@ export default function ListEffects({ segment, extent }) {
                                         <td>{e.description}</td>
                                         {isAuthenticated && (<td>
                                             <Button as={Link} to={`/sea_storm_atlas/events/${id}/effects/${e.id}/`} className="me-1" title="edit"><i className="fa fa-edit" /></Button>
-                                            <Button className="me-1" title="clone"><i className="fa fa-clone" /></Button>
-                                            <Button className="ms-3" variant="danger" title="delete"><i className="fa fa-trash" /></Button>
+                                            <Button className="me-1" disabled={isCloning} title="clone" onClick={() => runClone(e.id)}><i className="fa fa-clone" /></Button>
+                                            <Button className="ms-3" disabled={isRemoving} variant="danger" title="delete" onClick={() => runRemove(e.id)}><i className="fa fa-trash" /></Button>
                                         </td>)}
                                     </tr>
                                 ))}

@@ -78,6 +78,14 @@ class StormEffectViewSet(DynamicModelViewSet):
         ExtentFilter
     ]
 
+    @decorators.action(detail=True, methods=['post'])
+    def clone(self, request, pk):
+        obj = self.get_object()
+        obj.id = None
+        obj.save()
+        cloned_serializer = self.get_serializer_class()(obj)
+        return response.Response(data=cloned_serializer.data)
+
 
 class CoastalSegmentViewSet(DynamicModelViewSet):
     queryset = models.CoastalSegment.objects.all()
