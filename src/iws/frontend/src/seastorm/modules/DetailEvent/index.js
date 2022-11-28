@@ -11,7 +11,7 @@ import ListEffects from '../ListEffects';
 import { useSelector } from 'react-redux';
 import { authSelectors } from '../../store/auth.slice';
 
-function IconRender(value) {
+export function IconRender(value) {
     const style = { width: '2rem' }
     if (value === null) {
         return <img src={None} style={style} />
