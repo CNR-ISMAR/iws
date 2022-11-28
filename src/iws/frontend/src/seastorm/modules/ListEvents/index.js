@@ -1,5 +1,5 @@
-import React from "react"
-import { Badge, Button, Card, Spinner, Table } from "react-bootstrap";
+import React, { useState } from "react"
+import { Badge, Button, Card, Col, Form, Row, Spinner, Table } from "react-bootstrap";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { useDeleteEventMutation, useGetEventsQuery } from "../../../services/seastorm";
@@ -9,14 +9,19 @@ import { authSelectors } from "../../store/auth.slice";
 import { IconRender } from "../DetailEvent";
 import { toDateTimeString } from "../../../libs/toDateString";
 
+const MAX_YEAR = new Date().getFullYear()
+
 export default function ListEvents() {
     const { id } = useParams()
+    const [year, setYear] = useState('');
     let [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page')) || 1
 
     const isAuthenticated = useSelector(authSelectors.isAuthenticated)
 
-    const { data, isLoading, isError, isSuccess } = useGetEventsQuery(`?page=${page}&filter{coastalsegment_id}=${id}&page_size=30&sort[]=date_start`);
+    const yearFilter = year ? `&filter{date_start.year}=${year}` : ''
+
+    const { data, isLoading, isError, isSuccess } = useGetEventsQuery(`?page=${page}&filter{coastalsegment_id}=${id}&page_size=30&sort[]=date_start${yearFilter}`);
 
     const pagination = usePagination({
         totPages: (data && Math.ceil(data.total / data.page_size)) || 1,
@@ -52,12 +57,25 @@ export default function ListEvents() {
                     {isAuthenticated && <Button as={Link} to={`/sea_storm_atlas/segments/${id}/create-event/`}>Create</Button>}
                 </div>
             </div>
+            <Row className="mb-2">
+                <Col md={2}>
+                    <Form.Label>Year</Form.Label>
+                    <Form.Control
+                        placeholder="Year"
+                        type="number"
+                        value={year}
+                        min={1800}
+                        max={MAX_YEAR}
+                        onChange={e => setYear(e.target.value)}
+                    />
+                </Col>
+            </Row>
             {isLoading && <Spinner animation="border" />}
             {isError && <p className="text-danger">{data.error.message}</p>}
             {isSuccess && (
                 <>
-                   {!data.total && <p>No events found</p>}
-                    {data.total && (
+                   {!data.total > 0 && <p className="mt-3">No events found</p>}
+                    {data.total > 0 && (
                         <Table bordered striped>
                             <thead>
                                 <tr>
