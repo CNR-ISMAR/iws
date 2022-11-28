@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-    MapContainer, TileLayer, GeoJSON, LayersControl
+    MapContainer, GeoJSON, LayersControl
 } from 'react-leaflet';
+import BaseLayers from '../BaseLayers';
 
 
 export default function SegmentMap({ extent, segment, ...props }) {
@@ -16,11 +17,8 @@ export default function SegmentMap({ extent, segment, ...props }) {
     return (
         <div style={{ height: '350px' }}>
             <MapContainer style={{ height: '350px' }} bounds={bounds} scrollWheelZoom={false}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />  
                 <LayersControl position="topright">
+                    <BaseLayers />
                     <LayersControl.Overlay checked name="Coastal Segment">
                         <GeoJSON data={segment} pathOptions={{ fillColor: 'yellow', color: 'red', fillOpacity: 0.5, opacity: 0.7 }} />
                     </LayersControl.Overlay>

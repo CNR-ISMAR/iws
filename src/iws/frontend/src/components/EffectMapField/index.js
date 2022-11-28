@@ -1,12 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
-    MapContainer, TileLayer, GeoJSON, FeatureGroup, LayersControl, Circle, Marker
+    MapContainer, FeatureGroup, LayersControl, Marker
 } from 'react-leaflet';
 import { EditControl } from "react-leaflet-draw"
 import { useField } from 'formik';
 
 import { Form } from 'react-bootstrap';
 import LeafletControlGeocoder from '../Geocoder';
+import BaseLayers from '../BaseLayers';
 
 
 export default function EffectMapField({ label, height = '350px', extent, segment, as, controlId, md, ...props }) {
@@ -52,12 +53,9 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
             <Form.Label>{label}</Form.Label>           
             <div style={{ height }}>
                 <MapContainer style={{ height }} bounds={bounds} scrollWheelZoom={false}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />  
                     <LeafletControlGeocoder />
                     <LayersControl position="topright">
+                        <BaseLayers />
                         <LayersControl.Overlay checked name="Coastal Segment">
                             <GeoJSON data={segment} pathOptions={{ fillColor: 'yellow', color: 'red', fillOpacity: 0.5, opacity: 0.7 }} />
                         </LayersControl.Overlay>
