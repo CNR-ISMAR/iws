@@ -1,8 +1,8 @@
 import React from 'react';
 import { Breadcrumb, Button, Col, Container, Row, Spinner, Table } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
-import moment from 'moment';
-import { useGetEventQuery } from "../../../services/seastorm";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Swal from 'sweetalert2';
+import { useDeleteEventMutation, useGetEventQuery } from "../../../services/seastorm";
 
 import False from '../../assets/False.png'
 import True from '../../assets/True.png'
@@ -27,6 +27,27 @@ export default function EventPage() {
     const { data, isLoading, isError, isSuccess, error } = useGetEventQuery({ id, params: '?include[]=origins&include[]=coastalsegment.geom' });
 
     const isAuthenticated = useSelector(authSelectors.isAuthenticated);
+    const navigate = useNavigate();
+
+    const [remove, { isLoading: isRemoving }] = useDeleteEventMutation();
+    async function runRemove() {
+        const res = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+        })
+
+        if (res.isConfirmed) {
+            const response = await remove({ id })
+            console.log(response)
+            navigate(`/sea_storm_atlas/segments/${data.storm_event_entry.coastalsegment.id}/`)
+        }
+
+    }
 
     return (
         <>
@@ -46,7 +67,8 @@ export default function EventPage() {
                         </div>
                         
                         <div className='ms-auto d-flex align-items-start'>
-                            {isAuthenticated && <Button as={Link} to={`/sea_storm_atlas/events/${id}/edit/`}>Edit</Button>}
+                            {isAuthenticated && <Button className="me-1" as={Link} to={`/sea_storm_atlas/events/${id}/edit/`}>Edit</Button>}
+                            {isAuthenticated && <Button className="me-1" onClick={runRemove} variant="danger" disabled={isRemoving}>Delete</Button>}
                         </div>
                     </div>
                     <hr />

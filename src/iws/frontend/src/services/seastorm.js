@@ -84,6 +84,16 @@ export const seastormApi = createApi({
             }),
             invalidatesTags: [{ type: 'effects', id: 'LIST' }]
         }),
+        deleteEvent: builder.mutation({
+            query: ({ id }) => ({
+                url: `stormevent/${id}/`,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCSRF(),
+                }
+            }),
+            invalidatesTags: [{ type: 'events', id: 'LIST' }]
+        }),
         updateEffect: builder.mutation({
             query: ({ id, ...body }) => ({
                 url: `stormeffect/${id}/`,
@@ -121,4 +131,5 @@ export const {
     useUpdateEffectMutation,
     useCloneEffectMutation,
     useDeleteEffectMutation,
+    useDeleteEventMutation,
 } = seastormApi;
