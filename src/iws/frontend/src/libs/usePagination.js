@@ -20,7 +20,7 @@ export function usePagination({ totPages, page, loadPage, show = 10 }) {
 
   return useMemo(
     () =>
-      totPages > 1 && (
+      totPages > 1 ? (
         <div className="d-flex justify-content-center">
           <Pagination>
             <Pagination.First onClick={() => loadPage(1)} />
@@ -30,7 +30,7 @@ export function usePagination({ totPages, page, loadPage, show = 10 }) {
             <Pagination.Last onClick={() => loadPage(totPages)} />
           </Pagination>
         </div>
-      ),
+      ) : null,
     [page, totPages, loadPage],
   );
 }

@@ -1,7 +1,7 @@
 # from django.contrib import admin
 from django.contrib.gis import admin
 
-
+from geonode.documents.models import DocumentResourceLink
 from .models import CoastalSegment, StormEvent, Sea, StormEventEntry, StormEventEffect
 
 class CoastalSegmentAdmin(admin.ModelAdmin):
@@ -48,3 +48,4 @@ admin.site.register(Sea, SeaAdmin)
 
 admin.site.register(StormEventEntry)
 admin.site.register(StormEventEffect)
+admin.site.register(DocumentResourceLink)

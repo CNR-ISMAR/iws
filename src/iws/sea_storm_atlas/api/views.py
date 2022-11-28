@@ -1,5 +1,6 @@
 from logging import getLogger
 import requests, json
+from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import viewsets, permissions, decorators, response
 
@@ -8,6 +9,7 @@ from dynamic_rest.filters import DynamicFilterBackend, DynamicSortingFilter
 
 from geonode.base.api.filters import DynamicSearchFilter, ExtentFilter
 from geonode.base.api.pagination import GeoNodeApiPagination
+from geonode.documents.models import DocumentResourceLink
 
 
 from iws.sea_storm_atlas.api import serializers
@@ -97,3 +99,25 @@ class CoastalSegmentViewSet(DynamicModelViewSet):
         DynamicFilterBackend, DynamicSortingFilter, DynamicSearchFilter,
         ExtentFilter
     ]
+
+
+class DocumentEffectViewSet(DynamicModelViewSet):
+    queryset = DocumentResourceLink.objects.all()
+    pagination_class = GeoNodeApiPagination
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [
+        DynamicFilterBackend, DynamicSortingFilter, DynamicSearchFilter,
+        ExtentFilter
+    ]
+    serializer_class = serializers.DocumentEffectSerializer
+
+    def get_queryset(self):
+        content_type = ContentType.objects.get_for_model(models.StormEventEffect)
+        return super().get_queryset().filter(content_type=content_type)
+
+    def perform_create(self, serializer):
+        content_type = ContentType.objects.get_for_model(models.StormEventEffect)
+
+        serializer.save(
+            content_type=content_type,
+        )

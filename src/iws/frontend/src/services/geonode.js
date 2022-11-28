@@ -9,9 +9,9 @@ export const geonodeApi = createApi({
             query: (params = '') => `layers/${params}`,
             providesTags: () => [{ type: 'layers', id: 'LIST' }],
         }),
-        getMaps: builder.query({
-            query: (params = '') => `maps/${params}`,
-            providesTags: () => [{ type: 'maps', id: 'LIST' }],
+        getGeonodeDocs: builder.query({
+            query: (params = '') => `documents/${params}`,
+            providesTags: () => [{ type: 'docs', id: 'LIST' }],
         }),
     }),
 })
@@ -19,5 +19,5 @@ export const geonodeApi = createApi({
 export const { 
     useGetLayersQuery,
     useLazyGetLayersQuery,
-    useLazyGetMapsQuery,
+    useLazyGetGeonodeDocsQuery,
 } = geonodeApi;

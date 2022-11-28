@@ -113,6 +113,35 @@ export const seastormApi = createApi({
             query: (params = '') => `damagecategory/${params}`,
             providesTags: () => [{ type: 'categories', id: 'LIST' }],
         }),
+
+        getDocuments: builder.query({
+            query: (params = '') => `documenteffect/${params}`,
+            providesTags: () => [{ type: 'docs', id: 'LIST' }],
+        }),
+        addDocument: builder.mutation({
+            query: ({ effect, document }) => ({
+                url: `documenteffect/`,
+                method: 'POST',
+                body: {
+                    object_id: effect,
+                    document,
+                },
+                headers: {
+                    'X-CSRFToken': getCSRF(),
+                }
+            }),
+            providesTags: () => [{ type: 'docs', id: 'LIST' }],
+        }),
+        deleteDocument: builder.mutation({
+            query: ({ id }) => ({
+                url: `documenteffect/${id}/`,
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCSRF(),
+                }
+            }),
+            invalidatesTags: [{ type: 'docs', id: 'LIST' }]
+        }),
     }),
 })
 
@@ -132,4 +161,7 @@ export const {
     useCloneEffectMutation,
     useDeleteEffectMutation,
     useDeleteEventMutation,
+    useGetDocumentsQuery,
+    useAddDocumentMutation,
+    useDeleteDocumentMutation,
 } = seastormApi;

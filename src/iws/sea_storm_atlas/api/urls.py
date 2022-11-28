@@ -8,5 +8,6 @@ router.register(f'damagecategory', views.DamageCategoryViewSet, 'damagecategory'
 router.register(f'stormevent', views.StormEventViewSet, 'stormevent')
 router.register(f'stormeffect', views.StormEffectViewSet, 'stormeffect')
 router.register(f'coastalsegment', views.CoastalSegmentViewSet, 'coastalsegment')
+router.register(f'documenteffect', views.DocumentEffectViewSet, 'documenteffect')
 
 urlpatterns = router.urls

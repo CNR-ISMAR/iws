@@ -4,6 +4,8 @@ from rest_framework import serializers
 from rest_framework_gis.fields import GeoJsonDict
 from django.contrib.gis.geos import GEOSGeometry
 import json
+from geonode.documents.models import DocumentResourceLink
+
 
 class GeometryBBOX4326SerializerMethodField(serializers.Field):
     def to_representation(self, value):
@@ -139,4 +141,16 @@ class DamageCategorySerializer(DynamicModelSerializer):
         fields = (
             'id',
             'name',
+        )
+
+
+class DocumentEffectSerializer(DynamicModelSerializer):
+    document = DynamicRelationField('geonode.documents.api.serializers.DocumentSerializer', embed=True)
+    
+    class Meta:
+        model = DocumentResourceLink
+        fields = (
+            'id',
+            'document',
+            'object_id',
         )

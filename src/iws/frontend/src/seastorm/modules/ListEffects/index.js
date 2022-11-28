@@ -64,7 +64,7 @@ export default function ListEffects({ segment, extent }) {
                                     <th>Damage Type</th>
                                     <th>Coordinates</th>
                                     <th>Description</th>
-                                    {isAuthenticated && <th>Actions</th>}
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,11 +77,12 @@ export default function ListEffects({ segment, extent }) {
                                         <td>{e.damage_categories.map(d => d.name).join(', ')}</td>
                                         <td>{e.lat && e.lon ? `${e.lat},${e.lon}` : null}</td>
                                         <td>{e.description}</td>
-                                        {isAuthenticated && (<td>
-                                            <Button as={Link} to={`/sea_storm_atlas/events/${id}/effects/${e.id}/`} className="me-1" title="edit"><i className="fa fa-edit" /></Button>
-                                            <Button className="me-1" disabled={isCloning} title="clone" onClick={() => runClone(e.id)}><i className="fa fa-clone" /></Button>
-                                            <Button className="ms-3" disabled={isRemoving} variant="danger" title="delete" onClick={() => runRemove(e.id)}><i className="fa fa-trash" /></Button>
-                                        </td>)}
+                                        <td>
+                                            {isAuthenticated && (<Button as={Link} to={`/sea_storm_atlas/events/${id}/effects/${e.id}/`} className="me-1" title="edit"><i className="fa fa-edit" /></Button>)}
+                                            <Button as={Link} to={`/sea_storm_atlas/events/${id}/effects/${e.id}/documents/`} className="me-1" title="documents"><i className="fa fa-file" /></Button>
+                                            {isAuthenticated && (<Button className="me-1" disabled={isCloning} title="clone" onClick={() => runClone(e.id)}><i className="fa fa-clone" /></Button>)}
+                                            {isAuthenticated && (<Button className="ms-3" disabled={isRemoving} variant="danger" title="delete" onClick={() => runRemove(e.id)}><i className="fa fa-trash" /></Button>)}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

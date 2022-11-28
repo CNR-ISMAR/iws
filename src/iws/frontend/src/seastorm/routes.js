@@ -12,6 +12,7 @@ import CreateEvent from './modules/CreateEvent';
 import CreateEffect from './modules/CreateEffect';
 import EditEvent from './modules/EditEvent';
 import EditEffect from './modules/EditEffect';
+import ListDocuments from './modules/ListDocuments';
 
 
 export default function AppRoutes() {
@@ -23,6 +24,7 @@ export default function AppRoutes() {
                 <Route path="/sea_storm_atlas/segments/:id/" element={<DetailSegment />} />
                 <Route path="/sea_storm_atlas/events/:id/create-effect/" element={<CreateEffect />} />
                 <Route path="/sea_storm_atlas/events/:id/edit/" element={<EditEvent />} />
+                <Route path="/sea_storm_atlas/events/:id/effects/:effectId/documents/" element={<ListDocuments />} />
                 <Route path="/sea_storm_atlas/events/:id/effects/:effectId/" element={<EditEffect />} />
                 <Route path="/sea_storm_atlas/events/:id/" element={<DetailEvent />} />
             </Routes>
