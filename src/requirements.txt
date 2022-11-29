@@ -3,3 +3,6 @@ git+https://github.com/GeoNode/geonode.git@4.0.x#egg=GeoNode
 
 django-webpack-loader
 django-solo
+
+pandas
+XlsxWriter

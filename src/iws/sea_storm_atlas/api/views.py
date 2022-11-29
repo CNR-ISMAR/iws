@@ -1,6 +1,8 @@
 from logging import getLogger
 import requests, json
+import pandas as pd
 from django.contrib.contenttypes.models import ContentType
+from django.http import HttpResponse
 
 from rest_framework import viewsets, permissions, decorators, response
 
@@ -10,7 +12,10 @@ from dynamic_rest.filters import DynamicFilterBackend, DynamicSortingFilter
 from geonode.base.api.filters import DynamicSearchFilter, ExtentFilter
 from geonode.base.api.pagination import GeoNodeApiPagination
 from geonode.documents.models import DocumentResourceLink
-
+from django.contrib.postgres.aggregates import StringAgg
+from django.db.models import Func
+from django.contrib.gis.db.models.functions import Transform
+import io
 
 from iws.sea_storm_atlas.api import serializers
 from iws.sea_storm_atlas import models
@@ -67,6 +72,63 @@ class StormEventViewSet(DynamicModelViewSet):
         DynamicFilterBackend, DynamicSortingFilter, DynamicSearchFilter,
         ExtentFilter
     ]
+
+    @decorators.action(detail=True, methods=['get'])
+    def export(self, request, pk):
+        columns = [
+            'id',
+            'date_start',
+            'date_end',
+            'is_aggregated',
+            'description',
+            'coastalsegment__code',
+            'coastalsegment__subregion',
+            'origin_names',
+        ]
+        obj = self.get_queryset().filter(id=pk).annotate(
+            origin_names=StringAgg('origins__name', delimiter=', ')
+        ).values_list(*columns, named=True)
+
+        bio = io.BytesIO()
+        writer = pd.ExcelWriter(bio, engine='xlsxwriter')
+
+        index = [i + 1 for i, _ in enumerate(obj)]
+        df = pd.DataFrame(data=obj, index=index, columns=columns)
+        df['date_start'] = pd.to_datetime(df['date_start'], errors='coerce').dt.strftime("%Y-%m-%d %H:%M:%S")
+        df['date_end'] = pd.to_datetime(df['date_end'], errors='coerce').dt.strftime("%Y-%m-%d %H:%M:%S")
+        df.to_excel(writer, 'Event')
+
+        columns = [
+            'id',
+            'date',
+            'damage',
+            'flooding_level',
+            'description',
+            'damage_category_names',
+            'point',
+            # 'lat',
+            # 'lon',
+        ]
+
+        data = models.StormEventEffect.objects.filter(event_id=pk).annotate(
+            damage_category_names=StringAgg('damage_categories__name', delimiter=', '),
+            point=Transform('geom', 4236),
+        ).values_list(*columns, named=True)
+
+        index = [i + 1 for i, _ in enumerate(data)]
+
+        df = pd.DataFrame(data=data, index=index, columns=columns)
+        df['date'] = pd.to_datetime(df['date'], errors='coerce').dt.strftime("%Y-%m-%d %H:%M:%S")
+
+        df['point'] = df['point'].apply(lambda p: f'{p.centroid.y},{p.centroid.x}' if p else None)
+
+        df.to_excel(writer, 'Effects')
+        writer.save()
+        bio.seek(0)
+
+        response = HttpResponse(bio, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename=event-{pk}.xlsx'
+        return response
 
 
 class StormEffectViewSet(DynamicModelViewSet):
