@@ -53,7 +53,7 @@ export default function ListEffects({ segment, extent }) {
             {isSuccess && (
                 <>
                     {!data.total && <p>No effects found</p>}
-                    {data.total && (
+                    {data.total > 0 && (
                         <Table bordered striped>
                             <thead>
                                 <tr>
