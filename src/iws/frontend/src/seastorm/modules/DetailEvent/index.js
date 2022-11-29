@@ -67,6 +67,8 @@ export default function EventPage() {
                         </div>
                         
                         <div className='ms-auto d-flex align-items-start'>
+                            <Button className="me-1" as={Link} to="/sea_storm_atlas/map/" target="_blank">Open Map</Button>
+
                             {isAuthenticated && <Button className="me-1" as={Link} to={`/sea_storm_atlas/events/${id}/edit/`}>Edit</Button>}
                             {isAuthenticated && <Button className="me-1" onClick={runRemove} variant="danger" disabled={isRemoving}>Delete</Button>}
                         </div>

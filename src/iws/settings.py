@@ -75,6 +75,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     PROJECT_NAME + ".dashboards",
     PROJECT_NAME + ".polls",
     'webpack_loader',
+    'solo',
 )
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, Col, Container, Row, Spinner, Table } from "react-bootstrap";
+import { Breadcrumb, Button, Col, Container, Row, Spinner, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useGetSegmentQuery } from "../../../services/seastorm";
 
@@ -42,6 +42,7 @@ export default function SegmentPage() {
                         </div>
                         
                         <div className='ms-auto d-flex align-items-start'>
+                            <Button className="me-1" as={Link} to="/sea_storm_atlas/map/" target="_blank">Open Map</Button>
                         </div>
                     </div>
                     <hr />

@@ -1,8 +1,9 @@
 # from django.contrib import admin
 from django.contrib.gis import admin
+from solo.admin import SingletonModelAdmin
 
 from geonode.documents.models import DocumentResourceLink
-from .models import CoastalSegment, StormEvent, Sea, StormEventEntry, StormEventEffect
+from .models import CoastalSegment, StormEvent, Sea, StormEventEntry, StormEventEffect, SeaStormAtlasConfiguration
 
 class CoastalSegmentAdmin(admin.ModelAdmin):
     list_display = ('code', 'partition','subregion')
@@ -49,3 +50,4 @@ admin.site.register(Sea, SeaAdmin)
 admin.site.register(StormEventEntry)
 admin.site.register(StormEventEffect)
 admin.site.register(DocumentResourceLink)
+admin.site.register(SeaStormAtlasConfiguration, SingletonModelAdmin)

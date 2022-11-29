@@ -4,6 +4,13 @@ from django.contrib.gis.db import models
 from geonode.base.models import Region
 from geonode.documents.models import Document
 
+from solo.models import SingletonModel
+
+
+class SeaStormAtlasConfiguration(SingletonModel):
+    map = models.IntegerField(default=1)
+
+
 class Sea(models.Model):
     label = models.CharField(max_length=100)
     
