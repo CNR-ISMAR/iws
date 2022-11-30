@@ -1,3 +1,13 @@
+FROM node:12 as frontend-build
+
+COPY ./src/iws/frontend/ /usr/src
+WORKDIR /usr/src
+
+RUN npm install
+RUN npm run build
+
+
+
 FROM python:3.9.14-buster
 LABEL GeoNode development team
 
@@ -75,6 +85,9 @@ RUN chmod +x /usr/bin/celery-cmd
 RUN pip install --upgrade --no-cache-dir  --src /usr/src -r requirements.txt
 RUN pip install -r app_requirements.txt
 RUN pip install --upgrade  -e .
+
+COPY --from=frontend-build /usr/src/static /usr/src/iws/iws/frontend/static
+COPY --from=frontend-build /usr/src/webpack-stats.json /usr/src/iws/iws/frontend/webpack-stats.json
 
 # Cleanup apt update lists
 RUN rm -rf /var/lib/apt/lists/*

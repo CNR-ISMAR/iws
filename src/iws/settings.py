@@ -84,7 +84,10 @@ ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
 
 # Additional directories which hold static files
 # - Give priority to local geonode-project ones
-STATICFILES_DIRS = [os.path.join(LOCAL_ROOT, "static"), ] + STATICFILES_DIRS
+STATICFILES_DIRS = [
+    os.path.join(LOCAL_ROOT, "static"),
+    os.path.join(LOCAL_ROOT, "frontend", "static"),
+] + STATICFILES_DIRS
 
 # Location of locale files
 LOCALE_PATHS = (
