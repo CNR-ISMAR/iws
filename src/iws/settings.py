@@ -35,6 +35,8 @@ try:
 #    from geonode.local_settings import *
 except ImportError:
     from geonode.settings import *
+except ModuleNotFoundError:
+    from geonode.settings import *
 
 #
 # General Django development settings

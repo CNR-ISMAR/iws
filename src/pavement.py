@@ -57,6 +57,8 @@ try:
     from iws.local_settings import *
 except ImportError:
     from iws.settings import *
+except ModuleNotFoundError:
+    from iws.settings import *
 
 try:
     from paver.path import pushd
