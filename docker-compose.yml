@@ -252,3 +252,5 @@ volumes:
     name: ${COMPOSE_PROJECT_NAME}-tmp
   rabbitmq:
     name: ${COMPOSE_PROJECT_NAME}-rabbitmq
+  grafana-storage:
+    name: ${COMPOSE_PROJECT_NAME}-grafana-storage
