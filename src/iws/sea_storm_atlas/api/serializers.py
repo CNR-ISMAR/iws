@@ -125,6 +125,7 @@ class StormOriginSerializer(DynamicModelSerializer):
         fields = (
             'id',
             'name',
+            'description',
         )
 
 class StormSeaSerializer(DynamicModelSerializer):

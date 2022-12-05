@@ -109,7 +109,7 @@ export default function CreateEvent() {
                         label="Origins"
                         defaultOptions
                         loadOptions={loadOrigins}
-                        getOptionLabel={v => v.name}
+                        getOptionLabel={v => `${v.name} - ${v.description}`}
                         getOptionValue={v => v.id}
                         isMulti
                     />

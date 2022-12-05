@@ -130,7 +130,7 @@ export const seastormApi = createApi({
                     'X-CSRFToken': getCSRF(),
                 }
             }),
-            providesTags: () => [{ type: 'docs', id: 'LIST' }],
+            invalidatesTags: () => [{ type: 'docs', id: 'LIST' }],
         }),
         deleteDocument: builder.mutation({
             query: ({ id }) => ({
