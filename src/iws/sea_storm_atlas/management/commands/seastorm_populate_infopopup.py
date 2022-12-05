@@ -6,15 +6,108 @@ from geonode.layers.models import Dataset
 EFFECTS_DS_NAME = 'sea_storm_atlas_effect_complete'
 
 EFFECTS_FEATURE_INFO_TEMPLATE_HTML = '''
-<p>
-    <a title="${properties.coastalsegment_id}" href="/sea_storm_atlas/segments/${properties.coastalsegment_id}/" target="_blank" rel="noopener">Coastal Segment ${properties.coastalsegment_id}</a>
-</p>
+<h1>Effect ${properties.id}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Attribute</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Effect Date</td>
+            <td>${properties.date}</td>
+        </tr>
+        <tr>
+            <td>Effect Description</td>
+            <td>${properties.description}</td>
+        </tr>
+        <tr>
+            <td>Effect Damage</td>
+            <td>${properties.damage}€</td>
+        </tr>
+        <tr>
+            <td>Effect Damage Types</td>
+            <td>${properties.damage_types}</td>
+        </tr>
+        <tr>
+            <td>Flooding level</td>
+            <td>${properties.flooding_level}</td>
+        </tr>
+        <tr>
+            <td>Documents</td>
+            <td>
+                <a title="${properties.event_id}" href="/sea_storm_atlas/events/${properties.event_id}/effects/${properties.id}/documents/" target="_blank" rel="noopener">${properties.documents}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Event</td>
+            <td>
+                <a title="${properties.event_id}" href="/sea_storm_atlas/events/${properties.event_id}/" target="_blank" rel="noopener">${properties.event_id}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Event start</td>
+            <td>${properties.date_start}</td>
+        </tr>
+        <tr>
+            <td>Event end</td>
+            <td>${properties.date_end}</td>
+        </tr>
+        <tr>
+            <td>Event description</td>
+            <td>${properties.date_end}</td>
+        </tr>
+        <tr>
+            <td>Event origins</td>
+            <td>${properties.origins}</td>
+        </tr>
+        <tr>
+            <td>Coastal segment</td>
+            <td>
+                <a title="${properties.coastalsegment_id}" href="/sea_storm_atlas/segments/${properties.coastalsegment_id}/" target="_blank" rel="noopener">${properties.coastalsegment_id}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 '''
 
 COAST_DS_NAME = 'sea_storm_atlas_coastalsegment'
 
 COAST_FEATURE_INFO_TEMPLATE_HTML = '''
-
+<h1>Coastal segment ${properties.id}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Attribute</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>ID</td>
+            <td>
+                <a title="${properties.coastalsegment_id}" href="/sea_storm_atlas/segments/${properties.id}/" target="_blank" rel="noopener">${properties.id}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Region</td>
+            <td>${properties.subregion}</td>
+        </tr>
+        <tr>
+            <td>Hazard type</td>
+            <td>${properties.ews_hazard_type}</td>
+        </tr>
+        <tr>
+            <td>Forecasting service</td>
+            <td>${properties.forecasting_service}</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    <a href="/sea_storm_atlas/segments/${properties.id}/create-event/" target="_blank">Add a new event</a> 
+</p>
 '''
 
 class Command(BaseCommand):

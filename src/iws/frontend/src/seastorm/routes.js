@@ -13,6 +13,7 @@ import CreateEffect from './modules/CreateEffect';
 import EditEvent from './modules/EditEvent';
 import EditEffect from './modules/EditEffect';
 import ListDocuments from './modules/ListDocuments';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 
 export default function AppRoutes() {
@@ -20,12 +21,28 @@ export default function AppRoutes() {
         <BrowserRouter path="sea_storm_atlas">
             <Routes>
                 <Route path="/sea_storm_atlas/" element={<ListSegments />} />
-                <Route path="/sea_storm_atlas/segments/:id/create-event/" element={<CreateEvent />} />
+                <Route path="/sea_storm_atlas/segments/:id/create-event/" element={
+                    <ProtectedRoute>
+                        <CreateEvent />
+                    </ProtectedRoute>
+                } />
                 <Route path="/sea_storm_atlas/segments/:id/" element={<DetailSegment />} />
-                <Route path="/sea_storm_atlas/events/:id/create-effect/" element={<CreateEffect />} />
-                <Route path="/sea_storm_atlas/events/:id/edit/" element={<EditEvent />} />
+                <Route path="/sea_storm_atlas/events/:id/create-effect/" element={
+                    <ProtectedRoute>
+                        <CreateEffect />
+                    </ProtectedRoute>
+                } />
+                <Route path="/sea_storm_atlas/events/:id/edit/" element={
+                    <ProtectedRoute>
+                        <EditEvent />
+                    </ProtectedRoute>
+                } />
                 <Route path="/sea_storm_atlas/events/:id/effects/:effectId/documents/" element={<ListDocuments />} />
-                <Route path="/sea_storm_atlas/events/:id/effects/:effectId/" element={<EditEffect />} />
+                <Route path="/sea_storm_atlas/events/:id/effects/:effectId/" element={
+                    <ProtectedRoute>
+                        <EditEffect />
+                    </ProtectedRoute>
+                } />
                 <Route path="/sea_storm_atlas/events/:id/" element={<DetailEvent />} />
             </Routes>
         </BrowserRouter>
