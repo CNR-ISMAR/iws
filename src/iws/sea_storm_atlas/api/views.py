@@ -15,6 +15,7 @@ from geonode.documents.models import DocumentResourceLink
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Func
 from django.contrib.gis.db.models.functions import Transform
+from django.db.models.functions import ExtractYear
 import io
 
 from iws.sea_storm_atlas.api import serializers
@@ -161,6 +162,11 @@ class CoastalSegmentViewSet(DynamicModelViewSet):
         DynamicFilterBackend, DynamicSortingFilter, DynamicSearchFilter,
         ExtentFilter
     ]
+
+    @decorators.action(detail=True, methods=['get'])
+    def years(self, request, pk):
+        years = models.StormEventEntry.objects.filter(coastalsegment=pk).annotate(year=ExtractYear('date_start')).order_by('year').values('year').distinct().values_list('year', flat=True)
+        return response.Response(data=years)
 
 
 class DocumentEffectViewSet(DynamicModelViewSet):

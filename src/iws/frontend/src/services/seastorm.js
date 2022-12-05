@@ -14,6 +14,10 @@ export const seastormApi = createApi({
             query: ({ id, params = '' }) => `coastalsegment/${id}/${params}`,
             providesTags: (req) => [{ type: 'segments', id: req.id }],
         }),
+        getSegmentYears: builder.query({
+            query: (id) => `coastalsegment/${id}/years/`,
+            providesTags: (req) => [{ type: 'segments', id: 'years' }],
+        }),
         getEvents: builder.query({
             query: (params = '') => `stormevent/${params}`,
             providesTags: () => [{ type: 'events', id: 'LIST' }],
@@ -152,6 +156,7 @@ export const {
     useGetEventQuery,
     useGetEffectsQuery,
     useGetEffectQuery,
+    useGetSegmentYearsQuery,
     useLazyGetOriginsQuery,
     useLazyGetCategoriesQuery,
     useCreateEventMutation,

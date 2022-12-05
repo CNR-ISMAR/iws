@@ -2,12 +2,13 @@ import React, { useState } from "react"
 import { Badge, Button, Card, Col, Form, Row, Spinner, Table } from "react-bootstrap";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Swal from 'sweetalert2';
-import { useDeleteEventMutation, useGetEventsQuery } from "../../../services/seastorm";
+import { useDeleteEventMutation, useGetEventsQuery, useGetSegmentYearsQuery } from "../../../services/seastorm";
 import { usePagination } from '../../../libs/usePagination';
 import { useSelector } from "react-redux";
 import { authSelectors } from "../../store/auth.slice";
 import { IconRender } from "../DetailEvent";
 import { toDateTimeString } from "../../../libs/toDateString";
+import Select from 'react-select';
 
 const MAX_YEAR = new Date().getFullYear()
 
@@ -22,6 +23,7 @@ export default function ListEvents() {
     const yearFilter = year ? `&filter{date_start.year}=${year}` : ''
 
     const { data, isLoading, isError, isSuccess } = useGetEventsQuery(`?page=${page}&filter{coastalsegment_id}=${id}&page_size=30&sort[]=date_start${yearFilter}`);
+    const { data: years = [], isLoading: isLoadingYears, isError: isErrorYears } = useGetSegmentYearsQuery(id);
 
     const pagination = usePagination({
         totPages: (data && Math.ceil(data.total / data.page_size)) || 1,
@@ -60,13 +62,11 @@ export default function ListEvents() {
             <Row className="mb-2">
                 <Col md={2}>
                     <Form.Label>Year</Form.Label>
-                    <Form.Control
+                    <Select
                         placeholder="Year"
-                        type="number"
-                        value={year}
-                        min={1800}
-                        max={MAX_YEAR}
-                        onChange={e => setYear(e.target.value)}
+                        options={years.map(o => ({ value: o, label: o }))}
+                        disabled={isLoadingYears || isErrorYears}
+                        onChange={v => setYear(v.value)}
                     />
                 </Col>
             </Row>
