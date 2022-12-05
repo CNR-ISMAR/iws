@@ -87,6 +87,10 @@ export default function CreateEffect() {
                     validate={FORM_VALIDATION}
                 >
                     {({ handleSubmit, isValid }) => (
+                    <>
+                    <p>
+                        Relative to the event {id} - {data.storm_event_entry.name || data.storm_event_entry.date_start}
+                    </p>
                     <Form noValidate onSubmit={handleSubmit}>
                         <EffectMapField
                             name="geom"
@@ -127,6 +131,7 @@ export default function CreateEffect() {
                             <Button as={Link} to={`/sea_storm_atlas/events/${id}/`} className="ms-2" variant="default">Back</Button>
                         </div>
                     </Form>
+                    </>
                     )}
                 </Formik>
             )}

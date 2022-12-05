@@ -85,8 +85,7 @@ export default function ListEvents() {
                                     <th>Description</th>
                                     <th>Effects</th>
                                     <th>Origins</th>
-                                    <th>Is aggregated</th>
-                                    {isAuthenticated && <th>Actions</th>}
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,14 +97,13 @@ export default function ListEvents() {
                                         <td>{e.description}</td>
                                         <td>{e.effects_count}</td>
                                         <td>{e.origins.map(d => d.name).join(', ')}</td>
-                                        <td>{IconRender(e.is_aggregated)}</td>
-                                        {isAuthenticated && (<td>
+                                        <td>
                                             <div className="d-flex">
                                                 <Button as={Link} to={`/sea_storm_atlas/events/${e.id}/`} className="me-1" title="view"><i className="fa fa-eye" /></Button>
-                                                <Button as={Link} to={`/sea_storm_atlas/events/${e.id}/edit/`} className="me-1" title="edit"><i className="fa fa-edit" /></Button>
-                                                <Button className="ms-2" disabled={isRemoving} variant="danger" title="delete" onClick={() => runRemove(e.id)}><i className="fa fa-trash" /></Button>
+                                                {isAuthenticated && <Button as={Link} to={`/sea_storm_atlas/events/${e.id}/edit/`} className="me-1" title="edit"><i className="fa fa-edit" /></Button>}
+                                                {isAuthenticated && <Button className="ms-2" disabled={isRemoving} variant="danger" title="delete" onClick={() => runRemove(e.id)}><i className="fa fa-trash" /></Button>}
                                             </div>
-                                        </td>)}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

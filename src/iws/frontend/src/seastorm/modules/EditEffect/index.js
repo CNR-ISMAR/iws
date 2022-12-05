@@ -81,6 +81,10 @@ export default function EditEffect() {
                 </Alert>
             )}
             {isSuccess && (
+                <>
+                <p>
+                    Relative to the event {id} - {data.storm_event_effect.event.name || data.storm_event_effect.event.date_start}
+                </p>
                 <Formik
                     initialValues={{
                         ...data.storm_event_effect,
@@ -131,6 +135,7 @@ export default function EditEffect() {
                     </Form>
                     )}
                 </Formik>
+                </>
             )}
         </Container>
     )

@@ -106,10 +106,6 @@ export default function EventPage() {
                                         <td>Origins</td>
                                         <td className="text-center">{data.storm_event_entry.origins.map(o => o.name).join(', ')}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Is Aggregated</td>
-                                        <td className="text-center">{IconRender(data.storm_event_entry.is_aggregated)}</td>
-                                    </tr>
                                 </tbody>
                             </Table>
                         </Col>
