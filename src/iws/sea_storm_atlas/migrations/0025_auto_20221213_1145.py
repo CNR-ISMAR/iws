@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.RunSQL('''
             create or replace view sea_storm_atlas_coastalsegment_complete as
                 select cs.id,
-                    cs.region,
+                    cs.region_id,
                     cs.subregion,
                     cs.geom,
                     cs.seg_name,
