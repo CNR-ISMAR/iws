@@ -3,8 +3,6 @@ from django.db import transaction
 
 from geonode.layers.models import Dataset
 
-EFFECTS_DS_NAME = 'sea_storm_atlas_effect_complete0'
-
 EFFECTS_FEATURE_INFO_TEMPLATE_HTML = '''
 <h1>Effect ${properties.id}</h1>
 <table>
@@ -73,8 +71,6 @@ EFFECTS_FEATURE_INFO_TEMPLATE_HTML = '''
 </table>
 '''
 
-COAST_DS_NAME = 'sea_storm_atlas_coastalsegment_complete0'
-
 COAST_FEATURE_INFO_TEMPLATE_HTML = '''
 <h1>Coastal segment ${properties.id}</h1>
 <table>
@@ -120,12 +116,19 @@ class Command(BaseCommand):
 
     The dataset MUST exist and have the same name ad declared above
     '''
+
+    def add_arguments(self, parser):
+        parser.add_argument('--coast-dataset')
+        parser.add_argument('--effect-dataset')
+
     def handle(self, *args, **options):
         with transaction.atomic():
-            ds = Dataset.objects.filter(name=EFFECTS_DS_NAME).first()
+
+            ds = Dataset.objects.filter(name=options["effect_dataset"]).first()
 
             if not ds:
-                print(f'No dataset found with name {EFFECTS_DS_NAME}')
+                print(f'No dataset found with name {options["effect_dataset"]}')
+
                 return
 
             ds.use_featureinfo_custom_template = True
@@ -133,10 +136,10 @@ class Command(BaseCommand):
             ds.save()
 
 
-            ds = Dataset.objects.filter(name=COAST_DS_NAME).first()
+            ds = Dataset.objects.filter(name=options["coast_dataset"]).first()
 
             if not ds:
-                print(f'No dataset found with name {COAST_DS_NAME}')
+                print(f'No dataset found with name {options["coast_dataset"]}')
                 return
 
             ds.use_featureinfo_custom_template = True
