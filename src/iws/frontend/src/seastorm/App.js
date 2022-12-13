@@ -11,8 +11,9 @@ const App = () => {
   return (
     <>
       <Provider store={store}>
-        <AuthLoader />
-        <AppRoutes />
+        <AuthLoader>
+          <AppRoutes />
+        </AuthLoader>
       </Provider>
       <ToastContainer 
         position="top-right"

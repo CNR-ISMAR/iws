@@ -1,11 +1,13 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useLazyGetUserinfoQuery } from "../../../services/auth";
-import { authActions } from "../../store/auth.slice";
+import { authActions, authSelectors } from "../../store/auth.slice";
 
-export default function AuthLoader() {
+export default function AuthLoader({ children }) {
     const dispatch = useDispatch();
-    const [getUser] = useLazyGetUserinfoQuery()
+    const [getUser] = useLazyGetUserinfoQuery();
+    const isReady = useSelector(authSelectors.isReady);
 
     useEffect(() => {
         async function fetch() {
@@ -13,6 +15,8 @@ export default function AuthLoader() {
                 const r = await getUser()
                 if (!r.isError) {
                     dispatch(authActions.setUser(r.data))
+                } else {
+                    dispatch(authActions.setUser(null))
                 }
             } catch(e) {
                 console.warn(e)
@@ -21,5 +25,11 @@ export default function AuthLoader() {
         fetch();
     }, [])
 
-    return null;
+    if (!isReady) {
+        return (
+            <Spinner />
+        )
+    }
+
+    return children;
 }
