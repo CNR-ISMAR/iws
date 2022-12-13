@@ -3,7 +3,7 @@ from django.db import transaction
 
 from geonode.layers.models import Dataset
 
-EFFECTS_DS_NAME = 'sea_storm_atlas_effect_complete'
+EFFECTS_DS_NAME = 'sea_storm_atlas_effect_complete0'
 
 EFFECTS_FEATURE_INFO_TEMPLATE_HTML = '''
 <h1>Effect ${properties.id}</h1>
@@ -73,7 +73,7 @@ EFFECTS_FEATURE_INFO_TEMPLATE_HTML = '''
 </table>
 '''
 
-COAST_DS_NAME = 'sea_storm_atlas_coastalsegment'
+COAST_DS_NAME = 'sea_storm_atlas_coastalsegment_complete0'
 
 COAST_FEATURE_INFO_TEMPLATE_HTML = '''
 <h1>Coastal segment ${properties.id}</h1>
@@ -88,12 +88,16 @@ COAST_FEATURE_INFO_TEMPLATE_HTML = '''
         <tr>
             <td>ID</td>
             <td>
-                <a title="${properties.coastalsegment_id}" href="/sea_storm_atlas/segments/${properties.id}/" target="_blank" rel="noopener">${properties.id}</a>
+                <a title="${properties.id}" href="/sea_storm_atlas/segments/${properties.id}/" target="_blank" rel="noopener">${properties.id}</a>
             </td>
         </tr>
         <tr>
             <td>Region</td>
             <td>${properties.subregion}</td>
+        </tr>
+        <tr>
+            <td>Code</td>
+            <td>${properties.code}</td>
         </tr>
         <tr>
             <td>Hazard type</td>
