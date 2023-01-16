@@ -3,6 +3,13 @@
 <script>
     window.__GEONODE_CONFIG__.overrideLocalConfig = function(localConfig, _) {
         // Here the localConfig can be overridden and/or extended
+        localConfig.plugins.map_viewer.push({ 
+            "name": "GeoTour",
+            "cfg": {
+                // TODO: dynamically disable plugin on specific maps
+                "disablePluginIf": "{state('mapType') === 'cesium'}"
+            }
+        });
         return localConfig;
     };
 </script>

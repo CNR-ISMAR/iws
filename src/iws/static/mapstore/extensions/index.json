@@ -1,0 +1,7 @@
+{
+  "GeoTour": {
+      "bundle": "GeoTour/index.js",
+      "translations": "GeoTour/translations",
+      "assets": "GeoTour/assets"
+  }
+}
