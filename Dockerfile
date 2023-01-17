@@ -97,7 +97,7 @@ RUN pip install --upgrade  -e .
 COPY --from=frontend-build /usr/src/static /usr/src/iws/iws/frontend/static
 COPY --from=frontend-build /usr/src/webpack-stats.json /usr/src/iws/iws/frontend/webpack-stats.json
 
-COPY --from=floodmaps-ext-build /usr/src/dist /usr/src/iws/iws/flooding_maps/static/mapstore/extensions/GeoTour
+COPY --from=floodmaps-ext-build /usr/src/dist /usr/src/iws/iws/static/mapstore/extensions/GeoTour
 
 # Cleanup apt update lists
 RUN rm -rf /var/lib/apt/lists/*
