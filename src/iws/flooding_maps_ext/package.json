@@ -44,6 +44,7 @@
   "dependencies": {
     "file-loader": "^6.2.0",
     "mapstore": "git+https://github.com/geosolutions-it/MapStore2.git#2022.02.xx",
+    "ol": "^5.0.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
