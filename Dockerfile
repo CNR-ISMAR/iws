@@ -7,13 +7,13 @@ RUN npm install
 RUN npm run build
 
 
-FROM node:12 as floodmaps-ext-build
+FROM node:16 as floodmaps-ext-build
 
-COPY ./src/iws/flooding_maps/ /usr/src
+COPY ./src/iws/flooding_maps_ext/ /usr/src
 WORKDIR /usr/src
 
-RUN cd extension && npm install
-RUN npm run compile
+RUN npm install
+RUN npm run build
 
 
 FROM python:3.9.14-buster
@@ -97,7 +97,7 @@ RUN pip install --upgrade  -e .
 COPY --from=frontend-build /usr/src/static /usr/src/iws/iws/frontend/static
 COPY --from=frontend-build /usr/src/webpack-stats.json /usr/src/iws/iws/frontend/webpack-stats.json
 
-COPY --from=floodmaps-ext-build /usr/src/static /usr/src/iws/iws/flooding_maps/static
+COPY --from=floodmaps-ext-build /usr/src/dist /usr/src/iws/iws/flooding_maps/static/mapstore/extensions/GeoTour
 
 # Cleanup apt update lists
 RUN rm -rf /var/lib/apt/lists/*
