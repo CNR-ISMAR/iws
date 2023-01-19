@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { Button, Card, Glyphicon } from 'react-bootstrap';
 import { createSelector } from 'reselect';
 import Rx from "rxjs";
+import {Glyphicon} from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 
@@ -116,9 +117,11 @@ export default {
     epics: {},
     containers: {
       Toolbar: {
-        name: "SampleExtension",
+        name: "GeoTour",
         position: 10,
-        text: "GO",
+        text: <Message msgId="geotour.description" />,
+        tooltip: "geotour.title",
+        icon: <Glyphicon glyph="bookmark" />,
         doNotHide: true,
         action: toggleControl.bind(null, 'geotour', null),
         priority: 1
