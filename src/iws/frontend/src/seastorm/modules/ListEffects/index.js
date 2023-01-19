@@ -43,7 +43,7 @@ export default function ListEffects({ segment, extent }) {
     return (
         <div className="mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-                <h5>Effects {isSuccess && <Badge pill>{data.total}</Badge>}</h5>
+                <h5>Impacts {isSuccess && <Badge pill>{data.total}</Badge>}</h5>
                 <div className="d-flex align-items-center">
                     {isAuthenticated && <Button as={Link} to={`/sea_storm_atlas/events/${id}/create-effect/`}>Create</Button>}
                 </div>
@@ -52,7 +52,7 @@ export default function ListEffects({ segment, extent }) {
             {isError && <p className="text-danger">An exception occurred</p>}
             {isSuccess && (
                 <>
-                    {!data.total && <p>No effects found</p>}
+                    {!data.total && <p>No impacts found</p>}
                     {data.total > 0 && (
                         <Table bordered striped>
                             <thead>
@@ -88,7 +88,7 @@ export default function ListEffects({ segment, extent }) {
                             </tbody>
                         </Table>
                     )}
-                    <h6>Effects Map</h6>
+                    <h6>Impacts Map</h6>
                     <EffectsMap 
                         segment={segment}
                         extent={extent}

@@ -68,7 +68,7 @@ export default function EditEffect() {
 
     return (
         <Container>
-            <h1 className=''>Edit Effect</h1>
+            <h1 className=''>Edit Impact</h1>
 
             {error && error.data && (
                 <Alert variant="danger" animation={null} show transition={null}>

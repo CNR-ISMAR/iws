@@ -64,7 +64,7 @@ export default function CreateEffect() {
 
     return (
         <Container>
-            <h1 className=''>Create Effect</h1>
+            <h1 className=''>Create Impact</h1>
 
             {error && error.data && (
                 <Alert variant="danger" animation={null} show transition={null}>

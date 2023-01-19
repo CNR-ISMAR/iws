@@ -4,7 +4,7 @@ from django.db import transaction
 from geonode.layers.models import Dataset
 
 EFFECTS_FEATURE_INFO_TEMPLATE_HTML = '''
-<h1>Effect ${properties.id}</h1>
+<h1>Impact ${properties.id}</h1>
 <table>
     <thead>
         <tr>
@@ -14,19 +14,19 @@ EFFECTS_FEATURE_INFO_TEMPLATE_HTML = '''
     </thead>
     <tbody>
         <tr>
-            <td>Effect Date</td>
+            <td>Impact Date</td>
             <td>${properties.date}</td>
         </tr>
         <tr>
-            <td>Effect Description</td>
+            <td>Impact Description</td>
             <td>${properties.description}</td>
         </tr>
         <tr>
-            <td>Effect Damage</td>
+            <td>Impact Damage</td>
             <td>${properties.damage}€</td>
         </tr>
         <tr>
-            <td>Effect Damage Types</td>
+            <td>Impact Damage Types</td>
             <td>${properties.damage_types}</td>
         </tr>
         <tr>

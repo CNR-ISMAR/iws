@@ -33,7 +33,7 @@ export default function AddDocument({ add }) {
                     isClearable
                 />
                 <Button className="ms-3" disabled={!selected} onClick={() => add(selected.pk)}>
-                    Add to effect
+                    Add to impact
                 </Button>
             </div>
             <hr />

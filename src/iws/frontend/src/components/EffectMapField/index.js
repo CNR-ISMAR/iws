@@ -80,7 +80,7 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
                         <LayersControl.Overlay checked name="Coastal Segment">
                             <GeoJSON data={segment} pathOptions={{ fillColor: 'yellow', color: 'red', fillOpacity: 0.5, opacity: 0.7 }} />
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Effect point">
+                        <LayersControl.Overlay checked name="Impact point">
                         <FeatureGroup ref={ref} color="yellow">
                             <EditControl
                                 position='bottomright'

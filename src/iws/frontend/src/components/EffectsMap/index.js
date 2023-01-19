@@ -35,7 +35,7 @@ export default function EffectsMap({ extent, segment, effects, height='350px' })
                     <LayersControl.Overlay checked name="Coastal Segment">
                         <GeoJSON data={segment} pathOptions={{ fillColor: 'yellow', color: 'red', fillOpacity: 0.5, opacity: 0.7 }} />
                     </LayersControl.Overlay>
-                    <LayersControl.Overlay checked name="Effect point">
+                    <LayersControl.Overlay checked name="Impact point">
                         <GeoJSON data={effectsData} pathOptions={{ fillColor: 'yellow', color: 'yellow' }} />
                     </LayersControl.Overlay>
                 </LayersControl>

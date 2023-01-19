@@ -83,7 +83,7 @@ export default function ListEvents() {
                                     <th>Date start</th>
                                     <th>Date end</th>
                                     <th>Description</th>
-                                    <th>Effects</th>
+                                    <th>Impacts</th>
                                     <th>Origins</th>
                                     <th>Actions</th>
                                 </tr>
