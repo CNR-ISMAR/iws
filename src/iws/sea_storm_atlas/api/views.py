@@ -107,6 +107,7 @@ class StormEventViewSet(DynamicModelViewSet):
             'description',
             'damage_category_names',
             'point',
+            'event_id',
             # 'lat',
             # 'lon',
         ]
@@ -167,6 +168,65 @@ class CoastalSegmentViewSet(DynamicModelViewSet):
     def years(self, request, pk):
         years = models.StormEventEntry.objects.filter(coastalsegment=pk).annotate(year=ExtractYear('date_start')).order_by('year').values('year').distinct().values_list('year', flat=True)
         return response.Response(data=years)
+
+
+    @decorators.action(detail=True, methods=['get'])
+    def export(self, request, pk):
+        columns = [
+            'id',
+            'date_start',
+            'date_end',
+            'is_aggregated',
+            'description',
+            'coastalsegment__code',
+            'coastalsegment__subregion',
+            'origin_names',
+        ]
+        objs = models.StormEventEntry.objects.filter(coastalsegment_id=pk).annotate(
+            origin_names=StringAgg('origins__name', delimiter=', ')
+        ).values_list(*columns, named=True)
+
+        bio = io.BytesIO()
+        writer = pd.ExcelWriter(bio, engine='xlsxwriter')
+
+        index = [i + 1 for i, _ in enumerate(objs)]
+        df = pd.DataFrame(data=objs, index=index, columns=columns)
+        df['date_start'] = pd.to_datetime(df['date_start'], errors='coerce').dt.strftime("%Y-%m-%d %H:%M:%S")
+        df['date_end'] = pd.to_datetime(df['date_end'], errors='coerce').dt.strftime("%Y-%m-%d %H:%M:%S")
+        df.to_excel(writer, 'Event')
+
+        columns = [
+            'id',
+            'date',
+            'damage',
+            'flooding_level',
+            'description',
+            'damage_category_names',
+            'point',
+            'event_id',
+            # 'lat',
+            # 'lon',
+        ]
+
+        data = models.StormEventEffect.objects.filter(event__coastalsegment_id=pk).annotate(
+            damage_category_names=StringAgg('damage_categories__name', delimiter=', '),
+            point=Transform('geom', 4236),
+        ).values_list(*columns, named=True)
+
+        index = [i + 1 for i, _ in enumerate(data)]
+
+        df = pd.DataFrame(data=data, index=index, columns=columns)
+        df['date'] = pd.to_datetime(df['date'], errors='coerce').dt.strftime("%Y-%m-%d %H:%M:%S")
+
+        df['point'] = df['point'].apply(lambda p: f'{p.centroid.y},{p.centroid.x}' if p else None)
+
+        df.to_excel(writer, 'Impacts')
+        writer.save()
+        bio.seek(0)
+
+        response = HttpResponse(bio, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename=event-{pk}.xlsx'
+        return response
 
 
 class DocumentEffectViewSet(DynamicModelViewSet):

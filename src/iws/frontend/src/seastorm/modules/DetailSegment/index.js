@@ -8,6 +8,8 @@ import True from '../../assets/True.png'
 import None from '../../assets/None.png'
 import ListEvents from '../ListEvents';
 import SegmentMap from '../../../components/SegmentMap';
+import { authSelectors } from '../../store/auth.slice';
+import { useSelector } from 'react-redux';
 
 function IconRender(value) {
     const style = { width: '2rem' }
@@ -22,6 +24,7 @@ function IconRender(value) {
 export default function SegmentPage() {
     const { id } = useParams()
     const { data, isLoading, isError, isSuccess, error } = useGetSegmentQuery({ id, params: '?include[]=sea&include[]=geom' });
+    const isAuthenticated = useSelector(authSelectors.isAuthenticated);
 
     console.log(data);
 
@@ -42,6 +45,7 @@ export default function SegmentPage() {
                         </div>
                         
                         <div className='ms-auto d-flex align-items-start'>
+                            {isAuthenticated && <Button variant="info" className="me-1" as={Link} to={`/api/v2/coastalsegment/${id}/export/`} target="_blank">Export Events <i className='fa fa-download' /></Button>}
                             <Button className="me-1" as={Link} to="/sea_storm_atlas/map/" target="_blank">Open Map</Button>
                         </div>
                     </div>
