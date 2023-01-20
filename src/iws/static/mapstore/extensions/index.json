@@ -2,6 +2,9 @@
   "GeoTour": {
       "bundle": "GeoTour/index.js",
       "translations": "GeoTour/translations",
-      "assets": "GeoTour/assets"
+      "assets": "GeoTour/assets",
+      "__dev_bundle": "http://localhost:8082/extension/index.js",
+      "__dev_translations": "/static/mapstore/extensions/GeoTour/extension/translations",
+      "__dev_assets": "http://localhost:8082/extension/assets"
   }
 }
