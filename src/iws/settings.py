@@ -76,6 +76,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     PROJECT_NAME + ".polls",
     'webpack_loader',
     'solo',
+    'iws.mapstore_extensions',
 )
 
 
@@ -287,3 +288,5 @@ WEBPACK_LOADER = {
     'STATS_FILE': os.path.join(LOCAL_ROOT, 'frontend', 'webpack-stats.json')
   }
 }
+
+TEMPLATES[0]['OPTIONS']['context_processors'].append('iws.mapstore_extensions.context_processors.mapstore_extensions')

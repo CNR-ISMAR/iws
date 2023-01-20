@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM node:16 as floodmaps-ext-build
 
-COPY ./src/iws/flooding_maps_ext/ /usr/src
+COPY ./src/iws/mapstore_extensions/geotour/ /usr/src
 WORKDIR /usr/src
 
 RUN npm install

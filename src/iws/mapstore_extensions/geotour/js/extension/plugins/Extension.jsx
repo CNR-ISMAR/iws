@@ -42,16 +42,15 @@ function Extension({
     id = "geo-tour-plugin",
     dockStyle = {},
     // coming from connect function connected to the store
-    enabled = false,
+    enabled = true,
     showCloseButton = true,
     // use tmap from connect if we need (eg for get center)
     groups,
     updateNode,
     //  coming from connect function mapDispatch
     onClose = () => {},
-    flyTo = () => {}
+    flyTo = () => {},
 }) {
-
     // Add code to do something to change what we have in what we Render with return 
    
    const [flyToEnabled, setFlyToEnabled] = useState(true);
@@ -125,7 +124,7 @@ export default {
     containers: {
       Toolbar: {
         name: "GeoTour",
-        position: 10,
+        position: 5,
         tooltip: "GeoTour",
         icon: <Glyphicon glyph="bookmark" />,
         doNotHide: true,

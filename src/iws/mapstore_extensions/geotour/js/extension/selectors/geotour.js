@@ -1,7 +1,9 @@
 import { head, isArray } from 'lodash';
 
-export const sampleExtensionSelector  = state => state?.sampleExtension?.value;
 export const geotourEnabledSelector  = state => state?.controls?.geotour?.enabled;
+
+export const wholeSelector  = state => state;
+
 
 /**
  * this selector allows you to fetch all the layers from the dedicated part of the store i.e. "layers",
