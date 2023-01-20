@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { Button, Card, Glyphicon } from 'react-bootstrap';
 import { createSelector } from 'reselect';
 import Rx from "rxjs";
-import {Glyphicon} from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 
@@ -21,6 +20,7 @@ import { connect } from 'react-redux';
 // mapstore
 import { zoomToExtent } from "@mapstore/framework/actions/map";
 import { setControlProperty, toggleControl } from "@mapstore/framework/actions/controls";
+import { updateNode } from "@mapstore/framework/actions/layers";
 
 /* COMPONENTS */
 // mapstore
@@ -32,7 +32,7 @@ import Message from "@mapstore/framework/components/I18N/Message";
 import { mapSelector } from '@mapstore/framework/selectors/map';
 import { layersSelector, groupsSelector, rawGroupsSelector } from '@mapstore/framework/selectors/layers';
 // custom
-import { geotourEnabledSelector } from '../selectors/geotour';
+import { geotourEnabledSelector, wholeSelector } from '../selectors/geotour';
 
 /* CUSTOM LOCAL STYLE */
 import '@js/extension/assets/style.css';
@@ -50,6 +50,7 @@ function Extension({
     showCloseButton = true,
     // use tmap from connect if we need (eg for get center)
     groups,
+    updateNode,
     //  coming from connect function mapDispatch
     onClose = () => {},
     flyTo = () => {}
@@ -58,26 +59,38 @@ function Extension({
     // Add code to do something to change what we have in what we Render with return 
    
    const [flyToEnabled, setFlyToEnabled] = useState(true);
+
+    const showOnlyGroup = (groupIndex) => {
+        console.log(groups, groupIndex);
+        groups.forEach((g, i) => {
+            g.nodes.forEach(n => {
+                updateNode(n.id ,'wms', { visibility: groupIndex === i })
+            })
+        })
+    }
+
    return enabled ? (<DockablePanel
     open={enabled}
     // dock // If dock -> the panel is placed in the following position
     // position="right"
+    dock
     bsStyle="primary"
     draggable={false}
     size={200}
-    title={<Message msgId="Places"/>}
+    title={<Message msgId="geotour.title"/>}
     onClose={showCloseButton ? onClose : null}
     // glyph="globe"
     style={dockStyle}
  >
-        { groups.map((group) => {
+        { groups.map((group, index) => {
         //   console.log(group.title)
             return (
                 <div className="gd-center">
-                <Button variant="primary" style={{ width: "80%" }} disabled={!flyToEnabled} onClick={() => {
-                    // console.log(group.nodes[0].bbox.bounds)    
-                    // console.log(group.nodes[0].bbox.crs)
-                    flyTo(group.nodes[0].bbox.bounds, group.nodes[0].bbox.crs, 20, {duration: 1000});
+                <Button variant="secondary" style={{ width: "80%" }} disabled={!flyToEnabled} onClick={() => {
+                    showOnlyGroup(index)
+                    if (group.nodes.length > 0) {
+                        flyTo(group.nodes[0].bbox.bounds, group.nodes[0].bbox.crs, 20, {duration: 1000});
+                    }
                     }}> {group.title} </Button>
                 </div>    
             );            
@@ -98,13 +111,14 @@ const ConnectedExtension = connect(
         groupsSelector,
        ], (enabled, groups) => ({
            enabled,
-           groups
+           groups,
     })),
    {
       /** ACTIONS */
       // Custom
       // mapstore
         flyTo: zoomToExtent,
+        updateNode,
         onClose: setControlProperty.bind(null, "geotour", "enabled", false, false)
    })(Extension);
 
@@ -119,8 +133,7 @@ export default {
       Toolbar: {
         name: "GeoTour",
         position: 10,
-        text: <Message msgId="geotour.description" />,
-        tooltip: "geotour.title",
+        tooltip: <Message msgId="geotour.title" />,
         icon: <Glyphicon glyph="bookmark" />,
         doNotHide: true,
         action: toggleControl.bind(null, 'geotour', null),
