@@ -27,11 +27,11 @@ const DESCRIBE_DOMAIN_BASE = {
     '@_version': '1.2',
     SpaceDomain: {
       BoundingBox: {
-        '@_CRS': 'CRS:84',
-        '@_minx': '12.210000038146973',
-        '@_miny': '36.66999816894531',
-        '@_maxx': '22.3700008392334',
-        '@_maxy': '45.849998474121094',
+        '@_CRS': null,
+        '@_minx': null,
+        '@_miny': null,
+        '@_maxx': null,
+        '@_maxy': null,
       }
     },
     DimensionDomain: {
@@ -66,16 +66,24 @@ const HISTOGRAM_BASE = {
 
 const OVERRIDE_LATEST = [
   [/TMES_sea_level_(\d{8})\.nc/g, 'TMES_sea_level_latest.nc'],
+  [/TMES_waves_(\d{8})\.nc/g, 'TMES_waves_latest.nc'],
 ]
 
+function replaceLatest(asked, res) {
+  res.pathname = asked.pathname.replaceAll('latest', format(new Date(), 'yyyyMMdd'))
+}
+
+function replaceLatestWMTS(asked, res) {
+  res.pathname = asked.pathname.replaceAll('latest', format(new Date(), 'yyyyMMdd'))
+  res.pathname = res.pathname.replaceAll('/geoserver/gwc/service/wmts', '')
+}
+
 const REWRITE_PATHS = {
-  '/thredds/wms/tmes/TMES_sea_level_latest.nc': (asked, res) => {
-    res.pathname = asked.pathname.replaceAll('latest', format(new Date(), 'yyyyMMdd'))
-  },
-  '/thredds/wms/tmes/TMES_sea_level_latest.nc/geoserver/gwc/service/wmts': (asked, res) => {
-    res.pathname = asked.pathname.replaceAll('latest', format(new Date(), 'yyyyMMdd'))
-    res.pathname = res.pathname.replaceAll('/geoserver/gwc/service/wmts', '')
-  }
+  '/thredds/wms/tmes/TMES_sea_level_latest.nc': replaceLatest,
+  '/thredds/wms/tmes/TMES_sea_level_latest.nc/geoserver/gwc/service/wmts': replaceLatestWMTS,
+
+  '/thredds/wms/tmes/TMES_waves_latest.nc': replaceLatest,
+  '/thredds/wms/tmes/TMES_waves_latest.nc/geoserver/gwc/service/wmts': replaceLatestWMTS,
 }
 
 function sget(obj, attr) {
@@ -86,16 +94,85 @@ function sget(obj, attr) {
   }
 }
 
+
+const LAYER_STYLES = {
+  'sea_level-mean': {
+    STYLES: 'boxfill/alg2',
+    colorscalerange: '-0.8,0.8',
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+    numcolorbands: 100,
+  },
+  'sea_level-std': {
+    STYLES: 'boxfill/redblue',
+    colorscalerange: '-0.4,0.4',
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+  },
+  'wsh-mean': {
+    STYLES: 'boxfill/occam',
+    colorscalerange: '0,8',
+    markerscale: 15,
+    markerspacing: 12,
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+    markerclipping: true,
+  },
+  'wmp-mean': {
+    STYLES: 'boxfill/alg',
+    colorscalerange: '0,10',
+    markerscale: 15,
+    markerspacing: 12,
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+    markerclipping: true,
+  },
+  'wmd-mean': {
+    STYLES: 'prettyvec/greyscale',
+    colorscalerange: '0,360',
+    markerscale: 15,
+    markerspacing: 12,
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+    markerclipping: true,
+  },
+
+  'wmp-std': {
+    STYLES: 'boxfill/alg',
+    colorscalerange: '-5,5',
+    markerscale: 15,
+    markerspacing: 12,
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+    markerclipping: true,
+  },
+  'wsh-std': {
+    STYLES: 'boxfill/occam',
+    colorscalerange: '-2,2',
+    markerscale: 15,
+    markerspacing: 12,
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+    markerclipping: true,
+  },
+  'wmd-std': {
+    STYLES: '',
+    colorscalerange: '-10,10',
+    markerscale: 15,
+    markerspacing: 12,
+    abovemaxcolor: 'extend',
+    belowmincolor: 'extend',
+    markerclipping: true,
+  },
+}
+
 function manageQS(qs) {
   let res = {}
   if (sget(qs, 'REQUEST') === 'GetMap') {
+    const extra = LAYER_STYLES[sget(qs, 'layers')] ? LAYER_STYLES[sget(qs, 'layers')] : {}
     res = {
       ...qs,
-      STYLES: 'boxfill/alg2',
-      colorscalerange: '-0.8,0.8',
-      abovemaxcolor: 'extend',
-      belowmincolor: 'extend',
-      numcolorbands: 100,
+      ...extra,
       uppercase: false,
     }
 
@@ -166,6 +243,10 @@ const PROCESS_ONLY = [
 app.use('/', proxy(ENV.targetUrl, {
   proxyReqPathResolver: handle_dataset_latest,
   userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
+    if (proxyRes.statusCode !== 200) {
+      console.log(proxyResData.toString('utf-8'));
+    }
+
     if (PROCESS_ONLY.includes(proxyRes.headers['content-type'])) {
       let body = proxyResData.toString('utf-8')
       body = overrideBase(body);
@@ -203,7 +284,7 @@ app.use('/', proxy(ENV.targetUrl, {
 
       if (userReq.url.indexOf('GetDomainValues') > -1) {
         jsonResponse = parser.parse(body)
-        const asked_url = new URL(userReq.url, 'https://iws.ismar.cnr.it/');
+        const asked_url = new URL(userReq.url, ENV.targetUrl);
         let qs = querystring.parse(asked_url.search.substring(1));
 
         res = { 
@@ -238,7 +319,7 @@ app.use('/', proxy(ENV.targetUrl, {
       
       if (userReq.url.indexOf('GetHistogram') > -1) {
         jsonResponse = parser.parse(body)
-        const asked_url = new URL(userReq.url, 'https://iws.ismar.cnr.it/');
+        const asked_url = new URL(userReq.url, ENV.targetUrl);
         let qs = querystring.parse(asked_url.search.substring(1));
 
         res = { 
