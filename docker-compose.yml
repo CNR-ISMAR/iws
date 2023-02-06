@@ -235,9 +235,10 @@ services:
       context: ./thredds_proxy/
       dockerfile: Dockerfile
     container_name: tds_proxy${COMPOSE_PROJECT_NAME}
-    volumes:
-      - ./thredds_proxy/index.js:/usr/src/app/index.js
-    command: npm run dev
+    # volumes:
+    #   - ./thredds_proxy/index.js:/usr/src/app/index.js
+    # command: npm run dev
+    command: npm start
     ports:
       - 5555:5555
 volumes:
