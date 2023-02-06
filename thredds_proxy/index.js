@@ -1,0 +1,271 @@
+
+var proxy = require('express-http-proxy');
+var app = require('express')();
+const { XMLParser, XMLBuilder } = require("fast-xml-parser");
+const format = require('date-fns/format');
+const querystring = require('node:querystring');
+const process = require('process');
+
+
+const ENV = {
+  targetUrl: process.env.TARGET_URL || 'https://iws.ismar.cnr.it',
+  currentDomain: process.env.CURRENT_DOMAIN || 'http://tds.proxy:5555',
+  port: parseInt(process.env.PORT || '5555'),
+}
+
+
+const options = {
+  ignoreAttributes: false,
+}
+const parser = new XMLParser(options);
+const builder = new XMLBuilder(options);
+const XML_PREFIX = '<?xml version="1.0" encoding="UTF-8"?>'
+const DESCRIBE_DOMAIN_BASE = {
+  Domains: {
+    '@_xmlns': 'http://demo.geo-solutions.it/share/wmts-multidim/wmts_multi_dimensional.xsd',
+    '@_xmlns:ows': 'http://www.opengis.net/ows/1.1',
+    '@_version': '1.2',
+    SpaceDomain: {
+      BoundingBox: {
+        '@_CRS': 'CRS:84',
+        '@_minx': '12.210000038146973',
+        '@_miny': '36.66999816894531',
+        '@_maxx': '22.3700008392334',
+        '@_maxy': '45.849998474121094',
+      }
+    },
+    DimensionDomain: {
+      'ows:Identifier': 'time',
+      'Domain': null,
+      'size': null
+    }
+  }
+}
+
+const GET_DOMAIN_VALUES_BASE = {
+  DomainValues: {
+    '@_xmlns': 'http://demo.geo-solutions.it/share/wmts-multidim/wmts_multi_dimensional.xsd',
+    '@_xmlns:ows': 'http://www.opengis.net/ows/1.1',
+    'ows:Identifier': 'time',
+    Domain: null,
+    Size: null,
+    Limit: null,
+    Sort: null
+  }
+}
+
+const HISTOGRAM_BASE = {
+  Histogram: {
+    '@_xmlns': 'http://demo.geo-solutions.it/share/wmts-multidim/wmts_multi_dimensional.xsd',
+    '@_xmlns:ows': 'http://www.opengis.net/ows/1.1',
+    'ows:Identifier': 'time',
+    Domain: null,
+    Values: null,
+  }
+}
+
+const OVERRIDE_LATEST = [
+  [/TMES_sea_level_(\d{8})\.nc/g, 'TMES_sea_level_latest.nc'],
+]
+
+const REWRITE_PATHS = {
+  '/thredds/wms/tmes/TMES_sea_level_latest.nc': (asked, res) => {
+    res.pathname = asked.pathname.replaceAll('latest', format(new Date(), 'yyyyMMdd'))
+  },
+  '/thredds/wms/tmes/TMES_sea_level_latest.nc/geoserver/gwc/service/wmts': (asked, res) => {
+    res.pathname = asked.pathname.replaceAll('latest', format(new Date(), 'yyyyMMdd'))
+    res.pathname = res.pathname.replaceAll('/geoserver/gwc/service/wmts', '')
+  }
+}
+
+function sget(obj, attr) {
+  if (obj[attr.toLowerCase()]) {
+    return obj[attr.toLowerCase()]
+  } else {
+    return obj[attr.toUpperCase()]
+  }
+}
+
+function manageQS(qs) {
+  let res = {}
+  if (sget(qs, 'REQUEST') === 'GetMap') {
+    res = {
+      ...qs,
+      STYLES: 'boxfill/alg2',
+      colorscalerange: '-0.8,0.8',
+      abovemaxcolor: 'extend',
+      belowmincolor: 'extend',
+      numcolorbands: 100,
+      uppercase: false,
+    }
+
+    if (sget(qs, 'time')) {
+      qs.TIME = sget(qs, 'time').replaceAll(/\:\d{2}:\d{2}\.\d{3}Z/g, ':00:00.000Z')
+      qs.time = null;
+      delete qs.time;
+    }
+  } else if (sget(qs, 'REQUEST') === 'DescribeDomains') {
+    res = {
+      service: 'WMS',
+      REQUEST: 'GetCapabilities',
+      layer: qs.layer,
+    }
+  } else if (sget(qs, 'REQUEST') === 'GetDomainValues') {
+    res = {
+      service: 'WMS',
+      REQUEST: 'GetCapabilities',
+      layer: qs.layer,
+    }
+  } else if (sget(qs, 'REQUEST') === 'GetHistogram') {
+    res = {
+      service: 'WMS',
+      REQUEST: 'GetCapabilities',
+      layer: qs.layer,
+    }
+  } else {
+    return qs;
+  }
+
+  return res
+}
+
+function handle_dataset_latest(req) {
+  let url = req.url;
+  const asked_url = new URL(url, ENV.targetUrl);
+  let res_url = new URL(url, ENV.targetUrl);
+
+  if (REWRITE_PATHS[asked_url.pathname]) {
+    REWRITE_PATHS[asked_url.pathname](asked_url, res_url) 
+  }
+
+  let qs = querystring.parse(asked_url.search.substring(1))
+  qs = manageQS(qs)
+
+  return res_url.pathname + '?' + querystring.stringify(qs);
+}
+
+function overrideBase(body) {
+  return body.replaceAll(ENV.targetUrl, ENV.currentDomain)
+}
+
+
+function overrideDatasetLatest(body) {
+  let res = body;
+  for (let entry of OVERRIDE_LATEST) {
+    res = res.replaceAll(entry[0], entry[1]);
+  }
+  return res;
+}
+
+const PROCESS_ONLY = [
+  'application/xml;charset=UTF-8',
+  'application/xml',
+]
+
+
+app.use('/', proxy(ENV.targetUrl, {
+  proxyReqPathResolver: handle_dataset_latest,
+  userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
+    if (PROCESS_ONLY.includes(proxyRes.headers['content-type'])) {
+      let body = proxyResData.toString('utf-8')
+      body = overrideBase(body);
+      body = overrideDatasetLatest(body);
+
+      if (userReq.url.indexOf('DescribeDomain') > -1) {
+        jsonResponse = parser.parse(body);
+
+        res = { 
+          ...DESCRIBE_DOMAIN_BASE,
+        };
+
+        try {
+          timeDimensions = jsonResponse.WMS_Capabilities.Capability.Layer.Layer.Layer.Dimension['#text'].split(',');
+
+          timeDimensions.sort()
+          timeDimensions = [timeDimensions[0], timeDimensions[timeDimensions.length - 1]]
+          res.Domains.DimensionDomain.Domain = timeDimensions.join('--')
+          res.Domains.DimensionDomain.Size = timeDimensions.length
+
+
+          bbox = jsonResponse.WMS_Capabilities.Capability.Layer.Layer.Layer.BoundingBox;
+          res.Domains.SpaceDomain.BoundingBox['@_CRS'] = bbox['@_CRS']
+          res.Domains.SpaceDomain.BoundingBox['@_maxx'] = bbox['@_maxx']
+          res.Domains.SpaceDomain.BoundingBox['@_maxy'] = bbox['@_maxy']
+          res.Domains.SpaceDomain.BoundingBox['@_minx'] = bbox['@_minx']
+          res.Domains.SpaceDomain.BoundingBox['@_miny'] = bbox['@_miny']
+
+        } catch(e) {
+          console.error(e);
+        }
+
+        return XML_PREFIX + builder.build(res)
+      }
+
+      if (userReq.url.indexOf('GetDomainValues') > -1) {
+        jsonResponse = parser.parse(body)
+        const asked_url = new URL(userReq.url, 'https://iws.ismar.cnr.it/');
+        let qs = querystring.parse(asked_url.search.substring(1));
+
+        res = { 
+          DomainValues: {
+            ...GET_DOMAIN_VALUES_BASE.DomainValues,
+            Sort: qs.sort,
+            Limit: qs.limit,
+          }
+        };
+
+        try {
+          timeDimensions = jsonResponse.WMS_Capabilities.Capability.Layer.Layer.Layer.Dimension['#text'].split(',');
+
+          timeDimensions.sort()
+          if (qs.sort === 'desc') {
+            timeDimensions.reverse()
+          }
+          if (qs.fromValue) {
+            from = new Date(qs.fromValue)
+            timeDimensions = timeDimensions.filter(t => qs.sort === 'asc' ? new Date(t) > from : new Date(t) < from)
+          }
+
+          timeDimensions.length = parseInt(qs.limit)
+          res.DomainValues.Domain = timeDimensions.join(',')
+          res.DomainValues.Size = timeDimensions.length
+        } catch(e) {
+          console.error(e);
+        }
+        
+        return XML_PREFIX + builder.build(res)
+      }
+      
+      if (userReq.url.indexOf('GetHistogram') > -1) {
+        jsonResponse = parser.parse(body)
+        const asked_url = new URL(userReq.url, 'https://iws.ismar.cnr.it/');
+        let qs = querystring.parse(asked_url.search.substring(1));
+
+        res = { 
+          Histogram: {
+            ...HISTOGRAM_BASE.Histogram,
+          }
+        };
+
+        try {
+          timeDimensions = jsonResponse.WMS_Capabilities.Capability.Layer.Layer.Layer.Dimension['#text'].split(',');
+          res.Histogram.Domain = timeDimensions.join(',')
+          res.Histogram.Values = ''
+        } catch(e) {
+          console.error(e);
+        }
+        
+        return XML_PREFIX + builder.build(res)
+      }
+
+      return body;
+    }
+    return proxyResData;
+  },
+  proxyErrorHandler: function(err, res, next) {
+    console.log(err);
+    next(err);
+  }
+}));
+
+app.listen(ENV.port)

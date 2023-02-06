@@ -229,6 +229,17 @@ services:
     volumes:
       - statics:/mnt/volumes/statics
 
+  tds.proxy:
+    image: ${COMPOSE_PROJECT_NAME}_tds_proxy
+    build:
+      context: ./thredds_proxy/
+      dockerfile: Dockerfile
+    container_name: tds_proxy${COMPOSE_PROJECT_NAME}
+    volumes:
+      - ./thredds_proxy/index.js:/usr/src/app/index.js
+    command: npm run dev
+    ports:
+      - 5555:5555
 volumes:
   jenkins_data:
     driver: local
