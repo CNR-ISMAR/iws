@@ -166,6 +166,42 @@ const LAYER_STYLES = {
   },
 }
 
+const LAYER_PALETTE = {
+  'sea_level-mean': {
+    palette: 'alg2',
+    colorbaronly: true,
+  },
+  'sea_level-std': {
+    palette: 'redblue',
+    colorbaronly: true,
+  },
+  'wsh-mean': {
+    palette: 'occam',
+    colorbaronly: true,
+  },
+  'wmp-mean': {
+    colorbaronly: true,
+    palette: 'alg',
+  },
+  'wmd-mean': {
+    palette: 'rainbow',
+    colorbaronly: true,
+  },
+
+  'wmp-std': {
+    palette: 'alg',
+    colorbaronly: true,
+  },
+  'wsh-std': {
+    palette: 'occam',
+    colorbaronly: true,
+  },
+  'wmd-std': {
+    palette: 'rainbow',
+    colorbaronly: true,
+  },
+}
+
 function manageQS(qs) {
   let res = {}
   if (sget(qs, 'REQUEST') === 'GetMap') {
@@ -198,6 +234,13 @@ function manageQS(qs) {
       service: 'WMS',
       REQUEST: 'GetCapabilities',
       layer: qs.layer,
+    }
+
+  } else if (sget(qs, 'REQUEST') === 'GetLegendGraphic') {
+    const extra = LAYER_PALETTE[sget(qs, 'layers')] ? LAYER_PALETTE[sget(qs, 'layers')] : {};
+    res = {
+      ...qs,
+      ...extra,
     }
   } else {
     return qs;
