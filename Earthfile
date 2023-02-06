@@ -69,7 +69,7 @@ letsencrypt:
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
 
 
-tds_proxy:
+tdsproxy:
     ARG EARTHLY_GIT_HASH
     ARG EARTHLY_TARGET_NAME
     ARG BRANCH

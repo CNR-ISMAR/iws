@@ -150,7 +150,7 @@ jobs:
         tags: |
           ${{ github.ref_name }}
 
-  tds_proxy:
+  tdsproxy:
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
@@ -177,7 +177,7 @@ jobs:
     - name: Earthly version
       run: earthly --version
     - name: build tds_proxy
-      run: earthly --ci --push +tds_proxy --BRANCH=$GITHUB_SHA --USER=${GITHUB_REPOSITORY_OWNER,,}
+      run: earthly --ci --push +tdsproxy --BRANCH=$GITHUB_SHA --USER=${GITHUB_REPOSITORY_OWNER,,}
     - name: Add tags
       uses: shrink/actions-docker-registry-tag@v2
       with:
