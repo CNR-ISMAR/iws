@@ -1,1 +1,1 @@
-iws-ms-client-v1.0.0-4c63ae7d8651f2dee39af838131b716482995190
+iws-ms-client-v1.0.0-bc79dcfaecb40bceb245ab639d905bf1a21ab5d8

@@ -19,14 +19,18 @@ export const layersSelector = ({layers, config} = {}) => layers && isArray(layer
 */
 export const getLayerFromId = (state, id) => head(layersSelector(state).filter(l => l.id === id));
 
-/**
- * USAGE:
- *
- * in epics
- * const layer = getLayerFromId(store.getState(), myId);
 
- * in connect
- * state => getLayerFromId(state, myId);
- * or
- * state => getLayerFromId(state, getSpecificId(state));
-*/
+export const layerSelector2 = (state) => {
+  const layers = state.layers.flat.filter(layer => filterLayers(layer));
+  return layers.reverse();
+};
+
+function filterLayers(layer) {
+  if (layer.group != 'background' && layer.visibility) {
+      return layer;
+  }
+}
+
+export const getStyleeditor = (state) => {
+  return state.styleeditor;
+}
