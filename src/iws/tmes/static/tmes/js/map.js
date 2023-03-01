@@ -104,60 +104,55 @@ L.control.dateSelector = function (opts) {
 
 L.control.dateSelector({ position: 'bottomleft' }).addTo(map);
 
-
-$.getJSON("/static/tmes/js/stations.json", function (markers) {
-  window.TMES.markers = markers;
-
-  window.TMES.LAYERS_ORDER.forEach(lid => {
-    const layer = window.TMES.LAYERS[lid];
-    window.TMES.LEAFLET_LAYERS[lid] = L.nonTiledLayer.wms(layer.url, layer.options);
-    window.TMES.TIME_DIMENSIONS[lid] = L.timeDimension.layer.wms.timeseries(window.TMES.LEAFLET_LAYERS[lid], { ...layer.time, markers })
-    window.TMES.LEGENDS[lid] = L.control({
-      position: 'bottomright'
-    })
-    window.TMES.LEGENDS[lid].onAdd = () => {
-      return createLegend(layer);
-    }
-
-    if (layer.defaultEnable) {
-      window.TMES.INITIAL_LAYER = lid;
-    }
+window.TMES.LAYERS_ORDER.forEach(lid => {
+  const layer = window.TMES.LAYERS[lid];
+  window.TMES.LEAFLET_LAYERS[lid] = L.nonTiledLayer.wms(layer.url, layer.options);
+  window.TMES.TIME_DIMENSIONS[lid] = L.timeDimension.layer.wms.timeseries(window.TMES.LEAFLET_LAYERS[lid], { ...layer.time, markers: [] })
+  window.TMES.LEGENDS[lid] = L.control({
+    position: 'bottomright'
   })
+  window.TMES.LEGENDS[lid].onAdd = () => {
+    return createLegend(layer);
+  }
 
-  const overlayMaps = window.TMES.LAYERS_ORDER.reduce((p, lid) => ({
-    ...p,
-    [window.TMES.LAYERS[lid].mapName]: window.TMES.TIME_DIMENSIONS[lid],
-  }), {})
+  if (layer.defaultEnable) {
+    window.TMES.INITIAL_LAYER = lid;
+  }
+})
 
-  //manage legend substitution
-  map.on('overlayadd', function (eventLayer) {
-    const lid = window.TMES.LAYER_NAMES[eventLayer.name];
-    window.TMES.ACTIVE = lid;
+const overlayMaps = window.TMES.LAYERS_ORDER.reduce((p, lid) => ({
+  ...p,
+  [window.TMES.LAYERS[lid].mapName]: window.TMES.TIME_DIMENSIONS[lid],
+}), {})
 
-    setTimeout(function () {
-      window.TMES.LAYERS_ORDER.filter(l => l !== lid).forEach(l => {
-        window.TMES.TIME_DIMENSIONS[l].removeFrom(map);
-      });
-    }, 10);
-    window.TMES.LEGENDS[lid].addTo(this);
-  });
+//manage legend substitution
+map.on('overlayadd', function (eventLayer) {
+  const lid = window.TMES.LAYER_NAMES[eventLayer.name];
+  window.TMES.ACTIVE = lid;
 
-  //remove other legend
-  map.on('overlayremove', function (eventLayer) {
-    const lid = window.TMES.LAYER_NAMES[eventLayer.name];
-    map.removeControl(window.TMES.LEGENDS[lid]);
-  });
-
-  var baseLayers = getCommonBaseLayers(map); // see baselayers.js
-  L.control.layers(baseLayers, overlayMaps, { collapsed: false, hideSingleBase: true }).addTo(map);
-
-  window.TMES.TIME_DIMENSIONS[window.TMES.INITIAL_LAYER].addTo(map);
-  setTimeout(() => {
-    const selected = OPTIONS[0];
-    map.timeDimension.setAvailableTimes(selected.times[1], 'replace');
-    map.timeDimension.setCurrentTime(selected.times[0]);
-    window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].removeFrom(map);
-    window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].addTo(map);
-  }, 2000);
+  setTimeout(function () {
+    window.TMES.LAYERS_ORDER.filter(l => l !== lid).forEach(l => {
+      window.TMES.TIME_DIMENSIONS[l].removeFrom(map);
+    });
+  }, 10);
+  window.TMES.LEGENDS[lid].addTo(this);
 });
+
+//remove other legend
+map.on('overlayremove', function (eventLayer) {
+  const lid = window.TMES.LAYER_NAMES[eventLayer.name];
+  map.removeControl(window.TMES.LEGENDS[lid]);
+});
+
+var baseLayers = getCommonBaseLayers(map); // see baselayers.js
+L.control.layers(baseLayers, overlayMaps, { collapsed: false, hideSingleBase: true }).addTo(map);
+
+window.TMES.TIME_DIMENSIONS[window.TMES.INITIAL_LAYER].addTo(map);
+setTimeout(() => {
+  const selected = OPTIONS[0];
+  map.timeDimension.setAvailableTimes(selected.times[1], 'replace');
+  map.timeDimension.setCurrentTime(selected.times[0]);
+  window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].removeFrom(map);
+  window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].addTo(map);
+}, 2000);
 
