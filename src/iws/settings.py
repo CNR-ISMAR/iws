@@ -52,6 +52,7 @@ SITENAME = os.getenv("SITENAME", 'iws')
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
 LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.basename(__file__)))
 
 WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 
@@ -73,6 +74,9 @@ INSTALLED_APPS = INSTALLED_APPS + (
     PROJECT_NAME + '.tmes',
     PROJECT_NAME + ".dashboards",
     PROJECT_NAME + ".polls",
+    'webpack_loader',
+    'solo',
+    'iws.mapstore_extensions',
 )
 
 
@@ -81,7 +85,10 @@ ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
 
 # Additional directories which hold static files
 # - Give priority to local geonode-project ones
-STATICFILES_DIRS = [os.path.join(LOCAL_ROOT, "static"), ] + STATICFILES_DIRS
+STATICFILES_DIRS = [
+    os.path.join(LOCAL_ROOT, "static"),
+    os.path.join(LOCAL_ROOT, "frontend", "static"),
+] + STATICFILES_DIRS
 
 # Location of locale files
 LOCALE_PATHS = (
@@ -275,3 +282,11 @@ FCM_DJANGO_SETTINGS = {
         "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY', 'NO KEY..'),
         # "DELETE_INACTIVE_DEVICES": False
 }
+
+WEBPACK_LOADER = {
+  'DEFAULT': {
+    'STATS_FILE': os.path.join(LOCAL_ROOT, 'frontend', 'webpack-stats.json')
+  }
+}
+
+TEMPLATES[0]['OPTIONS']['context_processors'].append('iws.mapstore_extensions.context_processors.mapstore_extensions')

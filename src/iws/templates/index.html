@@ -7,7 +7,7 @@
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
-        <link href="{% static 'mapstore/dist/themes/geonode.css' %}?{% client_version %}" rel="stylesheet" />
+        <link href="{% static 'mapstore/dist/themes/geonode.css' %}" rel="stylesheet" />
         <link href="{% static 'css/site_base.css' %}" rel="stylesheet" />
         <title>{{ SITE_NAME }}</title>
         <link rel="shortcut icon" href="{% static 'geonode/img/favicon.ico' %}" />
@@ -33,31 +33,25 @@
                     <div class="container py-2">
                         <p>The <a href="https://istorms.adrioninterreg.eu/" target="_blank">I-STORMS project</a> seeks to improve the early warning and civil protection procedures in sea storm emergencies. I-STORMS aims through transnational cooperation to enhance innovative policies and develop joint strategies to safeguard the Adriatic-Ionian area from sea storms.</p>
                         <p>
-                        The I-STORMS Web System is a combination of a common data system for sharing ocean 
-                        <a href="/dashboards/"> measurements</a> and forecasts, a 
-                        <a href="/tmes/">multi-model forecasting system</a>, a <a href="/layers/">geoportal</a> and interactive geo-visualization tools to make results available to the general public (<a href="http://www.seastorms.eu/">Open I-STORMS</a>). 
+                            The I-STORMS Web System is a combination of a common data
+                            system for sharing <a href="/dashboards/">measurements</a> and forecasts, <a href="/tmes/">a multi-model sea
+                            forecasting system</a>, a <a href="/catalogue/">geoportal</a> and interactive geo-visualization
+                            tools to make results available to the general public (<a href="http://www.seastorms.eu/">Open I-STORMS</a>)
                         </p>
                         <p>
-                        This project is supported by the <a href="https://www.adrioninterreg.eu/">Interreg ADRION programme</a> funded under the European Regional Development Fund and IPA II fund.
+                            The I-STORMS Web System was developed within the framework
+                            of the project I-STORMS, supported by the <a href="https://www.adrioninterreg.eu/">Interreg ADRION
+                            programme</a>, and the STREAM, project supported by the Interreg
+                            ITALY-CROATIA programme, funded under the European Regional
+                            Development Fund and IPA II fund.
+                        </p>
+                        <p>
+                            Contents are published under license CC-BY (© I-STORMS Partners) or CC-BY-NC-SA (© City of Venice)
                         </p>
                     </div>
                 </div>
                 {% endblock %}
 
-                {% block container %}
-                    <div id="container">
-                        <div class="gn-main-event-container">
-                            <div class="gn-main-event-content">
-                                <div class="gn-main-loader"></div>
-                                <div class="gn-main-event-text"></div>
-                            </div>
-                        </div>
-                    </div>
-                {% endblock %}
-
-                {% block ms_scripts %}
-                    <script id="gn-script" src="{% static 'mapstore/dist/js/gn-home.js' %}?{% client_version %}"></script>
-                {% endblock %}
 
                 {% block footer %}
                     {% include './geonode-mapstore-client/snippets/footer.html' %}

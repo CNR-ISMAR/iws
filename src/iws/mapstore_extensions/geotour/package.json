@@ -1,0 +1,59 @@
+{
+  "name": "iws-ms-client",
+  "version": "1.0.0",
+  "description": "mapstore extension",
+  "eslintConfig": {
+    "extends": [
+      "@mapstore/eslint-config-mapstore"
+    ],
+    "parserOptions": {
+      "babelOptions": {
+        "configFile": "./node_modules/mapstore/build/babel.config.js"
+      }
+    },
+    "globals": {
+      "__MAPSTORE_PROJECT_CONFIG__": false,
+      "__MAPSTORE_EXTENSION_CONFIG__": false
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all",
+      "not IE 11",
+      "not UCAndroid 12.12"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "scripts": {
+    "compile": "mapstore-project compile extension && node ./postCompile.js",
+    "build": "mapstore-project compile extension",
+    "lint": "eslint js --ext .jsx,.js",
+    "start": "mapstore-project start extension",
+    "test": "mapstore-project test extension",
+    "test:watch": "mapstore-project test:watch extension"
+  },
+  "devDependencies": {
+    "@mapstore/project": "1.0.25"
+  },
+  "dependencies": {
+    "file-loader": "^6.2.0",
+    "mapstore": "git+https://github.com/geosolutions-it/MapStore2.git#2022.02.xx",
+    "ol": "^5.0.3",
+    "react": "^18.2.0",
+    "react-bootstrap": "0.31.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "reselect": "^4.1.7",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.0.0"
+  },
+  "mapstore": {
+    "extensionName": "GeoTour"
+  }
+}

@@ -4,6 +4,13 @@ from django.contrib.gis.db import models
 from geonode.base.models import Region
 from geonode.documents.models import Document
 
+from solo.models import SingletonModel
+
+
+class SeaStormAtlasConfiguration(SingletonModel):
+    map = models.IntegerField(default=1)
+
+
 class Sea(models.Model):
     label = models.CharField(max_length=100)
     
@@ -82,3 +89,56 @@ class StormEvent(models.Model):
 	    return bool(self.fieldname)
 
 
+class Origin(models.Model):
+    name = models.CharField(max_length=250)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    # TODO: add unique on name
+
+
+class DamageCategory(models.Model):
+    name = models.CharField(max_length=250)
+    eu_code = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    # TODO: add unique on name
+
+
+class StormEventEntry(models.Model):
+    name = models.CharField(max_length=500, blank=True, null=True)
+    date_start = models.DateTimeField(auto_now=False)
+    date_end = models.DateTimeField(auto_now=False, blank=True, null=True)
+    is_aggregated = models.BooleanField(default=False)
+    origins = models.ManyToManyField(Origin, blank=True)
+    description = models.TextField(blank=True, null=True)
+    coastalsegment = models.ForeignKey(CoastalSegment,
+                                       on_delete=models.PROTECT,
+                                       verbose_name="Coastal segment")
+    
+    def __str__(self):
+        return self.name or self.date_start.strftime('%d/%m/%Y, %H:%M:%S')
+
+
+class StormEventEffect(models.Model):
+    description = models.TextField(blank=True, null=True)
+    geom = models.PointField(srid=3035, blank=True, null=True,
+                            verbose_name='Event location',
+                            help_text='Insert a reference point related to the sea storm events')
+    damage = models.IntegerField(blank=True, null=True)
+    flooding_level = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    date = models.DateTimeField(blank=True, null=True)
+    damage_categories = models.ManyToManyField(DamageCategory, blank=True)
+    event = models.ForeignKey(StormEventEntry, on_delete=models.PROTECT, related_name="effects")
+
+
+class StormEventEffectComplete(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sea_storm_atlas_effect_complete'

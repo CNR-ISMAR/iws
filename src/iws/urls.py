@@ -18,7 +18,7 @@
 #
 #########################################################################
 
-from django.conf.urls import include
+from django.conf.urls import include, re_path
 from geonode.urls import path, urlpatterns
 
 # from iws.measurements.grafana_proxy import GraphanaProxyView
@@ -42,4 +42,5 @@ urlpatterns += (
     #tmes
     path('tmes/', include('iws.tmes.urls')),
     # url(r'grappelli/', include('grappelli.urls')),
+    re_path("^api/v2/", include('iws.sea_storm_atlas.api.urls')),
 )
