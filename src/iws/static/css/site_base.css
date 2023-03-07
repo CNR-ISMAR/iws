@@ -37,7 +37,7 @@
 }
 
 #gn-hero .interreg_logo {
-    max-width: 20vw;    
+    width: 20vw;    
     margin-right: 3rem;
     margin-bottom: 1rem;
 }
@@ -48,4 +48,8 @@
 
 .msgapi .modal-fixed {
     z-index: 9000000 !important;
+}
+
+.msgapi #gn-topbar .btn {
+    font-size: 1.2rem !important;
 }
