@@ -171,7 +171,7 @@ if LDAP_ENABLED and 'geonode_ldap' not in INSTALLED_APPS:
 
 # Project specific configurations
 CORS_ORIGIN_ALLOW_ALL = True
-UPLOADER['SUPPORTED_CRS'] += ['EPSG:900913',]
+UPLOADER['SUPPORTED_CRS'] += ['EPSG:900913', 'EPSG:3765']
 PROXY_ALLOWED_HOSTS += ('nominatim.openstreetmap.org',)
 
 # MEDIA FIXTURES
