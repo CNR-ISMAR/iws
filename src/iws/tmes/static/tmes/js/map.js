@@ -61,7 +61,7 @@ function createLegend(layer) {
     }
   }
 
-  var src = `${layer.url}?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=${layer.id}&PALETTE=${palette}&COLORBARONLY=true&WIDTH=10&HEIGHT=150`
+  var src = `${layer.url}?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=${layer.id}&PALETTE=${palette}&COLORBARONLY=true&WIDTH=20&HEIGHT=250`
   var div = L.DomUtil.create('div', 'info legend');
 
 
