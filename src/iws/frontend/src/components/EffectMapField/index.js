@@ -14,6 +14,7 @@ const FullscreenControl = createControlComponent(props => L.control.fullscreen(p
 import { useField } from 'formik';
 
 import { Form } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import LeafletControlGeocoder from '../Geocoder';
 import BaseLayers from '../BaseLayers';
 
@@ -26,13 +27,6 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
 
     console.log(field.value);
 
-    const coordinates = useMemo(() => {
-        if (!field.value) {
-            return null;
-        }
-
-        return `${field.value.coordinates[1]},${field.value.coordinates[0]}` 
-    }, [field.value])
 
     const bounds = extent ? [
         [extent[1], extent[0]],
@@ -98,7 +92,7 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
                                     remove: false,
                                 }}
                             />
-                            {field.value && (
+                            {field.value && field.value.coordinates && field.value.coordinates[1] && field.value.coordinates[0] && (
                                 <Marker position={[field.value.coordinates[1], field.value.coordinates[0]]} />
                             )}
                         </FeatureGroup>
@@ -111,11 +105,45 @@ export default function EffectMapField({ label, height = '350px', extent, segmen
                 <div className="d-flex"> 
                     <Form.Group className="me-3">
                         <Form.Label>Latitude</Form.Label>
-                        <Form.Control value={field.value.coordinates[1]} onChange={e => setValue({ ...field.value, coordinates: [field.value.coordinates[0], e.target.value]})}/>
+                        <Form.Control 
+                            type="number"
+                            value={field.value && field.value.coordinates && field.value.coordinates[1]} 
+                            onChange={e => {
+                                let val = '';
+                                try {
+                                    val = parseFloat(e.target.value)
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                                if (!val && field.value && !field.value.coordinates[0]) {
+                                    setValue(null)
+                                } else {
+                                    setValue({ ...field.value, coordinates: [field.value.coordinates[0], val]})
+                                }
+                            }}
+                        />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Longitude</Form.Label>
-                        <Form.Control value={field.value.coordinates[0]} onChange={e => setValue({ ...field.value, coordinates: [e.target.value, field.value.coordinates[1]]})} />
+                        <Form.Control 
+                            type="number"
+                            value={field.value && field.value.coordinates && field.value.coordinates[0]} 
+                            onChange={e => {
+                                let val = '';
+                                try {
+                                    val = parseFloat(e.target.value)
+                                } catch (e) {
+                                    console.log(e);
+
+                                    toast(`${e.target.value} is not a valid coordinate`)
+                                }
+                                if (!val && field.value && !field.value.coordinates[1]) {
+                                    setValue(null)
+                                } else {
+                                    setValue({ ...field.value, coordinates: [val, field.value.coordinates[1]]})
+                                }
+                            }} 
+                        />
                     </Form.Group>
                 </div>
             </div>

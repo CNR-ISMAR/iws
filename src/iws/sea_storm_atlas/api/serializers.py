@@ -19,6 +19,8 @@ class GeometryBBOX4326SerializerMethodField(serializers.Field):
         return geojson
 
     def to_internal_value(self, data):
+        if not data:
+            return None
         point = GEOSGeometry(json.dumps(data), 4326)
         point.transform(3035)
         return point
@@ -85,7 +87,7 @@ class StormEventEntrySerializer(DynamicModelSerializer):
 class StormEventEffectSerializer(DynamicModelSerializer):
     lat = serializers.SerializerMethodField()
     lon = serializers.SerializerMethodField()
-    geom = GeometryBBOX4326SerializerMethodField()
+    geom = GeometryBBOX4326SerializerMethodField(required=False, allow_null=True)
 
     class Meta:
         model = StormEventEffect
