@@ -48,6 +48,7 @@ var map = L.map('map', {
   },
 });
 
+map.fitBounds(window.TMES.FIT_BOUNDS);
 map.createPane('topPane');
 map.getPane('topPane').style.zIndex = 401;
 
