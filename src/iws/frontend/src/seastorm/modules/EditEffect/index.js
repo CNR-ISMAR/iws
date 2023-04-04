@@ -16,8 +16,10 @@ var countDecimals = function (value) {
 
 const FORM_VALIDATION = values => {
     const errors = {}
-    if (values && !values.geom) {
-        errors.geom = 'Required'
+    if (values && values.geom) {
+        if (!values.geom.coordinates[0] || !values.geom.coordinates[1]) {
+            errors.geom = 'Invalid coordinates'
+        }
     }
     if (values && values.flooding_level) {
         if (values.flooding_level >= 100) {

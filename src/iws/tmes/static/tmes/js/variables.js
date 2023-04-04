@@ -9,6 +9,10 @@ window.TMES = {
   TIME_DIMENSIONS: {},
   LEGENDS: {},
   INITIAL_LAYER: null,
+  FIT_BOUNDS: [
+    [35.6569, 10.2019],
+    [46.0763, 26.4142],
+  ],
   MAP_OPTIONS: {
     zoom: 6,
     fullscreenControl: true,

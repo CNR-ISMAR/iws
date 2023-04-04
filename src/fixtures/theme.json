@@ -101,7 +101,7 @@
         "model": "base.menuitem",
         "pk": 5,
         "fields": {
-            "title": "Open IStorm",
+            "title": "Open Sea Storms",
             "menu": 4,
             "order": 1,
             "blank_target": true,
