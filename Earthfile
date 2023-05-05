@@ -67,3 +67,13 @@ letsencrypt:
     FROM DOCKERFILE ./docker/letsencrypt/
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
     SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH
+
+
+tdsproxy:
+    ARG EARTHLY_GIT_HASH
+    ARG EARTHLY_TARGET_NAME
+    ARG BRANCH
+    ARG USER
+    FROM DOCKERFILE ./thredds_proxy/
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$BRANCH
+    SAVE IMAGE --push ghcr.io/$USER/iws/iws_$EARTHLY_TARGET_NAME:$EARTHLY_GIT_HASH

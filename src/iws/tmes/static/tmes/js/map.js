@@ -1,607 +1,159 @@
-var startDate = new Date();
-startDate.setUTCHours(0, 0, 0, 0);
+const LAST_DAY = moment().utc().startOf('days').add(2, 'days')
+const FIRST_DATE = moment().utc().year(2019).month(11).date(28).hour(1);
 
-//compute date in YYYYMMDD format
-var rightNow = new Date();
-var todayString = rightNow.toISOString().slice(0,10).replace(/-/g,"");
-var newdate = new Date();
-newdate.setDate(newdate.getDate() + 1);
+function toTimeAvailable(from, to, interval = "PT1H") {
+  return [from.valueOf(), `${from.toISOString().slice(0, 10)}/${to.toISOString().slice(0, 10)}/${interval}`];
+}
 
-var dd = newdate.getDate();
-var mm = newdate.getMonth() + 1;
-var y = newdate.getFullYear();
+const OPTIONS = [
+  {
+    id: 1, name: 'Oggi/Domani', times: toTimeAvailable(
+      moment().utc().startOf('day'),
+      LAST_DAY
+    )
+  },
+  {
+    id: 2, name: 'Settimana corrente', times: toTimeAvailable(
+      moment().utc().startOf('week').startOf('day'),
+      LAST_DAY
+    )
+  },
+  {
+    id: 3, name: 'Mese corrente', times: toTimeAvailable(
+      moment().utc().startOf('month').startOf('day'),
+      LAST_DAY
+    )
+  },
+  {
+    id: 4, name: 'Anno corrente', times: toTimeAvailable(
+      moment().utc().startOf('year').startOf('day'),
+      LAST_DAY
+    )
+  },
+  {
+    id: 5, name: 'Anno Precendente', times: toTimeAvailable(
+      moment().utc().startOf('year').startOf('day').subtract(1, 'year'),
+      LAST_DAY
+    )
+  },
+  { id: 6, name: 'Tutto', times: toTimeAvailable(FIRST_DATE, LAST_DAY) },
+]
 
-var tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-var tomorrowString = newdate.toISOString().slice(0,10).replace(/-/g,"");
-/* wmts section */
-
-// parser function: load GetCapabilities XML from given URL
-function parseGetCapabilitiesXML(getCapabilitiesURL, layerName, callback) {
-
-	var xhr = new XMLHttpRequest();
-
-		xhr.open("GET", getCapabilitiesURL);
-		xhr.onload = function() {
-    
-      var getCapabilitiesXML = xhr.responseXML;
-
-      getServiceURLTemplates(getCapabilitiesXML, layerName, callback);
-
-    };
-		
-    xhr.send();
-
-};
-
-// XMLHttpRequest.onload function: extract <Style>, <TileMatrixSet> and <ressourceURL> values from parsed GetCapabilities XML
-function getServiceURLTemplates(getCapabilitiesXML, layerName, callback) {
-
-	var layerNodes = getCapabilitiesXML.getElementsByTagName("Layer");
-  
-  for (var i = 0; i < layerNodes.length; i++) {
-  
-  	var title = layerNodes[i].getElementsByTagName("ows:Title")[0].childNodes[0].nodeValue;
-  
-  	if (title == layerName) {
-
-      var style = layerNodes[i].getElementsByTagName("Style")[0].children[0].childNodes[0].nodeValue;
-      var tileMatrixSet = layerNodes[i].getElementsByTagName("TileMatrixSetLink")[0].children[0].childNodes[0].nodeValue;   
- 
-    	var serviceURLTemplates = layerNodes[i].getElementsByTagName("ResourceURL")[4].attributes.getNamedItem("template").nodeValue
-      
-			callback(serviceURLTemplates, tileMatrixSet, style, layerName);
-    
-    };
-  
-  };
-
-};
-
-// callback function: create Leaflet tileLayer when ready and add to map
-function createLeafletLayer(serviceURLTemplates, tileMatrixSet, style, layerName) {
-  
-  var sharding = ["maps", "maps1", "maps2", "maps3", "maps4"];
-  
-  var baseURL = serviceURLTemplates.replace("maps", "{s}")
-  																 .replace("{Style}", style)
-                                   .replace("{TileMatrixSet}", tileMatrixSet)
-                                   .replace("{TileMatrix}", "{z}")
-                                   .replace("{TileRow}", "{y}")
-                                   .replace("{TileCol}", "{x}");
-  
-  var WMTSLayer = L.tileLayer(baseURL, {
-    id: layerName,
-    subdomains: sharding
-	});
-  
-  WMTSLayer.addTo(map);
-
-};
-
-
-/* end wmts */
 var map = L.map('map', {
-    zoom: 6,
-    fullscreenControl: true,
-    timeDimensionControl: true,
-    timeDimensionControlOptions: {
-        position: 'bottomleft',
-        playerOptions: {
-            transitionTime: 1000,
-        }
-    },
-    timeDimension: true,
-    timeDimensionOptions: {
-        timeInterval: rightNow.toISOString().slice(0,10) + "/" + tomorrow.toISOString().slice(0,10),
-        period: "PT1H",
-        //currentTime: Date.parse("2018-10-29T00:00:00.000Z")
-        currentTime: rightNow
-    },
-    center: [42.10, 17.90]
+  ...window.TMES.MAP_OPTIONS,
+  timeDimensionOptions: {
+    timeInterval: OPTIONS[0].times[1].replace('/PT1H', ''),
+    period: 'PT1H',
+    currentTime: new Date(),
+  },
 });
 
-
+map.fitBounds(window.TMES.FIT_BOUNDS);
 map.createPane('topPane');
 map.getPane('topPane').style.zIndex = 401;
 
+function createLegend(layer) {
+  let palette = ''
+  if (layer.options.styles) {
+    try {
+      palette = layer.options.styles.split('/')[1];
+    } catch (e) {
+      console.error('Problemi con l\'estrazione della palette dal parametro styles')
+    }
+  }
 
-/*colorscale ranges  
-* wsh 0-8 wsh-std 0-2
-* sea-level (cm) -80 +80 dev std 0-40
-*
-*/
-
-
-
-var tmes_wl_WMS = "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_" + todayString + ".nc";
-//sea level
-var tmesWaterLevel = L.nonTiledLayer.wms(tmes_wl_WMS, {
-    layers: 'sea_level-mean',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '-0.8,0.8',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-    numcolorbands: 100,
-    styles: 'boxfill/alg2'
-        // styles: 'areafill/scb_greens'
-});
-var tmesWaterLevel_std = L.nonTiledLayer.wms(tmes_wl_WMS, {
-    layers: 'sea_level-std',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '-0.4,0.4',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-//    markerscale: 15,
-//    markerspacing: 12,
-//    markerclipping: true,
-    styles: 'boxfill/redblue'
-});
+  var src = `${layer.url}?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=${layer.id}&PALETTE=${palette}&COLORBARONLY=true&WIDTH=20&HEIGHT=250`
+  var div = L.DomUtil.create('div', 'info legend');
 
 
-var tmes_wv_WMS = "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_waves_" + todayString  + ".nc";
+  var scalerange = layer.options.colorscalerange.split(",")
+  if (layer.scaleMid) {
+    var scalemid = Number(scalerange[0]) + Number(scalerange[1]);
+    div.innerHTML += `<label>${scalerange[1]}m</label><br><div style="background-image:url(\'${src}\'); width:10px; height: 75px;" alt="legend"></div><br><label>${scalemid}m</label>`;
+  } else {
+    div.innerHTML += `<label>>=${scalerange[1]}m</label><br><img src="${src}" alt="legend"><br><label><=${scalerange[0]}m</label>`;
+  }
+  return div;
+}
 
-//wave significant height
-var tmesWavesSignificantHeight = L.nonTiledLayer.wms(tmes_wv_WMS, {
-    layers: 'wsh-mean',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '0,8',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-    markerscale: 15,
-    markerspacing: 12,
-    markerclipping: true,
-    styles: 'boxfill/occam'
-});
-var tmesWavesSignificantHeight_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
-    layers: 'wsh-std',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '-2,2',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-    markerscale: 15,
-    markerspacing: 12,   
-    markerclipping: true, 
-    styles: 'boxfill/occam'
-});
-//wave mean period
-var tmesWavesMeanPeriod = L.nonTiledLayer.wms(tmes_wv_WMS, {
-    layers: 'wmp-mean',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '0,10',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-    markerscale: 15,
-    markerspacing: 12,
-    markerclipping: true,
-    styles: 'boxfill/alg'
-});
+L.Control.DateSelector = L.Control.extend({
+  onAdd: function (map) {
+    var controlDiv = L.DomUtil.create('div', 'leaflet-command-wrapper');
 
-var tmesWavesMeanPeriod_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
-    layers: 'wmp-std',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '-5,5',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-    markerscale: 15,
-    markerspacing: 12,   
-    markerclipping: true,
-    styles: 'boxfill/alg'
-});
-// waves mean direction
-var tmesWavesMeanDirection_std = L.nonTiledLayer.wms(tmes_wv_WMS, {
-    layers: 'wmd-std',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '-10,10',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-    markerscale: 15,
-    markerspacing: 12,
-    markerclipping: true,
-    //styles: 'boxfill/rainbow'
-});
-var tmesWavesMeanDirection = L.nonTiledLayer.wms(tmes_wv_WMS, {
-    layers: 'wmd-mean',
-    format: 'image/png',
-    transparent: true,
-    colorscalerange: '0,360',
-    abovemaxcolor: "extend",
-    belowmincolor: "extend",
-    markerscale: 15,
-    markerspacing: 12,
-    markerclipping: true,
-    //styles: 'boxfill/rainbow'
-    // styles: 'areafill/scb_greens'
-    styles: 'prettyvec/greyscale'
+    var select = L.DomUtil.create('select', '', controlDiv);
+    select.innerHTML = OPTIONS.map(o => `<option value="${o.id}">${o.name}</option>`).join('');
+    select.value = 1;
 
-});
+    L.DomEvent
+      .addListener(select, 'change', L.DomEvent.stopPropagation)
+      .addListener(select, 'change', L.DomEvent.preventDefault)
+      .addListener(select, 'change', function (e) {
+        const selected = OPTIONS.filter(o => o.id == e.target.value)[0];
+        map.timeDimension.setAvailableTimes(selected.times[1], 'replace');
+        map.timeDimension.setCurrentTime(selected.times[0]);
+        window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].removeFrom(map);
+        window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].addTo(map);
+      });
 
+    return controlDiv;
+  }
+})
 
-$.getJSON("/static/tmes/js/stations.json", function(markers){
-	//console.log(markers);
+L.control.dateSelector = function (opts) {
+  return new L.Control.DateSelector(opts);
+}
 
-var proxy = '/proxy';
-var markerspane = 'topPane';
-//sea level
-var tmesWaterLevelTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWaterLevel, {
-    proxy: proxy,
-    cache: 2,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    markerspane: markerspane,
-    updateTimeDimension: true,
-    name: "TMES - Sea level mean",
-    units: "m",
-    enableNewMarkers: true
-});
-var tmesWaterLevel_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWaterLevel_std, {
-    proxy: proxy,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    updateTimeDimension: true,
-    name: "TMES - Sea level standard deviation",
-    units: "m",
-    enableNewMarkers: true
-});
-//waves height
-var tmesWavesSignificantHeightTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesSignificantHeight, {
-    proxy: proxy,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    updateTimeDimension: true,
-    name: "TMES - WSH Waves Significant Height",
-    units: "m",
-    enableNewMarkers: true
+L.control.dateSelector({ position: 'bottomleft' }).addTo(map);
 
-});
-var tmesWavesSignificantHeight_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesSignificantHeight_std, {
-    proxy: proxy,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    updateTimeDimension: true,
-    name: "TMES - WSH standard deviation",
-    units: "m",
-    enableNewMarkers: true
-
-});
-//waves mean direction
-var tmesWavesMeanDirectionTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanDirection, {
-    proxy: proxy,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    updateTimeDimension: true,
-    name:"TMES - WMD Waves Mean Direction",
-    units: "m",
-    enableNewMarkers: true
-});
-var tmesWavesMeanDirection_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanDirection_std, {
-    proxy: proxy,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    updateTimeDimension: true,
-    name:"TMES - WMD standard deviation",
-    units: "m",
-    enableNewMarkers: true
-});
-// waves mean period
-var tmesWavesMeanPeriodTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanPeriod, {
-    proxy: proxy,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    updateTimeDimension: true,
-    name: "TMES - WMP Waves Mean Period",
-    units: "m",
-    enableNewMarkers: true
-
-});
-var tmesWavesMeanPeriod_stdTimeLayer = L.timeDimension.layer.wms.timeseries(tmesWavesMeanPeriod_std, {
-    proxy: proxy,
-    wmsVersion: '1.3.0',
-    markers: markers,
-    updateTimeDimension: true,
-    name: "TMES - WMP standard deviation",
-    units: "m",
-    enableNewMarkers: true
-
-});
-
-
-var tmesgeneralLegend = L.control({
+window.TMES.LAYERS_ORDER.forEach(lid => {
+  const layer = window.TMES.LAYERS[lid];
+  window.TMES.LEAFLET_LAYERS[lid] = L.nonTiledLayer.wms(layer.url, layer.options);
+  window.TMES.TIME_DIMENSIONS[lid] = L.timeDimension.layer.wms.timeseries(window.TMES.LEAFLET_LAYERS[lid], { ...layer.time, markers: [] })
+  window.TMES.LEGENDS[lid] = L.control({
     position: 'bottomright'
-});
+  })
+  window.TMES.LEGENDS[lid].onAdd = () => {
+    return createLegend(layer);
+  }
 
+  if (layer.defaultEnable) {
+    window.TMES.INITIAL_LAYER = lid;
+  }
+})
 
-tmesgeneralLegend.onAdd = function(map,layer) {
-    var layername = layer.options.layers;
-    var scalerange = layer.options.colorscalerange.split(",");
-    var wmsurl = layer.layer._currentLayer._wmsUrl;
-    var src = wmsurl + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg2&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML +=
-        div.innerHTML += scalerange[1] + '<br><img src="' + src + '" alt="legend"><br>' + scalerange[0];
-    return div;
-};
-
-
-var tmesWaterLevelLegend = L.control({
-    position: 'bottomright'
-});
-tmesWaterLevelLegend.onAdd = function(map) {
-    var layername = tmesWaterLevel.options.layers;
-    var scalerange = tmesWaterLevel.options.colorscalerange.split(",")
-    var src = tmes_wl_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg2&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>>=' + scalerange[1] + 'm</label><br><img src="' + src + '" alt="legend"><br><label><=' + scalerange[0] +'m</label>';
-    return div;
-};
-
-var tmesWaterLevel_stdLegend = L.control({
-    position: 'bottomright'
-});
-tmesWaterLevel_stdLegend.onAdd = function(map) {
-    var layername = tmesWaterLevel_std.options.layers;
-    var scalerange = tmesWaterLevel_std.options.colorscalerange.split(",")
-    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
-    var src = tmes_wl_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=redblue&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>' +scalerange[1] + 'm</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid +'m</label>';
-    return div;
-};
-
-var tmesWavesSignificantHeightLegend = L.control({
-    position: 'bottomright'
-});
-tmesWavesSignificantHeightLegend.onAdd = function(map) {
-    var layername = tmesWavesSignificantHeight.options.layers;
-    var scalerange = tmesWavesSignificantHeight.options.colorscalerange.split(",")
-    var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=occam&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>' + scalerange[1] + 'm</label><br><img src="' + src + '" alt="legend"><br><label>' + scalerange[0] + 'm</label>';
-    return div;
-};
-
-var tmesWavesSignificantHeight_stdLegend = L.control({
-    position: 'bottomright'
-});
-tmesWavesSignificantHeight_stdLegend.onAdd = function(map) {
-    var layername = tmesWavesSignificantHeight_std.options.layers;
-    var scalerange = tmesWavesSignificantHeight_std.options.colorscalerange.split(",")
-    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
-    var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=occam&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>' + scalerange[1] + 'm</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid +'m</label>';
-    return div;
-};
-
-var tmesWavesMeanPeriodLegend = L.control({
-    position: 'bottomright'
-});
-tmesWavesMeanPeriodLegend.onAdd = function(map) {
-    var layername = tmesWavesMeanPeriod.options.layers;
-    var scalerange = tmesWavesMeanPeriod.options.colorscalerange.split(",")
-    var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>' + scalerange[1] + 's</label><br><img src="' + src + '" alt="legend"><br><label>' + scalerange[0] +' s</label>';
-    return div;
-};
-
-var tmesWavesMeanPeriod_stdLegend = L.control({
-    position: 'bottomright'
-});
-tmesWavesMeanPeriod_stdLegend.onAdd = function(map) {
-    var layername = tmesWavesMeanPeriod_std.options.layers;
-    var scalerange = tmesWavesMeanPeriod_std.options.colorscalerange.split(",")
-    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
-    var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=alg&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>' + scalerange[1] + 's</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid + 's</label>';
-    return div;
-};
-
-var tmesWavesMeanDirectionLegend = L.control({
-    position: 'bottomright'
-});
-tmesWavesMeanDirectionLegend.onAdd = function(map) {
-    var layername = tmesWavesMeanDirection.options.layers;
-    var scalerange = tmesWavesMeanDirection.options.colorscalerange.split(",")
-    var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=rainbow&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>' + scalerange[1] + '°</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 150px;" alt="legend"></div><br><label>' + scalerange[0] + '°</label>';
-    return div;
-};
-
-var tmesWavesMeanDirection_stdLegend = L.control({
-    position: 'bottomright'
-});
-tmesWavesMeanDirection_stdLegend.onAdd = function(map) {
-    var layername = tmesWavesMeanDirection_std.options.layers;
-    var scalerange = tmesWavesMeanDirection_std.options.colorscalerange.split(",");
-    var scalemid = Number(scalerange[0])+Number(scalerange[1]);
-    var src = tmes_wv_WMS + "?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=" + layername + "&PALETTE=rainbow&COLORBARONLY=true&WIDTH=10&HEIGHT=150";
-    var div = L.DomUtil.create('div', 'info legend');
-    div.innerHTML += '<label>' + scalerange[1] + '°</label><br><div style="background-image:url(\'' + src + '\'); width:10px; height: 75px;" alt="legend"></div><br><label>' + scalemid + '°</label>';
-    return div;
-};
-
-
-
-
-var overGroup = new L.layerGroup([tmesWaterLevelTimeLayer,
-				tmesWaterLevel_stdTimeLayer,
-				tmesWavesSignificantHeightTimeLayer,
-				tmesWavesSignificantHeight_stdTimeLayer,
-				tmesWavesMeanPeriodTimeLayer,
-				tmesWavesMeanPeriod_stdTimeLayer,
-				tmesWavesMeanDirectionTimeLayer,
-				tmesWavesMeanDirection_stdTimeLayer
-		]);
-
-
-var overlayMaps = {
-    "TMES - Sea level mean": tmesWaterLevelTimeLayer,
-    "TMES - Sea level standard deviation": tmesWaterLevel_stdTimeLayer,
-    "TMES - WSH Waves Significant Height": tmesWavesSignificantHeightTimeLayer,
-    "TMES - WSH standard deviation": tmesWavesSignificantHeight_stdTimeLayer,
-    "TMES - WMP Waves Mean Period": tmesWavesMeanPeriodTimeLayer,
-    "TMES - WMP standard deviation": tmesWavesMeanPeriod_stdTimeLayer,
-    "TMES - WMD Waves Mean Direction": tmesWavesMeanDirectionTimeLayer,
-    "TMES - WMD standard deviation": tmesWavesMeanDirection_stdTimeLayer,
-    //"SAPO - direction of the peak": sapoPeakDirectionTimeLayer
-};
+const overlayMaps = window.TMES.LAYERS_ORDER.reduce((p, lid) => ({
+  ...p,
+  [window.TMES.LAYERS[lid].mapName]: window.TMES.TIME_DIMENSIONS[lid],
+}), {})
 
 //manage legend substitution
-map.on('overlayadd', function(eventLayer) {
-      console.log(eventLayer);
-	//tmesgeneralLegend.addTo(this, eventlayer);
-    switch (eventLayer.name){
-	case  'TMES - Sea level mean': 
-        setTimeout(function() {
-	//tmesWaterLevelTimeLayer.removeFrom(map);
-        tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-	tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-	tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-	tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-	tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-	tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWaterLevelLegend.addTo(this);
-	break;
-    	case 'TMES - Sea level standard deviation':
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map);
-        //tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-        tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWaterLevel_stdLegend.addTo(this);
-	break;
-        case  'TMES - WSH Waves Significant Height':
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map);   
-        tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        //tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-        tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWavesSignificantHeightLegend.addTo(this);
-	break;
-        case  'TMES - WSH standard deviation':
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map);   
-        tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-        //tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-        tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWavesSignificantHeight_stdLegend.addTo(this);
-        break;
-        case  'TMES - WMP Waves Mean Period':
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map);   
-        tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-        //tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-        tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWavesMeanPeriodLegend.addTo(this);
-        break;
-        case  'TMES - WMP standard deviation':
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map);   
-        tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-        //tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-        tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWavesMeanPeriod_stdLegend.addTo(this);
-        break;
-        case  'TMES - WMD Waves Mean Direction':
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map);   
-        tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-        //tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-        tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWavesMeanDirectionLegend.addTo(this);
-        break;
-        case  'TMES - WMD standard deviation':
-        setTimeout(function() {
-        tmesWaterLevelTimeLayer.removeFrom(map);   
-        tmesWaterLevel_stdTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeightTimeLayer.removeFrom(map);
-        tmesWavesSignificantHeight_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriodTimeLayer.removeFrom(map);
-        tmesWavesMeanPeriod_stdTimeLayer.removeFrom(map);
-        tmesWavesMeanDirectionTimeLayer.removeFrom(map);
-        //tmesWavesMeanDirection_stdTimeLayer.removeFrom(map);
-        }, 10);
-        tmesWavesMeanDirection_stdLegend.addTo(this);
-        break;
+map.on('overlayadd', function (eventLayer) {
+  const lid = window.TMES.LAYER_NAMES[eventLayer.name];
+  window.TMES.ACTIVE = lid;
 
-
-
-
-    
-    }
+  setTimeout(function () {
+    window.TMES.LAYERS_ORDER.filter(l => l !== lid).forEach(l => {
+      window.TMES.TIME_DIMENSIONS[l].removeFrom(map);
+    });
+  }, 10);
+  window.TMES.LEGENDS[lid].addTo(this);
 });
 
 //remove other legend
-
-map.on('overlayremove', function(eventLayer) {
-    if (eventLayer.name == 'TMES - Sea level mean') {
-        map.removeControl(tmesWaterLevelLegend);
-    } else if (eventLayer.name == 'TMES - Sea level standard deviation') {
-        map.removeControl(tmesWaterLevel_stdLegend);     
-    } else if (eventLayer.name == 'TMES - WSH Waves Significant Height'){
-        map.removeControl(tmesWavesSignificantHeightLegend);
-    } else if (eventLayer.name == 'TMES - WSH standard deviation'){
-        map.removeControl(tmesWavesSignificantHeight_stdLegend);
-    } else if (eventLayer.name == 'TMES - WMP Waves Mean Period'){
-        map.removeControl(tmesWavesMeanPeriodLegend);
-    } else if (eventLayer.name == 'TMES - WMP standard deviation'){
-        map.removeControl(tmesWavesMeanPeriod_stdLegend);
-    } else if (eventLayer.name == 'TMES - WMD Waves Mean Direction'){
-        map.removeControl(tmesWavesMeanDirectionLegend);
-    } else if (eventLayer.name == 'TMES - WMD standard deviation'){
-        map.removeControl(tmesWavesMeanDirection_stdLegend);
-
-    }
-
+map.on('overlayremove', function (eventLayer) {
+  const lid = window.TMES.LAYER_NAMES[eventLayer.name];
+  map.removeControl(window.TMES.LEGENDS[lid]);
 });
 
 var baseLayers = getCommonBaseLayers(map); // see baselayers.js
-L.control.layers(baseLayers, overlayMaps, {collapsed: false, hideSingleBase: true}).addTo(map);
+L.control.layers(baseLayers, overlayMaps, { collapsed: false, hideSingleBase: true }).addTo(map);
 
-tmesWaterLevelTimeLayer.addTo(map);
-//tmesWaterLevel_stdTimeLayer.addTo(map);
-
-});
+window.TMES.TIME_DIMENSIONS[window.TMES.INITIAL_LAYER].addTo(map);
+setTimeout(() => {
+  const selected = OPTIONS[0];
+  map.timeDimension.setAvailableTimes(selected.times[1], 'replace');
+  map.timeDimension.setCurrentTime(selected.times[0]);
+  window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].removeFrom(map);
+  window.TMES.TIME_DIMENSIONS[window.TMES.ACTIVE].addTo(map);
+}, 2000);
 

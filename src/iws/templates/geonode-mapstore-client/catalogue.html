@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
-        <link href="{% static 'mapstore/dist/themes/geonode.css' %}?{% client_version %}" rel="stylesheet" />
+        <link href="{% static 'mapstore/dist/themes/geonode.css' %}" rel="stylesheet" />
         <title>{{ SITE_NAME }}</title>
         <link rel="shortcut icon" href="{% static 'geonode/img/favicon.ico' %}" />
         <link href="{% static 'css/site_base.css' %}" rel="stylesheet" />
@@ -46,7 +46,7 @@
                 {% endblock %}
 
                 {% block ms_scripts %}
-                    <script id="gn-script" src="{% static 'mapstore/dist/js/gn-catalogue.js' %}?{% client_version %}"></script>
+                    <script id="gn-script" src="{% static 'mapstore/dist/js/gn-catalogue.js' %}"></script>
                 {% endblock %}
 
                 {% block footer %}

@@ -21,7 +21,10 @@
 <div id="gn-hero" class="gn-hero">
     <div class="jumbotron">
         <div class="gn-hero-description">
-            <img src="{% static 'img/stream_logo.png'%}" class="interreg_logo" />
+            <div style="display: flex; justify-content: center; align-items: start;">
+                <img src="{% static 'img/stream_logo.png'%}" class="interreg_logo-1" />
+                <img src="{% static 'img/old_logo.png'%}" class="interreg_logo-2" />
+            </div>
             <div>
             {% if not custom_theme.jumbotron_welcome_hide %}
                 {% with jumbotron_welcome_title=custom_theme.jumbotron_welcome_title|default:"GeoNode"|template_trans %}

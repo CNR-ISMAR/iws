@@ -102,3 +102,6 @@ sd.env
 .bash*
 /iws/measurements/migrations/*
 /iws/sea_storm_atlas/migrations/*
+
+node_modules
+/src/iws/static/mapstore/extensions/GeoTour/*
