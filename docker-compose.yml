@@ -1,6 +1,17 @@
 version: "2.2"
 services:
 
+services:
+  server:
+    image: postgrest/postgrest
+    ports:
+      - "3000:3000"
+    environment:
+      PGRST_DB_URI: postgres://app_user:password@db:5432/geonode
+      PGRST_OPENAPI_SERVER_PROXY_URI: http://127.0.0.1:3000
+    depends_on:
+      - db
+
 
   db:
     image: geonode/postgis:10
@@ -220,6 +231,9 @@ services:
     expose:
       - 80
       - 443
+    networks:
+      - default
+      - tds
     volumes:
     # - ./nginx_files/nginx.conf:/etc/nginx/nginx.conf
     # - statics:/mnt/volumes/statics
@@ -292,6 +306,9 @@ services:
     - ${PWD}/istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
     - ${PWD}/istorm/.gitfake /usr/src/app/.git
 
+networks:
+  default:
+  tds:
 
 volumes:
   geoserver-data-dir:

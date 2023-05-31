@@ -1,9 +1,7 @@
-FROM node:10-stretch
+FROM node:8-stretch
 
-#ARG HTTP_PROXY
-#ARG HTTPS_PROXY
-ENV HTTP_PROXY=http://172.22.10.116:80
-ENV HTTPS_PROXY=http://172.22.10.116:80
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
 
 
 WORKDIR /usr/src
@@ -12,7 +10,7 @@ WORKDIR /usr/src
 #RUN apt-key adv --refresh-keys
 #RUN apt-get -o Acquire::Check-Valid-Until=false update
 
-#RUN apt-get update -y && apt-get install git nano autoconf -y
+RUN apt-get update -y && apt-get install git nano autoconf -y
 
 COPY . /usr/src/app
 WORKDIR /usr/src/app
@@ -22,12 +20,12 @@ WORKDIR /usr/src/app
 #RUN npm config rm https-proxy
 #RUN  npm config set proxy ${HTTP_PROXY}
 
-ENV http_proxy=${HTTP_PROXY}
-ENV https_proxy=${HTTPS_PROXY}
-#RUN  npm config set proxy ${HTTP_PROXY}
+RUN export http_proxy=http://${HTTP_PROXY}
+RUN export https_proxy==http://${HTTPS_PROXY}
+
 #RUN  npm config set https-proxy ${HTTPS_PROXY}
-RUN npm config set registry=http://registry.npmjs.org/
-RUN npm config set strict-ssl false
+#RUN npm config set registry=http://registry.npmjs.org/
+#RUN npm config set strict-ssl false
 
 
 RUN printenv | grep PROXY
@@ -35,8 +33,8 @@ RUN printenv | grep PROXY
 RUN npm install -g cross-env
 
 #RUN npm run setup
-#RUN npm install
-RUN npm --proxy "${http_proxy}" install
+RUN npm install
+
 RUN npm run build:docker
 
 #RUN  npm config set proxy ${HTTP_PROXY}
