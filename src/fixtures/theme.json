@@ -1,0 +1,111 @@
+[
+    {
+        "model": "geonode_themes.geonodethemecustomization",
+        "pk": 1,
+        "fields": {
+            "date": "2022-09-19T08:42:14.140Z",
+            "name": "IWS",
+            "description": "",
+            "is_enabled": true,
+            "logo": "logo/LOGO.png",
+            "extra_css": "",
+            "jumbotron_bg": "",
+            "jumbotron_welcome_hide": false,
+            "welcome_theme": "JUMBOTRON_BG",
+            "jumbotron_welcome_title": "SEA-STORMS Web System",
+            "jumbotron_welcome_content": "Integrated Sea sTORm Management Strategies",
+            "jumbotron_slide_show": []
+        }
+    },
+    {
+        "model": "base.menu",
+        "pk": 1,
+        "fields": {
+            "title": "Sea Storm Atlas",
+            "placeholder": 2,
+            "order": 1
+        }
+    },
+    {
+        "model": "base.menu",
+        "pk": 2,
+        "fields": {
+            "title": "Measurements",
+            "placeholder": 2,
+            "order": 2
+        }
+    },
+    {
+        "model": "base.menu",
+        "pk": 3,
+        "fields": {
+            "title": "Forecasts",
+            "placeholder": 2,
+            "order": 3
+        }
+    },
+    {
+        "model": "base.menu",
+        "pk": 4,
+        "fields": {
+            "title": "Open IStorm",
+            "placeholder": 2,
+            "order": 4
+        }
+    },
+    {
+        "model": "base.menuitem",
+        "pk": 1,
+        "fields": {
+            "title": "Map",
+            "menu": 1,
+            "order": 1,
+            "blank_target": false,
+            "url": "/sea_storm_atlas/map/"
+        }
+    },
+    {
+        "model": "base.menuitem",
+        "pk": 2,
+        "fields": {
+            "title": "Event Catalog",
+            "menu": 1,
+            "order": 2,
+            "blank_target": false,
+            "url": "/sea_storm_atlas/"
+        }
+    },
+    {
+        "model": "base.menuitem",
+        "pk": 3,
+        "fields": {
+            "title": "Measurements",
+            "menu": 2,
+            "order": 1,
+            "blank_target": false,
+            "url": "/dashboards/"
+        }
+    },
+    {
+        "model": "base.menuitem",
+        "pk": 4,
+        "fields": {
+            "title": "Forecasts",
+            "menu": 3,
+            "order": 2,
+            "blank_target": false,
+            "url": "/tmes/"
+        }
+    },
+    {
+        "model": "base.menuitem",
+        "pk": 5,
+        "fields": {
+            "title": "Open Sea Storms",
+            "menu": 4,
+            "order": 1,
+            "blank_target": true,
+            "url": "https://www.seastorms.eu/"
+        }
+    }
+]

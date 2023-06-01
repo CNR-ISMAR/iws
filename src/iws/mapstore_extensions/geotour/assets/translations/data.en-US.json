@@ -1,0 +1,9 @@
+{
+    "locale": "en-US",
+    "messages": {
+        "geotour": {
+            "title": "GeoTour",
+            "description": "Navigate by layers group"
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{% extends 'geonode-mapstore-client/_geonode_config.html' %}
+
+{% block override_local_config %}
+<script>
+    window.__GEONODE_CONFIG__.overrideLocalConfig = function(localConfig, _) {
+        localConfig.monitorState.push({"name": "gnId", "path": "gnresource.id"})
+
+        {% for ext in MAPSTORE_EXTENSIONS %}
+        localConfig.plugins.map_viewer.push({{ ext.as_json_config }});
+        {% endfor %}
+
+        // for development
+        //localConfig.extensionsFolder = ''
+        return localConfig;
+    };
+</script>
+{% endblock %}

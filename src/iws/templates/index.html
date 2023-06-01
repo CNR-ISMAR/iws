@@ -1,0 +1,70 @@
+{% load static %}
+{% load client_version %}
+<!DOCTYPE html>
+<html class="msgapi">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+        <link href="{% static 'mapstore/dist/themes/geonode.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/site_base.css' %}" rel="stylesheet" />
+        <title>{{ SITE_NAME }}</title>
+        <link rel="shortcut icon" href="{% static 'geonode/img/favicon.ico' %}" />
+        {% include './geonode-mapstore-client/snippets/loader_style.html' %}
+
+        {% block custom_theme %}
+            {% include './geonode-mapstore-client/snippets/custom_theme.html' %}
+        {% endblock %}
+
+        {% block extra_style %}
+        {% endblock %}
+    </head>
+    <body class="msgapi ms2" data-ms2-container="ms2">
+        <div class="gn-page-wrapper {% if request.user_agent.is_mobile %}gn-mobile{% else %}gn-desktop{% endif %}">
+            <div class="gn-theme gn-homepage">
+                {% include './geonode-mapstore-client/_geonode_config.html' %}
+                {% block header %}
+                    {% include './geonode-mapstore-client/snippets/header.html' with show_hero=True %}
+                {% endblock %}
+
+                {% block content %}
+                <div class="custom-jumbotron">
+                    <div class="container py-2">
+                        <p>
+                            The SEA-STORMS Web System is a combination of a common data
+                            system for sharing <a href="/dashboards/">measurements</a> and forecasts, <a href="/tmes/">a multi-model sea
+                            forecasting system</a>, a <a href="/catalogue/">geoportal</a> and interactive geo-visualization
+                            tools to make results available to the general public (<a href="http://www.seastorms.eu/">Open SEA-STORMS</a>)
+                        </p>
+                        <p>
+                            The SEA-STORMS Web System was developed within the framework
+                            of the project I-STORMS, supported by the <a href="https://www.adrioninterreg.eu/">Interreg ADRION
+                            programme</a>, and the project STREAM, supported by the Interreg
+                            ITALY-CROATIA programme, funded under the European Regional
+                            Development Fund and IPA II fund.
+                        </p>
+                        <p>
+                            Contents are published under license CC-BY (© I-STORMS Partners, © City of Venice)
+                        </p>
+                    </div>
+                </div>
+                {% endblock %}
+
+
+                {% block footer %}
+                    {% include './geonode-mapstore-client/snippets/footer.html' %}
+                {% endblock %}
+
+                {% block scripts %}
+                    <script src="{% static "lib/js/jquery.min.js" %}"></script>
+                    <script src="{% static "lib/js/bootstrap.min.js" %}"></script>
+                    <script type="text/javascript">
+                        // enable dropdown functionalities
+                        $('.dropdown-toggle').dropdown();
+                    </script>
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

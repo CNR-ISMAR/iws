@@ -2,7 +2,6 @@
   hosts: production
   remote_user: ubuntu
   vars:
-
     app_name: iws
     github_user: geonode
     server_name: 0.0.0.0
@@ -11,8 +10,7 @@
     branch_name: master
     virtualenv_dir: "/home/ubuntu/.venvs"
     site_url: "http://localhost:8000/" # The public url of the GeoNode instance
-    geoserver_url: "http://build.geonode.org/geoserver/latest/geoserver-2.12.x.war" # geoserver_url should match what is found in dev_config.yml
-
+    geoserver_url: "https://artifacts.geonode.org/geoserver/2.20.5/geoserver.war" # geoserver_url should match what is found in dev_config.yml
     pg_max_connections: 100
     pg_shared_buffers: 128MB
     tomcat_xms: "1024M"
@@ -24,13 +22,11 @@
     - name: Install python for Ansible
       become: yes
       become_user: root
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python3-minimal)
     - name: 'Reconfigue Locales'
       become: yes
       become_user: root
-
       shell: ""
-
       with_items:
         - "export LANGUAGE=en_US.UTF-8"
         - "export LANG=en_US.UTF-8"
@@ -40,9 +36,7 @@
     - name: "Install cul, vim, and unzip"
       become: yes
       become_user: root
-
       apt: name="" state=latest
-
       with_items:
         - curl
         - vim

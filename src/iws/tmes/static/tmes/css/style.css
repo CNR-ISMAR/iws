@@ -1,0 +1,17 @@
+.swal2-container {
+    z-index: 9999999 !important;
+}
+
+.info.legend {
+    font-size: 1rem;
+}
+
+.leaflet-bar.leaflet-bar-horizontal.leaflet-bar-timecontrol.leaflet-control {
+    transform: scale(1.2);
+    transform-origin: left bottom;
+}
+
+.leaflet-command-wrapper.leaflet-control {
+    transform: scale(1.2);
+    transform-origin: left bottom;
+}

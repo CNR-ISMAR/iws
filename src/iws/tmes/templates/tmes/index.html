@@ -1,0 +1,96 @@
+{% extends "geonode-mapstore-client/catalogue.html" %}
+{% load pagination_tags %}
+{% load static %}
+{% load i18n %}
+{% load leaflet_tags %}
+
+{% block title %} {% trans "TMES" %} - {{ block.super }} {% endblock %}
+
+{% block extra_style %}
+{{ block.super }}
+{% leaflet_js %}
+{% leaflet_css %}
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.min.css" />
+<link rel="stylesheet" href="{% static 'leaflet/time/leaflet.timedimension.control.min.css' %}" />
+<link rel="stylesheet" href="{% static 'tmes/css/style.css' %}" />
+{% endblock %}
+
+{% block ms_scripts %}
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+<script type="text/javascript" src="{% static 'tmes/js/NonTiledLayer.js' %}"></script>
+<script type="text/javascript" src="{% static 'tmes/js/iso8601.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'leaflet/time/src/leaflet.timedimension.js' %}"></script>
+<script type="text/javascript" src="{% static 'leaflet/time/src/leaflet.timedimension.util.js' %}"></script>
+<script type="text/javascript" src="{% static 'leaflet/time/src/leaflet.timedimension.layer.js' %}"></script>
+<script type="text/javascript" src="{% static 'leaflet/time/src/leaflet.timedimension.layer.wms.js' %}"></script>
+<script type="text/javascript" src="{% static 'leaflet/time/src/leaflet.timedimension.player.js' %}"></script>
+<script type="text/javascript" src="{% static 'leaflet/time/src/leaflet.timedimension.control.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'leaflet/time/src/src/leaflet.timedimension.layer.wms.timeseries.js' %}"></script>
+<script type="text/javascript" src="{% static 'leaflet/time/src/src/leaflet.timedimension.circlelabelmarker.js' %}"></script>
+<script type="text/javascript" src="{% static 'tmes/js/highstock.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'leaflet/pixel/leaflet.tileLayerPixelFilter.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'tmes/js/baselayers.js' %}"></script>
+<script type="text/javascript" src="{% static 'tmes/js/variables.js' %}"></script>
+<script type="text/javascript" src="{% static 'tmes/js/map.js' %}"></script>
+
+<script>
+  window.addEventListener('load', () => {
+  Swal.fire({
+    title: '<strong>Forecast ensemble</strong>',
+    width: '60em',
+    html:
+      `
+      <div class="" id="contain-map">
+        <p>
+          The transnational multi-model ensemble system (TMES) combines the
+          outcomes of existing ocean and wave forecasting systems, helping in
+          improving the forecast accuracy and reliability on one hand and by
+          adding indications on the forecast uncertainty (considered here as the
+          ensemble spread) on the other hand.
+        </p>
+        <p>
+          All numerical model results are interpolated, through a
+          distance-weighted average remapping, on a common regular lat-lon grid
+          covering the Adriatic-Ionian macro-region with a resolution of 0.02 deg.
+          TMES produces results in terms of the ensemble mean and
+          standard deviation, accounted for a measure of the forecast uncertainty.</p
+          <p>The map below shows the current TMES using the WMS service provided by the Thredds Data Server. See all services available for TMES at the url <a href="https://iws.ismar.cnr.it/thredds/catalog/tmes/catalog.html">https://iws.ismar.cnr.it/thredds/catalog/tmes/catalog.html</a></p>
+          <p>License <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY</a></p>
+        <p>
+          The map below shows the current TMES using the WMS service provided by the Thredds Data Server. See all services available for TMES at the url <a href="https://iws.ismar.cnr.it/thredds/catalog/tmes/catalog.html">
+              https://iws.ismar.cnr.it/thredds/catalog/tmes/catalog.html</a>
+        </p>
+          This map viewer is based on <a href="https://leafletjs.com/">Leaflet JS</a> and <a href="http://apps.socib.es/Leaflet.TimeDimension/">Leaflet Time Dimension</a>.
+      </div>
+      `,
+    focusConfirm: true,
+  })
+})
+</script>
+{% endblock %}
+
+{% block body_class %}TMES{% endblock %}
+
+{% block container %}
+<div id="ms-container">
+  <div id="ms-app" class="fill">
+    <div id="page-map-viewer" class="page-map-viewer gn-viewer-layout" style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; display: flex; flex-direction: column;">
+      <div class="gn-viewer-layout-body" style="display: flex; width: 100%; flex: 1 1 0%; position: relative; justify-content: center;">
+        <div class="gn-viewer-layout-center" style="flex: 1 1 0%; position: relative;max-width: 2000px;">
+          <div id="map" class="map" style="position: relative; outline: none;" ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

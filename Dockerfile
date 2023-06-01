@@ -1,83 +1,109 @@
-FROM python:2.7.16-stretch
-MAINTAINER GeoNode development team
+FROM node:12 as frontend-build
 
-COPY wait-for-databases.sh /usr/bin/wait-for-databases
+COPY ./src/iws/frontend/ /usr/src
+WORKDIR /usr/src
+
+RUN npm install
+RUN npm run build
+
+
+FROM node:16 as floodmaps-ext-build
+
+COPY ./src/iws/mapstore_extensions/geotour/ /usr/src
+WORKDIR /usr/src
+
+RUN npm install
+RUN npm run build
+
+
+FROM python:3.9.14-buster
+LABEL GeoNode development team
 
 RUN mkdir -p /usr/src/iws
 
-WORKDIR /usr/src/iws
+# Enable postgresql-client-13
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://deb.debian.org/debian/ stable main contrib non-free" | tee /etc/apt/sources.list.d/debian.list
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
+# To get GDAL 3.2.1 to fix this issue https://github.com/OSGeo/gdal/issues/1692
+# TODO: The following line should be removed if base image upgraded to Bullseye
+RUN echo "deb http://deb.debian.org/debian/ bullseye main contrib non-free" | tee /etc/apt/sources.list.d/debian.list
 
 # This section is borrowed from the official Django image but adds GDAL and others
-RUN apt-get update
+RUN apt-get update -y && apt-get upgrade -y
+
+# Prepraing dependencies
 RUN apt-get install -y \
-    gcc \
-    gettext \
-    postgresql-client libpq-dev \
-    sqlite3 \
-    python-gdal python-psycopg2 \
-    python-imaging python-lxml \
-    python-dev libgdal-dev \
-    python-ldap \
-    gdal-bin \
-    libmemcached-dev libsasl2-dev zlib1g-dev \
-    python-pylibmc \
-    uwsgi uwsgi-plugin-python \
-    libgeoip-dev \
-    --no-install-recommends
+    libgdal-dev libpq-dev libxml2-dev \
+    libxml2 libxslt1-dev zlib1g-dev libjpeg-dev \
+    libmemcached-dev libldap2-dev libsasl2-dev libffi-dev
 
-RUN rm -rf /var/lib/apt/lists/*
-#libgdal-dev
+RUN apt-get install -y --no-install-recommends \
+    gcc zip gettext geoip-bin cron \
+    postgresql-client-13 \
+    sqlite3 spatialite-bin libsqlite3-mod-spatialite \
+    python3-dev python3-gdal python3-psycopg2 python3-ldap \
+    python3-pip python3-pil python3-lxml python3-pylibmc \
+    uwsgi uwsgi-plugin-python3 \
+    firefox-esr \
+    proj-bin
 
-COPY ./wait-for-databases.sh /usr/bin/wait-for-databases
+RUN apt-get install -y devscripts build-essential debhelper pkg-kde-tools sharutils
+# RUN git clone https://salsa.debian.org/debian-gis-team/proj.git /tmp/proj
+# RUN cd /tmp/proj && debuild -i -us -uc -b && dpkg -i ../*.deb
+
+# Install pip packages
+RUN pip install pip --upgrade \
+    && pip install pygdal==$(gdal-config --version).* \
+        flower==0.9.4
+
+# Activate "memcached"
+RUN apt install -y memcached
+RUN pip install pylibmc \
+    && pip install sherlock
+
+# add bower and grunt command
+COPY src /usr/src/iws/
+WORKDIR /usr/src/iws
+
+COPY src/monitoring-cron /etc/cron.d/monitoring-cron
+RUN chmod 0644 /etc/cron.d/monitoring-cron
+RUN crontab /etc/cron.d/monitoring-cron
+RUN touch /var/log/cron.log
+RUN service cron start
+
+COPY src/wait-for-databases.sh /usr/bin/wait-for-databases
 RUN chmod +x /usr/bin/wait-for-databases
-
-RUN echo $HTTP_PROXY
-
-RUN git config --global http.http $HTTP_PROXY
-RUN git config --global http.https $HTTP_PROXY
-
-# Upgrade pip
-# RUN pip install --upgrade pip
-# Downgrade pip
-RUN wget https://bootstrap.pypa.io/get-pip.py
-RUN python get-pip.py pip==19.3.1
-
-
-RUN pip install numpy
-
-# To understand the next section (the need for requirements.txt and setup.py)
-# Please read: https://packaging.python.org/requirements/
-
-# python-gdal does not seem to work, let's install manually the version that is
-# compatible with the provided libgdal-dev
-# superseded by pygdal
-RUN pip install pygdal==2.1.2.3
-#RUN GDAL_VERSION=`gdal-config --version` && echo $GDAL_VERSION \
-#    && PYGDAL_VERSION="$(pip install pygdal==$GDAL_VERSION 2>&1 | grep -oP '(?<=: )(.*)(?=\))' | grep -oh $GDAL_VERSION\.[0-9])" \
-#    && pip install pygdal==$PYGDAL_VERSION
-
-# fix for known bug in system-wide packages
-RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/python2.7/
-
-COPY . /usr/src/iws
-
 RUN chmod +x /usr/src/iws/tasks.py \
     && chmod +x /usr/src/iws/entrypoint.sh
 
-# app-specific requirements
-RUN pip install celery==4.1.0
-RUN pip install --upgrade --no-cache-dir --src /usr/src -r requirements.txt
-#RUN pip install --upgrade -e .
-RUN pip install numpy==1.16.4
-#RUN pip install pydap==3.2.2
+COPY src/celery.sh /usr/bin/celery-commands
+RUN chmod +x /usr/bin/celery-commands
 
-RUN pip uninstall -y psycopg2
-RUN pip install --no-binary psycopg2 psycopg2==2.7.3.1
+COPY src/celery-cmd /usr/bin/celery-cmd
+RUN chmod +x /usr/bin/celery-cmd
 
-RUN pip uninstall -y djangorestframework
-RUN pip install djangorestframework==3.5.4 invoke docker
+# # Install "geonode-contribs" apps
+# RUN cd /usr/src; git clone https://github.com/GeoNode/geonode-contribs.git -b master
+# # Install logstash and centralized dashboard dependencies
+# RUN cd /usr/src/geonode-contribs/geonode-logstash; pip install --upgrade  -e . \
+#     cd /usr/src/geonode-contribs/ldap; pip install --upgrade  -e .
 
-ADD install/libgeos_patch.py /libgeos_patch.py
-RUN patch /usr/local/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py /libgeos_patch.py
+RUN pip install --upgrade --no-cache-dir  --src /usr/src -r requirements.txt
+RUN pip install -r app_requirements.txt
+RUN pip install --upgrade  -e .
 
-ENTRYPOINT ["/usr/src/iws/entrypoint.sh"]
+COPY --from=frontend-build /usr/src/static /usr/src/iws/iws/frontend/static
+COPY --from=frontend-build /usr/src/webpack-stats.json /usr/src/iws/iws/frontend/webpack-stats.json
+
+COPY --from=floodmaps-ext-build /usr/src/dist /usr/src/iws/iws/static/mapstore/extensions/GeoTour
+
+# Cleanup apt update lists
+RUN rm -rf /var/lib/apt/lists/*
+
+# Export ports
+EXPOSE 8000
+
+# We provide no command or entrypoint as this image can be used to serve the django project or run celery tasks
+# ENTRYPOINT /usr/src/iws/entrypoint.sh
