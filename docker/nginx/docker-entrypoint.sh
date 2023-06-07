@@ -58,6 +58,7 @@ fi
 echo "Loading nginx autoreloader"
 sh /docker-autoreload.sh &
 
+
 echo "-----------------------------------------------------"
 echo "FINISHED NGINX ENTRYPOINT ---------------------------"
 echo "-----------------------------------------------------"

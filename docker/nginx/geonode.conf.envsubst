@@ -63,6 +63,16 @@ location /jenkins {
 
     proxy_pass http://$upstream;
 }
+# Custom error page 502 in statics volume 
+
+error 502 /502.html;
+
+location 502.html {
+    root /mnt/statics/;
+    internal;
+  }
+
+
 
 # GeoNode
 location /static/ {
