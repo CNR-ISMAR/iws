@@ -1,0 +1,10 @@
+{
+ 	"proxies": {
+   		"default": {
+     		            "httpProxy": "http://172.22.10.116:80",
+                            "httpsProxy": "http://172.22.10.116:80",
+                            "noProxy": "iws.seastorms.eu,localhost,127.0.0.0/8,django,celery,geonode,geoserver,data-dir-conf,db,rabbitmq,grafana,istorm,doc"
+      		}
+ 	}
+
+}
