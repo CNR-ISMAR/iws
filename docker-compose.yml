@@ -8,7 +8,8 @@ x-common-django:
   env_file:
     - .env
   volumes:
-    - statics:/mnt/volumes/statics
+    #- statics:/mnt/volumes/statics
+    - ${STATICS_DIR}:/mnt/volumes/statics
     - geoserver-data-dir:/geoserver_data/data
     - backup-restore:/backup_restore
     - data:/data
@@ -50,8 +51,8 @@ services:
 
   # Nginx is serving django static and media files and proxies to django and geonode
   geonode:
-    image: ghcr.io/cnr-ismar/iws/iws_nginx:master
-    # build: ./docker/nginx/
+    #image: ghcr.io/cnr-ismar/iws/iws_nginx:seastorms
+    build: ./docker/nginx/
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     environment:
       - HTTPS_HOST=${HTTPS_HOST}
@@ -67,7 +68,7 @@ services:
       - nginx-confd:/etc/nginx
       #- ./volumes/nginxconf:/etc/nginx
       - nginx-certificates:/geonode-certificates
-      - statics:/mnt/volumes/statics
+      - ${STATICS_DIR}:/mnt/volumes/statics
     restart: on-failure
 
   # Geoserver backend
@@ -85,7 +86,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - statics:/mnt/volumes/statics
+      - ${STATICS_DIR}:/mnt/volumes/statics
       - geoserver-data-dir:/geoserver_data/data
       - backup-restore:/backup_restore
       - data:/data
@@ -155,33 +156,33 @@ services:
       - /var/www/html:/var/www/html
       #- /home/gordini/thredds-panel/dist:/var/lib/grafana/plugins/thredds
 
-#  istorm:
-#    container_name: frontend4${COMPOSE_PROJECT_NAME}
+  istorm:
+    container_name: frontend4${COMPOSE_PROJECT_NAME}
     #image: 'repositories.inkode.it:4567/inkode/iws:latest'
-#    build:
-#      context: ./istorm
-#      dockerfile: Dockerfile
-#      args:
-#        HTTPS_PROXY: ${HTTPS_PROXY}
-#        HTTP_PROXY: ${HTTP_PROXY}
-#    restart: always
-#    ports:
-#    - 3003:3000
+    build:
+      context: ./istorm
+      dockerfile: Dockerfile
+      args:
+        HTTPS_PROXY: ${HTTPS_PROXY}
+        HTTP_PROXY: ${HTTP_PROXY}
+    restart: always
+    ports:
+    - 3003:3000
    #  command: npm run buildstart:docker
-#    env_file:
-#      - istorm/.env
-#    profiles:
-#      - istorm
-#    expose:
-#    - 3000
-#    volumes:
-#    - ./istorm/app:/usr/src/app/app
-#    - ./istorm/build:/usr/src/app/build
-#    - ./istorm/internals:/usr/src/app/internals
-#    - ./istorm/package.json:/usr/src/app/package.json
-#    - ./istorm/babel.config.js:/usr/src/app/babel.config.js
-#    - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
-#    - ./istorm/.gitfake /usr/src/app/.git
+    env_file:
+      - istorm/.env
+    profiles:
+      - istorm
+    expose:
+    - 3000
+    volumes:
+    - ./istorm/app:/usr/src/app/app
+    - ./istorm/build:/usr/src/app/build
+    - ./istorm/internals:/usr/src/app/internals
+    - ./istorm/package.json:/usr/src/app/package.json
+    - ./istorm/babel.config.js:/usr/src/app/babel.config.js
+    - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
+    - ./istorm/.gitfake /usr/src/app/.git
 
   doc:
     image: ghcr.io/cnr-ismar/iws/iws_documentation:master
@@ -192,12 +193,10 @@ services:
     profiles:
       - doc
     volumes:
-      - statics:/mnt/volumes/statics
+      - ${STATICS_DIR}:/mnt/volumes/statics
 
 
 volumes:
-#  jenkins_data:
-#    driver: local
   statics:
     name: ${COMPOSE_PROJECT_NAME}-statics
   nginx-confd:
