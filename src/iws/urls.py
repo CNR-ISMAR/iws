@@ -37,12 +37,10 @@ urlpatterns += (
     #url(r'^sea_storm_atlas/', TemplateView.as_view(template_name='maps_sea_storm.html'), name='atlas_map'),
 
     #measurements
-    #path('measurements/', include ('iws.measurements.urls')),
+    path('measurements/', include ('iws.measurements.urls')),
     path('dashboards/', include('iws.dashboards.urls')),
     #tmes
     path('tmes/', include('iws.tmes.urls')),
     # url(r'grappelli/', include('grappelli.urls')),
     re_path("^api/v2/", include('iws.sea_storm_atlas.api.urls')),
-    path('m/', include('measurements.urls')),
 )
-
