@@ -70,7 +70,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'leaflet',
     'django_media_fixtures',
     PROJECT_NAME + '.sea_storm_atlas',
-    PROJECT_NAME + ".measurements",
+    # PROJECT_NAME + ".measurements",
     PROJECT_NAME + '.tmes',
     PROJECT_NAME + ".dashboards",
     PROJECT_NAME + ".polls",
