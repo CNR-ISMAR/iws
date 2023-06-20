@@ -3,12 +3,12 @@ version: "3.9"
 # Common Django template for GeoNode and Celery services below
 x-common-django:
   &default-common-django
-  image: ${COMPOSE_PROJECT_NAME}_django:4.0
+  image: ghcr.io/cnr-ismar/iws/iws_django:twister
+  #build ./src/iws
   restart: on-failure
   env_file:
     - .env
   volumes:
-    - './src:/usr/src/iws'
     - statics:/mnt/volumes/statics
     - geoserver-data-dir:/geoserver_data/data
     - backup-restore:/backup_restore
@@ -25,9 +25,6 @@ services:
   # Our custom django application. It includes Geonode.
   django:
     << : *default-common-django
-    build:
-      context: ./
-      dockerfile: Dockerfile
     container_name: django4${COMPOSE_PROJECT_NAME}
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/"
@@ -43,7 +40,6 @@ services:
   # Celery worker that executes celery tasks created by Django.
   celery:
     << : *default-common-django
-    image: ${COMPOSE_PROJECT_NAME}_django:4.0
     container_name: celery4${COMPOSE_PROJECT_NAME}
     depends_on:
       - django
@@ -54,8 +50,8 @@ services:
 
   # Nginx is serving django static and media files and proxies to django and geonode
   geonode:
-    image: geonode/nginx:4.0
-    build: ./docker/nginx/
+    image: ghcr.io/cnr-ismar/iws/iws_nginx:master
+    # build: ./docker/nginx/
     container_name: nginx4${COMPOSE_PROJECT_NAME}
     environment:
       - HTTPS_HOST=${HTTPS_HOST}
@@ -73,24 +69,9 @@ services:
       - statics:/mnt/volumes/statics
     restart: on-failure
 
-  # Gets and installs letsencrypt certificates
-  letsencrypt:
-    image: geonode/letsencrypt:4.0
-    build: ./docker/letsencrypt/
-    container_name: letsencrypt4${COMPOSE_PROJECT_NAME}
-    environment:
-      - HTTPS_HOST=${HTTPS_HOST}
-      - HTTP_HOST=${HTTP_HOST}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - LETSENCRYPT_MODE=${LETSENCRYPT_MODE}
-    volumes:
-      - nginx-certificates:/geonode-certificates
-    restart: on-failure
-
   # Geoserver backend
   geoserver:
-    image: geonode/geoserver:2.20.5
-    build: ./docker/geoserver/
+    image: ghcr.io/cnr-ismar/iws/iws_geoserver:master
     container_name: geoserver4${COMPOSE_PROJECT_NAME}
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver/rest/workspaces/geonode.html"
@@ -128,14 +109,14 @@ services:
   # PostGIS database.
   db:
     # use geonode official postgis 13 image
-    image: geonode/postgis:13
+    image: ghcr.io/cnr-ismar/iws/iws_postgis:master
     command: postgres -c "max_connections=${POSTGRESQL_MAX_CONNECTIONS}"
     container_name: db4${COMPOSE_PROJECT_NAME}
     env_file:
       - .env
     volumes:
       - dbdata:/var/lib/postgresql/data
-      - dbbackups:/pg_backups
+      - ./volumes/dbbackups:/pg_backups
     restart: on-failure
     healthcheck:
       test: "pg_isready -d postgres -U postgres"
@@ -151,27 +132,6 @@ services:
       - rabbitmq:/var/lib/rabbitmq
     restart: on-failure
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    # image: istresearch/jenkins:latest
-    container_name: jenkins4${COMPOSE_PROJECT_NAME}
-    user: jenkins
-    ports:
-      - 80:80
-    expose:
-      - 80
-      - 443
-    networks:
-      - default
-      - tds
-    volumes:
-      - jenkins_data:/var/jenkins_home
-      - backup-restore:/backup_restore
-      - data:/data
-    environment:
-      - 'JENKINS_OPTS=--httpPort=${JENKINS_HTTP_PORT} --httpsPort=${JENKINS_HTTPS_PORT} --prefix=/jenkins'
-    restart: on-failure
-
   grafana:
     image: grafana/grafana
     restart: unless-stopped
@@ -181,17 +141,17 @@ services:
     expose:
       - "3000"
     environment:
-      GF_SERVER_DOMAIN: iws.seastorms.eu
-      GF_SERVER_ROOT_URL: https://iws.seastorms.eu/measurements
+      GF_SERVER_DOMAIN: ${HTTP_HOST}
+      GF_SERVER_ROOT_URL: https://${HTTP_HOST}/measurements
       # true doesn't work value are hard coded in ini file
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
       GF_SECURITY_ALLOW_EMBEDDING: 'true'
       GF_INSTALL_PLUGINS: grafana-worldmap-panel
-    # volumes:
+    volumes:
       # - /opt/grafana-data:/var/lib/grafana
-      # - grafana-storage:/var/lib/grafana
-      # - /var/www/html:/var/www/html
-      # - /home/gordini/thredds-panel/dist:/var/lib/grafana/plugins/thredds
+      - grafana-storage:/var/lib/grafana
+      - /var/www/html:/var/www/html
+      #- /home/gordini/thredds-panel/dist:/var/lib/grafana/plugins/thredds
 
   istorm:
     container_name: frontend4${COMPOSE_PROJECT_NAME}
@@ -221,13 +181,26 @@ services:
     - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
     - ./istorm/.gitfake /usr/src/app/.git
 
+  doc:
+    image: ghcr.io/cnr-ismar/iws/iws_documentation:master
+    build:
+      context: ./docker/documentation/
+      dockerfile: Dockerfile
+    container_name: doc${COMPOSE_PROJECT_NAME}
+    profiles:
+      - doc
+    volumes:
+      - statics:/mnt/volumes/statics
+
+
 networks:
   default:
   tds:
 
+
 volumes:
-  jenkins_data:
-    driver: local
+#  jenkins_data:
+#    driver: local
   statics:
     name: ${COMPOSE_PROJECT_NAME}-statics
   nginx-confd:
@@ -238,8 +211,8 @@ volumes:
     name: ${COMPOSE_PROJECT_NAME}-gsdatadir
   dbdata:
     name: ${COMPOSE_PROJECT_NAME}-dbdata
-  dbbackups:
-    name: ${COMPOSE_PROJECT_NAME}-dbbackups
+  # dbbackups:
+  #   name: ${COMPOSE_PROJECT_NAME}-dbbackups
   backup-restore:
     name: ${COMPOSE_PROJECT_NAME}-backup-restore
   data:
