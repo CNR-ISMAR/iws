@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 # Common Django template for GeoNode and Celery services below
 x-common-django:
@@ -191,6 +191,11 @@ services:
       - doc
     volumes:
       - statics:/mnt/volumes/statics
+
+
+networks:
+  default:
+  tds:
 
 
 volumes:
