@@ -201,6 +201,10 @@ DATABASES['measurements'] = dj_database_url.parse(
     engine='psqlextra.backend')
 POSTGRES_EXTRA_DB_BACKEND_BASE = 'django.contrib.gis.db.backends.postgis'
 
+MEASUREMENTS_DATABASE_ROUTING = 'measurements'
+
+DATABASE_ROUTERS = ['measurements.router.MeasurementsRouter']
+
 
 # FORECASTS
 THREDDS_URL = os.getenv('THREDDS_URL', "https://iws.ismar.cnr.it/")

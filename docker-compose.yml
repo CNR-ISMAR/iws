@@ -3,7 +3,7 @@ version: '3.9'
 # Common Django template for GeoNode and Celery services below
 x-common-django:
   &default-common-django
-  image: ghcr.io/cnr-ismar/iws/iws_django:master
+  image: ghcr.io/cnr-ismar/iws/iws_django:twister
   #build ./src/iws
   restart: on-failure
   env_file:
@@ -141,8 +141,8 @@ services:
     expose:
       - "3000"
     environment:
-      GF_SERVER_DOMAIN: iws.tools4msp.eu
-      GF_SERVER_ROOT_URL: https://iws.tools4msp.eu.eu/measurements
+      GF_SERVER_DOMAIN: ${HTTP_HOST}
+      GF_SERVER_ROOT_URL: https://${HTTP_HOST}/measurements
       # true doesn't work value are hard coded in ini file
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
       GF_SECURITY_ALLOW_EMBEDDING: 'true'
