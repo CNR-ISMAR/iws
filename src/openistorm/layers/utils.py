@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 from xmljson import parker, Parker
 from xml.etree.ElementTree import fromstring
 
+
 def setDateToUtc(date):
     if not isinstance(date, datetime):
         date = parser.parse(date)
@@ -19,18 +20,25 @@ def setDateToUtc(date):
 
 class WmsQueryNew:
     history_datasets = {
-        'sea_level' : 'tmes_sea_level_frmc/TMES_sea_level_collection_best.ncd',
-        'waves' : 'tmes_wv_frmc/TMES_waves_collection_best.ncd'
+        'sea_level': 'tmes_sea_level_frmc/TMES_sea_level_collection_best.ncd',
+        'waves': 'tmes_wv_frmc/TMES_waves_collection_best.ncd'
     }
+
     def __init__(self, BBOX, X=1, Y=1, WIDTH=2, HEIGHT=2, time_from=None, time_to=None, dataset=('waves', 'sea_level')):
-        self.time_from = parser.parse(time_from) if time_from is not None else datetime.combine(datetime.now(), timed.min)
+        self.time_from = parser.parse(time_from) if time_from is not None else datetime.combine(datetime.now(),
+                                                                                                timed.min)
         self.time_from = setDateToUtc(self.time_from)
         self.time_to = setDateToUtc(parser.parse(time_to)) if time_to is not None else False
         # self.history = 'history/' if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
         #                                               tzinfo=pytz.timezone('utc')) else ''
         self.history = True
-        self.formatted_date = self.time_from.strftime("%Y%m%d")  if self.time_from < datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0,
-                                                      tzinfo=pytz.timezone('utc')) + timedelta(days=1) else datetime.utcnow().strftime("%Y%m%d")
+        self.formatted_date = self.time_from.strftime("%Y%m%d") if self.time_from < datetime.utcnow().replace(hour=0,
+                                                                                                              minute=0,
+                                                                                                              second=0,
+                                                                                                              microsecond=0,
+                                                                                                              tzinfo=pytz.timezone(
+                                                                                                                  'utc')) + timedelta(
+            days=1) else datetime.utcnow().strftime("%Y%m%d")
 
         self.setDefaultData(BBOX, X, Y, WIDTH, HEIGHT)
 
@@ -49,7 +57,7 @@ class WmsQueryNew:
             "FORMAT": "image/png",
             "SRS": "EPSG:4326",
             "CRS": "EPSG:4326",
-            "INFO_FORMAT": "text/xml",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
+            "INFO_FORMAT": "text/xml",  # "url": "https://iws.ismar.cnr.it/thredds/wms/tmes/TMES_sea_level_20190907.nc",
             "BBOX": BBOX,
             "X": X,
             "Y": Y,
@@ -66,10 +74,12 @@ class WmsQueryNew:
             "version": "1.3.0",
             "request": "GetCapabilities",
         }
-        layerFileName = 'tmes/TMES_' + dataset + '_' + self.formatted_date + '.nc' if not self.history else self.history_datasets[dataset]
-        url = settings.THREDDS_URL + 'thredds/wms/' + layerFileName + '?' + urllib.urlencode(capabilitiesOptions)
+        layerFileName = 'tmes/TMES_' + dataset + '_' + self.formatted_date + '.nc' if not self.history else \
+        self.history_datasets[dataset]
+        url = settings.THREDDS_URL + 'thredds/wms/' + layerFileName + '?' + urllib.parse.urlencode(capabilitiesOptions)
         r = requests.get(url=url)
-        times = xmltodict.parse(r.content)['WMS_Capabilities']['Capability']['Layer']['Layer']['Layer'][0]['Dimension']['#text'].split(',')
+        times = xmltodict.parse(r.content)['WMS_Capabilities']['Capability']['Layer']['Layer']['Layer'][0]['Dimension'][
+            '#text'].split(',')
         times = filter(lambda x: not x.startswith('-'), times)
 
         # print(parser.parse(max(times)))
@@ -87,7 +97,6 @@ class WmsQueryNew:
         if min_t > self.time_from:
             self.time_from = min_t
         print("NUOVI: ", self.time_to, self.time_from)
-
 
     def getnextSeaLevelMinMax(self):
         self.setTimeRange('sea_level', True)
@@ -139,10 +148,11 @@ class WmsQueryNew:
             for dataset in datasets.keys():
                 for layer in datasets[dataset]:
 
-                    queryResponse = self.query(dataset, layer+'-'+value_type, self.time_from, None, True)
+                    queryResponse = self.query(dataset, layer + '-' + value_type, self.time_from, None, True)
                     try:
                         data = queryResponse['FeatureInfoResponse']['FeatureInfo']
-                        result["results"][value_type][layer] = float(data['value']) * 100 if dataset=='sea_level' else float(data['value'])
+                        result["results"][value_type][layer] = float(
+                            data['value']) * 100 if dataset == 'sea_level' else float(data['value'])
                     except:
                         # print(queryResponse)
                         pass
@@ -252,31 +262,32 @@ class WmsQueryNew:
 
         # return [raw]
 
-
         result['results'] = {
             'sea_level': list(
-                {"x": x['x'], "y": x['y']+result['results']['sea_level-std'][i]['y']}
-                for i, x in enumerate(result['results']['sea_level-mean'] if 'sea_level-mean' in result['results'] else [])
+                {"x": x['x'], "y": x['y'] + result['results']['sea_level-std'][i]['y']}
+                for i, x in
+                enumerate(result['results']['sea_level-mean'] if 'sea_level-mean' in result['results'] else [])
             ),
             # wave_period
             'wmp': list(
-                {"x": x['x'], "y": x['y']+result['results']['wmp-std'][i]['y']}
+                {"x": x['x'], "y": x['y'] + result['results']['wmp-std'][i]['y']}
                 for i, x in enumerate(result['results']['wmp-mean'] if 'wmp-mean' in result['results'] else [])
             ),
             # wave_height
             'wsh': list(
-                {"x": x['x'], "y": x['y']+result['results']['wsh-std'][i]['y']}
+                {"x": x['x'], "y": x['y'] + result['results']['wsh-std'][i]['y']}
                 for i, x in enumerate(result['results']['wsh-mean'] if 'wsh-mean' in result['results'] else [])
             ),
             # wave_direction
             'wmd': list(
-                {"x": x['x'], "y": int(x['y']+180) % 360 }
+                {"x": x['x'], "y": int(x['y'] + 180) % 360}
                 for i, x in enumerate(result['results']['wmd-mean'] if 'wmd-mean' in result['results'] else [])
             ),
         }
         return result
 
-    def get_thresholds(self, threshold, dataset='sea_level', meanlayer='sea_level-mean', stdlayer='sea_level-std', greater_than=True, add_std=True, sub_std=False):
+    def get_thresholds(self, threshold, dataset='sea_level', meanlayer='sea_level-mean', stdlayer='sea_level-std',
+                       greater_than=True, add_std=True, sub_std=False):
 
         self.setTimeRange()
         result = {
@@ -304,12 +315,12 @@ class WmsQueryNew:
 
         if add_std:
             forecast = list(
-                {"x": x['x'], "y": x['y']+std[i]['y']}
+                {"x": x['x'], "y": x['y'] + std[i]['y']}
                 for i, x in enumerate(forecast)
             )
         elif sub_std:
             forecast = list(
-                {"x": x['x'], "y": x['y']-std[i]['y']}
+                {"x": x['x'], "y": x['y'] - std[i]['y']}
                 for i, x in enumerate(forecast)
             )
 
@@ -322,12 +333,15 @@ class WmsQueryNew:
 
     def query(self, dataset, layer, time_from, time_to=None, raw=False):
         options = self.default_options
-        layerFileName = 'tmes/TMES_' + dataset + '_' + self.formatted_date + '.nc' if not self.history else self.history_datasets[dataset]
+        layerFileName = 'tmes/TMES_' + dataset + '_' + self.formatted_date + '.nc' if not self.history else \
+        self.history_datasets[dataset]
         options.update({
-            "TIME": time_from.isoformat()[0:19] + '.000Z' if time_to is None else time_from.isoformat()[0:19] + '.000Z' + '/' + time_to.isoformat()[0:19] + '.000Z',
+            "TIME": time_from.isoformat()[0:19] + '.000Z' if time_to is None else time_from.isoformat()[
+                                                                                  0:19] + '.000Z' + '/' + time_to.isoformat()[
+                                                                                                          0:19] + '.000Z',
             "QUERY_LAYERS": layer,
         })
-        url = settings.THREDDS_URL + 'thredds/wms/' + layerFileName + '?' + urllib.urlencode(options)
+        url = settings.THREDDS_URL + 'thredds/wms/' + layerFileName + '?' + urllib.parse.urlencode(options)
         r = requests.get(url=url)
         queryData = xmltodict.parse(r.content)
         if not raw:
@@ -373,10 +387,9 @@ class WmsQueryNew:
 
 
 class NCToImg:
-
     info = None
 
-    def __init__(self, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean","wsh-mean")):
+    def __init__(self, time_from=None, time_to=None, dataset='waves', parameters=("wmd-mean", "wsh-mean")):
 
         if not os.path.exists(settings.LAYERDATA_ROOT):
             os.makedirs(settings.LAYERDATA_ROOT)
@@ -388,20 +401,25 @@ class NCToImg:
         self.parameters = parameters;
         self.dataset = dataset;
 
-        self.time_from = parser.parse(time_from).strftime("%Y-%m-%d") if time_from is not None else now.strftime("%Y-%m-%d")
-        self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else (now + timedelta(days=5)).strftime("%Y-%m-%d")
+        self.time_from = parser.parse(time_from).strftime("%Y-%m-%d") if time_from is not None else now.strftime(
+            "%Y-%m-%d")
+        self.time_to = parser.parse(time_to).strftime("%Y-%m-%d") if time_to is not None else (
+                    now + timedelta(days=5)).strftime("%Y-%m-%d")
 
-        print("self.time_to "+str(self.time_to))
+        print("self.time_to " + str(self.time_to))
 
-        self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime("%Y%m%d")
+        self.source_date = parser.parse(time_from).strftime("%Y%m%d") if time_from is not None else now.strftime(
+            "%Y%m%d")
 
         self.nc_filename = "TMES_" + self.dataset + "_" + self.source_date + ".nc"
-        self.nc_filepath = os.path.join(settings.LAYERDATA_ROOT,"TMES_" + self.dataset + "_" + self.source_date + ".nc")
+        self.nc_filepath = os.path.join(settings.LAYERDATA_ROOT,
+                                        "TMES_" + self.dataset + "_" + self.source_date + ".nc")
 
         if os.path.isfile(self.nc_filepath):
             os.remove(self.nc_filepath)
 
-        history = 'history/' if datetime.combine(parser.parse(self.time_from), timed.min) < datetime.combine(datetime.today(), timed.min) else ''
+        history = 'history/' if datetime.combine(parser.parse(self.time_from), timed.min) < datetime.combine(
+            datetime.today(), timed.min) else ''
         # history = ""
         self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/' + history \
                    + self.nc_filename \
@@ -413,7 +431,6 @@ class NCToImg:
 
         self.meta_url = settings.THREDDS_URL + 'thredds/ncml/tmes/' + history + self.nc_filename
 
-
         # history = 'history/' if parser.parse(time_from) < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) else ''
         # self.url = settings.THREDDS_URL + 'thredds/ncss/tmes/' + history \
         #            + self.nc_filename \
@@ -421,7 +438,7 @@ class NCToImg:
         #            + "2015-02-05T00:00:00Z&time_end=" \
         #            + "2015-02-07T00:00:00Z&timeStride=1&accept=netcdf"
 
-        print("\n\n"+self.url+"\n\n")
+        print("\n\n" + self.url + "\n\n")
 
         if self.dataset == 'waves':
             self.get_meta()
@@ -436,7 +453,7 @@ class NCToImg:
             if os.getenv("HTTPS_PROXY"):
                 https_proxy = os.environ["HTTPS_PROXY"]
                 http_proxy = os.environ["HTTP_PROXY"]
-                r = requests.get(self.meta_url, stream=True, proxies={"http": http_proxy, "https": https_proxy })
+                r = requests.get(self.meta_url, stream=True, proxies={"http": http_proxy, "https": https_proxy})
             else:
                 r = requests.get(self.meta_url, stream=True)
             with open(self.nc_filepath, 'wb') as f:
@@ -446,8 +463,11 @@ class NCToImg:
                 data = myfile.read()
             data = xmltodict.parse(data)
             self.info = json.dumps({
-                "ensemble": filter(lambda x: x["@name"]=="source",data["ncml:netcdf"]["ncml:attribute"])[0]["@value"],
-                "creation": filter(lambda x: x["@name"]=="metadata_creation",filter(lambda x: x["@name"]=="NCISOMetadata",data["ncml:netcdf"]["group"])[0]["attribute"])[0]["@value"],
+                "ensemble": filter(lambda x: x["@name"] == "source", data["ncml:netcdf"]["ncml:attribute"])[0][
+                    "@value"],
+                "creation": filter(lambda x: x["@name"] == "metadata_creation",
+                                   filter(lambda x: x["@name"] == "NCISOMetadata", data["ncml:netcdf"]["group"])[0][
+                                       "attribute"])[0]["@value"],
             })
             print(self.info)
         except Exception as e:
@@ -461,29 +481,32 @@ class NCToImg:
         if os.getenv("HTTPS_PROXY"):
             https_proxy = os.environ["HTTPS_PROXY"]
             http_proxy = os.environ["HTTP_PROXY"]
-            r = requests.get(self.url, stream=True, proxies={"http": http_proxy, "https": https_proxy })
+            r = requests.get(self.url, stream=True, proxies={"http": http_proxy, "https": https_proxy})
         else:
             r = requests.get(self.url, stream=True)
         with open(self.nc_filepath, 'wb') as f:
             for chunk in r:
                 f.write(chunk)
-		        
-	#wget.download(self.url, out=self.nc_filepath, bar=None)
-        #cmd_arg = ['wget', '-O', self.nc_filepath, self.url]
-	#call (cmd_arg)
+
+        # wget.download(self.url, out=self.nc_filepath, bar=None)
+        # cmd_arg = ['wget', '-O', self.nc_filepath, self.url]
+        # call (cmd_arg)
 
         if os.path.isfile(self.nc_filepath):
 
             ncds = netCDF4.Dataset(self.nc_filepath, "r", format="NETCDF4")
             time_var = ncds.variables["time"]
-            since = time.mktime(time.strptime(time_var.units.replace('hours since ', '').replace(' 00:00:00', ''), "%Y-%m-%d"))# - 3600
+            since = time.mktime(time.strptime(time_var.units.replace('hours since ', '').replace(' 00:00:00', ''),
+                                              "%Y-%m-%d"))  # - 3600
 
-            tif1filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
+            tif1filename = os.path.join(settings.LAYERDATA_ROOT,
+                                        "TMES_waves_" + self.source_date + "-" + self.parameters[0] + ".tif")
             os.system(
                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
                 self.parameters[0] + ' ' + tif1filename)
 
-            tif2filename = os.path.join(settings.LAYERDATA_ROOT,"TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
+            tif2filename = os.path.join(settings.LAYERDATA_ROOT,
+                                        "TMES_waves_" + self.source_date + "-" + self.parameters[1] + ".tif")
             os.system(
                 'gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 -r near -of GTiff NETCDF:"' + self.nc_filepath + '":' +
                 self.parameters[1] + ' ' + tif2filename)
@@ -492,7 +515,6 @@ class NCToImg:
 
                 ds1 = gdal.Open(tif1filename)
                 ds2 = gdal.Open(tif2filename)
-
 
                 # since = time.mktime(time.strptime('2010-01-01', "%Y-%m-%d")) - 3600
 
@@ -518,8 +540,8 @@ class NCToImg:
 
                 n_bande = ds1.RasterCount
 
-                for banda in range(1, n_bande+1):
-                    print("BANDA "+str(banda))
+                for banda in range(1, n_bande + 1):
+                    print("BANDA " + str(banda))
                     band1 = ds1.GetRasterBand(banda)
                     array1 = band1.ReadAsArray()
                     band2 = ds2.GetRasterBand(banda)
@@ -530,7 +552,7 @@ class NCToImg:
                     seconds = (int(m['NETCDF_DIM_time'])) * 3600
                     ts = datetime.fromtimestamp(seconds + since).strftime('%s')
                     json_time = datetime.fromtimestamp(seconds + since).strftime('%Y-%m-%dT%H:%M.000Z')
-                    print("json_time "+str(json_time))
+                    print("json_time " + str(json_time))
 
                     data = []
 
@@ -561,7 +583,8 @@ class NCToImg:
                             for valsX in range((nx)):
                                 dir = arrays[0][valsY][valsX]
                                 mag = arrays[1][valsY][valsX]
-                                if dir is not None and str(dir) != "-999.0" and mag is not None and str(mag) != "-999.0" and str(dir) != "0.0" and str(mag) != "0.0":
+                                if dir is not None and str(dir) != "-999.0" and mag is not None and str(
+                                        mag) != "-999.0" and str(dir) != "0.0" and str(mag) != "0.0":
                                     dir = 270 - dir
                                     if dir < 0:
                                         dir = dir + 360
@@ -583,14 +606,15 @@ class NCToImg:
 
                         p = p + 1
 
-                    tsfile = "TMES_"+ self.dataset + '_' + ts + ".json"
+                    tsfile = "TMES_" + self.dataset + '_' + ts + ".json"
 
-                    tsfile_path = os.path.join(settings.LAYERDATA_ROOT,tsfile)
+                    tsfile_path = os.path.join(settings.LAYERDATA_ROOT, tsfile)
                     with open(tsfile_path, 'w') as outfile:
                         json.dump(data, outfile, indent=2)
 
                     output_prefix = self.dataset + '_' + ts
-                    self.generate_wave_image_and_meta_from_json(tsfile_path, os.path.join(settings.LAYERDATA_ROOT,output_prefix))
+                    self.generate_wave_image_and_meta_from_json(tsfile_path,
+                                                                os.path.join(settings.LAYERDATA_ROOT, output_prefix))
                     # TODO: save in database
                     layerData = {
                         "dataset": self.dataset,
@@ -607,7 +631,6 @@ class NCToImg:
                 os.system("rm " + tif1filename)
                 os.system("rm " + tif2filename)
                 os.system("chmod -R 777 " + settings.LAYERDATA_ROOT)
-
 
     def generate_wave_image_and_meta_from_json(self, input_file, output_name):
 
@@ -647,19 +670,19 @@ class NCToImg:
                     pngData.append(p)
 
                     p = (
-                        int( 255 * 0.5 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
+                        int(255 * 0.5 * (v['data'][k] - bgmin) / (bgmax - bgmin)),
                         0,
-                        255 - int( 255 * (v['data'][k] - bgmin) / (bgmax - bgmin) ),
+                        255 - int(255 * (v['data'][k] - bgmin) / (bgmax - bgmin)),
                         255,
                     )
                     pngDataBackground.append(p)
-                    if k > 0 and v['data'][k-1] is None:
-                        pngDataBackground[k-1] = p
+                    if k > 0 and v['data'][k - 1] is None:
+                        pngDataBackground[k - 1] = p
                     opa = 0
                 else:
                     pngData.append((255, 255, 255, 0))
 
-                    if x % width not in (0,1) and opa < 1:
+                    if x % width not in (0, 1) and opa < 1:
                         pngDataBackground.append(p)
                         opa = 1
                     else:
@@ -704,7 +727,6 @@ class NCToImg:
         return max(x for x in data if x is not None)
 
 
-
 class ThresholdsExceed:
     def __init__(self):
         self.users = get_user_model().objects.filter(favorites__isnull=False, settings__isnull=False).distinct()
@@ -719,7 +741,8 @@ class ThresholdsExceed:
                 print(favorite.title)
 
                 try:
-                    BBOX = str(favorite.longitude - 0.001) + ',' +str(favorite.latitude - 0.001) + ',' +str(favorite.longitude + 0.001) + ',' +str(favorite.latitude + 0.001)
+                    BBOX = str(favorite.longitude - 0.001) + ',' + str(favorite.latitude - 0.001) + ',' + str(
+                        favorite.longitude + 0.001) + ',' + str(favorite.latitude + 0.001)
 
                     if self.wms_query:
                         self.wms_query.setDefaultData(BBOX)
@@ -736,11 +759,11 @@ class ThresholdsExceed:
                             type='auto',
                             time=thresholds['results'][0]["x"],
                             position=favorite.position,
-                            title="Thresholds Exceed "+favorite.title,
+                            title="Thresholds Exceed " + favorite.title,
                             description="Sea level forecast exceeds your notification threshold at "
                                         + thresholds['results'][0]["x"][12:16]
                                         + ", with a maximum of "
-                                        + str( int(max(thresholds['results'], key=lambda x:x['y'])['y']) )
+                                        + str(int(max(thresholds['results'], key=lambda x: x['y'])['y']))
                                         + " cm"
                         )
                         user_notification.save()

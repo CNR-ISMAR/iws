@@ -1,47 +1,11 @@
-FROM node:10-stretch
+FROM gresci/iwsistorm
 
-#ARG HTTP_PROXY
-#ARG HTTPS_PROXY
 ENV HTTP_PROXY=http://172.22.10.116:80
 ENV HTTPS_PROXY=http://172.22.10.116:80
 
-
-WORKDIR /usr/src
-#RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
-#RUN sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
-#RUN apt-key adv --refresh-keys
-#RUN apt-get -o Acquire::Check-Valid-Until=false update
-
-#RUN apt-get update -y && apt-get install git nano autoconf -y
-
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-#COPY ./.gitfake .git
-
-#RUN npm config rm proxy
-#RUN npm config rm https-proxy
-#RUN  npm config set proxy ${HTTP_PROXY}
-
 ENV http_proxy=${HTTP_PROXY}
 ENV https_proxy=${HTTPS_PROXY}
-#RUN  npm config set proxy ${HTTP_PROXY}
-#RUN  npm config set https-proxy ${HTTPS_PROXY}
+
 RUN npm config set registry=http://registry.npmjs.org/
 RUN npm config set strict-ssl false
 
-
-RUN printenv | grep PROXY
-
-RUN npm install -g cross-env
-
-#RUN npm run setup
-#RUN npm install
-RUN npm --proxy "${http_proxy}" install
-RUN npm run build:docker
-
-#RUN  npm config set proxy ${HTTP_PROXY}
-#RUN  npm config set proxy ${HTTPS_PROXY}
-
-
-#START
-CMD npm run start:docker

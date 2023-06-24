@@ -35,7 +35,7 @@ RUN apt-get update -y && apt-get upgrade -y
 
 # Prepraing dependencies
 RUN apt-get install -y \
-    libgdal-dev libpq-dev libxml2-dev \
+    gdal-bin libgdal-dev libpq-dev libxml2-dev \
     libxml2 libxslt1-dev zlib1g-dev libjpeg-dev \
     libmemcached-dev libldap2-dev libsasl2-dev libffi-dev
 
@@ -92,7 +92,7 @@ RUN chmod +x /usr/bin/celery-cmd
 
 RUN pip install --upgrade --no-cache-dir  --src /usr/src -r requirements.txt
 RUN pip install -r app_requirements.txt
-RUN pip install --upgrade  -e .
+RUN pip install --upgrade  -e . && numpy==1.23
 
 COPY --from=frontend-build /usr/src/static /usr/src/iws/iws/frontend/static
 COPY --from=frontend-build /usr/src/webpack-stats.json /usr/src/iws/iws/frontend/webpack-stats.json
