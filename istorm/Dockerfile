@@ -9,3 +9,6 @@ ENV https_proxy=${HTTPS_PROXY}
 RUN npm config set registry=http://registry.npmjs.org/
 RUN npm config set strict-ssl false
 
+EXPOSE 3000
+#START
+CMD npm run start:docker
