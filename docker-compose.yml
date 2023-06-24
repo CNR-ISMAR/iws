@@ -182,7 +182,7 @@ services:
     - ./istorm/package.json:/usr/src/app/package.json
     - ./istorm/babel.config.js:/usr/src/app/babel.config.js
     - ./istorm/.eslintrc.js:/usr/src/app/.eslintrc.js
-    - ./istorm/.gitfake /usr/src/app/.git
+    - ./istorm/.gitfake:/usr/src/app/.git
 
   doc:
     image: ghcr.io/cnr-ismar/iws/iws_documentation:master
