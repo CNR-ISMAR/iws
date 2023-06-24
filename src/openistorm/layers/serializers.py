@@ -61,8 +61,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
             options.update(layerOptions)
         else:
             options = layerOptions
-        # return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + bbox
-        return settings.NODE_PROXY_URL + '/thredds/wms/tmes_wv_frmc/TMES_waves_collection_best.ncd' + '?' + urllib.urlencode(options) + bbox
+        return settings.SITEURL + 'thredds/wms/tmes_wv_frmc/TMES_waves_collection_best.ncd' + '?' + urllib.parse.urlencode(options) + bbox
 
     def get_wsh_mean(self, instance):
         minmax = ('0', '8')
@@ -159,8 +158,7 @@ class ImageLayerSerializer(serializers.ModelSerializer):
             options.update(layerOptions)
         else:
             options = layerOptions
-        # return settings.NODE_PROXY_URL + '/thredds/wms/tmes/' + layerFileName + '?' + urllib.urlencode(options) + bbox
-        return settings.NODE_PROXY_URL + '/thredds/wms/tmes_sea_level_frmc/TMES_sea_level_collection_best.ncd' + '?' + urllib.urlencode(options) + bbox
+        return settings.SITEURL + 'thredds/wms/tmes_sea_level_frmc/TMES_sea_level_collection_best.ncd' + '?' + urllib.parse.urlencode(options) + bbox
 
     def get_sea_level_mean(self, instance):
         minmax = ('-1', '1')
