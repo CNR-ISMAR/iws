@@ -1,6 +1,7 @@
 # Iws
 
-GeoNode template project. Generates a django project with GeoNode support.
+GeoNode template project. Generates a django project with GeoNode support for the Seastorms platform online at iws.seastorms.eu
+Dependences: django-measurements 0.30 (https://github.com/menegon/django-measurements)
 
 ## Table of Contents
 
@@ -17,6 +18,7 @@ GeoNode template project. Generates a django project with GeoNode support.
 ## Developer Workshop
 
 Available at
+
 
   ```bash
     http://geonode.org/dev-workshop
