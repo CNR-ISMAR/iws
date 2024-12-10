@@ -6,7 +6,7 @@ LABEL GeoNode Development Team
 #
 # Set GeoServer version and data directory
 #
-ENV GEOSERVER_VERSION=2.23.6
+ENV GEOSERVER_VERSION=2.24.2
 ENV GEOSERVER_DATA_DIR="/geoserver_data/data"
 
 #
